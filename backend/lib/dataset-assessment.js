@@ -6,6 +6,8 @@ const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const datasetsDir = path.join(backendRoot, 'datasets');
 const textDatasetPath = path.join(datasetsDir, 'A.S.E.A Taglish scam Dataset.csv');
 const urlDatasetPath = path.join(datasetsDir, 'PhiUSIIL_Phishing_URL_Dataset.csv');
+const urlDatasetPath2 = path.join(datasetsDir, 'dataset_phishing.csv');
+
 
 let textRows = null;
 let urlRows = null;

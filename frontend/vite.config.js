@@ -12,7 +12,7 @@ export default defineConfig({
     react(),
     VitePWA({
       injectRegister: 'auto',
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
       includeAssets: ['assets/**/*', 'tessdata/**/*', 'tesseract/**/*'],
       manifest: {
         name: 'Surfare',
