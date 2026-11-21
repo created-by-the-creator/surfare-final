@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { checkContent, assessContent } from '../index.js';
 import { createDetectorServer } from '../server/local.js';
+import { verifyUrls } from '../server/services/reputation.js';
 import worker from '../worker/index.js';
 import { assessDatasets } from '../lib/dataset-assessment.js';
 
@@ -22,6 +23,55 @@ test('dataset assessment matches labeled text and URL records', () => {
   ]);
   assert.equal(urlMatch?.risk, 'high');
   assert.equal(urlMatch.kind, 'url');
+
+  const checked = assessContent({
+    text: 'Check this address: http://www.teramill.com',
+    urls: ['http://www.teramill.com'],
+  });
+  const match = checked.indicators.find((indicator) => indicator.id === 'dataset-url-match');
+  assert.equal(match?.evidence[0]?.text, 'http://www.teramill.com');
+});
+
+test('address reference lists produce grounded warnings with exact evidence', () => {
+  const cases = [
+    {
+      text: 'Open https://0-0sc.com/login now',
+      id: 'dataset-url-match',
+      needle: 'https://0-0sc.com/login',
+    },
+    {
+      text: 'Play at https://apintoto.com now',
+      id: 'reported-gambling-link',
+      needle: 'https://apintoto.com',
+    },
+    {
+      text: 'Verify at https://validator.pagcor-licence.ph now',
+      id: 'fake-regulator-link',
+      needle: 'https://validator.pagcor-licence.ph',
+    },
+    {
+      text: 'The CashAB app says to install it.',
+      id: 'stopped-lender',
+      needle: 'CashAB',
+    },
+  ];
+
+  for (const { text, id, needle } of cases) {
+    const checked = assessContent({ text });
+    const indicator = checked.indicators.find((item) => item.id === id);
+    assert.ok(indicator, `${id} should be present for ${text}`);
+    assert.equal(indicator.weight, 5);
+    assert.equal(checked.level, 'High risk');
+    const start = text.indexOf(needle);
+    const evidence = indicator.evidence[0];
+    assert.equal(evidence.start, start);
+    assert.equal(evidence.end, start + needle.length);
+    assert.equal(evidence.text, needle);
+    assert.equal(text.slice(evidence.start, evidence.end), needle);
+  }
+
+  const notLender = assessContent({ text: 'CashABC is a game.' });
+  assert.equal(notLender.indicators.some((indicator) => indicator.id === 'stopped-lender'), false);
 });
 
 test('default and offline checks require no network or provider keys', async () => {
@@ -77,6 +127,17 @@ test('selected URL reputation preserves a reported threat and URL query', async 
   assert.equal(result.assessment.level, 'High risk');
 });
 
+test('reputation helper can report a completed check with no known threat', async () => {
+  const response = await verifyUrls(
+    ['https://paypa1.com'],
+    { GOOGLE_SAFE_BROWSING_API_KEY: 'test-key' },
+    async () => Response.json({ matches: [] }),
+  );
+  const data = await response.json();
+  assert.equal(data.status, 'completed');
+  assert.deepEqual(data.results[0].threats, []);
+});
+
 test('image upload helper requires explicit consent before accessing canvas or network', async () => {
   const { imageRequest } = await import('../browser.js');
   await assert.rejects(imageRequest(null, 'openrouter', 'origin'), /Opt in/);
@@ -106,6 +167,9 @@ test('standalone HTTP server validates local input and keeps provider services s
     assert.equal((await response.json()).level, 'High risk');
     const forged = await post({ text: normal, verification: { status: 'completed', results: [{ threats: ['MALWARE'] }] } });
     assert.equal((await forged.json()).level, 'Insufficient evidence');
+    const unverified = await (await post({ text: 'Open https://paypa1.com/login now', online: true }, { origin: base })).json();
+    assert.equal(unverified.onlineVerification.status, 'unavailable');
+    assert.ok(unverified.indicators.some((indicator) => /^lookalike[-_]/.test(indicator.id)));
     assert.equal((await post({ text: threat }, { origin: 'https://other.example' })).status, 403);
     assert.equal((await post({ text: '' })).status, 400);
     assert.equal((await post({ text: 'x'.repeat(12001) })).status, 400);

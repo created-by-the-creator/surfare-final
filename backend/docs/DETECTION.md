@@ -22,6 +22,20 @@ Spam/ham labels do not establish verified fraud, personal danger or sender ident
 - AI output must use supported categories and grounded source quotations. Stronger explicit danger and known reputation threats are preserved.
 - No reputation match does not prove that a destination is safe.
 
+## Repository datasets and review-signal artifacts
+
+`backend/datasets/manifest.json` records all local text/URL datasets with source path, license status, SHA-256, row count and intended role. It is provenance documentation, not a license grant or an accuracy claim.
+
+- Exact/near-exact matching from `A.S.E.A Taglish scam Dataset.csv` and `PhiUSIIL_Phishing_URL_Dataset.csv` remains unchanged and authoritative over model scores.
+- `lib/models/taglish-intent-model.json` and `lib/models/url-risk-model.json` are generated offline by `npm run train:datasets`. They are compact lexical review signals only, not calibrated probabilities or fraud verdicts.
+- The text model uses A.S.E.A plus the collected Filipino, Hinglish, IMC25 and deduplicated SMS corpora. Several of these overlap the existing SMS model source, so their held-out scores are not independent validation of that model.
+- The URL model uses only URL text from PhiUSIIL. It does not inspect page content, DNS, redirects or reputation. `dataset_phishing.csv` stays `reference-only` because it has no raw URL string.
+- Exact known-address checks also use a compact PhishDestroy domain index, PAGCOR public-notice and registered-domain host lists, a small locally reviewed gambling host watchlist, and a small SEC cease-and-desist lender-name list. The registered-domain list is consulted only when the message or web address has gambling context; absence from it is Suspicious, not proof of illegality. Watchlist hosts are flagged even without gambling wording, are not attributed to PAGCOR, and remain Suspicious rather than proven illegal. These are point-in-time references; absence from any list is not approval. The generated PhishDestroy index can be rebuilt with `npm run build:url-index`.
+- Both model signals are advisory only: they appear as review evidence but do not change the risk level or score in either the API or the frontend. The existing `sms-pattern` cap is unchanged.
+- Verified official domains found in the compact PhishDestroy index are treated as upstream false positives and are not reported as exact known-phishing matches. `maya.ph` was the observed case on 2026-11-22; the live site is operated by Maya and the completed Safe Browsing check reported no threat. This correction does not replace online checks and does not approve a destination.
+- PhiUSIIL has conflicting upstream license statements, the A.S.E.A license is unverified here, and the Vrbanic CSV has no license. Do not redistribute those raw datasets or derived artifacts until the source terms are resolved.
+- Feedback is never ingested by the training script. A future opt-in path must be designed and approved separately.
+
 ## Evaluation scope
 
 Automated regression tests use authored cases and mocked provider responses. Real OCR fixtures are synthetic screenshots, not a representative camera-image benchmark. Neither establishes population accuracy. The migration preserves behavior; it does not claim improved accuracy.

@@ -1,0 +1,52 @@
+Additional local datasets
+
+backend/datasets/manifest.json records the source path, license status,
+SHA-256 and row count for each local dataset. Raw records are not copied into
+the browser bundle. Generated model artifacts are compact lexical review
+signals, not endorsements by dataset authors and not calibrated probabilities.
+
+Sources used for review-signal training:
+
+1. A.S.E.A Taglish scam Dataset.csv - repository-local; license unverified.
+2. PhiUSIIL Phishing URL Dataset - Kaggle CC BY-NC-SA 4.0 listing conflicts
+   with UCI/Mendeley CC BY 4.0. Resolve before redistribution.
+3. Filipino-Spam-SMS-Detection-Model - Alexander/Yissuh 2023, BSD-3-Clause.
+   Complete preserved license: filipino-sms-BSD-3-Clause.txt.
+4. Smishing-Dataset-IMC25 - reportsmishing, CC BY 4.0.
+5. Hinglish & English Financial Scam/Fraud Text Dataset - Anuj Bolewar,
+   CC BY 4.0.
+6. SMS Spam Collection v1 - Almeida and Hidalgo, original attribution and
+   no-warranty terms. See docs/DETECTION.md.
+
+dataset_phishing.csv is reference-only because it has no raw URL string.
+phishing-websites-vrbaniccic.csv was excluded because no license was found.
+Do not redistribute excluded or conflicting-license datasets.
+
+Additional address and regulator references:
+
+7. PhishDestroy DestroyList - https://phishdestroy.io/dataset
+   Source feed: https://raw.githubusercontent.com/phishdestroy/destroylist/main/list.txt
+   The project publishes the data as CC0 1.0, the repository as MIT, and one
+   page as CC BY 4.0. Surfare uses a compact exact-match fingerprint index,
+   credits PhishDestroy, and makes no claim that the source endorses Surfare.
+
+8. Philippine Amusement and Gaming Corporation (PAGCOR)
+   https://www.pagcor.ph/regulatory/pdf/offshore/notice-to-the-public-reported-websites.pdf
+   Published 8 October 2024. Hostnames are extracted from the public notice.
+   Used as a point-in-time warning reference with attribution, not as a live
+   gaming-licence registry.
+
+9. Securities and Exchange Commission Philippines (SEC)
+   https://appointment.sec.gov.ph/sec-issuances/cease-and-desist-orders/
+   Online lending names from the 2019-2020 cease and desist orders. Used with
+   attribution as a point-in-time regulator action reference, not as a real-time
+   registry of every registered or unregistered lender.
+
+10. Philippine Amusement and Gaming Corporation (PAGCOR)
+   https://www.pagcor.ph/regulatory/pdf/App%20Kits/List-of-PAGCOR-Accredited-Gaming-System-Administrators-and-Registered-Brands-and-Domain-Names-URLs.pdf
+   As of 29 October 2026. Hostnames are extracted from PAGCOR's published list
+   of accredited administrators and registered brands/domain names/URLs. Used
+   only when a message or web address has gambling context. It is a point-in-time
+   registered-domain reference; absence from the list is not proof of illegality.
+   Companion brands/sub-brands list:
+   https://www.pagcor.ph/regulatory/pdf/App%20Kits/List-of-PAGCOR-accredited-Gaming-System-Administrators-and-registered-Brands-and-Sub-brands.pdf

@@ -3,6 +3,18 @@ import { analyzeUrl } from './url.js';
 import { decideRisk } from './decision.js';
 import { inspectImage } from './media.js';
 import { validateImageFile } from './fileValidation.js';
+import { groundSignals } from './signal-display.js';
+
+const WEAK_URL_SIGNAL = /^(?:brand[-_]|lookalike[-_]|dataset-url-model$)/;
+const ADVISORY_DETECTOR_SIGNAL = new Set(['dataset-text-model', 'dataset-url-model']);
+
+function completedOnlineCheck(verification) {
+  return (
+    verification?.status === 'completed' &&
+    Array.isArray(verification.results) &&
+    verification.results.length > 0
+  );
+}
 
 async function checkUrlOnline(url) {
   const workerUrl = import.meta.env.VITE_WORKER_URL;
@@ -40,17 +52,28 @@ function uniqueSignals(signals) {
   });
 }
 
+function detectorEvidence(indicator) {
+  if (Array.isArray(indicator.evidence)) {
+    return indicator.evidence
+      .map((item) => (typeof item === 'string' ? { text: item } : item))
+      .filter((item) => item?.text);
+  }
+  return typeof indicator.evidence === 'string' && indicator.evidence
+    ? [{ text: indicator.evidence }]
+    : [];
+}
+
 function collectTextSignals(content) {
   return analyzeTextAndUrls(content);
 }
 
-async function checkLocalDetector(tab, content, urls) {
+async function checkLocalDetector(tab, content, urls, { online = false } = {}) {
   const kind = tab === 'links' ? 'link' : tab === 'qr' ? 'qr' : tab === 'image' ? 'image' : 'message';
   try {
     const response = await fetch('/api/detect', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: content, kind, urls }),
+      body: JSON.stringify({ text: content, kind, urls, online }),
     });
     if (!response.ok) return null;
     const result = await response.json();
@@ -61,7 +84,7 @@ async function checkLocalDetector(tab, content, urls) {
   }
 }
 
-function mergeDetectorResult(frontend, detector, content) {
+function mergeDetectorResult(frontend, detector, content, { suppressWeakUrlSignals = false } = {}) {
   if (!detector) return frontend;
   const levelMap = {
     'High risk': 'high',
@@ -74,15 +97,16 @@ function mergeDetectorResult(frontend, detector, content) {
 
   const detectorSignals = (Array.isArray(detector.indicators) ? detector.indicators : [])
     .filter((indicator) => indicator?.id)
+    .filter((indicator) => !ADVISORY_DETECTOR_SIGNAL.has(indicator.id))
+    .filter((indicator) => !(suppressWeakUrlSignals && WEAK_URL_SIGNAL.test(indicator.id)))
     .map((indicator) => ({
       id: indicator.id,
+      label: indicator.title || '',
+      detail: indicator.message || '',
       severity: indicator.weight >= 4 ? 3 : indicator.weight >= 2 ? 2 : 1,
       weight: Number(indicator.weight) || 0,
-      evidence: indicator.id.startsWith('dataset-')
-        ? ''
-        : Array.isArray(indicator.evidence)
-          ? indicator.evidence.map((item) => item?.text).filter(Boolean).join(' ')
-          : indicator.title || '',
+      evidenceItems: detectorEvidence(indicator),
+      evidence: '',
     }));
   const mergedSignals = uniqueSignals([...frontend.signals, ...detectorSignals]);
   const levelPriority = { unknown: 0, low: 1, suspicious: 2, high: 3 };
@@ -98,8 +122,6 @@ function mergeDetectorResult(frontend, detector, content) {
     checkedText: content,
     detectorSummary: detector.summary,
     detectorRecommendation: detector.recommendation,
-    datasetIntent: detector.indicators?.find((indicator) => indicator.category === 'dataset')?.message
-      ?.match(/labeled (.+?) message/i)?.[1] || '',
   };
 }
 
@@ -161,29 +183,49 @@ export async function analyzeInput(tab, inputs, { onlineLookup = true } = {}) {
     }
   }
 
-  const detector = await checkLocalDetector(tab, content, urls);
+  const firstUrl = urls[0];
+  const detector = await checkLocalDetector(tab, content, urls, {
+    online: onlineLookup && Boolean(firstUrl),
+  });
   let onlineMatch = false;
   let onlineUnavailable = false;
-  const firstUrl = urls[0];
-  if (firstUrl && onlineLookup) {
+  let onlineNoKnownThreat = false;
+
+  if (completedOnlineCheck(detector?.onlineVerification)) {
+    onlineNoKnownThreat = true;
+    onlineMatch = detector.onlineVerification.results.some((result) => result.threats?.length);
+    if (onlineMatch) onlineNoKnownThreat = false;
+  } else if (firstUrl && onlineLookup) {
     const online = await checkUrlOnline(firstUrl);
     onlineMatch = online.matched;
     onlineUnavailable = online.unavailable;
-    if (onlineMatch) {
-      signals.push({
-        id: 'online_match',
-        severity: 3,
-        weight: 8,
-        evidence: firstUrl,
-      });
-    }
+    onlineNoKnownThreat = !onlineMatch && !online.unavailable;
   } else if (tab === 'links' && onlineLookup) {
     onlineUnavailable = true;
   }
 
+  if (onlineMatch) {
+    signals.push({
+      id: 'online_match',
+      severity: 3,
+      weight: 8,
+      evidence: firstUrl,
+    });
+  }
+  if (onlineNoKnownThreat) {
+    signals = signals.filter((signal) => !WEAK_URL_SIGNAL.test(signal.id));
+  }
+
   const result = {
-    ...decideRisk(uniqueSignals(signals), content, { onlineMatch, onlineUnavailable }),
+    ...decideRisk(groundSignals(uniqueSignals(signals), content), content, {
+      onlineMatch,
+      onlineUnavailable,
+      onlineNoKnownThreat,
+    }),
     mediaInfo,
   };
-  return mergeDetectorResult(result, detector, content);
+  const merged = mergeDetectorResult(result, detector, content, {
+    suppressWeakUrlSignals: onlineNoKnownThreat,
+  });
+  return { ...merged, signals: groundSignals(merged.signals, content) };
 }

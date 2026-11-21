@@ -239,6 +239,26 @@ test('fabricated quote, contradictory severity and unsupported labels are reject
   assert.throws(() => validateSemanticResult({ ...dangerous, level: 'Low risk' }, text));
   assert.throws(() => validateSemanticResult({ ...ordinary, level: 'Safe' }, text));
   assert.throws(() => validateSemanticResult({ ...dangerous, findings: [] }, text));
+  assert.throws(() => validateSemanticResult({
+    ...dangerous,
+    findings: [{ ...dangerous.findings[0], kind: 'made-up' }],
+  }, text));
+});
+test('unsupported contextual prose is replaced by grounded wording', () => {
+  const r = validateSemanticResult({
+    ...dangerous,
+    summary: 'The sender is a verified fraud operation working from another country.',
+    recommendation: 'Police have already confirmed this account is malicious.',
+    findings: [{
+      ...dangerous.findings[0],
+      explanation: 'This proves the sender has threatened the recipient’s employer.',
+    }],
+  }, text);
+  assert.doesNotMatch(r.summary, /verified fraud|another country|checked content/i);
+  assert.doesNotMatch(r.recommendation, /police have confirmed/i);
+  assert.match(r.indicators[0].message, /The message contains texts that show violence\./);
+  assert.ok(r.indicators[0].message.includes(dangerous.findings[0].quote));
+  assert.doesNotMatch(r.indicators[0].message, /employer|contextual|checked text/i);
 });
 test('no key and no consent never call the provider', async () => {
   let calls = 0;

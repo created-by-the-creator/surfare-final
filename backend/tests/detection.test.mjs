@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { analyze, analyzeUrl, normalizeUrl, extractUrls } from '../lib/detection.js';
+import { matchKnownPhishingHosts } from '../lib/url-reference-datasets.js';
 import { verify } from '../server/services/reputation.js';
 const cases = [
   ['GCash: Send your OTP now or your account will be blocked today.', 'High risk'],
@@ -27,6 +28,45 @@ test('trailing punctuation stripped', () =>
   assert.deepEqual(extractUrls('Open https://example.com/test.'), ['https://example.com/test']));
 test('official gcash not flagged for brand', () =>
   assert(!analyzeUrl('https://www.gcash.com').indicators.some((x) => x.id.startsWith('brand'))));
+test('gambling context flags a web address absent from the PAGCOR registered list', () => {
+  const url = 'https://yyphs8i.com/#/cashwheel?a=0twbf7dc';
+  for (const text of [`Play at ${url} now`, url]) {
+    const result = analyze(text);
+    const indicator = result.indicators.find((item) => item.id === 'unlisted-gambling-link');
+    assert.ok(indicator, `unlisted-gambling-link should be present for ${text}`);
+    assert.equal(indicator.weight, 2);
+    assert.equal(indicator.evidence[0].text, url);
+    assert.equal(result.level, 'Suspicious');
+  }
+});
+test('locally reviewed gambling hosts are flagged without PAGCOR attribution', () => {
+  const urls = [
+    'https://www.3go.run/1wi6',
+    'https://www.mpjl.run/register?affiliateCode=agmtrqv86z15287b6001',
+  ];
+  for (const text of urls) {
+    const result = analyze(text);
+    const indicator = result.indicators.find((item) => item.id === 'watchlisted-gambling-link');
+    assert.ok(indicator, `watchlisted-gambling-link should be present for ${text}`);
+    assert.equal(indicator.weight, 2);
+    assert.equal(indicator.evidence[0].text, text);
+    assert.equal(result.level, 'Suspicious');
+    assert.equal(result.indicators.some((item) => item.id === 'reported-gambling-link'), false);
+    assert.equal(result.indicators.some((item) => item.id === 'unlisted-gambling-link'), false);
+  }
+});
+test('registered gambling sites and non-gambling links do not get an unlisted warning', () => {
+  const registered = analyze('Play at https://www.bingoplus.com now');
+  assert.equal(
+    registered.indicators.some((item) => item.id === 'unlisted-gambling-link'),
+    false,
+  );
+  const ordinary = analyze('Open https://example.com/docs for the meeting.');
+  assert.equal(
+    ordinary.indicators.some((item) => item.id === 'unlisted-gambling-link'),
+    false,
+  );
+});
 const req = (body) =>
   new Request('https://surfare.example/api/verify', {
     method: 'POST',
@@ -146,6 +186,24 @@ test('no-match never downgrades local scam signals', () =>
     'High risk',
   ));
 
+const cleanCheck = { status: 'completed', results: [{ url: 'https://paypa1.com', threats: [] }] };
+
+test('clean online check removes only weak name-lookalike warnings', () => {
+  const local = analyze('Open https://paypa1.com/login now');
+  assert.ok(local.indicators.some((indicator) => /^lookalike[-_]/.test(indicator.id)));
+  const verified = combineAssessment(local, cleanCheck);
+  assert.equal(verified.indicators.some((indicator) => /^(?:brand[-_]|lookalike[-_]|dataset-url-model$)/.test(indicator.id)), false);
+  assert.equal(verified.onlineNoKnownThreat, true);
+  assert.notEqual(verified.level, 'Suspicious');
+});
+
+test('clean online check keeps exact-list URL matches authoritative', () => {
+  const local = analyze('Please open https://0-0sc.com/login to confirm your account.');
+  const verified = combineAssessment(local, cleanCheck);
+  assert.ok(verified.indicators.some((indicator) => indicator.id === 'dataset-url-match'));
+  assert.equal(verified.level, 'High risk');
+});
+
 import { inspectFileBytes } from '../lib/file-validation.js';
 import { evaluateCases, validateCases, characterErrorRate } from '../lib/evaluation.js';
 import { guidance } from '../lib/guidance.js';
@@ -204,3 +262,19 @@ test('specific advice explains OTP protection', () =>
       s.includes('change it'),
     ),
   ));
+
+test('verified official domains are not reported as known-phishing matches', () => {
+  const matches = matchKnownPhishingHosts([
+    { host: 'maya.ph', url: 'https://maya.ph/' },
+    { host: 'www.maya.ph', url: 'https://www.maya.ph/' },
+  ]);
+  assert.deepEqual(matches, []);
+});
+
+test('other exact phishing index matches remain authoritative', () => {
+  const matches = matchKnownPhishingHosts([
+    { host: '0-0sc.com', url: 'https://0-0sc.com/login' },
+  ]);
+  assert.equal(matches.length, 1);
+  assert.equal(matches[0].host, '0-0sc.com');
+});

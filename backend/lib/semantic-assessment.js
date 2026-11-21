@@ -15,22 +15,58 @@ export const semanticKinds = [
   'scam',
   'other',
 ];
-const titles = {
-  violence: 'Threat of physical harm',
-  extortion: 'Coercion or extortion',
-  blackmail: 'Threat to expose private material',
-  intimidation: 'Personal intimidation',
-  harassment: 'Targeted harassment',
-  secret: 'Request for a secret',
-  'advance-fee': 'Advance-payment warning',
-  investment: 'Investment warning',
-  'job-fee': 'Payment to get work',
-  remote: 'Remote control request',
-  personal: 'Sensitive information request',
-  scam: 'Possible deception',
-  other: 'Contextual warning',
+const phrases = {
+  violence: 'texts that show violence',
+  extortion: 'a demand for money with pressure',
+  blackmail: 'a threat to share private information',
+  intimidation: 'an attempt to scare you',
+  harassment: 'repeated messages that bother or target you',
+  secret: 'a request to keep something secret',
+  'advance-fee': 'a request for money first',
+  investment: 'a push toward an investment that may not be real',
+  'job-fee': 'a request to pay for a job or task',
+  remote: 'a request for access to your device or account',
+  personal: 'a request for private information',
+  scam: 'a possible trick to get money or information',
+  other: 'something that does not look right',
+};
+const messages = {
+  violence: 'The message contains texts that show violence.',
+  extortion: 'The message asks for money or something else and pressures you.',
+  blackmail: 'The message threatens to share private information.',
+  intimidation: 'The message tries to scare you.',
+  harassment: 'The message keeps bothering or targeting you.',
+  secret: 'The message asks you to keep something secret.',
+  'advance-fee': 'The message asks for money first.',
+  investment: 'The message pushes an investment that may not be real.',
+  'job-fee': 'The message asks you to pay to get a job or task.',
+  remote: 'The message asks for access to your device or account.',
+  personal: 'The message asks for private information.',
+  scam: 'The message looks like a trick to get money or information.',
+  other: 'Something in the message does not look right.',
 };
 const bounded = (s, n) => typeof s === 'string' && s.trim().length > 0 && s.length <= n;
+
+function joinLabels(labels) {
+  if (labels.length === 1) return labels[0];
+  return `${labels.slice(0, -1).join(', ')} and ${labels.at(-1)}`;
+}
+
+function groundedSummary(indicators) {
+  if (!indicators.length) return "I didn't notice any strong warning signs in the message.";
+  const labels = [...new Set(indicators.map((indicator) => indicator.phrase))].slice(0, 3);
+  return `I noticed ${joinLabels(labels)} in the message.`;
+}
+
+function groundedRecommendation(level) {
+  if (level === 'High risk')
+    return "Don't engage or send money or codes. Block and report the sender, then contact the organization through its official app or number.";
+  if (level === 'Suspicious')
+    return "Pause before clicking, paying, or sharing anything. Confirm the request through an official app or a contact you already trust.";
+  if (level === 'Low risk')
+    return 'Nothing jumped out, but stay careful. If the request is unexpected, confirm it through an official app or a number you already trust.';
+  return "Share more of the message or the full link, or treat it as unsafe. Don't click, pay, or share codes until you've confirmed it with the sender.";
+}
 
 export function validateSemanticResult(value, text) {
   if (
@@ -42,7 +78,7 @@ export function validateSemanticResult(value, text) {
     value.findings.length > 8
   )
     throw Error('Invalid contextual assessment.');
-  const indicators = value.findings.map((f, index) => {
+  const indicators = value.findings.map((f) => {
     if (
       !semanticKinds.includes(f.kind) ||
       !['Suspicious', 'High risk'].includes(f.level) ||
@@ -53,10 +89,11 @@ export function validateSemanticResult(value, text) {
     const start = text.indexOf(f.quote);
     if (start < 0) throw Error('The contextual evidence was not found in the submitted text.');
     return {
-      id: 'semantic-' + index,
+      id: f.kind,
       kind: f.kind,
-      title: titles[f.kind],
-      message: f.explanation,
+      phrase: phrases[f.kind],
+      title: messages[f.kind],
+      message: `${messages[f.kind]} The words “${f.quote}” stood out.`,
       weight: f.level === 'High risk' ? 6 : 2,
       category: ['violence', 'extortion', 'blackmail', 'intimidation', 'harassment'].includes(
         f.kind,
@@ -75,8 +112,8 @@ export function validateSemanticResult(value, text) {
     throw Error('High-risk evidence cannot be downgraded.');
   return {
     level: value.level,
-    summary: value.summary,
-    recommendation: value.recommendation,
+    summary: groundedSummary(indicators),
+    recommendation: groundedRecommendation(value.level),
     indicators,
   };
 }

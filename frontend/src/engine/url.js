@@ -13,6 +13,19 @@ const BRANDS = [
   'google',
 ];
 
+const OFFICIAL_BRAND_DOMAINS = {
+  gcash: ['gcash.com'],
+  bdo: ['bdo.com.ph'],
+  bpi: ['bpi.com.ph'],
+  paypal: ['paypal.com'],
+  maya: ['maya.ph', 'paymaya.com'],
+  facebook: ['facebook.com', 'fb.com'],
+  google: ['google.com'],
+  microsoft: ['microsoft.com', 'live.com', 'office.com'],
+  shopee: ['shopee.ph'],
+  lazada: ['lazada.com.ph'],
+};
+
 const SHORTENERS = ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'cutt.ly'];
 const RISKY_TLDS = ['zip', 'xyz', 'top', 'click', 'work', 'support', 'rest', 'country'];
 
@@ -75,10 +88,21 @@ export function analyzeUrl(value) {
     pushSignal(signals, 'url_shortener', url.hostname, 2, 2);
   }
   if (/xn--/i.test(url.hostname)) pushSignal(signals, 'punycode_or_homoglyph', url.hostname, 3, 3);
-  if (subdomain.split('.').some((label) => BRANDS.some((brand) => label.includes(brand)))) {
+  const officialDomain = Object.values(OFFICIAL_BRAND_DOMAINS).some((domains) =>
+    domains.includes(domain),
+  );
+  if (
+    !officialDomain &&
+    subdomain.split('.').some((label) => BRANDS.some((brand) => label.includes(brand)))
+  ) {
     pushSignal(signals, 'brand_in_subdomain_not_domain', url.hostname, 3, 3);
   }
-  if (BRANDS.some((brand) => editDistance(registrableLabel, brand) <= 2 && registrableLabel !== brand)) {
+  if (
+    !officialDomain &&
+    BRANDS.some(
+      (brand) => editDistance(registrableLabel, brand) === 1 && registrableLabel !== brand,
+    )
+  ) {
     pushSignal(signals, 'lookalike_brand', domain, 3, 3);
   }
   if (parsed.publicSuffix && RISKY_TLDS.includes(parsed.publicSuffix.toLowerCase())) {

@@ -46,6 +46,7 @@ export default function CheckCard({
   askMessages,
   onAskSend,
   surfyOpenRequest,
+  questionKeys,
   feedbackDialog,
   t,
   children,
@@ -366,6 +367,7 @@ export default function CheckCard({
                 messages={askMessages}
                 onSend={onAskSend}
                 openRequest={surfyOpenRequest}
+                questionKeys={questionKeys}
                 t={t}
               />
             </div>

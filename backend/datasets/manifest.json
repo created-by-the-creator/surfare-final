@@ -1,0 +1,173 @@
+{
+  "generatedBy": "scripts/train-dataset-models.mjs",
+  "policy": "Feedback is never read by this script. Training requires explicit future opt-in.",
+  "datasets": [
+    {
+      "id": "asea",
+      "path": "datasets/A.S.E.A Taglish scam Dataset.csv",
+      "status": "active-exact-and-text-model",
+      "license": "unverified",
+      "bytes": 876637,
+      "sha256": "50e008dfb6af6eb9b55ed0f5eae28ded56fe68c779aa333503dc2a3721b8fa37",
+      "rows": 4839,
+      "note": "Repository-local Taglish intent corpus. Preserve attribution and review before redistribution."
+    },
+    {
+      "id": "phiusiil",
+      "path": "datasets/PhiUSIIL_Phishing_URL_Dataset.csv",
+      "status": "active-exact-and-url-model",
+      "license": "conflicting",
+      "bytes": 56854388,
+      "sha256": "580f572c6b4609fd053b7e0bf84245707c42ee72665e9a7a0753137660ab6d37",
+      "rows": 235795,
+      "note": "Exact URL index plus lexical URL training. Kaggle says CC BY-NC-SA 4.0; UCI/Mendeley say CC BY 4.0. Resolve before redistribution."
+    },
+    {
+      "id": "dataset-phishing",
+      "path": "datasets/dataset_phishing.csv",
+      "status": "reference-only",
+      "license": "CC BY 4.0 (Kaggle listing)",
+      "bytes": 3661218,
+      "sha256": "92e36701537abc4c832af55a6f0924cf732e34aeedc94711370987f6b97bc5ca",
+      "rows": 11431,
+      "note": "Engineered page features with no raw URL string; unavailable at runtime. Not used for training or inference."
+    },
+    {
+      "id": "filipino-spam-sms",
+      "path": "datasets/external/filipino-spam-sms-dataset.csv",
+      "status": "active-text-model",
+      "license": "BSD-3-Clause",
+      "bytes": 72572,
+      "sha256": "39e63515afe210248f8d9c2c19dc560fe3ce140996c9de1ee49973f1a48cc1fa",
+      "rows": 625,
+      "note": "Alexander/Yissuh 2023."
+    },
+    {
+      "id": "filipino-spam-merged",
+      "path": "datasets/external/filipino-spam-sms-merged.csv",
+      "status": "active-text-model",
+      "license": "BSD-3-Clause",
+      "bytes": 105533,
+      "sha256": "031f569410f80f2d3761a97dab017589af148b6be8f633f99fd3254c3aacb3af",
+      "rows": 873,
+      "note": "Alexander/Yissuh 2023."
+    },
+    {
+      "id": "imc25-smishing",
+      "path": "datasets/external/imc25-smishing.csv",
+      "status": "active-text-model-positive-only",
+      "license": "CC BY 4.0",
+      "bytes": 9462365,
+      "sha256": "1bbd1e9e82c3ea023112207b80da268a5c4a07d2353c2b0898360ab037fa9a64",
+      "rows": 33869,
+      "note": "IMC 2025 public smishing reports. Positive-only source; translations used where available."
+    },
+    {
+      "id": "hinglish-scam-text",
+      "path": "datasets/external/hinglish-scam-text.json",
+      "status": "active-text-model",
+      "license": "CC BY 4.0",
+      "bytes": 472689,
+      "sha256": "4c2ea6d6c9303f6b7e27740cb3bbebde57ec3cc10ec7b7f9e565e99b5d483f16",
+      "rows": 3787,
+      "note": "Anuj Bolewar 2026. English portion overlaps SMS Spam Collection."
+    },
+    {
+      "id": "sms-spam-collection-dedup",
+      "path": "datasets/external/sms-spam-collection-dedup.csv",
+      "status": "active-text-model",
+      "license": "SMS Spam Collection v1 terms",
+      "bytes": 455892,
+      "sha256": "7d26034188ae533814ad3738dcb08223b41e232537d13606ad1c294815132eff",
+      "rows": 5159,
+      "note": "Custom attribution/no-warranty terms; overlaps the existing SMS model corpus."
+    },
+    {
+      "id": "vrbanic-phishing",
+      "path": "datasets/external/phishing-websites-vrbaniccic.csv",
+      "status": "excluded-unlicensed",
+      "license": "none found",
+      "bytes": 16028060,
+      "sha256": "2252b0d69252301880b1c87fe34b4f7fa646edaab67e3fc16f7779245085a492",
+      "rows": 58645,
+      "note": "No license found in repository or GitHub metadata. Downloaded for review only; do not use or redistribute."
+    },
+    {
+      "id": "phishdestroy-domains",
+      "path": "datasets/external/phishdestroy-domain-index.bin",
+      "status": "active-exact-phishing-index",
+      "license": "CC0 1.0 / MIT / CC BY 4.0 statements differ; all are permissive with attribution",
+      "bytes": 1853816,
+      "sha256": "8144d1c108f8dfc399633ea91ddf510939377e3a22b9f5ed4467d6c4e3be9825",
+      "rows": 231725,
+      "note": "Source https://raw.githubusercontent.com/phishdestroy/destroylist/main/list.txt downloaded 2026-11-21, source SHA-256 e7be507af6f9769db7e4958fac15be97e11e60d4ce070552e252126747ccc4d7. Compact exact index stores 64-bit SHA-256 fingerprints of normalized domains, not the raw feed. Dataset page says CC0/MIT; HuggingFace says MIT; Live page says CC BY 4.0. Attribution is included in the public notice."
+    },
+    {
+      "id": "pagcor-reported-websites",
+      "path": "datasets/external/pagcor-reported-hosts.txt",
+      "status": "active-exact-gambling-reference",
+      "license": "Philippine government public data; RA 8293 sections 175-176; non-commercial use with attribution",
+      "bytes": 5771,
+      "sha256": "3403dc0085033bd89ddf627fb634cfddaf98dfb939e12ec22352ba60efb06de3",
+      "rows": 359,
+      "note": "Extracted hostnames from PAGCOR NOTICE TO THE PUBLIC published 2024-10-08. Source https://www.pagcor.ph/regulatory/pdf/offshore/notice-to-the-public-reported-websites.pdf, PDF SHA-256 6c18dd2f2070f2b55d38969fa113699b0fea0e021140972cfaa7ce62a6d71d0a. Official public notice; no copyright in government works and mere data is unprotected, but for-profit exploitation may require agency approval."
+    },
+    {
+      "id": "pagcor-fake-certification",
+      "path": "datasets/external/pagcor-fake-certification-hosts.txt",
+      "status": "active-exact-impersonation-reference",
+      "license": "Philippine government public data; RA 8293 sections 175-176; non-commercial use with attribution",
+      "bytes": 286,
+      "sha256": "87e78af0c1412478daccb0520fb6b9e3304fcbc408e087207dd3f8c2b4419e1c",
+      "rows": 3,
+      "note": "Three counterfeit certificate websites named in the same PAGCOR notice. Same source and terms as pagcor-reported-websites."
+    },
+    {
+      "id": "pagcor-registered-gambling-domains",
+      "path": "datasets/external/pagcor-registered-gambling-hosts.txt",
+      "status": "active-exact-registered-gambling-reference",
+      "license": "Philippine government public data; RA 8293 sections 175-176; non-commercial use with attribution",
+      "bytes": 5973,
+      "sha256": "6d12586f1a77b1c8b0b44ac0cb1def89585505968ca3e67966ff2e675483026a",
+      "rows": 414,
+      "note": "Normalized hostnames from PAGCOR's List of PAGCOR-Accredited Gaming System Administrators and Registered Brands and Domain Names/URLs as of 2026-10-29. Source https://www.pagcor.ph/regulatory/pdf/App%20Kits/List-of-PAGCOR-Accredited-Gaming-System-Administrators-and-Registered-Brands-and-Domain-Names-URLs.pdf, PDF SHA-256 590296827b7c748bdd94414fa95bc253d43903f3c137a616f6a90f6bb2fc59c6. The companion brands/sub-brands PDF at https://www.pagcor.ph/regulatory/pdf/App%20Kits/List-of-PAGCOR-accredited-Gaming-System-Administrators-and-registered-Brands-and-Sub-brands.pdf (SHA-256 f52461cfe598efadfebea51fce69b9b96d73a52fc69e26d07173917e584f25ee) was reviewed for scope. Point-in-time registered-domain reference only; absence is not proof of illegality."
+    },
+    {
+      "id": "local-reviewed-gambling-hosts",
+      "path": "datasets/external/local-reviewed-gambling-hosts.txt",
+      "status": "active-exact-local-review-gambling-reference",
+      "license": "User-provided review entries; no third-party license; Surfare non-commercial research/demo use",
+      "bytes": 255,
+      "sha256": "46823d6e10b17621cbd4e008498f15b3469c5fde00fa0ae7f1582463572e6d49",
+      "rows": 2,
+      "note": "Hostnames 3go.run and mpjl.run added from user-supplied examples on 2026-11-22 after checking they are absent from the PAGCOR registered-domain list. Local review watchlist only; not attributed to PAGCOR and not proof of illegality."
+    },
+    {
+      "id": "sec-stopped-lenders",
+      "path": "datasets/external/sec-stopped-lenders.txt",
+      "status": "active-text-match-regulatory-reference",
+      "license": "Philippine SEC site states content is public domain unless otherwise stated; non-commercial use with attribution",
+      "bytes": 1226,
+      "sha256": "c531556e0930a86f20f30dd36b6255941573f04488e7bfed4cb239d5a14e2793",
+      "rows": 58,
+      "note": "Online lending names from SEC cease and desist orders, 2019-2020. Source https://appointment.sec.gov.ph/sec-issuances/cease-and-desist-orders/; archived snapshot https://web.archive.org/web/20250212114701id_/https://appointment.sec.gov.ph/sec-issuances/cease-and-desist-orders/ retrieved 2026-11-21. Names indicate regulator action, not a real-time registry."
+    }
+  ],
+  "models": {
+    "taglish-intent-model.json": {
+      "sha256": "75e4276140e6714ad2565ce1e78ff12291226b533e89140d942cfaa1ea5c2b05",
+      "rowsUsed": 34046
+    },
+    "url-risk-model.json": {
+      "sha256": "d51ffef86c5111d8c91d0eaef19f2b9019567fc4faf221d7794a9c344e1f9ce3",
+      "rowsUsed": 234905
+    }
+  },
+  "limits": [
+    "Held-out scores are internal regression evidence, not population accuracy.",
+    "Several text corpora overlap the existing SMS model sources; do not use them as independent validation of that model.",
+    "Exact URL lookup remains authoritative over the lexical URL model.",
+    "Official regulator lists are point-in-time records; absence from a list is not approval.",
+    "Feedback records are excluded until a separate explicit opt-in path is designed and approved."
+  ]
+}

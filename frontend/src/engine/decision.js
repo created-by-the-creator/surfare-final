@@ -25,6 +25,7 @@ export function decideRisk(signals, content, options = {}) {
     signals,
     usedOnline: Boolean(options.onlineMatch),
     onlineUnavailable: Boolean(options.onlineUnavailable),
+    onlineNoKnownThreat: Boolean(options.onlineNoKnownThreat),
     summaryKey: options.onlineMatch ? 'summary_online' : 'summary_local',
     checkedText: content,
   };

@@ -1,40 +1,7 @@
-export async function verify(request, env, fetcher = fetch) {
-  const json = (body, status = 200) =>
-    Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
-  if (request.method === 'GET') return json({ configured: !!env.GOOGLE_SAFE_BROWSING_API_KEY });
-  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
-  if (
-    request.headers.get('origin') &&
-    request.headers.get('origin') !== new URL(request.url).origin
-  )
-    return json({ error: 'Origin rejected' }, 403);
-  if (Number(request.headers.get('content-length') || 0) > 20000)
-    return json({ error: 'Request too large' }, 413);
-  let body;
-  try {
-    const raw = await request.text();
-    if (raw.length > 20000) return json({ error: 'Request too large' }, 413);
-    body = JSON.parse(raw);
-  } catch {
-    return json({ error: 'Invalid JSON' }, 400);
-  }
-  if (
-    !Array.isArray(body.urls) ||
-    body.urls.length < 1 ||
-    body.urls.length > 10 ||
-    body.urls.some((v) => typeof v !== 'string' || v.length > 2048)
-  )
-    return json({ error: 'Provide 1–10 URLs, at most 2048 characters each.' }, 400);
-  const urls = [];
-  try {
-    for (const s of body.urls) {
-      const u = new URL(s);
-      if (!['http:', 'https:'].includes(u.protocol)) throw Error();
-      urls.push(u.href);
-    }
-  } catch {
-    return json({ error: 'Only HTTP and HTTPS URLs are supported.' }, 400);
-  }
+const json = (body, status = 200) =>
+  Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
+
+export async function verifyUrls(urls, env, fetcher = fetch) {
   if (!env.GOOGLE_SAFE_BROWSING_API_KEY)
     return json(
       {
@@ -91,4 +58,42 @@ export async function verify(request, env, fetcher = fetch) {
       502,
     );
   }
+}
+
+export async function verify(request, env, fetcher = fetch) {
+  if (request.method === 'GET') return json({ configured: !!env.GOOGLE_SAFE_BROWSING_API_KEY });
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  if (
+    request.headers.get('origin') &&
+    request.headers.get('origin') !== new URL(request.url).origin
+  )
+    return json({ error: 'Origin rejected' }, 403);
+  if (Number(request.headers.get('content-length') || 0) > 20000)
+    return json({ error: 'Request too large' }, 413);
+  let body;
+  try {
+    const raw = await request.text();
+    if (raw.length > 20000) return json({ error: 'Request too large' }, 413);
+    body = JSON.parse(raw);
+  } catch {
+    return json({ error: 'Invalid JSON' }, 400);
+  }
+  if (
+    !Array.isArray(body.urls) ||
+    body.urls.length < 1 ||
+    body.urls.length > 10 ||
+    body.urls.some((v) => typeof v !== 'string' || v.length > 2048)
+  )
+    return json({ error: 'Provide 1–10 URLs, at most 2048 characters each.' }, 400);
+  const urls = [];
+  try {
+    for (const s of body.urls) {
+      const u = new URL(s);
+      if (!['http:', 'https:'].includes(u.protocol)) throw Error();
+      urls.push(u.href);
+    }
+  } catch {
+    return json({ error: 'Only HTTP and HTTPS URLs are supported.' }, 400);
+  }
+  return verifyUrls(urls, env, fetcher);
 }

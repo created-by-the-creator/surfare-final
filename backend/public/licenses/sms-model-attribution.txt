@@ -16,4 +16,6 @@ grouping, deduplication, deterministic train/validation/test partitions,
 feature extraction and training of a new compact naive Bayes model.
 Raw message corpora are not distributed with the browser application.
 The model was created for this project; the dataset authors do not endorse it.
-See docs/DETECTION.md and docs/detection-benchmark.json in the source project.
+See docs/DETECTION.md. The historical benchmark file is not included in this
+import. Additional dataset sources and license statuses are recorded in
+backend/datasets/manifest.json and backend/public/licenses/dataset-attribution.txt.

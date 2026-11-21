@@ -1,59 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseCsv, parseCsvRows } from './csv-rows.js';
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const datasetsDir = path.join(backendRoot, 'datasets');
 const textDatasetPath = path.join(datasetsDir, 'A.S.E.A Taglish scam Dataset.csv');
 const urlDatasetPath = path.join(datasetsDir, 'PhiUSIIL_Phishing_URL_Dataset.csv');
-const urlDatasetPath2 = path.join(datasetsDir, 'dataset_phishing.csv');
-
 
 let textRows = null;
-let urlRows = null;
 let urlIndex = null;
 let textIndex = null;
 const textMatchCache = new Map();
-
-function parseCsv(text) {
-  const rows = [];
-  let row = [];
-  let field = '';
-  let quoted = false;
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-    if (quoted) {
-      if (char === '"' && text[i + 1] === '"') {
-        field += '"';
-        i += 1;
-      } else if (char === '"') {
-        quoted = false;
-      } else {
-        field += char;
-      }
-    } else if (char === '"') {
-      quoted = true;
-    } else if (char === ',') {
-      row.push(field);
-      field = '';
-    } else if (char === '\n') {
-      row.push(field.replace(/\r$/, ''));
-      if (row.some((value) => value.length > 0)) rows.push(row);
-      row = [];
-      field = '';
-    } else {
-      field += char;
-    }
-  }
-  row.push(field.replace(/\r$/, ''));
-  if (row.some((value) => value.length > 0)) rows.push(row);
-  const headers = rows.shift();
-  if (!headers) return [];
-  return rows.map((values) => Object.fromEntries(headers.map((header, index) => [
-    header.trim(),
-    values[index]?.trim() ?? '',
-  ])));
-}
 
 function loadTextRows() {
   if (!textRows) {
@@ -77,19 +35,18 @@ function loadTextRows() {
 }
 
 function loadUrlIndex() {
-  if (!urlRows) {
-    const lines = fs.readFileSync(urlDatasetPath, 'utf8').split('\n');
-    lines.shift();
-    urlRows = [];
+  if (!urlIndex) {
+    // Quote-aware parsing: PhiUSIIL fields can contain commas and quotes.
+    const rows = parseCsvRows(fs.readFileSync(urlDatasetPath, 'utf8'));
+    const header = (rows.next().value || []).map((value) => value.trim());
+    const urlColumn = header.findIndex((value) => value.toLowerCase() === 'url');
+    const labelColumn = header.findIndex((value) => value.toLowerCase() === 'label');
     urlIndex = new Map();
-    for (const line of lines) {
-      const values = line.split(',');
-      if (values.length < 2) continue;
-      const url = normalizeUrl(values[1].trim().replace(/^"|"$/g, ''));
-      const label = String(values.at(-1).trim().replace(/^"|"$/g, '')).trim();
+    for (const values of rows) {
+      const url = normalizeUrl(values[urlColumn] ?? values[1] ?? '');
+      const label = String(values[labelColumn] ?? values.at(-1) ?? '').trim();
       if (url && label && !urlIndex.has(url)) {
         urlIndex.set(url, label);
-        urlRows.push({ URL: url, label });
       }
     }
   }
@@ -199,8 +156,8 @@ function urlMatch(urls) {
     const label = String(index.get(normalized)).trim();
     // PhiUSIIL: label 1 is legitimate; label 0 is phishing.
     return label === '1'
-      ? { kind: 'url', risk: 'low', similarity: 1, label }
-      : { kind: 'url', risk: 'high', similarity: 1, label };
+      ? { kind: 'url', risk: 'low', similarity: 1, label, url: normalized }
+      : { kind: 'url', risk: 'high', similarity: 1, label, url: normalized };
   }
   return null;
 }
@@ -210,7 +167,5 @@ export function assessDatasets(text, urls = []) {
   const urlResult = urlMatch(urls);
   if (urlResult?.risk === 'high') return urlResult;
   if (textResult?.risk === 'high') return textResult;
-  if (urlResult?.risk === 'medium') return urlResult;
-  if (textResult?.risk === 'medium') return textResult;
   return urlResult?.risk === 'low' ? urlResult : textResult?.risk === 'low' ? textResult : null;
 }

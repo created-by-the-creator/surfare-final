@@ -38,7 +38,8 @@ export function tagsForAssessment(result) {
     if (id === 'remote') tags.add('remote_access');
     if (id === 'personal') tags.add('personal_information');
     if (i.category === 'personal safety') tags.add('threat');
-    if (id === 'sms-pattern') tags.add('spam_pattern');
+    if (['sms-pattern', 'dataset-text-model'].includes(id)) tags.add('spam_pattern');
+    if (id === 'dataset-url-model') tags.add('suspicious_link');
   }
   return [...tags];
 }

@@ -7,6 +7,11 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { ASSETS, MASCOT_BY_STATE } from '../assets.js';
+import {
+  getDisplaySignals,
+  getSignalEvidenceItems,
+  getSignalLabel,
+} from '../engine/signal-display.js';
 
 const LEVEL_KEYS = {
   low: 'low',
@@ -23,8 +28,11 @@ const LEVEL_MASCOTS = {
 };
 
 function warningSummary(result, t) {
-  const warningCount = result.signals.filter((signal) => signal.id !== 'online_match').length;
-  if (!warningCount) return t('result.summary.none');
+  const warningCount = getDisplaySignals(result).length;
+  if (!warningCount)
+    return result?.onlineNoKnownThreat
+      ? t('result.summary.cleanUrl')
+      : t('result.summary.none');
   const type = result.summaryKey === 'summary_online' ? 'online' : 'local';
   const number = warningCount === 1 ? 'one' : 'many';
   return t(`result.summary.${type}.${number}`, { count: warningCount });
@@ -32,14 +40,20 @@ function warningSummary(result, t) {
 
 function saveReport(result, t, includeContent) {
   const level = LEVEL_KEYS[result.level] ?? 'unknown';
+  const signals = getDisplaySignals(result);
   const lines = [
     t('report.title'),
     t('report.result', { level: t(`result.${level}`) }),
     warningSummary(result, t),
     '',
     t('report.warningSigns'),
-    ...(result.signals.length
-      ? result.signals.map((signal) => `- ${t(`signal.${signal.id}`)}${signal.evidence ? ` (${signal.evidence})` : ''}`)
+    ...(signals.length
+      ? signals.map((signal) => {
+          const evidence = getSignalEvidenceItems(signal)
+            .map((item) => item.text)
+            .join(', ');
+          return `- ${getSignalLabel(signal, t)}${evidence ? ` (${evidence})` : ''}`;
+        })
       : [`- ${t('report.noWarnings')}`]),
     '',
     t('report.safeNextStep'),
@@ -80,9 +94,25 @@ export function buildHighlightSegments(text, result) {
   }
 
   signals.forEach((signal) => {
-    if (signal?.evidence) addEvidence(signal, signal.evidence);
+    const items = getSignalEvidenceItems(signal);
+    if (!items.length) return;
+    items.forEach((item) => {
+      if (
+        Number.isInteger(item.start) &&
+        Number.isInteger(item.end) &&
+        item.start >= 0 &&
+        item.end > item.start &&
+        item.end <= source.length
+      ) {
+        evidenceRanges.push({ start: item.start, end: item.end, signal });
+      } else {
+        addEvidence(signal, item.text);
+      }
+    });
   });
-  if (result?.matchedPhrase) addEvidence({ id: 'matched_phrase', evidence: result.matchedPhrase }, result.matchedPhrase);
+  if (result?.matchedPhrase) {
+    addEvidence({ id: 'matched_phrase', title: 'Matched phrase' }, result.matchedPhrase);
+  }
 
   if (!evidenceRanges.length) {
     return source ? [{ text: source, signals: [] }] : [];
@@ -126,20 +156,25 @@ function getUnknownReasons(result) {
   if (!/(https?:\/\/|www\.|[a-z0-9-]+\.[a-z]{2,})/i.test(text)) {
     reasons.push('result.unknown.reason.noLink');
   }
-  if (result.signals.length === 0) reasons.push('result.unknown.reason.noSignals');
+  if (getDisplaySignals(result).length === 0) reasons.push('result.unknown.reason.noSignals');
   return reasons;
 }
 
 export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
-  const [selectedSignal, setSelectedSignal] = useState(null);
+  const [selectedSignals, setSelectedSignals] = useState([]);
   const titleId = useId();
   const reportPopoverId = useId();
   const reportPopoverRef = useRef(null);
   const level = result ? (LEVEL_KEYS[result.level] ?? 'unknown') : 'low';
   const showResult = status === 'result' && result;
-  const warningCount = result?.signals?.filter((signal) => signal.id !== 'online_match').length ?? 0;
+  const displaySignals = getDisplaySignals(result);
+  const warningCount = displaySignals.length;
+  const onlineOnly = Boolean(
+    showResult && !warningCount && result?.signals?.some((signal) => signal.id === 'online_match'),
+  );
+  const onlineClean = Boolean(showResult && !warningCount && result?.onlineNoKnownThreat);
   const isUnknown = Boolean(showResult && level === 'unknown');
   const isHighlightedSample = Boolean(result?.matchedPhrase);
   const riskDescriptionLevel = level === 'suspicious' ? 'medium' : level;
@@ -149,7 +184,7 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   useEffect(() => {
     setIncludeContent(false);
     setIsReportOpen(false);
-    setSelectedSignal(null);
+    setSelectedSignals([]);
   }, [result?.checkedText]);
 
   useEffect(() => {
@@ -178,11 +213,13 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   const summary = showResult
     ? isUnknown
       ? t('result.unknown.subtitle')
-      : result.datasetIntent
-        ? t('result.datasetSummary', { intent: result.datasetIntent })
-      : warningCount
-        ? warningSummary(result, t)
-        : t('result.summary.none')
+      : onlineOnly
+        ? t('result.summary.onlineOnly')
+        : warningCount
+          ? warningSummary(result, t)
+          : onlineClean
+            ? t('result.summary.cleanUrl')
+            : t('result.summary.none')
     : status === 'error'
       ? t(errorKey || 'error.analysis')
       : status === 'analyzing'
@@ -291,7 +328,7 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                               type="button"
                               className="checked-highlight"
                               key={`${segment.text}-${index}`}
-                              onClick={() => setSelectedSignal(segment.signals[0])}
+                              onClick={() => setSelectedSignals(segment.signals)}
                               aria-label={`${t('result.whyFlagged')}: ${segment.text}`}
                             >
                               {segment.text}
@@ -300,12 +337,23 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                             <span key={`${segment.text}-${index}`}>{segment.text}</span>
                           ),
                         )}
-                        {selectedSignal && (
+                        {selectedSignals.length > 0 && (
                           <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
                             <strong>{t('result.whyFlagged')}</strong>
-                            <p>{t(`signal.${selectedSignal.id}`)}</p>
-                            {selectedSignal.evidence && (
-                              <blockquote>{String(selectedSignal.evidence)}</blockquote>
+                            <p className="highlight-explanation-intro">{t('result.whyDetails')}</p>
+                            {selectedSignals.map((signal, index) => (
+                              <p key={`${signal.id}-${index}`}>{getSignalLabel(signal, t)}</p>
+                            ))}
+                            {selectedSignals.some((signal) => getSignalEvidenceItems(signal).length) && (
+                              <blockquote>
+                                {[
+                                  ...new Set(
+                                    selectedSignals.flatMap((signal) =>
+                                      getSignalEvidenceItems(signal).map((item) => item.text),
+                                    ),
+                                  ),
+                                ].join(' · ')}
+                              </blockquote>
                             )}
                           </div>
                         )}

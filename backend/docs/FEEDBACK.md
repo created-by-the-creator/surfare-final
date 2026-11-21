@@ -26,6 +26,10 @@ The migration has been supplied, not applied automatically. Database deployment 
 
 Use `review_status` (`unreviewed`, `reviewed`, `excluded`) in the dashboard to track review. User corrections are unverified reports, not ground-truth labels. Review context, remove inappropriate excerpts, group repeated reports, and propose rule/prompt changes in Git. Evaluate those changes on untouched examples before release. Do not automatically train on submissions or use feedback counts as accuracy claims.
 
+### Training readiness (ingestion off)
+
+Feedback remains storage/review-only. The new offline training script does not read feedback, does not call the network and does not change the feedback schema. Any future ingestion must be an explicit opt-in design reviewed separately, with a manually supplied export, an explicit flag and a documented consent boundary. Corrections and expected categories are unverified user reports, not ground truth. Generated artifacts are review signals only and must not be described as accuracy improvements without a separate evaluation on untouched, legally usable data.
+
 The SQL functions serialize submissions, make retries idempotent, and impose a global ceiling of 2,000 new records per day without collecting IP addresses. This is a storage backstop, not a per-user abuse control. Configure hosting rate limits before broad public exposure. Logs must not include request bodies or deletion tokens. No RA 10173 compliance certification is claimed.
 
 ## Validation status

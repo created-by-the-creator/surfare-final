@@ -1,5 +1,8 @@
 import { analyzeUrl } from './url.js';
 
+const URL_PATTERN =
+  /\b(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|ph|xyz|top|click|zip|info|site|online)(?:\/[^\s<>"']*)?/gi;
+
 const TEXT_RULES = [
   {
     id: 'urgency',
@@ -69,9 +72,6 @@ const TEXT_RULES = [
   },
 ];
 
-const URL_PATTERN =
-  /\b(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|ph|xyz|top|click|zip|info|site|online)(?:\/[^\s<>"']*)?/gi;
-
 export function extractUrls(text) {
   return Array.from(text.matchAll(URL_PATTERN), (match) =>
     match[0].replace(/[),.!?;:]+$/, ''),
@@ -79,8 +79,9 @@ export function extractUrls(text) {
 }
 
 export function analyzeText(text) {
+  const textWithoutUrls = text.replace(URL_PATTERN, ' ');
   const signals = TEXT_RULES.flatMap((rule) => {
-    const match = rule.pattern.exec(text);
+    const match = rule.pattern.exec(textWithoutUrls);
     return match
       ? [
           {
@@ -93,8 +94,11 @@ export function analyzeText(text) {
       : [];
   });
   const urls = extractUrls(text);
+  const bareUrl =
+    urls.length === 1 &&
+    urls[0].replace(/[),.!?;:]+$/, '') === text.trim().replace(/[),.!?;:]+$/, '');
 
-  if (urls.length > 0) {
+  if (urls.length > 0 && !bareUrl) {
     signals.push({
       id: 'link_in_message',
       severity: 1,

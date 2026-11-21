@@ -1,0 +1,5 @@
+# PAGCOR notice to the public, counterfeit PAGCOR certificate websites, published 2024-10-08.
+# Source: https://www.pagcor.ph/regulatory/pdf/offshore/notice-to-the-public-reported-websites.pdf
+verification.pagcorlicense.ph
+licensing.newwavelicensing.ph
+validator.pagcor-licence.ph

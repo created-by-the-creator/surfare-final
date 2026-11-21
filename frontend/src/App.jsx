@@ -9,7 +9,7 @@ import Navbar from './components/Navbar.jsx';
 import ResultPanel from './components/ResultPanel.jsx';
 import RiskLevels from './components/RiskLevels.jsx';
 import { analyzeInput } from './engine/analyze.js';
-import { getSurfyAnswer } from './surfy/templates.js';
+import { getSuggestedQuestionKeys, getSurfyAnswer } from './surfy/templates.js';
 import { htmlLanguage, translate } from './i18n/useI18n.js';
 import useScrollReveal from './useScrollReveal.js';
 import useFluidMotion from './useFluidMotion.js';
@@ -170,6 +170,10 @@ export default function App() {
   const [feedbackType, setFeedbackType] = useState('text');
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [cameraTarget, setCameraTarget] = useState('');
+  const askQuestionKeys = useMemo(
+    () => getSuggestedQuestionKeys({ result, activeTab }),
+    [activeTab, result],
+  );
   const askOpenTimer = useRef(null);
   const askCloseTimer = useRef(null);
   const askAnswerTimer = useRef(null);
@@ -403,6 +407,7 @@ export default function App() {
           askMessages={askMessages}
           onAskSend={handleAskSend}
           surfyOpenRequest={surfyOpenRequest}
+          questionKeys={askQuestionKeys}
           feedbackDialog={isFeedbackOpen ? (
             <FeedbackModal
               isOpen={isFeedbackOpen}

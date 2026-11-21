@@ -1,0 +1,63 @@
+# Securities and Exchange Commission Philippines, Cease and Desist Orders.
+# Source: https://appointment.sec.gov.ph/sec-issuances/cease-and-desist-orders/
+# Snapshot: https://web.archive.org/web/20250212114701id_/https://appointment.sec.gov.ph/sec-issuances/cease-and-desist-orders/
+# Retrieved: 2026-11-21. Online lending and financing names from the 2019-2020 orders.
+# Names only; one per line. Lines beginning with # are comments.
+CashAB
+CashOcean
+KwikPeso
+Little Cash
+CashAB Lending Co.
+Mimosa Credit Ltd.
+Zamoya Credit Ltd.
+Peso Tree
+PesoAlo
+Pinoy Cash Loan
+Pesolending
+Instant Pera
+Quick Peso
+Batis Loan
+Happy Credit
+Easy Cash
+Wahana Credit & Loan Corp.
+Light Kredit
+A&V Lending Mobile
+A&V Lending Investor
+A.V. Lending Corporation
+Cashaku
+Cashaso
+Cashenergy
+Happy Loan
+Peso Pagasa
+Vito Lending Corp.
+Phily Kredit
+Rainbow-Cash
+Rainbowccash.ph Lending Corp.
+Cash Whale
+Cash 100
+Cashafin
+Cashflyer
+Cashmaya
+Cashope
+Cashwarm
+Cashwow
+CreditPeso
+ET Easy Loan
+Peso2Go
+QuickPera
+Lendmo Philippines
+Binixo
+Cashbus
+Cashcat
+Cashuttle
+Crazyloan
+Flash Cash
+Happy2Peso
+Hatulong
+Meload
+Moneytree Quickloan
+Pera Express
+Pera4U
+Peramart
+Umbrella
+Moola Lending Corporation

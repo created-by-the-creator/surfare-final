@@ -11,6 +11,7 @@ export default function AskSurfy({
   messages,
   onSend,
   openRequest,
+  questionKeys = SURFY_QUESTION_KEYS,
   t,
 }) {
   const [draft, setDraft] = useState('');
@@ -107,7 +108,7 @@ export default function AskSurfy({
         </div>
 
         <div className="ask-chips" role="group" aria-label={t('ask.suggestions')}>
-          {SURFY_QUESTION_KEYS.map((key) => (
+          {questionKeys.map((key) => (
             <button type="button" className="ask-chip" key={key} onClick={() => submit(t(key))}>
               {t(key)}
             </button>

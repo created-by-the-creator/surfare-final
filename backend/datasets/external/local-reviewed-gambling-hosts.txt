@@ -1,0 +1,5 @@
+# Locally reviewed gambling hosts added from user-supplied examples on 2026-11-22.
+# These entries are not from a PAGCOR notice and must not be attributed to PAGCOR.
+# Hostnames only; URLs on these hosts and their subdomains are covered.
+3go.run
+mpjl.run
