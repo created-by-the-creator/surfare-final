@@ -27,6 +27,12 @@ list matches and all other warnings remain. A no-match result is not proof that
 a site is legitimate, and unavailable checks leave the original warnings in
 place.
 
+Optional Visual AI uses free-only image providers. Configure
+`OPENROUTER_API_KEY` and/or `GEMINI_API_KEY` as deployment secrets. OpenRouter
+is tried first, then Gemini free-tier models `gemini-4-hydrogen` and
+`gemini-3.5-flash-lite`. `GEMINI_IMAGE_MODEL` may select one of those two
+models; other model names are rejected. No paid model is used.
+
 ## Cloudflare Worker
 
 ```sh

@@ -5,6 +5,7 @@ import FeedbackModal from './components/FeedbackModal.jsx';
 import Footer from './components/Footer.jsx';
 import Hero from './components/Hero.jsx';
 import HowItWorks from './components/HowItWorks.jsx';
+import ImageModeModal from './components/ImageModeModal.jsx';
 import Navbar from './components/Navbar.jsx';
 import ResultPanel from './components/ResultPanel.jsx';
 import RiskLevels from './components/RiskLevels.jsx';
@@ -149,14 +150,13 @@ export default function App() {
   const t = useCallback((key, values) => translate(lang, key, values), [lang]);
   const isOnline = useConnectionStatus();
   const [activeTab, setActiveTab] = useState('text');
-  const [offlineOnly, setOfflineOnly] = useState(true);
-  useEffect(() => { if (!hasAcknowledged) setOfflineOnly(true); }, [hasAcknowledged]);
   const [inputs, setInputs] = useState({
     message: '',
     url: '',
     image: null,
     qr: null,
     qrValue: '',
+    imageMode: isOnline ? 'origin' : 'ocr',
   });
   const [status, setStatus] = useState('idle');
   const [isCheckUsed, setIsCheckUsed] = useState(false);
@@ -170,6 +170,7 @@ export default function App() {
   const [feedbackType, setFeedbackType] = useState('text');
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [cameraTarget, setCameraTarget] = useState('');
+  const [isImageModeModalOpen, setIsImageModeModalOpen] = useState(false);
   const askQuestionKeys = useMemo(
     () => getSuggestedQuestionKeys({ result, activeTab }),
     [activeTab, result],
@@ -180,6 +181,7 @@ export default function App() {
   const askAnswerQueue = useRef([]);
   const checkRunId = useRef(0);
   const checkUsedRef = useRef(false);
+  const forcedOfflineImageMode = useRef(!isOnline);
 
   useEffect(() => () => {
     window.clearTimeout(askOpenTimer.current);
@@ -255,7 +257,23 @@ export default function App() {
 
   const updateInput = useCallback((key, value) => {
     setInputs((previous) => ({ ...previous, [key]: value }));
-  }, []);
+    if (key === 'image') {
+      setIsImageModeModalOpen(Boolean(value) && isOnline);
+    }
+  }, [isOnline]);
+
+  useEffect(() => {
+    if (!isOnline) {
+      setIsImageModeModalOpen(false);
+      if (!forcedOfflineImageMode.current && inputs.imageMode === 'origin') {
+        forcedOfflineImageMode.current = true;
+        updateInput('imageMode', 'ocr');
+      }
+    } else if (forcedOfflineImageMode.current) {
+      forcedOfflineImageMode.current = false;
+      updateInput('imageMode', 'origin');
+    }
+  }, [inputs.imageMode, isOnline, updateInput]);
 
   const handleCheck = async () => {
     if (!await requestAcknowledgment()) return;
@@ -272,7 +290,10 @@ export default function App() {
     setStatus('analyzing');
     setErrorKey('');
     try {
-      const analysis = await analyzeInput(activeTab, inputs, { onlineLookup: !offlineOnly });
+      const analysis = await analyzeInput(activeTab, inputs, {
+        onlineLookup: isOnline,
+        imageMode: isOnline ? inputs.imageMode : 'ocr',
+      });
       if (runId !== checkRunId.current) return;
       if (analysis.errorKey) {
         setErrorKey(analysis.errorKey);
@@ -299,6 +320,7 @@ export default function App() {
         file_unsupported: 'error.file_unsupported',
         image_dimensions: 'error.image_dimensions',
         canvas_unavailable: 'error.canvas_unavailable',
+        image_too_large: 'error.file_too_large',
       };
       setErrorKey(errorKeys[error?.message] ?? 'error.analysis');
       setStatus('error');
@@ -317,15 +339,23 @@ export default function App() {
     askAnswerTimer.current = null;
     askAnswerQueue.current = [];
     setActiveTab('text');
-    setInputs({ message: '', url: '', image: null, qr: null, qrValue: '' });
+    setInputs({
+      message: '',
+      url: '',
+      image: null,
+      qr: null,
+      qrValue: '',
+      imageMode: isOnline ? 'origin' : 'ocr',
+    });
     setStatus('idle');
     setResult(null);
     setErrorKey('');
+    setIsImageModeModalOpen(false);
     setAskMessages([]);
     setIsAskOpen(false);
     setIsAskClosing(false);
     setIsAskThinking(false);
-  }, []);
+  }, [isOnline]);
 
   const scheduleAskAnswer = useCallback(() => {
     if (askAnswerTimer.current || !askAnswerQueue.current.length) return;
@@ -384,8 +414,6 @@ export default function App() {
         lang={lang}
         onLanguageChange={setLang}
         isOnline={isOnline}
-        offlineOnly={offlineOnly}
-        onOfflineOnlyChange={setOfflineOnly}
         t={t}
       />
       <main>
@@ -431,6 +459,18 @@ export default function App() {
       </main>
       <Footer t={t} />
       {camera}
+      {isImageModeModalOpen && (
+        <ImageModeModal
+          t={t}
+          initialMode={inputs.imageMode}
+          allowAi={isOnline}
+          onConfirm={(mode) => {
+            updateInput('imageMode', mode);
+            setIsImageModeModalOpen(false);
+          }}
+          onClose={() => setIsImageModeModalOpen(false)}
+        />
+      )}
     </div>
     </WelcomeExperience>
   );

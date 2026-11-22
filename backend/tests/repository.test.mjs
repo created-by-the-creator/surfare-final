@@ -43,7 +43,7 @@ test('exact configured secrets and private-key material are rejected', () => {
     inspectPublishableText('example.txt', header).some((f) => f.reason === 'private key material'),
   );
   assert.deepEqual(
-    inspectPublishableText('.env.example', 'OPENROUTER_API_KEY=\nAI_PROVIDER=auto'),
+    inspectPublishableText('.env.example', 'OPENROUTER_API_KEY=\nOPENROUTER_MODEL='),
     [],
   );
 });

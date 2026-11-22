@@ -179,7 +179,7 @@ test('standalone HTTP server validates local input and keeps provider services s
     assert.deepEqual(await (await fetch(base + '/api/verify')).json(), { configured: false });
     const ai = await fetch(base + '/api/assess', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: normal, kind: 'message', consent: true, provider: 'gemini' }),
+      body: JSON.stringify({ text: normal, kind: 'message', consent: true, provider: 'openrouter' }),
     });
     assert.equal(ai.status, 503);
     assert.equal((await fetch(base + '/missing')).status, 404);

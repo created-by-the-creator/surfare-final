@@ -76,7 +76,7 @@ function saveReport(result, t, includeContent) {
 export function buildHighlightSegments(text, result) {
   const source = String(text || '');
   const evidenceRanges = [];
-  const signals = Array.isArray(result?.signals) ? result.signals : [];
+  const signals = getDisplaySignals(result);
 
   function addEvidence(signal, evidence) {
     if (typeof evidence !== 'string' || evidence.length < 2) return;
@@ -97,20 +97,21 @@ export function buildHighlightSegments(text, result) {
     const items = getSignalEvidenceItems(signal);
     if (!items.length) return;
     items.forEach((item) => {
-      if (
+      const offsetMatches =
         Number.isInteger(item.start) &&
         Number.isInteger(item.end) &&
         item.start >= 0 &&
         item.end > item.start &&
-        item.end <= source.length
-      ) {
+        item.end <= source.length &&
+        source.slice(item.start, item.end).toLowerCase() === item.text.toLowerCase();
+      if (offsetMatches) {
         evidenceRanges.push({ start: item.start, end: item.end, signal });
       } else {
         addEvidence(signal, item.text);
       }
     });
   });
-  if (result?.matchedPhrase) {
+  if (result?.matchedPhrase && !evidenceRanges.length) {
     addEvidence({ id: 'matched_phrase', title: 'Matched phrase' }, result.matchedPhrase);
   }
 
@@ -176,10 +177,48 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   );
   const onlineClean = Boolean(showResult && !warningCount && result?.onlineNoKnownThreat);
   const isUnknown = Boolean(showResult && level === 'unknown');
+  const isMetadataReview = Boolean(showResult && result?.imageMetadata);
+  const isOriginReview = Boolean(showResult && result?.imageOrigin);
+  const isImageReview = isMetadataReview || isOriginReview;
+  const metadataLabel = isMetadataReview ? t(result.imageMetadata.labelKey) : '';
+  const originLabel = isOriginReview ? t(result.imageOrigin.labelKey) : '';
+  const checksDisagree =
+    isMetadataReview &&
+    isOriginReview &&
+    result.imageMetadata.labelKey === 'result.imageMetadata.label.none' &&
+    ['result.imageOrigin.likely', 'result.imageOrigin.strong', 'result.imageOrigin.possible'].includes(
+      result.imageOrigin.labelKey,
+    );
   const isHighlightedSample = Boolean(result?.matchedPhrase);
   const riskDescriptionLevel = level === 'suspicious' ? 'medium' : level;
   const unknownReasons = isUnknown ? getUnknownReasons(result) : [];
   const mascot = result ? LEVEL_MASCOTS[level] : MASCOT_BY_STATE.ready.mascot;
+  const hasAiClues =
+    isOriginReview &&
+    ['result.imageOrigin.likely', 'result.imageOrigin.strong', 'result.imageOrigin.possible'].includes(
+      result.imageOrigin.labelKey,
+    );
+  const nextTitleKey = isImageReview
+    ? 'result.nextTitleAi'
+    : level === 'low'
+      ? 'result.nextTitleLow'
+      : 'result.nextTitle';
+  const nextIntroKey = isImageReview
+    ? hasAiClues
+      ? 'result.nextIntroAiClues'
+      : 'result.nextIntroAiNone'
+    : level === 'low'
+      ? 'result.nextIntroLow'
+      : 'result.nextIntro';
+  const nextPointKeys = isImageReview
+    ? hasAiClues
+      ? ['result.nextPointAiClues1', 'result.nextPointAiClues2', 'result.nextPointAiClues3']
+      : ['result.nextPointAiNone1', 'result.nextPointAiNone2', 'result.nextPointAiNone3']
+    : level === 'low'
+      ? ['result.nextPointLow1', 'result.nextPointLow2', 'result.nextPointLow3']
+      : level === 'high'
+        ? ['result.nextPointHigh1', 'result.nextPointHigh2', 'result.nextPointHigh3']
+        : ['result.nextPointSuspicious1', 'result.nextPointSuspicious2', 'result.nextPointSuspicious3'];
 
   useEffect(() => {
     setIncludeContent(false);
@@ -204,14 +243,26 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   }, [isReportOpen]);
 
   const stateTitle = showResult
-    ? t(`result.${level}`)
+    ? isImageReview
+      ? isMetadataReview && isOriginReview
+        ? t('result.imageReview.title')
+        : isMetadataReview
+          ? t('result.imageMetadata.title')
+          : t('result.imageOrigin.title')
+      : t(`result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
       : status === 'error'
         ? t('result.error')
         : t('result.ready');
   const summary = showResult
-    ? isUnknown
+    ? isMetadataReview && isOriginReview
+      ? t('result.imageReview.summary', { file: metadataLabel, visual: originLabel })
+      : isImageReview
+        ? isOriginReview
+          ? t('result.imageReview.summaryVisual', { visual: originLabel })
+          : t('result.imageReview.summaryFileOnly', { file: metadataLabel })
+        : isUnknown
       ? t('result.unknown.subtitle')
       : onlineOnly
         ? t('result.summary.onlineOnly')
@@ -298,7 +349,7 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                 </div>
               </div>
             )}
-            {isUnknown && (
+            {isUnknown && !isImageReview && (
               <div className="unknown-meter-description">
                 <p className="unknown-meter-note">{t('result.unknown.unplaced')}</p>
                 <div className="risk-level-description">
@@ -307,9 +358,59 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                 </div>
               </div>
             )}
+            {showResult && result.imageVisualNoteKey && (
+              <p className="image-origin-status" role="status">
+                {t(result.imageVisualNoteKey)}
+              </p>
+            )}
+            {isMetadataReview && (
+              <section className="image-origin-report image-metadata-report" role="region" aria-label={t('result.imageMetadata.title')}>
+                <div className="image-report-head">
+                  <strong>{t('result.imageMetadata.title')}</strong>
+                </div>
+                <p>{t(result.imageMetadata.summaryKey)}</p>
+                <p className="image-origin-limitation">{t(result.imageMetadata.limitationKey)}</p>
+              </section>
+            )}
+            {isOriginReview && (
+              <section className="image-origin-report" role="region" aria-label={t('result.imageOrigin.title')}>
+                <div className="image-report-head">
+                  <strong>{t('result.imageOrigin.title')}</strong>
+                  <span>{t(result.imageOrigin.labelKey)}</span>
+                </div>
+                {result.imageOrigin.summary && <p>{result.imageOrigin.summary}</p>}
+                <div className="image-evidence">
+                  <h4>{t('result.imageOrigin.evidenceTitle')}</h4>
+                  {result.imageOrigin.observations.length > 0 ? (
+                    <ul>
+                      {result.imageOrigin.observations.map((observation, index) => (
+                        <li key={`${observation}-${index}`}>{observation}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{t('result.imageOrigin.noObservations')}</p>
+                  )}
+                </div>
+                {result.imageOrigin.nonClues?.length > 0 && (
+                  <div className="image-evidence image-non-clues">
+                    <h4>{t('result.imageOrigin.nonClueTitle')}</h4>
+                    <ul>
+                      {result.imageOrigin.nonClues.map((note, index) => (
+                        <li key={`${note}-${index}`}>{note}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                <p className="image-origin-limitation">{t(result.imageOrigin.limitationKey)}</p>
+              </section>
+            )}
+            {checksDisagree && (
+              <p className="image-origin-limitation">{t('result.imageReview.disagree')}</p>
+            )}
 
             {showResult && (
               <div className={`result-details ${isUnknown ? 'result-details-unknown' : ''}`}>
+                {!isImageReview && (
                 <div className="reference-message-layout">
                   <img
                     className="reference-mascot"
@@ -360,35 +461,20 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                       </div>
                     </details>
                 </div>
+                )}
 
                 {showResult && (
                   <div className="what-to-do-panel">
                     <div className="what-to-do-copy">
                       <h3>
                         <Lightbulb className="what-to-do-icon" aria-hidden="true" />
-                        {t(level === 'low'
-                          ? 'result.nextTitleLow'
-                          : 'result.nextTitle')}
+                        {t(nextTitleKey)}
                       </h3>
-                      <p>{t(level === 'low'
-                        ? 'result.nextIntroLow'
-                        : 'result.nextIntro')}</p>
+                      <p>{t(nextIntroKey)}</p>
                       <ul>
-                        <li>{t(level === 'low'
-                          ? 'result.nextPointLow1'
-                          : level === 'high'
-                            ? 'result.nextPointHigh1'
-                            : 'result.nextPointSuspicious1')}</li>
-                        <li>{t(level === 'low'
-                          ? 'result.nextPointLow2'
-                          : level === 'high'
-                            ? 'result.nextPointHigh2'
-                            : 'result.nextPointSuspicious2')}</li>
-                        <li>{t(level === 'low'
-                          ? 'result.nextPointLow3'
-                          : level === 'high'
-                            ? 'result.nextPointHigh3'
-                            : 'result.nextPointSuspicious3')}</li>
+                        {nextPointKeys.map((key) => (
+                          <li key={key}>{t(key)}</li>
+                        ))}
                       </ul>
                     </div>
                     <img className="what-to-do-mascot" src={ASSETS.surfyTablet} alt="" width="1000" height="1000" />

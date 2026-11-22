@@ -3,10 +3,27 @@ import { analyzeUrl } from './url.js';
 import { decideRisk } from './decision.js';
 import { inspectImage } from './media.js';
 import { validateImageFile } from './fileValidation.js';
+import { buildImageOriginResult, reviewImageOrigin } from './image-ai.js';
+import { inspectImageMetadata } from './image-metadata.js';
 import { groundSignals } from './signal-display.js';
 
 const WEAK_URL_SIGNAL = /^(?:brand[-_]|lookalike[-_]|dataset-url-model$)/;
 const ADVISORY_DETECTOR_SIGNAL = new Set(['dataset-text-model', 'dataset-url-model']);
+const VISUAL_NOTE_KEYS = {
+  not_configured: 'result.imageMetadata.visualNotConfigured',
+  busy: 'result.imageMetadata.visualBusy',
+  timeout: 'result.imageMetadata.visualTimeout',
+  incomplete: 'result.imageMetadata.visualIncomplete',
+  bad_origin_output: 'result.imageMetadata.visualBadOutput',
+  provider: 'result.imageMetadata.visualProvider',
+  provider_error: 'result.imageMetadata.visualProvider',
+  origin: 'result.imageMetadata.visualRequest',
+  consent: 'result.imageMetadata.visualConsent',
+  invalid_image: 'result.imageMetadata.visualImageIssue',
+  invalid_request: 'result.imageMetadata.visualUnavailable',
+  method: 'result.imageMetadata.visualUnavailable',
+  too_large: 'result.imageMetadata.visualImageIssue',
+};
 
 function completedOnlineCheck(verification) {
   return (
@@ -125,7 +142,11 @@ function mergeDetectorResult(frontend, detector, content, { suppressWeakUrlSigna
   };
 }
 
-export async function analyzeInput(tab, inputs, { onlineLookup = true } = {}) {
+export async function analyzeInput(
+  tab,
+  inputs,
+  { onlineLookup = true, imageMode = 'ocr' } = {},
+) {
   let content = '';
   let signals = [];
   let urls = [];
@@ -141,6 +162,19 @@ export async function analyzeInput(tab, inputs, { onlineLookup = true } = {}) {
     urls = result.normalized && /^https?:\/\//i.test(result.normalized) ? [result.normalized] : [];
   } else if (tab === 'image' || tab === 'qr') {
     const file = tab === 'image' ? inputs.image : inputs.qr;
+    if (tab === 'image' && imageMode === 'origin' && onlineLookup) {
+      const checked = await validateImageFile(file);
+      const imageMetadata = await inspectImageMetadata(file);
+      const mediaInfo = { width: checked.width, height: checked.height };
+      const review = await reviewImageOrigin(file, { metadata: imageMetadata });
+      if (review.status !== 'completed') {
+        return buildImageOriginResult(null, mediaInfo, imageMetadata, {
+          status: 'unavailable',
+          noteKey: review.noteKey || VISUAL_NOTE_KEYS[review.reason] || 'result.imageMetadata.visualUnavailable',
+        });
+      }
+      return buildImageOriginResult(review.review, mediaInfo, imageMetadata, { status: 'completed' });
+    }
     if (tab === 'qr' && inputs.qrValue) {
       mediaInfo = { text: '', qrValue: inputs.qrValue };
     } else {

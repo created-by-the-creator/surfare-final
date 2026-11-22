@@ -72,14 +72,34 @@ const TEXT_RULES = [
   },
 ];
 
+function urlMatches(text) {
+  return Array.from(text.matchAll(URL_PATTERN), (match) => {
+    const value = match[0].replace(/[),.!?;:]+$/, '');
+    return { text: value, start: match.index, end: match.index + value.length };
+  });
+}
+
 export function extractUrls(text) {
-  return Array.from(text.matchAll(URL_PATTERN), (match) =>
-    match[0].replace(/[),.!?;:]+$/, ''),
-  );
+  return urlMatches(text).map((match) => match.text);
+}
+
+function evidenceInUrl(evidence, urlMatch) {
+  const needle = String(evidence || '').trim();
+  if (!needle) return [];
+  const at = urlMatch.text.toLowerCase().indexOf(needle.toLowerCase());
+  if (at < 0) return [];
+  return [
+    {
+      start: urlMatch.start + at,
+      end: urlMatch.start + at + needle.length,
+      text: urlMatch.text.slice(at, at + needle.length),
+    },
+  ];
 }
 
 export function analyzeText(text) {
-  const textWithoutUrls = text.replace(URL_PATTERN, ' ');
+  const matches = urlMatches(text);
+  const textWithoutUrls = text.replace(URL_PATTERN, (value) => ' '.repeat(value.length));
   const signals = TEXT_RULES.flatMap((rule) => {
     const match = rule.pattern.exec(textWithoutUrls);
     return match
@@ -89,34 +109,49 @@ export function analyzeText(text) {
             severity: rule.severity,
             weight: rule.weight,
             evidence: match[0],
+            evidenceItems: [
+              {
+                start: match.index,
+                end: match.index + match[0].length,
+                text: match[0],
+              },
+            ],
           },
         ]
       : [];
   });
-  const urls = extractUrls(text);
+  const urls = matches.map((match) => match.text);
   const bareUrl =
     urls.length === 1 &&
     urls[0].replace(/[),.!?;:]+$/, '') === text.trim().replace(/[),.!?;:]+$/, '');
 
-  if (urls.length > 0 && !bareUrl) {
+  if (matches.length > 0 && !bareUrl) {
+    const first = matches[0];
     signals.push({
       id: 'link_in_message',
       severity: 1,
       weight: 1,
-      evidence: urls[0],
+      evidence: first.text,
+      evidenceItems: [{ start: first.start, end: first.end, text: first.text }],
     });
   }
 
   return {
     signals,
     urls,
+    urlMatches: matches,
     checkedText: text,
   };
 }
 
 export function analyzeTextAndUrls(text) {
   const analysis = analyzeText(text);
-  const urlSignals = analysis.urls.flatMap((url) => analyzeUrl(url).signals);
+  const urlSignals = analysis.urlMatches.flatMap((urlMatch) =>
+    analyzeUrl(urlMatch.text).signals.map((signal) => ({
+      ...signal,
+      evidenceItems: evidenceInUrl(signal.evidence, urlMatch),
+    })),
+  );
   const signals = [...analysis.signals, ...urlSignals];
   const has = (ids) => signals.some((signal) => ids.includes(signal.id));
   const hasUrgency = has(['urgency', 'threat_loss']);

@@ -494,11 +494,6 @@ try {
 
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'Online', exact: true }).click();
-  const offlineOnly = page.getByRole('checkbox', { name: 'Offline checks only' });
-  await offlineOnly.check();
-  if (!(await offlineOnly.isChecked())) throw new Error('Offline-only setting did not turn on.');
-  await offlineOnly.uncheck();
 
   for (const tab of ['Links', 'Image', 'QR code', 'Text']) {
     const tabButton = page.getByRole('tab', { name: tab });

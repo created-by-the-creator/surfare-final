@@ -12,6 +12,7 @@
     "generate-pwa-assets": "pwa-assets-generator"
   },
   "dependencies": {
+    "@contentauth/c2pa-web": "0.17.1",
     "@emailjs/browser": "^5.0.3",
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource-variable/outfit": "^5.3.0",

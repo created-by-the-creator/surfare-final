@@ -9,7 +9,7 @@ const LANGUAGES = [
   { value: 'taglish', name: 'Taglish', detail: 'Filipino + English', short: 'TAG' },
 ];
 
-export default function Navbar({ lang, onLanguageChange, isOnline, offlineOnly, onOfflineOnlyChange, t }) {
+export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
   const [open, setOpen] = useState(null);
   const id = useId();
   const controls = useRef(null);
@@ -109,11 +109,6 @@ export default function Navbar({ lang, onLanguageChange, isOnline, offlineOnly, 
                 <div className={`connection-capability ${!isOnline ? 'is-limited' : ''}`}>
                   {isOnline ? <Wifi size={19} aria-hidden="true" /> : <WifiOff size={19} aria-hidden="true" />}
                   <p>{t(!isOnline ? 'nav.offlineLimit' : import.meta.env.VITE_WORKER_URL ? 'nav.onlineCapability' : 'nav.lookupUnavailable')}</p>
-                </div>
-                <div className="connection-preference">
-                  <label><span>{t('check.offlineOnly')}</span><input type="checkbox" role="switch"
-                    checked={offlineOnly} onChange={(event) => onOfflineOnlyChange(event.target.checked)} /></label>
-                  <p>{t('check.onlineNotice')}</p>
                 </div>
               </div>
             )}

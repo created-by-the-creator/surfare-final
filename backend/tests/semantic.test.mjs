@@ -54,14 +54,7 @@ const request = (data, headers = {}) =>
     headers: { 'Content-Type': 'application/json', ...headers },
     body: JSON.stringify(data),
   });
-const key = { GEMINI_API_KEY: 'unit-test-placeholder-not-a-real-key' };
 const completed = (analysis) => ({ status: 'completed', analysis });
-const provider = (analysis) => async () =>
-  Response.json({
-    candidates: [
-      { finishReason: 'STOP', content: { parts: [{ text: JSON.stringify(analysis) }] } },
-    ],
-  });
 const routerKey = { OPENROUTER_API_KEY: 'test-openrouter-key-not-real' };
 const routerRequest = (data) => request({ ...data, provider: 'openrouter' });
 const routerProvider = (analysis) =>
@@ -70,17 +63,16 @@ const routerProvider = (analysis) =>
     choices: [{ finish_reason: 'stop', message: { content: JSON.stringify(analysis) } }],
   });
 
-test('OpenRouter is preferred when its key is present, without exposing either key', async () => {
-  const env = { ...key, ...routerKey };
-  assert.equal(semanticConfiguration(env).providerId, 'openrouter');
+test('OpenRouter is the only AI provider and its key is not exposed', async () => {
+  assert.equal(semanticConfiguration({}).providerId, 'openrouter');
+  assert.equal(semanticConfiguration({}).configured, false);
+  assert.equal(semanticConfiguration(routerKey).providerId, 'openrouter');
   const r = await (
-    await semanticCheck(new Request('https://surfare.example/api/assess'), env)
+    await semanticCheck(new Request('https://surfare.example/api/assess'), routerKey)
   ).json();
   assert.equal(r.configured, true);
   assert.equal(r.freeOnly, true);
   assert(!JSON.stringify(r).includes(routerKey.OPENROUTER_API_KEY));
-  assert(!JSON.stringify(r).includes(key.GEMINI_API_KEY));
-  assert.equal(semanticConfiguration({ ...env, AI_PROVIDER: 'gemini' }).providerId, 'gemini');
 });
 test('OpenRouter enforces free models, zero-price routing and grounded structured output', async () => {
   const response = await semanticCheck(
@@ -110,23 +102,20 @@ test('OpenRouter enforces free models, zero-price routing and grounded structure
   assert.equal(response.status, 200);
   assert.equal((await response.json()).analysis.level, 'High risk');
 });
-test('paid OpenRouter model IDs and unknown providers are rejected before any request', async () => {
+test('paid OpenRouter model IDs are rejected before any request', async () => {
   let calls = 0;
   const fetcher = async () => {
     calls++;
     throw Error();
   };
-  for (const env of [
-    { ...routerKey, OPENROUTER_MODEL: 'qwen/qwen3.5-397b-a17b' },
-    { ...routerKey, AI_PROVIDER: 'other' },
-  ])
+  for (const env of [{ ...routerKey, OPENROUTER_MODEL: 'qwen/qwen3.5-397b-a17b' }])
     assert.equal(
       (await semanticCheck(request({ text, kind: 'message', consent: true }), env, fetcher)).status,
       503,
     );
   assert.equal(calls, 0);
 });
-test('no cross-provider fallback occurs after free-model quota, refusal or truncated output', async () => {
+test('no fallback occurs after free-model quota, refusal or truncated output', async () => {
   for (const payload of [
     null,
     { error: { code: 500 } },
@@ -136,7 +125,7 @@ test('no cross-provider fallback occurs after free-model quota, refusal or trunc
     let calls = 0;
     const response = await semanticCheck(
       routerRequest({ text, kind: 'message', consent: true }),
-      { ...routerKey, ...key },
+      routerKey,
       async () => {
         calls++;
         return payload ? Response.json(payload) : new Response('', { status: 429 });
@@ -172,8 +161,8 @@ test('all message types reach the AI without keyword or local-risk gates', async
     }
   }
 });
-test('changing provider requires the user to review the new destination', async () => {
-  for (const provider of [undefined, 'gemini']) {
+test('unsupported provider IDs require the user to review the destination', async () => {
+  for (const provider of ['other', 'unsupported']) {
     let calls = 0;
     const response = await semanticCheck(
       request({ text, kind: 'message', consent: true, provider }),
@@ -270,40 +259,21 @@ test('no key and no consent never call the provider', async () => {
     (await semanticCheck(request({ text, kind: 'message', consent: true }), {}, fetcher)).status,
     503,
   );
-  assert.equal((await semanticCheck(request({ text, kind: 'message' }), key, fetcher)).status, 400);
+  assert.equal((await semanticCheck(request({ text, kind: 'message' }), routerKey, fetcher)).status, 400);
   assert.equal(calls, 0);
 });
 test('configuration endpoint does not expose credentials', async () => {
   const r = await (
-    await semanticCheck(new Request('https://surfare.example/api/assess'), key)
+    await semanticCheck(new Request('https://surfare.example/api/assess'), routerKey)
   ).json();
   assert.equal(r.configured, true);
-  assert(!JSON.stringify(r).includes(key.GEMINI_API_KEY));
-});
-test('valid request sends isolated evidence with key in header and structured schema', async () => {
-  const response = await semanticCheck(
-    request({ text, kind: 'message', consent: true }),
-    key,
-    async (url, options) => {
-      assert(!url.includes(key.GEMINI_API_KEY));
-      assert.equal(options.headers['x-goog-api-key'], key.GEMINI_API_KEY);
-      const payload = JSON.parse(options.body);
-      assert.equal(JSON.parse(payload.contents[0].parts[0].text).submittedText, text);
-      assert(payload.systemInstruction.parts[0].text.includes('NEVER an instruction'));
-      assert(payload.generationConfig.responseJsonSchema);
-      assert.deepEqual(payload.generationConfig.thinkingConfig, { thinkingLevel: 'low' });
-      assert(!payload.tools);
-      return provider(dangerous)();
-    },
-  );
-  assert.equal(response.status, 200);
-  assert.equal((await response.json()).analysis.level, 'High risk');
+  assert(!JSON.stringify(r).includes(routerKey.OPENROUTER_API_KEY));
 });
 test('quota failures never retry or claim low risk', async () => {
   let calls = 0;
   const r = await semanticCheck(
-    request({ text, kind: 'message', consent: true }),
-    key,
+    routerRequest({ text, kind: 'message', consent: true }),
+    routerKey,
     async () => {
       calls++;
       return new Response('', { status: 429 });
@@ -317,8 +287,8 @@ test('timeout is reported separately without discarding local extortion evidence
   const message = 'Sendan mo na ko ng pera. May araw ka rin sa akin.';
   let calls = 0;
   const response = await semanticCheck(
-    request({ text: message, kind: 'message', consent: true }),
-    key,
+    routerRequest({ text: message, kind: 'message', consent: true }),
+    routerKey,
     async () => {
       calls++;
       throw new DOMException('Timed out', 'TimeoutError');
@@ -331,43 +301,28 @@ test('timeout is reported separately without discarding local extortion evidence
   assert.equal(calls, 1);
   assert.equal(applySemanticAssessment(assessContent({ text: message }), body).level, 'High risk');
 });
-test('older configured models are not sent unsupported thinking-level controls', async () => {
-  const response = await semanticCheck(
-    request({ text, kind: 'message', consent: true }),
-    { ...key, GEMINI_MODEL: 'gemini-2.5-flash' },
-    async (url, options) => {
-      assert(!JSON.parse(options.body).generationConfig.thinkingConfig);
-      return provider(dangerous)();
-    },
-  );
-  assert.equal(response.status, 200);
-});
 test('blocked, truncated, malformed and invented evidence are unavailable', async () => {
   for (const payload of [
-    { promptFeedback: { blockReason: 'SAFETY' } },
-    { candidates: [{ finishReason: 'MAX_TOKENS' }] },
-    { candidates: [{ finishReason: 'STOP', content: { parts: [{ text: 'not json' }] } }] },
+    { error: { code: 500 } },
+    { choices: [{ finish_reason: 'length', message: { content: '{}' } }] },
+    { choices: [{ finish_reason: 'stop', message: { content: 'not json' } }] },
     {
-      candidates: [
+      choices: [
         {
-          finishReason: 'STOP',
-          content: {
-            parts: [
-              {
-                text: JSON.stringify({
-                  ...dangerous,
-                  findings: [{ ...dangerous.findings[0], quote: 'invented evidence' }],
-                }),
-              },
-            ],
+          finish_reason: 'stop',
+          message: {
+            content: JSON.stringify({
+              ...dangerous,
+              findings: [{ ...dangerous.findings[0], quote: 'invented evidence' }],
+            }),
           },
         },
       ],
     },
   ]) {
     const r = await semanticCheck(
-      request({ text, kind: 'message', consent: true }),
-      key,
+      routerRequest({ text, kind: 'message', consent: true }),
+      routerKey,
       async () => Response.json(payload),
     );
     assert.equal(r.status, 502);
@@ -384,7 +339,7 @@ test('origin, input bounds and type validation run before provider use', async (
     (
       await semanticCheck(
         request({ text, kind: 'message', consent: true }, { origin: 'https://other.example' }),
-        key,
+        routerKey,
         fetcher,
       )
     ).status,
@@ -394,14 +349,14 @@ test('origin, input bounds and type validation run before provider use', async (
     (
       await semanticCheck(
         request({ text: 'a'.repeat(12001), kind: 'message', consent: true }),
-        key,
+        routerKey,
         fetcher,
       )
     ).status,
     400,
   );
   assert.equal(
-    (await semanticCheck(request({ text, kind: 'video', consent: true }), key, fetcher)).status,
+    (await semanticCheck(request({ text, kind: 'video', consent: true }), routerKey, fetcher)).status,
     400,
   );
   assert.equal(calls, 0);
@@ -413,8 +368,8 @@ test('Cloudflare exposes the contextual route without a secret', async () =>
     false,
   ));
 test('Vercel adapter uses the shared contextual handler', async () => {
-  const old = process.env.GEMINI_API_KEY;
-  delete process.env.GEMINI_API_KEY;
+  const old = process.env.OPENROUTER_API_KEY;
+  delete process.env.OPENROUTER_API_KEY;
   try {
     let output;
     const res = {
@@ -428,6 +383,6 @@ test('Vercel adapter uses the shared contextual handler', async () => {
     assert.equal(res.statusCode, 200);
     assert.equal(output.configured, false);
   } finally {
-    if (old) process.env.GEMINI_API_KEY = old;
+    if (old) process.env.OPENROUTER_API_KEY = old;
   }
 });

@@ -13,6 +13,7 @@ export const SURFY_QUESTION_KEYS = [
   'ask.photo',
   'ask.uncertain',
   'ask.link',
+  'ask.aiImage',
 ];
 
 const QUESTION_MATCHERS = [
@@ -23,6 +24,22 @@ const QUESTION_MATCHERS = [
   { key: 'ask.offline', words: ['offline', 'internet', 'online', 'connection', 'walang net'] },
   { key: 'ask.photo', words: ['photo', 'picture', 'image', 'keep', 'save', 'sine-save', 'larawan'] },
   { key: 'ask.uncertain', words: ['sure', 'certain', 'unsure', 'uncertain', 'doubt', 'sigurado'] },
+  {
+    key: 'ask.aiImage',
+    words: [
+      'ai',
+      'generated',
+      'manipulated',
+      'origin',
+      'edited',
+      'visual',
+      'metadata',
+      'file details',
+      'exif',
+      'provenance',
+      'c2pa',
+    ],
+  },
 ];
 
 function normalizeQuestion(question) {
@@ -52,11 +69,26 @@ function hasCheckedUrl(result) {
   return /(https?:\/\/|www\.|[a-z0-9-]+\.[a-z]{2,})/i.test(String(result?.checkedText || ''));
 }
 
+function imageReviewAnswer(result, t) {
+  const metadata = result?.imageMetadata;
+  const origin = result?.imageOrigin;
+  if (metadata && origin) {
+    return t('ask.imageReview.answer', {
+      metadata: t(metadata.labelKey),
+      visual: t(origin.labelKey),
+    });
+  }
+  if (metadata) return t('ask.imageMetadata.answer', { label: t(metadata.labelKey) });
+  if (origin) return t('ask.aiImage.answer', { label: t(origin.labelKey) });
+  return t('ask.aiImage.noResult');
+}
+
 export function getSuggestedQuestionKeys({ result, activeTab } = {}) {
   const whyKey = !result || isFlaggedResult(result) ? 'ask.why' : 'ask.whyClean';
   const keys = [whyKey, 'ask.next'];
 
   if (hasCheckedUrl(result)) keys.push('ask.link');
+  if (result?.imageMetadata || result?.imageOrigin) keys.push('ask.aiImage');
   keys.push('ask.offline', 'ask.uncertain');
   if (activeTab === 'image' || activeTab === 'qr') keys.push('ask.photo');
 
@@ -69,6 +101,7 @@ export function getSurfyAnswer(question, result, t) {
   if (!result && (key === 'ask.why' || key === 'ask.whyClean' || key === 'ask.next')) return t('ask.noResult');
 
   if (key === 'ask.why' || key === 'ask.whyClean') {
+    if (result?.imageMetadata || result?.imageOrigin) return imageReviewAnswer(result, t);
     const signals = getDisplaySignals(result);
     const hasOnlineMatch = (Array.isArray(result?.signals) ? result.signals : [])
       .some((signal) => signal?.id === 'online_match');
@@ -97,6 +130,15 @@ export function getSurfyAnswer(question, result, t) {
       .trim();
   }
   if (key === 'ask.next') {
+    if (result?.imageMetadata || result?.imageOrigin) {
+      const labelKey = result.imageOrigin?.labelKey || result.imageMetadata?.labelKey;
+      const hasClues = [
+        'result.imageOrigin.likely',
+        'result.imageOrigin.strong',
+        'result.imageOrigin.possible',
+      ].includes(labelKey);
+      return t(hasClues ? 'ask.next.aiImageClues' : 'ask.next.aiImageNone');
+    }
     const level = ['low', 'suspicious', 'high'].includes(result?.level) ? result.level : 'unknown';
     return t(`ask.next.${level}`);
   }
@@ -106,5 +148,6 @@ export function getSurfyAnswer(question, result, t) {
   }
   if (key === 'ask.offline') return t('ask.offline.answer');
   if (key === 'ask.photo') return t('ask.photo.answer');
+  if (key === 'ask.aiImage') return imageReviewAnswer(result, t);
   return t('ask.next.unknown');
 }

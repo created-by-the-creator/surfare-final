@@ -101,6 +101,18 @@ describe('Ask Surfy topic matching', () => {
       .toBe(english('ask.why.cleanOffline'));
   });
 
+  it('gives AI-specific next steps instead of scam advice for an image result', () => {
+    const imageResult = {
+      level: 'unknown',
+      imageMetadata: { labelKey: 'result.imageMetadata.label.none' },
+      imageOrigin: { labelKey: 'result.imageOrigin.strong' },
+    };
+    expect(getSurfyAnswer(english('ask.next'), imageResult, english))
+      .toBe(english('ask.next.aiImageClues'));
+    expect(getSurfyAnswer(english('ask.next'), { ...imageResult, imageOrigin: null }, english))
+      .toBe(english('ask.next.aiImageNone'));
+  });
+
   it('suggests questions that match the result and the selected feature', () => {
     const flaggedText = { level: 'suspicious', signals: [], checkedText: 'Send your OTP now' };
     expect(getSuggestedQuestionKeys({ result: flaggedText, activeTab: 'text' }))

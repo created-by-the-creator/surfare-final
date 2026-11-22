@@ -14,6 +14,41 @@ describe('translations', () => {
       .toBe('Pinipilit ka ng mensahe na kumilos agad.');
   });
 
+  it('explains source-note checks in every language', () => {
+    const keys = [
+      'result.imageMetadata.label.credentialsVerified',
+      'result.imageMetadata.label.credentialsValid',
+      'result.imageMetadata.label.credentialsInvalid',
+      'result.imageMetadata.summary.credentialsVerified',
+      'result.imageMetadata.summary.credentialsValid',
+      'result.imageMetadata.summary.credentialsInvalid',
+      'result.imageMetadata.note.credentialsUnchecked',
+    ];
+    for (const language of ['en', 'tl', 'taglish']) {
+      for (const key of keys) {
+        expect(hasTranslation(language, key)).toBe(true);
+        expect(translate(language, key)).not.toBe(key);
+      }
+    }
+  });
+
+  it('provides image mode chooser wording in every language', () => {
+    const keys = [
+      'check.image.modeLabel',
+      'check.image.modeOcr',
+      'check.image.modeOcrHelp',
+      'check.image.modeAi',
+      'check.image.modeAiHelp',
+      'check.image.modeConfirm',
+    ];
+    for (const language of ['en', 'tl', 'taglish']) {
+      for (const key of keys) {
+        expect(hasTranslation(language, key)).toBe(true);
+        expect(translate(language, key)).not.toBe(key);
+      }
+    }
+  });
+
   it('uses plain wording for contextual and highlighted labels', () => {
     expect(translate('en', 'signal.violence'))
       .toBe('The message contains texts that show violence.');

@@ -3,6 +3,7 @@
 Preserve upstream licenses supplied with the installed npm packages and under `public/licenses/`.
 
 - tldts: MIT.
+- Content Authenticity Initiative `c2pa-web` and `c2pa-wasm`: MIT. Browser-only Content Credentials validation; the WASM asset is loaded only when a source note is present.
 - Tesseract.js and jsQR: Apache-2.0.
 - Tesseract.js English language-data package: see its installed license and upstream data notices.
 - Offline SMS model data: UCI SMS Spam Collection (Almeida & Hidalgo, 2011), CC BY 4.0; Alexander/Yissuh Filipino SMS corpus, BSD-3-Clause. Attribution and the preserved BSD text are included in `public/licenses/`.

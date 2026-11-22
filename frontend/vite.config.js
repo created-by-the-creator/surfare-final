@@ -48,6 +48,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json,gz,wasm}'],
+        globIgnores: ['**/c2pa_bg*.wasm'],
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
       },
     }),

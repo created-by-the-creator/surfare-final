@@ -70,4 +70,32 @@ describe('checked-message highlights', () => {
     expect(segments.filter((segment) => segment.signals.length).map((segment) => segment.text))
       .toEqual(['https://apintoto.com']);
   });
+
+  it('does not highlight online-only signals as message evidence', () => {
+    const segments = buildHighlightSegments('Open example.com now.', {
+      signals: [
+        { id: 'online_match', evidence: 'example.com' },
+        {
+          id: 'link_in_message',
+          evidence: 'example.com',
+          evidenceItems: [{ start: 4, end: 15, text: 'example.com' }],
+        },
+      ],
+    });
+    const highlighted = segments.filter((segment) => segment.signals.length);
+    expect(highlighted.map((segment) => segment.text)).toEqual(['example.com']);
+    expect(highlighted[0].signals.map((signal) => signal.id)).toEqual(['link_in_message']);
+  });
+
+  it('ignores offsets that do not match the checked message', () => {
+    const segments = buildHighlightSegments('Send OTP now.', {
+      signals: [{
+        id: 'otp_request',
+        evidence: 'OTP',
+        evidenceItems: [{ start: 0, end: 3, text: 'OTP' }],
+      }],
+    });
+    expect(segments.filter((segment) => segment.signals.length).map((segment) => segment.text))
+      .toEqual(['OTP']);
+  });
 });
