@@ -1,3 +1,5 @@
+export const config = { runtime: 'edge' };
+
 const RATE_WINDOW_MS = 60_000;
 const RATE_LIMIT = 20;
 const recentRequests = new Map();
@@ -58,6 +60,8 @@ export default async function handler(request) {
   const apiKey = process.env.GOOGLE_SAFE_BROWSING_API_KEY;
   if (!apiKey) return json({ matched: false, unavailable: true });
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
   try {
     const response = await fetch(
       `https://safebrowsing.googleapis.com/v4/threatMatches:find?key=${encodeURIComponent(apiKey)}`,
@@ -73,7 +77,7 @@ export default async function handler(request) {
             threatEntries: [{ url: url.href }],
           },
         }),
-        signal: AbortSignal.timeout(8000),
+        signal: controller.signal,
       },
     );
     if (!response.ok) return json({ matched: false, unavailable: true });
@@ -81,5 +85,7 @@ export default async function handler(request) {
     return json({ matched: Array.isArray(data.matches) && data.matches.length > 0, unavailable: false });
   } catch {
     return json({ matched: false, unavailable: true });
+  } finally {
+    clearTimeout(timeout);
   }
 }
