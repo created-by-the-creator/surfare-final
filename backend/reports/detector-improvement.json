@@ -1,0 +1,69 @@
+{
+  "provenance": "Development-only comparison using authored synthetic scenarios. Rules were improved using these scenarios; this is not independent validation.",
+  "baselineScope": "Backend assessment after commercial-spam label correction, before the new warning-context corrections and model replacement.",
+  "before": {
+    "count": 30,
+    "scamCount": 9,
+    "legitimateCount": 18,
+    "spamCount": 3,
+    "tp": 8,
+    "fp": 3,
+    "missedScams": 1,
+    "precision": 0.7272727272727273,
+    "recall": 0.8888888888888888,
+    "falsePositiveRate": 0.16666666666666666,
+    "abstained": 19,
+    "commercialSpamHighRisk": 0
+  },
+  "after": {
+    "count": 30,
+    "scamCount": 9,
+    "legitimateCount": 18,
+    "spamCount": 3,
+    "tp": 9,
+    "fp": 0,
+    "missedScams": 0,
+    "precision": 1,
+    "recall": 1,
+    "falsePositiveRate": 0,
+    "abstained": 21,
+    "commercialSpamHighRisk": 0
+  },
+  "selectedTextMethod": "legacy-feature-ratio",
+  "componentTest": {
+    "text": {
+      "count": 3239,
+      "positive": 2708,
+      "negative": 531,
+      "tp": 2551,
+      "fp": 17,
+      "tn": 514,
+      "fn": 157,
+      "abstained": 117,
+      "precision": 0.993380062305296,
+      "recall": 0.9420236336779911,
+      "falsePositiveRate": 0.032015065913371,
+      "f1": 0.9670204700530706
+    },
+    "url": {
+      "count": 22163,
+      "positive": 8794,
+      "negative": 13369,
+      "tp": 5131,
+      "fp": 255,
+      "tn": 13114,
+      "fn": 3663,
+      "abstained": 477,
+      "precision": 0.9526550315633123,
+      "recall": 0.5834659995451444,
+      "falsePositiveRate": 0.019073977111227467,
+      "f1": 0.7236953455571228
+    }
+  },
+  "limitations": [
+    "Training labels and splits changed, so previous model-file scores are not a controlled before/after comparison.",
+    "The text model alone still flags 7 of 18 legitimate challenge messages; its advisory output must not be treated as a fraud verdict.",
+    "The URL model catches about 58% of source-labeled phishing samples in this grouped test.",
+    "Independent human-reviewed examples, source/time holdouts, and image/OCR benchmarks remain necessary."
+  ]
+}

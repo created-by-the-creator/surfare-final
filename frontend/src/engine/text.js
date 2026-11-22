@@ -1,7 +1,9 @@
 import { analyzeUrl } from './url.js';
+import { normalizeEvidence, evidenceMatches } from '../../../backend/lib/text-evidence.js';
+import { scamSignals } from '../../../backend/lib/scam-signals.js';
 
 const URL_PATTERN =
-  /\b(?:https?:\/\/|www\.)[^\s<>"']+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|ph|xyz|top|click|zip|info|site|online)(?:\/[^\s<>"']*)?/gi;
+  /\b(?:https?:\/\/|www\.)[^\s<>"'\[\]*]+|\b(?:[a-z0-9-]+\.)+(?:com|net|org|io|co|ph|xyz|top|click|zip|info|site|online)(?:\/[^\s<>"'\[\]*]*)?/gi;
 
 const TEXT_RULES = [
   {
@@ -32,7 +34,7 @@ const TEXT_RULES = [
     id: 'money_demand',
     severity: 3,
     weight: 3,
-    pattern: /\b(send (?:me )?money|give me your money|padala|gcash|maya|paymaya|bank transfer|processing fee|advance payment|bayad muna)\b/i,
+    pattern: /\b(send (?:me )?money|give me your money|(?:magpadala|ipadala|padala)\s+(?:(?:mo|ka|ng|ang|sa akin)\s+){0,3}(?:pera|money|cash|bayad)|processing fee|advance payment|bayad muna)\b/i,
   },
   {
     id: 'prize_lottery',
@@ -100,26 +102,31 @@ function evidenceInUrl(evidence, urlMatch) {
 export function analyzeText(text) {
   const matches = urlMatches(text);
   const textWithoutUrls = text.replace(URL_PATTERN, (value) => ' '.repeat(value.length));
+  const source = normalizeEvidence(textWithoutUrls);
   const signals = TEXT_RULES.flatMap((rule) => {
-    const match = rule.pattern.exec(textWithoutUrls);
+    const match = evidenceMatches(source, rule.pattern, { activeOnly: true })[0];
     return match
       ? [
           {
             id: rule.id,
             severity: rule.severity,
             weight: rule.weight,
-            evidence: match[0],
+            evidence: match.text,
             evidenceItems: [
               {
-                start: match.index,
-                end: match.index + match[0].length,
-                text: match[0],
+                start: match.start,
+                end: match.end,
+                text: match.text,
               },
             ],
           },
         ]
       : [];
   });
+  // A brand name alone is not evidence of impersonation or a payment demand.
+  const hasRiskyRequest = signals.some((signal) =>
+    ['money_demand', 'otp_request', 'credential_request', 'threat_loss'].includes(signal.id));
+  const contextualSignals = signals.filter((signal) => signal.id !== 'impersonation' || hasRiskyRequest);
   const urls = matches.map((match) => match.text);
   const bareUrl =
     urls.length === 1 &&
@@ -127,7 +134,7 @@ export function analyzeText(text) {
 
   if (matches.length > 0 && !bareUrl) {
     const first = matches[0];
-    signals.push({
+    contextualSignals.push({
       id: 'link_in_message',
       severity: 1,
       weight: 1,
@@ -137,7 +144,7 @@ export function analyzeText(text) {
   }
 
   return {
-    signals,
+    signals: contextualSignals,
     urls,
     urlMatches: matches,
     checkedText: text,
@@ -152,7 +159,13 @@ export function analyzeTextAndUrls(text) {
       evidenceItems: evidenceInUrl(signal.evidence, urlMatch),
     })),
   );
-  const signals = [...analysis.signals, ...urlSignals];
+  // Use the same contextual scam patterns with and without the local API.
+  const contextualScamSignals = scamSignals(text).map((signal) => ({
+    id: signal.id, label: signal.title, detail: signal.message,
+    severity: signal.weight >= 4 ? 3 : 2, weight: signal.weight,
+    evidence: '', evidenceItems: signal.evidence,
+  }));
+  const signals = [...analysis.signals, ...urlSignals, ...contextualScamSignals];
   const has = (ids) => signals.some((signal) => ids.includes(signal.id));
   const hasUrgency = has(['urgency', 'threat_loss']);
   const hasCredentials = has(['otp_request', 'credential_request']);

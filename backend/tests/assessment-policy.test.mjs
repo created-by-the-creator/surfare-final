@@ -41,7 +41,7 @@ test('strong warnings skip AI while Suspicious findings may receive contextual r
 test('unmatched nonempty content uses available AI backup, including ordinary language', () => {
   for (const text of [
     'Our meeting is tomorrow afternoon.',
-    'I will make sure your family never sees you again.',
+    'May dala akong payong para mamaya.',
   ]) {
     const local = assessContent({ text });
     assert.equal(local.level, 'Insufficient evidence');

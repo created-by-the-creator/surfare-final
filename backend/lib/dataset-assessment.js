@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseCsv, parseCsvRows } from './csv-rows.js';
+import { messageLabel } from './message-labels.js';
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const datasetsDir = path.join(backendRoot, 'datasets');
@@ -96,9 +97,12 @@ function textMatch(text) {
     row.text === normalized
   );
   if (exact) {
-    const result = exact.intent === 'HAM'
+    const category = messageLabel(exact.intent);
+    const result = category === 'legitimate'
       ? { kind: 'text', risk: 'low', similarity: 1, intent: exact.intent }
-      : { kind: 'text', risk: 'high', similarity: 1, intent: exact.intent };
+      : category === 'scam'
+        ? { kind: 'text', risk: 'high', similarity: 1, intent: exact.intent }
+        : null;
     textMatchCache.set(normalized, result);
     return result;
   }
@@ -121,7 +125,7 @@ function textMatch(text) {
       best = match;
     }
   }
-  if (!best || best.intent === 'HAM') {
+  if (!best || messageLabel(best.intent) !== 'scam') {
     textMatchCache.set(normalized, null);
     return null;
   }

@@ -1,5 +1,5 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { ArrowDown, ArrowRight, Camera, Image, Link2, MessageSquareText, QrCode, ShieldCheck, Upload } from 'lucide-react';
+import { ArrowDown, Camera, Image, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, ShieldCheck, Sparkles, Upload } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import AskSurfy from './AskSurfy.jsx';
 
@@ -34,11 +34,14 @@ export default function CheckCard({
   inputs,
   onTabChange,
   onInputChange,
+  onImageModeChange,
   onCheck,
   onReset,
   onCamera,
   isAnalyzing,
   isCheckUsed,
+  canReviewAgain,
+  onReviewAgain,
   status,
   isAskOpen,
   isAskClosing,
@@ -48,6 +51,10 @@ export default function CheckCard({
   surfyOpenRequest,
   questionKeys,
   feedbackDialog,
+  offlineResources,
+  aiEnabled,
+  onAiChange,
+  isOnline,
   t,
   children,
 }) {
@@ -182,7 +189,7 @@ export default function CheckCard({
           </div>
         </div>
 
-        <div className={`check-columns${isAskOpen ? ' has-ask-panel' : ''}${status === 'result' ? ' has-check-result' : ''}`}>
+        <div className={`check-columns${isAskOpen ? ' has-ask-panel' : ''}${['result', 'reviewing'].includes(status) ? ' has-check-result' : ''}`}>
           <div className={`check-input-column${isAskOpen ? ' has-ask' : ''}`}>
             <div className="input-card">
               <div className="check-tabs" role="tablist" aria-label={t('check.tabs.label')}>
@@ -243,12 +250,12 @@ export default function CheckCard({
                           value={inputs.message}
                           placeholder={t('check.text.placeholder')}
                           onChange={(event) => onInputChange('message', event.target.value)}
-                          disabled={isLocked}
+                          disabled={isAnalyzing}
                           aria-describedby={`${id}-message-help`}
                         />
                         <div className="field-meta">
                           <p className="field-help" id={`${id}-message-help`}>
-                            {t('check.text.languages')}
+                            {t(status === 'result' ? 'check.editHint' : 'check.text.languages')}
                           </p>
                           <span>{inputs.message.length.toLocaleString()} / 12,000</span>
                         </div>
@@ -267,10 +274,10 @@ export default function CheckCard({
                           value={inputs.url}
                           onChange={(event) => onInputChange('url', event.target.value)}
                           onBlur={() => onInputChange('url', inputs.url.trim())}
-                          disabled={isLocked}
+                          disabled={isAnalyzing}
                           aria-describedby={`${id}-url-help`}
                         />
-                        <p className="field-help" id={`${id}-url-help`}>{t('check.link.privacy')}</p>
+                        <p className="field-help" id={`${id}-url-help`}>{t(status === 'result' ? 'check.editHint' : 'check.link.privacy')}</p>
                       </div>
                     )}
 
@@ -326,6 +333,15 @@ export default function CheckCard({
                             </div>
                           )}
                         </div>
+                        {activeTab === 'image' && currentFile && (
+                          <div className="image-mode-summary">
+                            {inputs.imageMode === 'origin' ? <Sparkles aria-hidden="true" /> : <ScanText aria-hidden="true" />}
+                            <span>{t(inputs.imageMode === 'origin' ? 'check.image.modeAi' : inputs.imageMode === 'ocr' ? 'check.image.modeOcr' : 'check.image.modeLabel')}</span>
+                            <button type="button" onClick={onImageModeChange} disabled={isLocked}>
+                              {t('check.image.modeChange')}
+                            </button>
+                          </div>
+                        )}
                         <button
                           className="camera-button"
                           type="button"
@@ -342,15 +358,19 @@ export default function CheckCard({
                     )}
                   </div>
 
+                  <label className="check-ai-choice">
+                    <input type="checkbox" checked={aiEnabled} onChange={(event) => onAiChange(event.target.checked)} disabled={!isOnline || isAnalyzing} />
+                    <span><strong>{t('ask.aiHelp')}</strong><small>{t('ask.aiConsent')}</small></span>
+                  </label>
                   <button
                     className="check-button"
                     type="button"
-                    disabled={!canCheck || isLocked}
-                    aria-disabled={!canCheck || isLocked}
-                    onClick={onCheck}
+                    disabled={!canCheck || (isLocked && !canReviewAgain)}
+                    aria-disabled={!canCheck || (isLocked && !canReviewAgain)}
+                    onClick={canReviewAgain ? onReviewAgain : onCheck}
                   >
                     <ShieldCheck aria-hidden="true" />
-                    {isAnalyzing ? t('result.loading') : t('check.button')}
+                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(canReviewAgain ? 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
                     <ArrowDown aria-hidden="true" />
                   </button>
                 </div>
@@ -358,7 +378,17 @@ export default function CheckCard({
             </div>
           </div>
 
-          {isAskOpen && (
+          <div className="check-result-column">
+            {children}
+            {status === 'result' && (
+              <button className="new-check-button" type="button" onClick={onReset}>
+                <RotateCcw aria-hidden="true" />
+                {t('check.new')}
+              </button>
+            )}
+          </div>
+
+          {isAskOpen && !isAnalyzing && (
             <div className="ask-panel-position">
               <AskSurfy
                 isOpen={isAskOpen}
@@ -368,22 +398,14 @@ export default function CheckCard({
                 onSend={onAskSend}
                 openRequest={surfyOpenRequest}
                 questionKeys={questionKeys}
+                aiEnabled={aiEnabled && isOnline}
                 t={t}
               />
             </div>
           )}
-
-          <div className="check-result-column">
-            {children}
-            {status === 'result' && (
-              <button className="new-check-button" type="button" onClick={onReset}>
-                {t('check.new')}
-                <ArrowRight aria-hidden="true" />
-              </button>
-            )}
-          </div>
         </div>
 
+        {offlineResources}
         {feedbackDialog}
       </div>
     </section>

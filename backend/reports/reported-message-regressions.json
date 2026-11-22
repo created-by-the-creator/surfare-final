@@ -1,0 +1,28 @@
+{
+  "test": "Chrome frontend and running backend, external reputation checks disabled",
+  "contactDetailsStored": false,
+  "results": [
+    {
+      "id": "gcash-reminder-plain",
+      "level": "unknown",
+      "signals": [
+        "link_in_message"
+      ]
+    },
+    {
+      "id": "gcash-reminder-markdown",
+      "level": "unknown",
+      "signals": [
+        "link_in_message"
+      ]
+    },
+    {
+      "id": "cash-in-controlled-winnings",
+      "level": "high",
+      "signals": [
+        "guaranteed-winnings",
+        "winnings-deposit"
+      ]
+    }
+  ]
+}

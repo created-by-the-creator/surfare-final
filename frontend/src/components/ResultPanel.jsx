@@ -2,15 +2,22 @@ import { useEffect, useId, useRef, useState } from 'react';
 import {
   Download,
   HelpCircle,
-  Lightbulb,
+  Check,
+  ChevronDown,
+  FileText,
+  ListChecks,
+  LoaderCircle,
   RotateCcw,
   ShieldCheck,
 } from 'lucide-react';
-import { ASSETS, MASCOT_BY_STATE } from '../assets.js';
+import { ASSETS } from '../assets.js';
+import { imageMetadataDetails } from '../engine/image-metadata-display.js';
+import { hasImageAiClues } from '../engine/image-ai.js';
 import {
   getDisplaySignals,
   getSignalEvidenceItems,
   getSignalLabel,
+  getSignalExplanation,
 } from '../engine/signal-display.js';
 
 const LEVEL_KEYS = {
@@ -18,13 +25,6 @@ const LEVEL_KEYS = {
   suspicious: 'suspicious',
   high: 'high',
   unknown: 'unknown',
-};
-
-const LEVEL_MASCOTS = {
-  low: MASCOT_BY_STATE.low,
-  suspicious: ASSETS.iconWarning,
-  high: ASSETS.surfyAlarm,
-  unknown: MASCOT_BY_STATE.notEnoughInfo,
 };
 
 function warningSummary(result, t) {
@@ -43,8 +43,13 @@ function saveReport(result, t, includeContent) {
   const signals = getDisplaySignals(result);
   const lines = [
     t('report.title'),
-    t('report.result', { level: t(`result.${level}`) }),
-    warningSummary(result, t),
+    t('report.result', { level: t(result.aiImageOnly ? result.summaryKey : `result.${level}`) }),
+    ...(result.aiImageOnly ? [
+      result.imageMetadata?.summaryKey && t(result.imageMetadata.summaryKey),
+      ...imageMetadataDetails(result.imageMetadata, t), result.imageOrigin?.summary,
+      ...(result.imageOrigin?.observations || []), result.imageVisualNoteKey && t(result.imageVisualNoteKey),
+    ].filter(Boolean) : [result.usedOnline && !signals.length ? t('result.summary.onlineOnly') : warningSummary(result, t)]),
+    ...(result.matchedUrls || []).map(url => t('ask.addressMatch', { url })),
     '',
     t('report.warningSigns'),
     ...(signals.length
@@ -57,7 +62,7 @@ function saveReport(result, t, includeContent) {
       : [`- ${t('report.noWarnings')}`]),
     '',
     t('report.safeNextStep'),
-    t(`result.advice.${level}`),
+    result.aiImageOnly ? t(hasImageAiClues(result) ? 'ask.next.aiImageClues' : 'ask.next.aiImageNone') : t(`result.advice.${level}`),
     '',
     t('report.created', { date: new Date().toLocaleString() }),
   ];
@@ -149,19 +154,7 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-function getUnknownReasons(result) {
-  if (result.reasonKeys?.length) return result.reasonKeys;
-  const text = String(result.checkedText || '').trim();
-  const reasons = [];
-  if (text.length < 20) reasons.push('result.unknown.reason.littleText');
-  if (!/(https?:\/\/|www\.|[a-z0-9-]+\.[a-z]{2,})/i.test(text)) {
-    reasons.push('result.unknown.reason.noLink');
-  }
-  if (getDisplaySignals(result).length === 0) reasons.push('result.unknown.reason.noSignals');
-  return reasons;
-}
-
-export default function ResultPanel({ status, result, errorKey, t, onReset }) {
+export default function ResultPanel({ status, result, errorKey, t, onReset, onReviewText }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedSignals, setSelectedSignals] = useState([]);
@@ -182,49 +175,28 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
   const isImageReview = isMetadataReview || isOriginReview;
   const metadataLabel = isMetadataReview ? t(result.imageMetadata.labelKey) : '';
   const originLabel = isOriginReview ? t(result.imageOrigin.labelKey) : '';
-  const checksDisagree =
-    isMetadataReview &&
-    isOriginReview &&
-    result.imageMetadata.labelKey === 'result.imageMetadata.label.none' &&
-    ['result.imageOrigin.likely', 'result.imageOrigin.strong', 'result.imageOrigin.possible'].includes(
-      result.imageOrigin.labelKey,
-    );
-  const isHighlightedSample = Boolean(result?.matchedPhrase);
-  const riskDescriptionLevel = level === 'suspicious' ? 'medium' : level;
-  const unknownReasons = isUnknown ? getUnknownReasons(result) : [];
-  const mascot = result ? LEVEL_MASCOTS[level] : MASCOT_BY_STATE.ready.mascot;
-  const hasAiClues =
-    isOriginReview &&
-    ['result.imageOrigin.likely', 'result.imageOrigin.strong', 'result.imageOrigin.possible'].includes(
-      result.imageOrigin.labelKey,
-    );
+  const hasAiClues = hasImageAiClues(result);
   const nextTitleKey = isImageReview
     ? 'result.nextTitleAi'
     : level === 'low'
       ? 'result.nextTitleLow'
       : 'result.nextTitle';
-  const nextIntroKey = isImageReview
-    ? hasAiClues
-      ? 'result.nextIntroAiClues'
-      : 'result.nextIntroAiNone'
-    : level === 'low'
-      ? 'result.nextIntroLow'
-      : 'result.nextIntro';
+  const safetyThreat = displaySignals.some(signal => ['violence', 'extortion', 'blackmail', 'intimidation', 'harassment'].includes(signal.id));
   const nextPointKeys = isImageReview
-    ? hasAiClues
-      ? ['result.nextPointAiClues1', 'result.nextPointAiClues2', 'result.nextPointAiClues3']
-      : ['result.nextPointAiNone1', 'result.nextPointAiNone2', 'result.nextPointAiNone3']
-    : level === 'low'
-      ? ['result.nextPointLow1', 'result.nextPointLow2', 'result.nextPointLow3']
-      : level === 'high'
-        ? ['result.nextPointHigh1', 'result.nextPointHigh2', 'result.nextPointHigh3']
-        : ['result.nextPointSuspicious1', 'result.nextPointSuspicious2', 'result.nextPointSuspicious3'];
+    ? hasAiClues ? ['result.nextPointAiClues1', 'result.nextPointAiClues2'] : ['result.nextPointAiNone2', 'result.nextPointAiNone3']
+    : safetyThreat ? ['check.nextSafety']
+    : ({
+        low: ['result.nextPointLow1', 'result.nextPointLow2'],
+        suspicious: ['result.nextPointSuspicious1', 'result.nextPointSuspicious2'],
+        high: ['result.nextPointHigh1', 'result.nextPointHigh2', 'result.nextPointHigh3'],
+        unknown: ['ask.next.unknown'],
+      })[level];
 
   useEffect(() => {
     setIncludeContent(false);
     setIsReportOpen(false);
     setSelectedSignals([]);
-  }, [result?.checkedText]);
+  }, [result]);
 
   useEffect(() => {
     if (!isReportOpen) return undefined;
@@ -244,11 +216,7 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
 
   const stateTitle = showResult
     ? isImageReview
-      ? isMetadataReview && isOriginReview
-        ? t('result.imageReview.title')
-        : isMetadataReview
-          ? t('result.imageMetadata.title')
-          : t('result.imageOrigin.title')
+      ? t(result.summaryKey || 'result.imageOrigin.unclear')
       : t(`result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
@@ -263,7 +231,8 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
           ? t('result.imageReview.summaryVisual', { visual: originLabel })
           : t('result.imageReview.summaryFileOnly', { file: metadataLabel })
         : isUnknown
-      ? t('result.unknown.subtitle')
+      ? t(result.aiReview?.status !== 'completed' && !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction &&
+          !warningCount && result.checkedText?.trim().split(/\s+/).length >= 4 ? 'result.noLocalWarning' : 'result.unknown.subtitle')
       : onlineOnly
         ? t('result.summary.onlineOnly')
         : warningCount
@@ -282,13 +251,31 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
       : t(`result.meter.${level}`)
     : t('result.ready');
 
+  if (status === 'analyzing' || status === 'reviewing') {
+    const reviewing = status === 'reviewing';
+    return (
+      <div className="result-column">
+        <section className="result-panel check-progress" aria-labelledby={titleId}>
+          <div className="result-cap"><h2>{t('check.inProgress')}</h2></div>
+          <div className="check-progress-body" role="status">
+            <span className="progress-icon"><LoaderCircle aria-hidden="true" /></span>
+            <h3 id={titleId}>{t(reviewing ? 'check.progress.ai' : 'result.loading')}</h3>
+            <p>{t(reviewing ? 'check.progress.wait' : 'check.progress.local')}</p>
+            {reviewing && <div className="progress-finished"><Check aria-hidden="true" />{t('check.progress.finished')}</div>}
+            {reviewing && result?.level === 'high' && <p className="progress-caution">{t('check.progress.caution')}</p>}
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="result-column">
       <section
-        className={`result-panel result-${showResult ? level : status}`}
+        className={`result-panel result-${showResult ? level : status === 'edited' ? 'idle' : status}`}
         aria-labelledby={titleId}
         aria-live="polite"
-        aria-busy={status === 'analyzing'}
+        aria-busy={['analyzing', 'reviewing'].includes(status)}
       >
         <div className="result-content">
           <div className="result-cap"><h2>{t('result.title')}</h2></div>
@@ -309,13 +296,6 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                 <p className="result-prompt">{summary}</p>
               </div>
             </div>
-
-            {status === 'analyzing' && (
-              <div className="result-loading" role="status">
-                <span className="loading-orbit" aria-hidden="true" />
-                <p>{t('result.loading')}</p>
-              </div>
-            )}
 
             {status === 'error' && (
               <div className="result-error" role="alert">
@@ -343,19 +323,6 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                   <span className={level === 'suspicious' ? 'is-active' : ''}>{t('result.meter.suspicious')}</span>
                   <span className={level === 'high' ? 'is-active' : ''}>{t('result.meter.high')}</span>
                 </div>
-                <div className="risk-level-description">
-                  <strong>{t(`result.description.${riskDescriptionLevel}.title`)}</strong>
-                  <p>{t(`result.description.${riskDescriptionLevel}.body`)}</p>
-                </div>
-              </div>
-            )}
-            {isUnknown && !isImageReview && (
-              <div className="unknown-meter-description">
-                <p className="unknown-meter-note">{t('result.unknown.unplaced')}</p>
-                <div className="risk-level-description">
-                  <strong>{t('result.description.unknown.title')}</strong>
-                  <p>{t('result.description.unknown.body')}</p>
-                </div>
               </div>
             )}
             {showResult && result.imageVisualNoteKey && (
@@ -363,12 +330,30 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                 {t(result.imageVisualNoteKey)}
               </p>
             )}
+            {showResult && ['completed', 'unavailable'].includes(result.aiReview?.status) && (
+              <p className="image-origin-status" role="status">{t(`ask.review.${result.aiReview.status}`)}</p>
+            )}
+            {showResult && result.mediaInfo?.text && !isImageReview && (
+              <div className="image-origin-status">
+                {result.mediaInfo.uncertainExtraction && <p>{t('result.ocrUncertain')}</p>}
+                {status === 'result' && <button type="button" className="result-secondary-button" onClick={onReviewText}>
+                  {t('result.reviewText')}
+                </button>}
+              </div>
+            )}
+            {showResult && result.unsupportedQr && <p className="image-origin-status">{t('result.qrUnsupported')}</p>}
+            {showResult && result.semanticConflict && <p className="image-origin-status">{t('result.conflictingReviews')}</p>}
+            {showResult && result.onlineUnavailable && <p className="image-origin-status">{t('result.reputationIncomplete')}</p>}
+            {showResult && result.matchedUrls?.map(url => <p className="image-origin-status" key={url}>{t('ask.addressMatch', { url })}</p>)}
             {isMetadataReview && (
               <section className="image-origin-report image-metadata-report" role="region" aria-label={t('result.imageMetadata.title')}>
                 <div className="image-report-head">
                   <strong>{t('result.imageMetadata.title')}</strong>
                 </div>
                 <p>{t(result.imageMetadata.summaryKey)}</p>
+                {imageMetadataDetails(result.imageMetadata, t).length > 0 && (
+                  <ul>{imageMetadataDetails(result.imageMetadata, t).map((detail) => <li key={detail}>{detail}</li>)}</ul>
+                )}
                 <p className="image-origin-limitation">{t(result.imageMetadata.limitationKey)}</p>
               </section>
             )}
@@ -404,25 +389,17 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                 <p className="image-origin-limitation">{t(result.imageOrigin.limitationKey)}</p>
               </section>
             )}
-            {checksDisagree && (
-              <p className="image-origin-limitation">{t('result.imageReview.disagree')}</p>
-            )}
 
             {showResult && (
               <div className={`result-details ${isUnknown ? 'result-details-unknown' : ''}`}>
                 {!isImageReview && (
-                <div className="reference-message-layout">
-                  <img
-                    className="reference-mascot"
-                    src={mascot}
-                    alt=""
-                    width="1000"
-                    height="1000"
-                    decoding="async"
-                  />
-                  <details className="result-accordion checked-accordion">
-                      <summary>{t('result.viewChecked')}</summary>
-                      <div className="checked-content">
+                  <details className="checked-reading">
+                    <summary>
+                      <FileText aria-hidden="true" /><span>{t('result.viewChecked')}</span><ChevronDown aria-hidden="true" />
+                    </summary>
+                    <div className="checked-reading-body">
+                      {warningCount > 0 && <p className="checked-hint">{t('check.highlightHint')}</p>}
+                      <div className="checked-reading-text">
                         {buildHighlightSegments(result.checkedText || t('result.insufficient'), result).map((segment, index) =>
                           segment.signals.length ? (
                             <button
@@ -438,48 +415,26 @@ export default function ResultPanel({ status, result, errorKey, t, onReset }) {
                             <span key={`${segment.text}-${index}`}>{segment.text}</span>
                           ),
                         )}
+                      </div>
                         {selectedSignals.length > 0 && (
                           <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
                             <strong>{t('result.whyFlagged')}</strong>
-                            <p className="highlight-explanation-intro">{t('result.whyDetails')}</p>
-                            {selectedSignals.map((signal, index) => (
-                              <p key={`${signal.id}-${index}`}>{getSignalLabel(signal, t)}</p>
-                            ))}
-                            {selectedSignals.some((signal) => getSignalEvidenceItems(signal).length) && (
-                              <blockquote>
-                                {[
-                                  ...new Set(
-                                    selectedSignals.flatMap((signal) =>
-                                      getSignalEvidenceItems(signal).map((item) => item.text),
-                                    ),
-                                  ),
-                                ].join(' · ')}
-                              </blockquote>
-                            )}
+
+                            <p>{[...new Set(selectedSignals.map(signal => getSignalLabel(signal, t)))].join(' ')}</p>
+                            {[...new Set(selectedSignals.map(signal => getSignalExplanation(signal, t)).filter(Boolean))]
+                              .map(help => <p key={help}>{help}</p>)}
                           </div>
                         )}
                       </div>
-                    </details>
-                </div>
+                  </details>
                 )}
 
-                {showResult && (
-                  <div className="what-to-do-panel">
-                    <div className="what-to-do-copy">
-                      <h3>
-                        <Lightbulb className="what-to-do-icon" aria-hidden="true" />
-                        {t(nextTitleKey)}
-                      </h3>
-                      <p>{t(nextIntroKey)}</p>
-                      <ul>
-                        {nextPointKeys.map((key) => (
-                          <li key={key}>{t(key)}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <img className="what-to-do-mascot" src={ASSETS.surfyTablet} alt="" width="1000" height="1000" />
-                  </div>
-                )}
+                <section className="result-next">
+                  <h3><ListChecks aria-hidden="true" />{t(nextTitleKey)}</h3>
+                  <ul>{nextPointKeys.map(key => (
+                    <li key={key}>{t(key)}</li>
+                  ))}</ul>
+                </section>
               </div>
             )}
           </div>

@@ -47,7 +47,7 @@ export function ocrCanvas(canvas) {
     const result = document.createElement('canvas'), padding = 20;
     // Upscaling cannot recover detail missing from a blurry photo.
     const longest = Math.max(canvas.width, canvas.height);
-    const scale = Math.min(2000 / longest, 2, Math.max(1, 1500 / longest));
+    const scale = Math.min(2600 / longest, Math.sqrt(5000000 / (canvas.width * canvas.height)), 2, Math.max(1, 1500 / longest));
     result.width = Math.round(canvas.width * scale) + padding * 2;
     result.height = Math.round(canvas.height * scale) + padding * 2;
     const ctx = result.getContext('2d');

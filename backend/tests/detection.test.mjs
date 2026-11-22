@@ -186,10 +186,10 @@ test('no-match never downgrades local scam signals', () =>
     'High risk',
   ));
 
-const cleanCheck = { status: 'completed', results: [{ url: 'https://paypa1.com', threats: [] }] };
+const cleanCheck = { status: 'completed', results: [{ url: 'https://paypa1.com/', threats: [] }] };
 
 test('clean online check removes only weak name-lookalike warnings', () => {
-  const local = analyze('Open https://paypa1.com/login now');
+  const local = analyze('Open https://paypa1.com/');
   assert.ok(local.indicators.some((indicator) => /^lookalike[-_]/.test(indicator.id)));
   const verified = combineAssessment(local, cleanCheck);
   assert.equal(verified.indicators.some((indicator) => /^(?:brand[-_]|lookalike[-_]|dataset-url-model$)/.test(indicator.id)), false);

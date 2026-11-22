@@ -3,17 +3,11 @@ import urlModel from './models/url-risk-model.json' with { type: 'json' };
 import { smsFeatures } from './sms-features.js';
 import { urlLexicalFeatures } from './url-lexical-features.js';
 import { normalizeEvidence, evidenceMatches } from './text-evidence.js';
+import { scoreFeatures } from './model-scoring.js';
 
 function classify(model, features, minFeatures, minCoverage, evidence) {
-  const list = features || [];
-  const known = list.filter((feature) => Object.hasOwn(model.weights, feature)).length;
-  const score = model.intercept
-    + list.reduce((sum, feature) => sum + (model.weights[feature] || 0), 0);
-  const coverage = list.length ? known / list.length : 0;
   return {
-    flagged: list.length >= minFeatures && coverage >= minCoverage && score >= model.threshold,
-    coverage,
-    score,
+    ...scoreFeatures({ ...model, minFeatures, minCoverage }, features),
     threshold: model.threshold,
     evidence: [],
     ...(evidence ? { evidence } : {}),

@@ -9,8 +9,11 @@ import ImageModeModal from './components/ImageModeModal.jsx';
 import Navbar from './components/Navbar.jsx';
 import ResultPanel from './components/ResultPanel.jsx';
 import RiskLevels from './components/RiskLevels.jsx';
+import ScamPractice from './components/ScamPractice.jsx';
+import OfflineResources from './components/OfflineResources.jsx';
 import { analyzeInput } from './engine/analyze.js';
-import { getSuggestedQuestionKeys, getSurfyAnswer } from './surfy/templates.js';
+import { getSuggestedQuestionKeys, getSuggestedSignalQuestions, getSurfyAnswer, getSurfyResultMessage } from './surfy/templates.js';
+import { requestSurfyReply } from './surfy/client.js';
 import { htmlLanguage, translate } from './i18n/useI18n.js';
 import useScrollReveal from './useScrollReveal.js';
 import useFluidMotion from './useFluidMotion.js';
@@ -156,7 +159,8 @@ export default function App() {
     image: null,
     qr: null,
     qrValue: '',
-    imageMode: isOnline ? 'origin' : 'ocr',
+    imageMode: '',
+    imageVisualConsent: false,
   });
   const [status, setStatus] = useState('idle');
   const [isCheckUsed, setIsCheckUsed] = useState(false);
@@ -166,28 +170,43 @@ export default function App() {
   const [surfyOpenRequest, setSurfyOpenRequest] = useState(0);
   const [isAskClosing, setIsAskClosing] = useState(false);
   const [isAskThinking, setIsAskThinking] = useState(false);
+  const [aiEnabled, setAiEnabled] = useState(() => {
+    try { return sessionStorage.getItem('surfare-ai-opt-in') === 'true'; } catch { return false; }
+  });
   const [askMessages, setAskMessages] = useState([]);
   const [feedbackType, setFeedbackType] = useState('text');
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [cameraTarget, setCameraTarget] = useState('');
   const [isImageModeModalOpen, setIsImageModeModalOpen] = useState(false);
   const askQuestionKeys = useMemo(
-    () => getSuggestedQuestionKeys({ result, activeTab }),
-    [activeTab, result],
+    () => {
+      const tagged = getSuggestedSignalQuestions(result, t);
+      const topics = getSuggestedQuestionKeys({ result, activeTab }).filter(key => !(tagged.length && key === 'ask.why'));
+      return [...tagged, ...topics];
+    },
+    [activeTab, result, t],
   );
   const askOpenTimer = useRef(null);
   const askCloseTimer = useRef(null);
-  const askAnswerTimer = useRef(null);
   const askAnswerQueue = useRef([]);
+  const askRequestRef = useRef(null);
   const checkRunId = useRef(0);
   const checkUsedRef = useRef(false);
-  const forcedOfflineImageMode = useRef(!isOnline);
 
   useEffect(() => () => {
     window.clearTimeout(askOpenTimer.current);
     window.clearTimeout(askCloseTimer.current);
-    window.clearTimeout(askAnswerTimer.current);
+    askRequestRef.current?.abort();
   }, []);
+
+  useEffect(() => {
+    if (!isOnline) {
+      askRequestRef.current?.abort();
+      askRequestRef.current = null;
+      askAnswerQueue.current = [];
+      setIsAskThinking(false);
+    }
+  }, [isOnline]);
 
 
   useEffect(() => {
@@ -219,7 +238,6 @@ export default function App() {
       setStatus('error');
     }
     if (demo === 'autoask') {
-      const count = scenario.signals.filter((signal) => signal.id !== 'online_match').length;
       setResult(null);
       setStatus('analyzing');
       setIsAskOpen(false);
@@ -227,7 +245,7 @@ export default function App() {
       const resultTimer = window.setTimeout(() => {
         setResult(result);
         setStatus('result');
-        setAskMessages([{ role: 'surfy', text: t('ask.greeting', { count }) }]);
+        setAskMessages([{ role: 'surfy', text: getSurfyResultMessage(result, t) }]);
       }, 700);
       return () => {
         window.clearTimeout(askTimer);
@@ -237,8 +255,7 @@ export default function App() {
     setResult(result);
     if (!scenario.errorKey) setStatus('result');
     if (demo === 'ask' || demo === 'autoask' || demo === 'ask-chat') {
-      const count = scenario.signals.filter((signal) => signal.id !== 'online_match').length;
-      const greeting = { role: 'surfy', text: t('ask.greeting', { count }) };
+      const greeting = { role: 'surfy', text: getSurfyResultMessage(result, t) };
       setAskMessages(demo === 'ask-chat'
         ? [
           greeting,
@@ -256,28 +273,35 @@ export default function App() {
   }, []);
 
   const updateInput = useCallback((key, value) => {
-    setInputs((previous) => ({ ...previous, [key]: value }));
+    if (status === 'result' && (key === 'message' || key === 'url') &&
+        value.trim() !== inputs[key].trim()) {
+      checkUsedRef.current = false;
+      setIsCheckUsed(false);
+      setStatus('edited');
+      setResult(null);
+      setAskMessages([]);
+      askRequestRef.current?.abort();
+      askRequestRef.current = null;
+      askAnswerQueue.current = [];
+      setIsAskThinking(false);
+    }
+    setInputs((previous) => ({
+      ...previous,
+      [key]: value,
+      ...(key === 'image' ? { imageMode: '', imageVisualConsent: false } : {}),
+    }));
     if (key === 'image') {
-      setIsImageModeModalOpen(Boolean(value) && isOnline);
+      setIsImageModeModalOpen(Boolean(value));
     }
-  }, [isOnline]);
+  }, [status, inputs]);
 
-  useEffect(() => {
-    if (!isOnline) {
-      setIsImageModeModalOpen(false);
-      if (!forcedOfflineImageMode.current && inputs.imageMode === 'origin') {
-        forcedOfflineImageMode.current = true;
-        updateInput('imageMode', 'ocr');
-      }
-    } else if (forcedOfflineImageMode.current) {
-      forcedOfflineImageMode.current = false;
-      updateInput('imageMode', 'origin');
+  const handleCheck = async (retryRunId) => {
+    if (activeTab === 'image' && inputs.image && !inputs.imageMode) {
+      setIsImageModeModalOpen(true);
+      return;
     }
-  }, [inputs.imageMode, isOnline, updateInput]);
-
-  const handleCheck = async () => {
     if (!await requestAcknowledgment()) return;
-    if (checkUsedRef.current) return;
+    if (checkUsedRef.current && retryRunId !== checkRunId.current) return;
     checkUsedRef.current = true;
     setIsCheckUsed(true);
     const runId = ++checkRunId.current;
@@ -288,11 +312,22 @@ export default function App() {
       askOpenTimer.current = window.setTimeout(() => setIsAskOpen(true), 150);
     }
     setStatus('analyzing');
+    setResult(null);
+    askRequestRef.current?.abort();
+    askRequestRef.current = null;
+    askAnswerQueue.current = [];
+    setIsAskThinking(false);
     setErrorKey('');
     try {
       const analysis = await analyzeInput(activeTab, inputs, {
         onlineLookup: isOnline,
-        imageMode: isOnline ? inputs.imageMode : 'ocr',
+        ai: aiEnabled,
+        imageMode: inputs.imageMode,
+        onLocalResult: (local) => {
+          if (runId !== checkRunId.current) return;
+          setResult(local);
+          setStatus('reviewing');
+        },
       });
       if (runId !== checkRunId.current) return;
       if (analysis.errorKey) {
@@ -305,11 +340,15 @@ export default function App() {
       }
       setResult(analysis);
       setStatus('result');
-      const warningCount = analysis.signals.filter((signal) => signal.id !== 'online_match').length;
+      // A reply queued before completion must not appear after the new result summary.
+      askRequestRef.current?.abort();
+      askRequestRef.current = null;
+      askAnswerQueue.current = [];
+      setIsAskThinking(false);
       setAskMessages((previous) => [
         ...previous,
         ...(previous.length ? [{ role: 'divider', text: t('ask.newResult') }] : []),
-        { role: 'surfy', text: t('ask.greeting', { count: warningCount }) },
+        { role: 'surfy', text: getSurfyResultMessage(analysis, t) },
       ]);
     } catch (error) {
       if (runId !== checkRunId.current) return;
@@ -335,8 +374,8 @@ export default function App() {
     setIsCheckUsed(false);
     window.clearTimeout(askOpenTimer.current);
     window.clearTimeout(askCloseTimer.current);
-    window.clearTimeout(askAnswerTimer.current);
-    askAnswerTimer.current = null;
+    askRequestRef.current?.abort();
+    askRequestRef.current = null;
     askAnswerQueue.current = [];
     setActiveTab('text');
     setInputs({
@@ -345,7 +384,8 @@ export default function App() {
       image: null,
       qr: null,
       qrValue: '',
-      imageMode: isOnline ? 'origin' : 'ocr',
+      imageMode: '',
+      imageVisualConsent: false,
     });
     setStatus('idle');
     setResult(null);
@@ -357,22 +397,32 @@ export default function App() {
     setIsAskThinking(false);
   }, [isOnline]);
 
-  const scheduleAskAnswer = useCallback(() => {
-    if (askAnswerTimer.current || !askAnswerQueue.current.length) return;
-    const answer = askAnswerQueue.current.shift();
+  const scheduleAskAnswer = useCallback(async () => {
+    if (askRequestRef.current || !askAnswerQueue.current.length) return;
+    const item = askAnswerQueue.current.shift();
+    const controller = new AbortController();
+    askRequestRef.current = controller;
     setIsAskThinking(true);
-    askAnswerTimer.current = window.setTimeout(() => {
-      askAnswerTimer.current = null;
-      setAskMessages((previous) => [...previous, { role: 'surfy', text: answer }]);
+    let answer = item.fallback;
+    if (item.ai) {
+      try { answer = await requestSurfyReply({ ...item, signal: controller.signal }); }
+      catch { answer = `${item.t('ask.aiUnavailable')} ${item.fallback}`; }
+    }
+    if (controller.signal.aborted || askRequestRef.current !== controller) return;
+    setAskMessages((previous) => [...previous, { role: 'surfy', text: answer }]);
+    if (askRequestRef.current === controller) {
+      askRequestRef.current = null;
       if (askAnswerQueue.current.length) scheduleAskAnswer();
       else setIsAskThinking(false);
-    }, 600);
+    }
   }, []);
-  const handleAskSend = useCallback((question) => {
+  const handleAskSend = useCallback((question, { local = false } = {}) => {
     setAskMessages((previous) => [...previous, { role: 'user', text: question }]);
-    askAnswerQueue.current.push(getSurfyAnswer(question, result, t));
+    askAnswerQueue.current.push({ question, result: ['result', 'reviewing'].includes(status) ? result : null, language: lang,
+      history: askMessages, t, ai: aiEnabled && isOnline && !local && !result?.privateQr,
+      fallback: getSurfyAnswer(question, ['result', 'reviewing'].includes(status) ? result : null, t) });
     scheduleAskAnswer();
-  }, [result, scheduleAskAnswer, t]);
+  }, [result, status, lang, askMessages, aiEnabled, isOnline, scheduleAskAnswer, t]);
 
   const openFeedback = useCallback(async (type = activeTab) => {
     if (!await requestAcknowledgment()) return;
@@ -419,14 +469,30 @@ export default function App() {
       <main>
         <Hero t={t} />
         <CheckCard
+          aiEnabled={aiEnabled}
+          onAiChange={(enabled) => {
+            setAiEnabled(enabled);
+            try { sessionStorage.setItem('surfare-ai-opt-in', String(enabled)); } catch { /* This page still remembers the choice. */ }
+            if (!enabled) {
+              askRequestRef.current?.abort();
+              askRequestRef.current = null;
+              askAnswerQueue.current = [];
+              setIsAskThinking(false);
+            }
+          }}
+          isOnline={isOnline}
           activeTab={activeTab}
           inputs={inputs}
           onTabChange={setActiveTab}
           onInputChange={updateInput}
-          onCheck={handleCheck}
+          onImageModeChange={() => setIsImageModeModalOpen(true)}
+          onCheck={() => handleCheck()}
+          canReviewAgain={status === 'result' && isOnline && aiEnabled && !result?.privateQr &&
+            !result?.aiImageOnly && ['not_checked', 'unavailable'].includes(result?.aiReview?.status)}
+          onReviewAgain={() => handleCheck(checkRunId.current)}
           onReset={handleNewCheck}
           onCamera={async (target) => { if (await requestAcknowledgment()) setCameraTarget(target); }}
-          isAnalyzing={status === 'analyzing'}
+          isAnalyzing={['analyzing', 'reviewing'].includes(status)}
           isCheckUsed={isCheckUsed}
           status={status}
           isAskOpen={isAskOpen}
@@ -436,6 +502,7 @@ export default function App() {
           onAskSend={handleAskSend}
           surfyOpenRequest={surfyOpenRequest}
           questionKeys={askQuestionKeys}
+          offlineResources={<OfflineResources t={t} isOnline={isOnline} />}
           feedbackDialog={isFeedbackOpen ? (
             <FeedbackModal
               isOpen={isFeedbackOpen}
@@ -452,9 +519,16 @@ export default function App() {
             errorKey={errorKey}
             t={t}
             onReset={reset}
+            onReviewText={() => {
+              const extracted = result.checkedText;
+              reset();
+              setInputs((previous) => ({ ...previous, message: extracted }));
+              requestAnimationFrame(() => document.querySelector('.tab-panel textarea')?.focus());
+            }}
           />
         </CheckCard>
         <HowItWorks t={t} />
+        <ScamPractice lang={lang} />
         <RiskLevels t={t} />
       </main>
       <Footer t={t} />
@@ -463,9 +537,9 @@ export default function App() {
         <ImageModeModal
           t={t}
           initialMode={inputs.imageMode}
-          allowAi={isOnline}
+          isOnline={isOnline}
           onConfirm={(mode) => {
-            updateInput('imageMode', mode);
+            setInputs((previous) => ({ ...previous, imageMode: mode, imageVisualConsent: mode === 'origin' && isOnline }));
             setIsImageModeModalOpen(false);
           }}
           onClose={() => setIsImageModeModalOpen(false)}

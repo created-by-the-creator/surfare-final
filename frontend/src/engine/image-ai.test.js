@@ -43,13 +43,13 @@ describe('image AI review', () => {
     expect(post).toEqual({
       image: 'data:image/jpeg;base64,/9j/AA==',
       mode: 'origin',
+      secondReview: true,
       consent: true,
       provider: 'openrouter',
-      metadata: { findings: [], notes: [] },
     });
   });
 
-  it('sends only allowlisted file-note clues to the visual review', async () => {
+  it('keeps file-note clues local for an independent visual review', async () => {
     const calls = [];
     const fetcher = async (url, options = {}) => {
       calls.push({ url, options });
@@ -75,10 +75,7 @@ describe('image AI review', () => {
       },
     });
     const post = JSON.parse(calls[1].options.body);
-    expect(post.metadata).toEqual({
-      findings: ['ai-tool', 'credentials-verified', 'credentials-invalid'],
-      notes: ['editorOnly', 'credentialsUnchecked'],
-    });
+    expect(post.metadata).toBeUndefined();
     expect(JSON.stringify(post)).not.toContain('raw binary must not be sent');
     expect(JSON.stringify(post)).not.toContain('made-up-code');
   });

@@ -1,0 +1,144 @@
+{
+  "scope": "Inspection of the user-provided reference checkout. Existing detectors and training inputs are unchanged.",
+  "sourceAttribution": "Project Aghoy prepared corpus; original datasets retain their own notices and terms.",
+  "corpusRows": 17046,
+  "holdoutRows": 2618,
+  "invalidRows": 0,
+  "sources": {
+    "scamshield": {
+      "rows": 8753,
+      "labels": {
+        "LEGIT": 7685,
+        "SCAM": 1068
+      },
+      "channels": {
+        "job": 8244,
+        "sms": 509
+      },
+      "licenses": {
+        "mit": 8753
+      },
+      "holdoutTemplateOverlaps": 0
+    },
+    "uci-sms": {
+      "rows": 2847,
+      "labels": {
+        "LEGIT": 2236,
+        "SCAM": 611
+      },
+      "channels": {
+        "sms": 2847
+      },
+      "licenses": {
+        "cc-by-4.0": 2847
+      },
+      "holdoutTemplateOverlaps": 0
+    },
+    "llmgen-email": {
+      "rows": 3117,
+      "labels": {
+        "LEGIT": 640,
+        "SCAM": 2477
+      },
+      "channels": {
+        "email": 3117
+      },
+      "licenses": {
+        "apache-2.0": 3117
+      },
+      "holdoutTemplateOverlaps": 0
+    },
+    "tagalog-sms": {
+      "rows": 1313,
+      "labels": {
+        "LEGIT": 803,
+        "SCAM": 510
+      },
+      "channels": {
+        "sms": 1313
+      },
+      "licenses": {
+        "cc0-1.0": 1313
+      },
+      "holdoutTemplateOverlaps": 1115
+    },
+    "kaggle-ph-spam": {
+      "rows": 945,
+      "labels": {
+        "SCAM": 945
+      },
+      "channels": {
+        "sms": 945
+      },
+      "licenses": {
+        "cc-by-nc-sa-4.0": 945
+      },
+      "holdoutTemplateOverlaps": 1
+    },
+    "antony-reyes-ph": {
+      "rows": 71,
+      "labels": {
+        "SCAM": 71
+      },
+      "channels": {
+        "sms": 71
+      },
+      "licenses": {
+        "no-license": 71
+      },
+      "holdoutTemplateOverlaps": 0
+    }
+  },
+  "localBaseline": {
+    "generated_at": "2026-08-09",
+    "model": "huawei-noah/TinyBERT_General_4L_312D",
+    "corpus_rows": 17046,
+    "threshold": 0.28,
+    "ph_holdout": {
+      "rows": 2618,
+      "scam_recall": 0.9791,
+      "auc": 0.9845,
+      "fpr": 0.0863,
+      "false_negatives": 7
+    },
+    "held_out_test": {
+      "f1_scam": 0.9265,
+      "precision_scam": 0.9476,
+      "recall_scam": 0.9064,
+      "false_positive_rate": 0.0228
+    },
+    "note": "Regression-gate baseline. Gate env tolerances in .github/workflows/ml-gate.yml must stay below these: MIN_PH_RECALL 0.95, MIN_PH_AUC 0.96, MIN_TEST_F1 0.90."
+  },
+  "artifacts": {
+    "quantizedModelBytes": 14612971,
+    "rootLicenseFilePresent": false,
+    "corpusSha256": "e6a6137ef01460c07d1e3d51ddfbb041b60a237d117d836bff1c0b1a3a43d71f"
+  },
+  "preparation": {
+    "rows": 11842,
+    "sources": [
+      "scamshield",
+      "llmgen-email"
+    ],
+    "duplicateTemplatesRemoved": 28,
+    "conflictingTemplatesExcluded": 1,
+    "holdoutTemplatesExcluded": 950,
+    "candidatePath": ".training-candidates/reference-data-review/candidate.jsonl",
+    "enabledForTraining": false,
+    "excludedDataset": "SMS PHISHING DATASET.csv remains excluded as requested."
+  },
+  "findings": [
+    "Saved baseline: test precision 0.9476, recall 0.9064, FPR 0.0228; separate PH holdout recall 0.9791 and FPR 0.0863. These are upstream reports, not reproduced Surfare results.",
+    "Training uses source/label stratification, a near-duplicate leakage guard, class weighting, early stopping and validation-only threshold tuning.",
+    "train_classifier.py uses sigmoid(class-1 logit); browser text-classification defaults to softmax for two labels. Thresholds need re-evaluation with the actual exported-model scoring.",
+    "UCI spam is mapped to SCAM upstream, unlike Surfare's distinction between generic spam and source-labeled scams.",
+    "sources.ts warns that Tagalog-SMS message-type labels can introduce mislabeled negatives. The downloaded corpus/manifest still contain that source.",
+    "The corpus includes CC-BY-NC-SA and no-license sources with upstream project-owner exception notes. Those notes are not evidence of permission from the data rightsholders.",
+    "README declares MIT, but this download has no root LICENSE file. No upstream game code, scenario text or model weights were copied into the app."
+  ],
+  "nextSteps": [
+    "Review the separate candidate by channel/source and verify provenance before integration. It is not automatically read by the trainer.",
+    "Keep the upstream holdout out of training. Audit its overlap with all existing Surfare sources before calling it independent validation.",
+    "Reproduce exported-model scoring, thresholds, false positives and coverage before adopting TinyBERT."
+  ]
+}

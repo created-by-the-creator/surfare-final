@@ -7,7 +7,7 @@ export function safetySignals(text) {
   const add = (id, title, message, weight, evidence, category) => {
     if (evidence.length) signals.push({ id, title, message, weight, evidence, category });
   };
-  const target = '(?:kita|ka(?:yo)?|ikaw|siya|sila|ang\\s+(?:pamilya|anak|asawa|magulang)\\s+mo)';
+  const target = '(?:kita|ka(?:yo)?|ikaw|siya|sila|(?:ang|yung)\\s+(?:pamilya|anak|asawa|magulang|kapatid|nanay|tatay)\\s+mo)';
   const harm =
     '(?:papatayin|papatayen|papatay|patayin|sasaktan|saktan|babarilin|barilin|bubugbugin|bugbugin|sasaksakin|saksakin|gagahasain|kikidnapin|dudukutin)';
   const filipino = new RegExp(
@@ -23,8 +23,9 @@ export function safetySignals(text) {
     'i',
   );
   const english =
-    /\b(?:(?:i|we)\s*(?:(?:will|'ll|am going to|are going to|gonna)\s*)?)?(?:kill|hurt|shoot|stab|rape|kidnap|beat\s+up)\s+(?:you|u|your\s+(?:family|child|kids|wife|husband|parents))\b|\byou(?:'re| are)\s+(?:dead|going to die)\b/i;
+    /\b(?:(?:i|we)\s*(?:(?:will|'ll|am going to|are going to|gonna)\s*)?)?(?:kill|hurt|shoot|stab|rape|kidnap|beat\s+up)\s+(?:you|u|your\s+(?:family|children|child|kids|wife|husband|parents?|sister|brother|mother|father|mom|dad))\b|\byou(?:'re| are)\s+(?:dead|going to die)\b/i;
   let violence = [...hits(filipino), ...hits(english)];
+  violence.push(...hits(/\b(?:i|we)(?:'ll| will| am going to| are going to)\s+(?:make sure|see to it that)\s+(?:your (?:family|parents|children|kids|siblings) (?:will )?never see(?:s)? you|you (?:will )?never see your (?:family|parents|children|kids|siblings)) again\b/i));
   // Offline coverage for indirect forms; contextual AI handles meaning beyond these patterns.
   violence.push(
     ...hits(/\bpatay\s*(?:ka|kayo)\s+(?:sa\s*['’]?kin|sa\s+akin|saken|sa\s*amin)\b/i, false),

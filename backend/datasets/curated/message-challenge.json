@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "role": "development-challenge-only",
+  "provenance": "Hand-authored synthetic scenarios created during development. Not independently collected or human-verified production messages.",
+  "policy": "No user feedback or private messages included. Generic advertising is spam, not a verified scam.",
+  "cases": [
+    {
+      "id": "message-challenge-001",
+      "label": "legitimate",
+      "language": "English",
+      "text": "A sign-in was requested on your device. Use code 735162 in that sign-in screen. Our staff will never ask you for this code."
+    },
+    {
+      "id": "message-challenge-002",
+      "label": "legitimate",
+      "language": "English",
+      "text": "The courier has your prepaid package. No additional transfer is needed. Track it using your existing order history."
+    },
+    {
+      "id": "message-challenge-003",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Your card payment of 219 pesos was received. This is a receipt, and no reply or action is required."
+    },
+    {
+      "id": "message-challenge-004",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Please send your share of the dinner bill after checking the receipt we already discussed."
+    },
+    {
+      "id": "message-challenge-005",
+      "label": "legitimate",
+      "language": "English",
+      "text": "The school scholarship committee will interview shortlisted students on Friday. There is no application fee."
+    },
+    {
+      "id": "message-challenge-006",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Do not follow messages saying you won a prize and must pay a fee. Report them through the official support channel."
+    },
+    {
+      "id": "message-challenge-007",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "May humiling na mag-sign in sa app mo. Ang code ay 735162 at hindi ito dapat sabihin sa tumatawag."
+    },
+    {
+      "id": "message-challenge-008",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Natanggap na ang bayad mong 219 piso. Resibo lamang ito at wala kang kailangang sagutin."
+    },
+    {
+      "id": "message-challenge-009",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Handa na ang dokumento mo sa opisina. Dalhin ang resibo ng dati mong binayaran sa pagkuha nito."
+    },
+    {
+      "id": "message-challenge-010",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Sa Biyernes ang panayam para sa scholarship. Walang sinisingil na aplikasyon ang paaralan."
+    },
+    {
+      "id": "message-challenge-011",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "May mga manlolokong nagsasabing may premyo ka. Huwag magbayad ng hinihingi nilang release fee."
+    },
+    {
+      "id": "message-challenge-012",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Huwag ibahagi ang PIN mo kahit magpakilalang taga bangko ang kausap. Tumawag sa numerong nasa card mo."
+    },
+    {
+      "id": "message-challenge-013",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Your payment went through, salamat. Receipt lang ito at no action needed from you."
+    },
+    {
+      "id": "message-challenge-014",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Prepaid na yung parcel mo. Walang extra fee, check mo sa existing order page if needed."
+    },
+    {
+      "id": "message-challenge-015",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Confirmed ang scholarship interview sa Friday. No application payment is required."
+    },
+    {
+      "id": "message-challenge-016",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "May alert ako about prize scams. If someone asks for a release fee, huwag mong bayaran."
+    },
+    {
+      "id": "message-challenge-017",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Keep your PIN private kahit bank staff daw sila. Use the number printed on your card to verify."
+    },
+    {
+      "id": "message-challenge-018",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Paki-settle ang share mo sa groceries once na-check mo yung resibo sa group natin."
+    },
+    {
+      "id": "message-challenge-019",
+      "label": "scam",
+      "language": "English",
+      "text": "Your bank access will be frozen in an hour. Reply to me with your password and the verification code we just sent."
+    },
+    {
+      "id": "message-challenge-020",
+      "label": "scam",
+      "language": "English",
+      "text": "An unclaimed reward has been assigned to you. Pay a clearance charge into this personal account before you can receive it."
+    },
+    {
+      "id": "message-challenge-021",
+      "label": "scam",
+      "language": "English",
+      "text": "Earn a guaranteed four times your money with absolutely no risk. Send an initial deposit to reserve the return."
+    },
+    {
+      "id": "message-challenge-022",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Masasara ang bank account mo sa loob ng isang oras. Ibigay mo sa akin ang password at verification code mo."
+    },
+    {
+      "id": "message-challenge-023",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "May nakalaang premyo para sa iyo. Magpadala muna ng clearance fee sa personal na account bago ito ibigay."
+    },
+    {
+      "id": "message-challenge-024",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Siguradong apat na beses ang balik ng pera mo at walang panganib. Ipadala ang paunang deposito."
+    },
+    {
+      "id": "message-challenge-025",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Ma-freeze ang bank access mo in one hour. Reply with your password at verification code para ma-save ko ito."
+    },
+    {
+      "id": "message-challenge-026",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "May unclaimed reward ka. Pay a clearance fee muna sa personal account ko before release."
+    },
+    {
+      "id": "message-challenge-027",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Guaranteed four times ang pera mo, absolutely no risk. Deposit now para ma-reserve ang return."
+    },
+    {
+      "id": "message-challenge-028",
+      "label": "spam",
+      "language": "English",
+      "text": "Our clothing store is holding a clearance sale during normal business hours this Saturday."
+    },
+    {
+      "id": "message-challenge-029",
+      "label": "spam",
+      "language": "Filipino",
+      "text": "May bagong paninda sa tindahan namin. Maaari kang bumisita kung interesado ka."
+    },
+    {
+      "id": "message-challenge-030",
+      "label": "spam",
+      "language": "Taglish",
+      "text": "New arrivals sa shop namin. Drop by during store hours if you want to browse."
+    }
+  ]
+}

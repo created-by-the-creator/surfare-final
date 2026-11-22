@@ -26,28 +26,8 @@ const ERROR_BY_REASON = {
   method: 'error.image_ai_unavailable',
   too_large: 'error.image_ai_unavailable',
 };
-const METADATA_FINDING_CODES = new Set([
-  'ai-declaration',
-  'ai-tool',
-  'generation-settings',
-  'generation-workflow',
-  'generation-parameter',
-  'credentials-verified',
-  'credentials-valid',
-  'credentials-invalid',
-]);
-const METADATA_NOTE_CODES = new Set([
-  'compressed',
-  'malformed',
-  'limit',
-  'editorOnly',
-  'seedOnly',
-  'c2paUnverified',
-  'credentialsUnchecked',
-  'tooLarge',
-  'unsupported',
-  'unreadable',
-]);
+const FILE_AI_LABELS = new Set(['result.imageMetadata.label.declaration', 'result.imageMetadata.label.generation', 'result.imageMetadata.label.tool']);
+const VISUAL_AI_LABELS = new Set(['result.imageOrigin.strong', 'result.imageOrigin.possible', 'result.imageOrigin.likely']);
 
 const NOTE_BY_REASON = {
   not_configured: 'result.imageMetadata.visualNotConfigured',
@@ -65,18 +45,12 @@ const NOTE_BY_REASON = {
   too_large: 'result.imageMetadata.visualImageIssue',
 };
 
-function metadataForReview(value) {
-  const findings = Array.isArray(value?.findings)
-    ? [...new Set(value.findings.filter((code) => typeof code === 'string' && METADATA_FINDING_CODES.has(code)))].slice(0, 5)
-    : [];
-  const notes = Array.isArray(value?.notes)
-    ? [...new Set(value.notes.filter((code) => typeof code === 'string' && METADATA_NOTE_CODES.has(code)))].slice(0, 5)
-    : [];
-  return { findings, notes };
+export function hasImageAiClues(result) {
+  return FILE_AI_LABELS.has(result?.imageMetadata?.labelKey) || VISUAL_AI_LABELS.has(result?.imageOrigin?.labelKey);
 }
 
 export async function getImageAiConfig(fetcher = fetch) {
-  const response = await fetcher(AI_ENDPOINT);
+  const response = await fetcher(AI_ENDPOINT, { signal: AbortSignal.timeout(8000) });
   if (!response.ok) return { configured: false, providerId: '' };
   const data = await response.json();
   return {
@@ -105,6 +79,8 @@ export async function prepareImageForReview(file, maxLength = MAX_IMAGE_DATA_LEN
       canvas.height = Math.max(1, Math.round(bitmap.height * scale));
       const context = canvas.getContext('2d');
       if (!context) throw new Error('canvas_unavailable');
+      context.fillStyle = '#fff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
       context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
       const quality = [0.82, 0.72, 0.62, 0.55, 0.5][attempt];
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', quality));
@@ -121,7 +97,7 @@ export async function prepareImageForReview(file, maxLength = MAX_IMAGE_DATA_LEN
 
 async function reviewImage(
   file,
-  { fetcher = fetch, prepare = prepareImageForReview, metadata = null } = {},
+  { fetcher = fetch, prepare = prepareImageForReview } = {},
 ) {
   try {
     const config = await getImageAiConfig(fetcher);
@@ -135,13 +111,14 @@ async function reviewImage(
     const image = await prepare(file);
     const response = await fetcher(AI_ENDPOINT, {
       method: 'POST',
+      signal: AbortSignal.timeout(90000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         image,
         mode: 'origin',
+        secondReview: true,
         consent: true,
         provider: config.providerId,
-        metadata: metadataForReview(metadata),
       }),
     });
     let data = {};
@@ -166,6 +143,8 @@ async function reviewImage(
     }
     return { status: 'completed', review: data };
   } catch (error) {
+    if (error?.name === 'TimeoutError')
+      return { status: 'unavailable', reason: 'timeout', noteKey: NOTE_BY_REASON.timeout, errorKey: ERROR_BY_REASON.timeout };
     if (error?.message === 'canvas_unavailable')
       return {
         status: 'unavailable',
@@ -220,12 +199,16 @@ export function buildImageOriginResult(
   visual = {},
 ) {
   const imageOrigin = review ? imageOriginVerdict(review) : null;
-  const labelKey = imageMetadata?.labelKey || imageOrigin?.labelKey || 'result.imageOrigin.unclear';
+  const labelKey = FILE_AI_LABELS.has(imageMetadata?.labelKey)
+    ? imageMetadata.labelKey
+    : VISUAL_AI_LABELS.has(imageOrigin?.labelKey)
+      ? imageOrigin.labelKey
+      : 'result.imageOrigin.unclear';
   return {
     level: 'unknown',
     score: 0,
     signals: [],
-    usedOnline: false,
+    usedOnline: Boolean(imageOrigin),
     onlineUnavailable: false,
     checkedText: '',
     summaryKey: labelKey,

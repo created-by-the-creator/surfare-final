@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { OFFLINE_CACHE_NAME } from './src/offline/resources.js';
 
 export default defineConfig({
   server: {
@@ -10,10 +11,20 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    {
+      name: 'preserve-home-render-blocking',
+      // Vite replaces the entry script and drops its blocking attribute during a build.
+      transformIndexHtml: {
+        order: 'post',
+        handler: (html) => html.replace(/<script type="module"(?![^>]*blocking=)/g, '<script type="module" blocking="render"'),
+      },
+    },
     VitePWA({
       injectRegister: 'auto',
       registerType: 'autoUpdate',
-      includeAssets: ['assets/**/*', 'tessdata/**/*', 'tesseract/**/*'],
+      // The Workbox glob already includes public images and manifest icons.
+      // Adding them twice with different revisions prevents the worker from installing its routes.
+      includeManifestIcons: false,
       manifest: {
         name: 'Surfare',
         short_name: 'Surfare',
@@ -48,7 +59,12 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json,gz,wasm}'],
-        globIgnores: ['**/c2pa_bg*.wasm'],
+        globIgnores: ['tesseract/**', 'tessdata/**'],
+        runtimeCaching: [{
+          urlPattern: ({ url, sameOrigin }) => sameOrigin && /^\/(?:tesseract|tessdata)\//.test(url.pathname),
+          handler: 'CacheFirst',
+          options: { cacheName: OFFLINE_CACHE_NAME, cacheableResponse: { statuses: [200] } },
+        }],
         maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
       },
     }),

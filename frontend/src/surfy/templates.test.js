@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { translate } from '../i18n/useI18n.js';
-import { getSuggestedQuestionKeys, getSurfyAnswer } from './templates.js';
+import { getSuggestedQuestionKeys, getSuggestedSignalQuestions, getSurfyAnswer, getSurfyResultMessage } from './templates.js';
+import { analyzeInput } from '../engine/analyze.js';
+import { getDisplaySignals, getSignalExplanation, getSignalLabel } from '../engine/signal-display.js';
 
 describe('Ask Surfy topic matching', () => {
   const english = (key, values) => translate('en', key, values);
@@ -13,7 +15,7 @@ describe('Ask Surfy topic matching', () => {
     const t = (key, values) => translate(language, key, values);
     expect(getSurfyAnswer(t('ask.offline'), null, t)).toBe(t('ask.offline.answer'));
     expect(getSurfyAnswer(t('ask.photo'), null, t)).toBe(t('ask.photo.answer'));
-    expect(getSurfyAnswer(t('ask.uncertain'), null, t)).toBe(t('ask.next.unknown'));
+    expect(getSurfyAnswer(t('ask.uncertain'), null, t)).toBe(t('ask.uncertain.answer'));
   });
 
   it('asks for a check before explaining warnings, then explains real signals', () => {
@@ -132,5 +134,82 @@ describe('Ask Surfy topic matching', () => {
       .toContain('ask.photo');
     expect(getSuggestedQuestionKeys({ result: flaggedQr, activeTab: 'text' }))
       .not.toContain('ask.photo');
+  });
+});
+
+describe('Surfy explanations follow the actual check', () => {
+  it.each(['en', 'tl', 'taglish'])('explains each real tag and its risk in %s', async (language) => {
+    const t = (key, values) => translate(language, key, values);
+    const result = await analyzeInput('text', { message: 'Send your OTP now. Your account will be blocked today.' }, { onlineLookup: false });
+    expect(['high', 'suspicious']).toContain(result.level);
+    const opening = getSurfyResultMessage(result, t);
+    const questions = getSuggestedSignalQuestions(result, t);
+    expect(questions.length).toBeGreaterThan(0);
+    for (const [index, question] of questions.entries()) {
+      const signal = getDisplaySignals(result)[index];
+      const answer = getSurfyAnswer(question.text, result, t);
+      expect(answer).toContain(getSignalLabel(signal, t));
+      expect(answer).toContain(signal.evidenceItems[0].text.slice(0, 60));
+      expect(answer).toContain(getSignalExplanation(signal, t));
+    }
+    expect(opening).toContain(t(`result.${result.level}`));
+    expect(opening).toContain(t('signalHelp.codes'));
+  });
+
+  it('explains a typed OTP question without mixing in unrelated warning tags', () => {
+    const t = (key, values) => translate('en', key, values);
+    const result = { level: 'high', signals: [{ id: 'otp_request', evidence: 'send OTP' }, { id: 'money_demand', evidence: 'pay 100' }] };
+    for (const question of ['What does OTP mean?', 'Why is OTP tagged?', 'bakit may OTP warning?']) {
+      const answer = getSurfyAnswer(question, result, t);
+      expect(answer).toContain('send OTP');
+      expect(answer).toContain(t('signalHelp.codes'));
+      expect(answer).not.toContain('pay 100');
+    }
+  });
+
+  it('does not invent an OTP warning for a protective GCash reminder', async () => {
+    const t = (key, values) => translate('en', key, values);
+    const result = await analyzeInput('text', { message: 'GCash Security Reminder: Never share your OTP with anyone. For more information about protecting your account, visit https://www.gcash.com' }, { onlineLookup: false });
+    expect(['low', 'unknown']).toContain(result.level);
+    expect(getSurfyAnswer('Why is OTP tagged?', result, t)).toBe(t('ask.signalNotFound'));
+    expect(getSurfyResultMessage(result, t)).not.toContain(t('signalHelp.codes'));
+  });
+
+  it('explains the actual money-offer findings instead of counting tags', async () => {
+    const t = (key, values) => translate('en', key, values);
+    const result = await analyzeInput('text', { message: 'okay lang ba makipag deal ako sayo? Cash in ka 100 ipapanalo kita 7k basta hati tayo 2k sakin 5k sayo' }, { onlineLookup: false });
+    expect(['high', 'suspicious']).toContain(result.level);
+    const answer = getSurfyResultMessage(result, t);
+    expect(answer).toContain(t('signalHelp.money'));
+    expect(answer).not.toContain('Ask me anything');
+  });
+
+  it('does not imply an unknown check is clear', () => {
+    const t = (key, values) => translate('en', key, values);
+    const answer = getSurfyResultMessage({ level: 'unknown', signals: [] }, t);
+    expect(answer).toBe(t('ask.uncertain.answer'));
+    expect(getSuggestedQuestionKeys({ result: { level: 'unknown' } })[0]).toBe('ask.uncertain');
+  });
+
+  it('includes the image observations and any unavailable-check notice', () => {
+    const t = (key, values) => translate('en', key, values);
+    const result = { level: 'unknown', signals: [], imageMetadata: { labelKey: 'result.imageMetadata.label.none', summaryKey: 'result.imageMetadata.summary.none' }, imageOrigin: { labelKey: 'result.imageOrigin.possible', observations: ['The lettering bends unevenly.'] } };
+    expect(getSurfyAnswer('Explain the result', result, t)).toContain('The lettering bends unevenly.');
+    expect(getSurfyAnswer('Explain the result', result, t)).toContain(t(result.imageMetadata.summaryKey));
+    const unavailable = { ...result, imageOrigin: null, imageVisualNoteKey: 'result.imageMetadata.visualUnavailable' };
+    expect(getSurfyResultMessage(unavailable, t)).toContain(t(unavailable.imageVisualNoteKey));
+  });
+
+  it('uses the new result after a suspicious check, without carrying over old warnings', () => {
+    const t = (key, values) => translate('en', key, values);
+    getSurfyResultMessage({ level: 'high', signals: [{ id: 'otp_request', evidence: 'OTP' }] }, t);
+    const clean = { level: 'low', signals: [], checkedText: 'See you tomorrow.' };
+    expect(getSurfyResultMessage(clean, t)).toBe(t('ask.why.cleanOffline'));
+    expect(getSurfyAnswer('Why is OTP tagged?', clean, t)).toBe(t('ask.signalNotFound'));
+  });
+
+  it('keeps privacy questions separate from warning explanations', () => {
+    const t = (key, values) => translate('en', key, values);
+    expect(getSurfyAnswer('Do you save my photo with the OTP?', { level: 'high', signals: [{ id: 'otp_request', evidence: 'OTP' }] }, t)).toBe(t('ask.photo.answer'));
   });
 });

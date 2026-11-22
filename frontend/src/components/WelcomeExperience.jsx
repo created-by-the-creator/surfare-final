@@ -3,7 +3,8 @@ import {
 } from 'react';
 import { ChevronLeft, Pause, Play, X } from 'lucide-react';
 import { ASSETS } from '../assets.js';
-import { advanceSpring, scrollDamping } from '../motion/spring.js';
+import { advanceSpring } from '../motion/spring.js';
+import { planTourLayout, tourPointerTip } from '../motion/tour-layout.js';
 import { usePrivacyNotice } from '../privacy/PrivacyContext.jsx';
 import PrivacyNotice from './PrivacyNotice.jsx';
 import './WelcomeExperience.css';
@@ -11,12 +12,32 @@ import './WelcomeExperience.css';
 const TourContext = createContext(() => {});
 export const useSiteTour = () => useContext(TourContext);
 
+const WELCOME_SEEN_KEY = 'surfare-welcome-seen';
+let welcomeSeenThisPage = false;
+
+function hasSeenWelcome() {
+  if (welcomeSeenThisPage) return true;
+  for (const name of ['localStorage', 'sessionStorage']) {
+    try { if (window[name].getItem(WELCOME_SEEN_KEY) === 'true') return true; } catch { /* Storage may be unavailable. */ }
+  }
+  return false;
+}
+
+function rememberWelcome() {
+  welcomeSeenThisPage = true;
+  for (const name of ['localStorage', 'sessionStorage']) {
+    try { window[name].setItem(WELCOME_SEEN_KEY, 'true'); } catch { /* Keep the in-memory fallback. */ }
+  }
+}
+
 const STEPS = [
   { target: '.hero-title-highlight', key: 'welcome', text: true, view: '#top' },
   { target: '.language-control', key: 'settings', view: '#top' },
   { target: '.check-tabs', point: '.check-tab.is-active', key: 'detectors', view: '.check-card' },
   { target: '.tab-panel textarea, .upload-area', key: 'input', view: '.check-form-column' },
   { target: '.result-cap h2', key: 'result', text: true, view: '.result-panel' },
+  { target: '.offline-download-button', key: 'offline', view: '.offline-resources' },
+  { target: '.practice-intro .practice-primary', key: 'practice', view: '.practice-intro' },
   { target: '.privacy-toggle', key: 'privacy', view: '#privacy' },
 ];
 
@@ -33,7 +54,8 @@ function GuideCursor({ cursorRef, className = '' }) {
 export default function WelcomeExperience({ children, t }) {
   const { notice, hasAcknowledged, requestAcknowledgment } = usePrivacyNotice();
   const initialPrivacyRequested = useRef(false);
-  const [phase, setPhase] = useState('intro');
+  const [firstVisit] = useState(() => !hasSeenWelcome());
+  const [phase, setPhase] = useState(firstVisit ? 'intro' : 'ready');
   const [tourActive, setTourActive] = useState(false);
   const [tourClosing, setTourClosing] = useState(false);
   const [step, setStep] = useState(0);
@@ -54,15 +76,37 @@ export default function WelcomeExperience({ children, t }) {
   const travelRef = useRef(null);
   const goalRef = useRef({ x: 16, y: 80 });
   const pointerRef = useRef(null);
-  const pointerTravelRef = useRef(null);
   const scrollTravelRef = useRef(null);
   const connectorRef = useRef(null);
   const dockRef = useRef(null);
   const pageRef = useRef(null);
   const focusReturnRef = useRef(null);
-  const runTourAfterIntro = useRef(true);
+  const runTourAfterIntro = useRef(firstVisit);
   const currentStep = STEPS[step];
   const isPaused = paused || interacting || pageHidden || tourClosing || Boolean(notice);
+
+  useEffect(() => {
+    // Remember the visit immediately, including when someone leaves before finishing the welcome.
+    if (firstVisit) rememberWelcome();
+  }, [firstVisit]);
+
+  useEffect(() => {
+    const leavePage = () => {
+      // A browser Back action can restore this document from memory without remounting React.
+      runTourAfterIntro.current = false;
+      setPhase('ready');
+      setInvitePhase('hidden');
+      setTourActive(false);
+      setTourClosing(false);
+    };
+    const restorePage = (event) => { if (event.persisted) leavePage(); };
+    window.addEventListener('pagehide', leavePage);
+    window.addEventListener('pageshow', restorePage);
+    return () => {
+      window.removeEventListener('pagehide', leavePage);
+      window.removeEventListener('pageshow', restorePage);
+    };
+  }, []);
 
   useEffect(() => {
     if (!hasAcknowledged) {
@@ -79,7 +123,6 @@ export default function WelcomeExperience({ children, t }) {
     setInteracting(false);
     setTourClosing(false);
     travelRef.current = null;
-    pointerTravelRef.current = null;
     scrollTravelRef.current = null;
     window.scrollTo({ top: 0, behavior: 'instant' });
     setTourActive(true);
@@ -252,63 +295,36 @@ export default function WelcomeExperience({ children, t }) {
       const width = Math.floor(Math.min(innerWidth - 32, Math.max(264, Math.min(350, Math.round(232 + Math.sqrt(text.length) * 8)))));
       setCardWidth(width);
       const vh = window.visualViewport?.height ?? innerHeight;
-      const header = document.querySelector('.site-header').getBoundingClientRect().height;
-      const initialScroll = window.scrollY;
-      const initial = target.getBoundingClientRect();
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - vh);
-      const clampScroll = value => Math.max(0, Math.min(maxScroll, value));
-      const stickyTarget = Boolean(target.closest('.site-header'));
-      const view = pageRef.current.querySelector(currentStep.view).getBoundingClientRect();
-      const scrolls = [currentStep.view === '#top'
-        ? (step === 0 && vh < 700 ? clampScroll(initialScroll + initial.top - header - 16) : 0)
-        : clampScroll(initialScroll + view.top - header - 24)];
-      const obstacles = [...document.querySelectorAll('.app-bg button, .app-bg a[href], .app-bg textarea, .app-bg select, #hero-title, .hero-subtitle, .check-title, .field-heading, .result-cap, .privacy-heading')]
-        .filter(element => getComputedStyle(element).visibility !== 'hidden')
-        .map(element => ({ element, rect: element.getBoundingClientRect(), sticky: Boolean(element.closest('.site-header, .bottom-shortcuts')), control: element.matches('button,a,textarea,select') }))
+      const header = document.querySelector('.site-header').getBoundingClientRect();
+      const pointed = currentStep.point ? pageRef.current.querySelector(currentStep.point) : target;
+      const initial = pointed.getBoundingClientRect();
+      const obstacles = [...pageRef.current.querySelectorAll('button, a[href], textarea, select')]
+        .filter((element) => element !== pointed && getComputedStyle(element).visibility !== 'hidden')
+        .map((element) => ({ rect: element.getBoundingClientRect(), sticky: Boolean(element.closest('.site-header')), control: true }))
         .filter(({ rect }) => rect.width > 8 && rect.height > 8);
-      const overlap = (a,b) => Math.max(0, Math.min(a.right,b.right)-Math.max(a.left,b.left)) * Math.max(0, Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top));
-      let best = null;
-      for (const scroll of scrolls) {
-        const delta = scroll - initialScroll;
-        const targetRect = { left: initial.left, right: initial.right, top: initial.top - (stickyTarget ? 0 : delta), bottom: initial.bottom - (stickyTarget ? 0 : delta) };
-        const xs = [innerWidth - width - 16, 16, targetRect.right + 20, targetRect.left - width - 20];
-        const shortcutTop = document.querySelector('.bottom-shortcuts')?.getBoundingClientRect().top;
-        const ys = [vh - dockHeight - 16, header + 16, targetRect.bottom + 24, targetRect.top - dockHeight - 24, (vh - dockHeight) / 2];
-        if (shortcutTop !== undefined) ys.push(shortcutTop - dockHeight + 8, targetRect.bottom + 12, targetRect.top - dockHeight - 12);
-        for (const x of xs) for (const y of ys) {
-          if (x < 12 || x + width > innerWidth - 12 || y < header + 10 || y + dockHeight > vh - 10) continue;
-          const card = { left:x, right:x+width, top:y, bottom:y+dockHeight };
-          let score = Math.abs(delta) * .002 + overlap(card,targetRect) * 10000;
-          if (!stickyTarget && (targetRect.top < header + 8 || targetRect.bottom > vh - 8)) score += 1e8;
-          for (const item of obstacles) {
-            const shift = item.sticky ? 0 : delta;
-            const box = { left:item.rect.left-6,right:item.rect.right+6,top:item.rect.top-shift-6,bottom:item.rect.bottom-shift+6 };
-            score += overlap(card,box) * (item.control ? 100 : 1);
-            // Keep the tour's own clickable row away from page controls too.
-            if (item.control) score += overlap({ ...card, top: card.bottom - 68 }, box) * 2000;
-          }
-          if (!best || score < best.score) best = {x,y,scroll,score};
-        }
-      }
-      if (best) {
-        goalRef.current = {x:best.x,y:best.y};
-        if (reduced) {
-          window.scrollTo({ top: best.scroll, behavior: 'instant' });
-          scrollTravelRef.current = null;
-        } else {
-          const previous = scrollTravelRef.current;
-          scrollTravelRef.current = {
-            position: previous?.position ?? window.scrollY,
-            velocity: previous?.velocity ?? 0,
-            target: best.scroll,
-            damping: previous && Math.abs(previous.target - best.scroll) < 1
-              ? previous.damping : scrollDamping(best.scroll - window.scrollY),
-          };
-        }
+      const best = planTourLayout({
+        target: initial, scrollY: window.scrollY, viewportWidth: innerWidth, viewportHeight: vh,
+        headerBottom: header.bottom, cardWidth: width, cardHeight: dockHeight,
+        maxScroll: Math.max(0, document.documentElement.scrollHeight - vh),
+        sticky: Boolean(pointed.closest('.site-header')), obstacles,
+      });
+      if (!best) return;
+      goalRef.current = { x: best.x, y: best.y };
+      if (reduced) {
+        window.scrollTo({ top: best.scroll, behavior: 'instant' });
+        scrollTravelRef.current = null;
+      } else if (!scrollTravelRef.current || Math.abs(scrollTravelRef.current.target - best.scroll) > 1) {
+        // Reset momentum when the destination changes. Critical damping avoids overshooting the target.
+        scrollTravelRef.current = { position: window.scrollY, velocity: 0, target: Math.round(best.scroll), damping: 34 };
       }
     };
     reflow();
-    const settleTimer = window.setTimeout(reflow, reduced ? 0 : 1200);
+    const settleTimer = window.setTimeout(reflow, reduced ? 0 : 500);
+    const layoutObserver = new ResizeObserver(reflow);
+    layoutObserver.observe(target);
+    layoutObserver.observe(pageRef.current);
+    let active = true;
+    document.fonts?.ready.then(() => { if (active) reflow(); });
     let frameId;
     let lastTime;
     const draw = (now) => {
@@ -321,41 +337,41 @@ export default function WelcomeExperience({ children, t }) {
         const maxScroll = Math.max(0, document.documentElement.scrollHeight - innerHeight);
         const position = Math.max(0, Math.min(maxScroll, next.position));
         scrollTravelRef.current = { ...scroll, position, velocity: position === next.position ? next.velocity : 0 };
-        // Native smooth scrolling cannot overshoot. Drive the real scroll
-        // position so the sticky header and tour pointer stay in sync.
+        // Keep scrolling monotonic and drive the real position so the pointer stays aligned.
         if (Math.abs(window.scrollY - position) > .1) window.scrollTo({ top: position, behavior: 'instant' });
       }
       const old = travelRef.current ?? { x: goalX + (reduced ? 0 : 24), y: goalY + (reduced ? 0 : 16) };
       const nextX = reduced ? { position: goalX, velocity: 0 } : advanceSpring(old.x, old.vx ?? 0, goalX, dt);
       const nextY = reduced ? { position: goalY, velocity: 0 } : advanceSpring(old.y, old.vy ?? 0, goalY, dt);
-      const x = nextX.position;
-      const y = nextY.position;
+      const viewportHeight = window.visualViewport?.height ?? innerHeight;
+      const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+      const x = Math.max(12, Math.min(innerWidth - cardWidth - 12, nextX.position));
+      const y = Math.max(headerBottom + 8, Math.min(viewportHeight - dockHeight - 8, nextY.position));
       const speed = Math.hypot(nextX.velocity, nextY.velocity);
       const distance = Math.hypot(goalX - x, goalY - y);
       card.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0)';
       card.style.filter = reduced ? 'none' : 'blur(' + Math.min(2, speed * .003) + 'px)';
       card.style.opacity = '1';
-      card.dataset.travelling = distance > 4 || speed > 24 ? 'true' : 'false';
-      travelRef.current = { x, y, vx: nextX.velocity, vy: nextY.velocity };
+      // Browsers quantize scrolling to device pixels; don't lock the controls on a subpixel remainder.
+      const scrolling = scrollTravelRef.current && Math.abs(window.scrollY - scrollTravelRef.current.target) > 2;
+      card.dataset.travelling = distance > 4 || speed > 24 || scrolling ? 'true' : 'false';
+      travelRef.current = { x, y, vx: x === nextX.position ? nextX.velocity : 0, vy: y === nextY.position ? nextY.velocity : 0 };
       const pointedElement = currentStep.point ? pageRef.current.querySelector(currentStep.point) : target;
       let targetRect = pointedElement.getBoundingClientRect();
       if (currentStep.text) {
         const range = document.createRange();
         range.selectNodeContents(target);
-        targetRect = range.getBoundingClientRect();
+        const lines = [...range.getClientRects()];
+        targetRect = lines[lines.length - 1] || range.getBoundingClientRect();
       }
       // The SVG tip is at (3, 2); account for it so the tip, not its box,
       // lands on the highlighted text or control, even during a resize.
-      const tipX = currentStep.text ? targetRect.right - 3 : targetRect.right - Math.min(16, targetRect.width / 4);
-      const tipY = currentStep.text ? targetRect.bottom - 4 : targetRect.top + Math.min(14, targetRect.height / 3);
-      const previousTip = pointerTravelRef.current ?? { x: tipX, y: tipY };
-      const nextTipX = reduced ? { position: tipX, velocity: 0 } : advanceSpring(previousTip.x, previousTip.vx ?? 0, tipX, dt);
-      const nextTipY = reduced ? { position: tipY, velocity: 0 } : advanceSpring(previousTip.y, previousTip.vy ?? 0, tipY, dt);
-      const px = nextTipX.position;
-      const py = nextTipY.position;
-      pointerTravelRef.current = { x: px, y: py, vx: nextTipX.velocity, vy: nextTipY.velocity };
+      const tip = tourPointerTip(targetRect, innerWidth, window.visualViewport?.height ?? innerHeight);
+      // Track the real target each frame; a second spring would lag behind the scrolling page.
+      const px = tip.x;
+      const py = tip.y;
       pointerRef.current.style.transform = `translate3d(${px - 3}px, ${py - 2}px, 0)`;
-      pointerRef.current.style.opacity = targetRect.bottom > 0 && targetRect.top < innerHeight ? '1' : '0';
+      pointerRef.current.style.opacity = targetRect.bottom - 4 >= 0 && targetRect.bottom - 4 <= viewportHeight && targetRect.right - 4 <= innerWidth ? '1' : '0';
       const startX = x + 40;
       const startY = y + 42;
       connectorRef.current.setAttribute('d', `M ${startX} ${startY} C ${startX} ${(startY + py) / 2}, ${px} ${(startY + py) / 2}, ${px} ${py}`);
@@ -368,6 +384,8 @@ export default function WelcomeExperience({ children, t }) {
     return () => {
       delete target.dataset.tourFocus;
       cancelAnimationFrame(frameId);
+      active = false;
+      layoutObserver.disconnect();
       window.clearTimeout(settleTimer);
       window.removeEventListener('resize', reflow);
       window.visualViewport?.removeEventListener('resize', reflow);

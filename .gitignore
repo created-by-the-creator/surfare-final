@@ -81,6 +81,7 @@ desktop.ini
 # ==============================
 .nyc_output/
 test-results/
+backend/.training-candidates/
 playwright-report/
 
 # ==============================

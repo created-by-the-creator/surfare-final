@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "labelPolicy": "Scam and legitimate are source labels; generic spam and Commercial Spam are excluded from scam training.",
+  "text": {
+    "audit": {
+      "sources": {
+        "asea": {
+          "scam": 3371,
+          "spam": 1085,
+          "legitimate": 358,
+          "unreviewed": 25
+        },
+        "filipino-spam-sms": {
+          "spam": 313,
+          "legitimate": 312
+        },
+        "filipino-spam-merged": {
+          "spam": 561,
+          "legitimate": 312
+        },
+        "sms-spam-collection-dedup": {
+          "legitimate": 4517,
+          "spam": 642
+        },
+        "hinglish": {
+          "legitimate": 3040,
+          "spam": 747
+        },
+        "imc25": {
+          "scam": 33869
+        },
+        "curated-synthetic": {
+          "legitimate": 18,
+          "scam": 12,
+          "spam": 6
+        }
+      },
+      "duplicateRows": 14073,
+      "conflictingMessages": 256,
+      "excludedCategories": {
+        "spam": 1905,
+        "unreviewed": 22
+      },
+      "challengeTemplateOverlaps": 0
+    },
+    "partition": {
+      "groups": 31681,
+      "crossingGroups": 0,
+      "splits": {
+        "train": {
+          "rows": 26416,
+          "positive": 22392,
+          "negative": 4024,
+          "groups": 25403
+        },
+        "validation": {
+          "rows": 3265,
+          "positive": 2763,
+          "negative": 502,
+          "groups": 3139
+        },
+        "test": {
+          "rows": 3239,
+          "positive": 2708,
+          "negative": 531,
+          "groups": 3139
+        }
+      }
+    },
+    "method": "legacy-feature-ratio",
+    "evaluation": {
+      "split": "SHA-256 groups of normalized text templates (URLs and numbers masked)",
+      "thresholdSelection": "Maximum validation recall subject to the configured false-positive-rate ceiling; validation precision breaks ties.",
+      "targetFalsePositiveRate": 0.02,
+      "validation": {
+        "threshold": 13.797441011625715,
+        "tp": 2635,
+        "fp": 10,
+        "tn": 492,
+        "fn": 128,
+        "abstained": 89,
+        "precision": 0.996219281663516,
+        "recall": 0.9536735432500905,
+        "falsePositiveRate": 0.0199203187250996,
+        "f1": 0.9744822485207101,
+        "targetFalsePositiveRate": 0.02,
+        "negativeValidationSamples": 502
+      },
+      "test": {
+        "count": 3239,
+        "positive": 2708,
+        "negative": 531,
+        "tp": 2551,
+        "fp": 17,
+        "tn": 514,
+        "fn": 157,
+        "abstained": 117,
+        "precision": 0.993380062305296,
+        "recall": 0.9420236336779911,
+        "falsePositiveRate": 0.032015065913371,
+        "f1": 0.9670204700530706
+      },
+      "candidates": [
+        {
+          "name": "legacy-feature-ratio",
+          "selected": true,
+          "validation": {
+            "threshold": 13.797441011625715,
+            "tp": 2635,
+            "fp": 10,
+            "tn": 492,
+            "fn": 128,
+            "abstained": 89,
+            "precision": 0.996219281663516,
+            "recall": 0.9536735432500905,
+            "falsePositiveRate": 0.0199203187250996,
+            "f1": 0.9744822485207101,
+            "targetFalsePositiveRate": 0.02,
+            "negativeValidationSamples": 502
+          },
+          "test": {
+            "count": 3239,
+            "positive": 2708,
+            "negative": 531,
+            "tp": 2551,
+            "fp": 17,
+            "tn": 514,
+            "fn": 157,
+            "abstained": 117,
+            "precision": 0.993380062305296,
+            "recall": 0.9420236336779911,
+            "falsePositiveRate": 0.032015065913371,
+            "f1": 0.9670204700530706
+          }
+        },
+        {
+          "name": "tfidf-multinomial-nb",
+          "selected": false,
+          "validation": {
+            "threshold": 2.4672517329724246,
+            "tp": 2487,
+            "fp": 10,
+            "tn": 492,
+            "fn": 276,
+            "abstained": 89,
+            "precision": 0.9959951942330797,
+            "recall": 0.9001085776330076,
+            "falsePositiveRate": 0.0199203187250996,
+            "f1": 0.9456273764258556,
+            "targetFalsePositiveRate": 0.02,
+            "negativeValidationSamples": 502
+          },
+          "test": {
+            "count": 3239,
+            "positive": 2708,
+            "negative": 531,
+            "tp": 2404,
+            "fp": 13,
+            "tn": 518,
+            "fn": 304,
+            "abstained": 117,
+            "precision": 0.994621431526686,
+            "recall": 0.8877400295420975,
+            "falsePositiveRate": 0.02448210922787194,
+            "f1": 0.9381463414634146
+          }
+        }
+      ],
+      "limits": [
+        "Internal source-label evaluation, not measured real-world accuracy.",
+        "Templates and domains are grouped, but unseen paraphrases and future campaigns need independent testing.",
+        "Unflagged low-coverage cases count as misses for recall, not as evidence of safety."
+      ]
+    }
+  },
+  "url": {
+    "audit": {
+      "inputRows": 235795,
+      "invalidRows": 1,
+      "duplicateRows": 888,
+      "conflictingUrls": 1
+    },
+    "partition": {
+      "groups": 197299,
+      "crossingGroups": 0,
+      "splits": {
+        "train": {
+          "rows": 187076,
+          "positive": 79093,
+          "negative": 107983,
+          "groups": 157840
+        },
+        "validation": {
+          "rows": 25666,
+          "positive": 12170,
+          "negative": 13496,
+          "groups": 19709
+        },
+        "test": {
+          "rows": 22163,
+          "positive": 8794,
+          "negative": 13369,
+          "groups": 19750
+        }
+      }
+    },
+    "evaluation": {
+      "split": "SHA-256 groups of registrable domains (private suffixes included)",
+      "thresholdSelection": "Maximum validation recall subject to the configured false-positive-rate ceiling; validation precision breaks ties.",
+      "targetFalsePositiveRate": 0.02,
+      "validation": {
+        "threshold": 4.236063581036872,
+        "tp": 8604,
+        "fp": 269,
+        "tn": 13227,
+        "fn": 3566,
+        "abstained": 489,
+        "precision": 0.969683308914685,
+        "recall": 0.7069843878389482,
+        "falsePositiveRate": 0.019931831653823354,
+        "f1": 0.8177541225110488,
+        "targetFalsePositiveRate": 0.02,
+        "negativeValidationSamples": 13496
+      },
+      "test": {
+        "count": 22163,
+        "positive": 8794,
+        "negative": 13369,
+        "tp": 5131,
+        "fp": 255,
+        "tn": 13114,
+        "fn": 3663,
+        "abstained": 477,
+        "precision": 0.9526550315633123,
+        "recall": 0.5834659995451444,
+        "falsePositiveRate": 0.019073977111227467,
+        "f1": 0.7236953455571228
+      },
+      "candidates": [
+        {
+          "name": "legacy-feature-ratio",
+          "selected": true,
+          "validation": {
+            "threshold": 4.236063581036872,
+            "tp": 8604,
+            "fp": 269,
+            "tn": 13227,
+            "fn": 3566,
+            "abstained": 489,
+            "precision": 0.969683308914685,
+            "recall": 0.7069843878389482,
+            "falsePositiveRate": 0.019931831653823354,
+            "f1": 0.8177541225110488,
+            "targetFalsePositiveRate": 0.02,
+            "negativeValidationSamples": 13496
+          },
+          "test": {
+            "count": 22163,
+            "positive": 8794,
+            "negative": 13369,
+            "tp": 5131,
+            "fp": 255,
+            "tn": 13114,
+            "fn": 3663,
+            "abstained": 477,
+            "precision": 0.9526550315633123,
+            "recall": 0.5834659995451444,
+            "falsePositiveRate": 0.019073977111227467,
+            "f1": 0.7236953455571228
+          }
+        }
+      ],
+      "limits": [
+        "Internal source-label evaluation, not measured real-world accuracy.",
+        "Templates and domains are grouped, but unseen paraphrases and future campaigns need independent testing.",
+        "Unflagged low-coverage cases count as misses for recall, not as evidence of safety."
+      ]
+    }
+  },
+  "limits": [
+    "No external API calls or private feedback used.",
+    "Synthetic curated cases are development data, not independent validation.",
+    "Test metrics assess model components; exact-lookup indexes and full-app rules are not evaluated here."
+  ]
+}

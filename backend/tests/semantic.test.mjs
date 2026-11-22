@@ -8,6 +8,7 @@ import worker from '../worker/index.js';
 import adapter from '../api/assess.js';
 
 const reported = [
+  'I will make sure your family never sees you again.',
   'hoy pre sendan moko ng pera patay ka sakin',
   'mag ingat ka ngayon at delikado ka sakin',
   'tingin sa likod mo, im coming for you...',
@@ -18,7 +19,6 @@ for (const text of reported)
     assert(['Suspicious', 'High risk'].includes(assessContent({ text }).level)),
   );
 for (const text of [
-  'I will make sure your family never sees you again.',
   'Wag kang magpapakita sakin kung ayaw mong masaktan.',
   'Pay me tonight or your private video goes to everyone you know.',
   'Our meeting is tomorrow afternoon.',
@@ -82,7 +82,7 @@ test('OpenRouter enforces free models, zero-price routing and grounded structure
       assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
       assert.equal(options.headers.Authorization, 'Bearer ' + routerKey.OPENROUTER_API_KEY);
       const payload = JSON.parse(options.body);
-      assert.equal(payload.model, 'openrouter/free');
+      assert.equal(payload.model, 'baidu/ernie-5.5-flash-preview:free');
       assert.equal(payload.response_format.json_schema.strict, true);
       assert.deepEqual(payload.provider.max_price, {
         prompt: 0,

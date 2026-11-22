@@ -1,5 +1,6 @@
 import { analyze } from './detection.js';
 import { combineAssessment } from './assessment.js';
+import { isUnsupportedQrPayload } from './qr-payload.js';
 
 // One assessment path for typed messages, addresses, OCR output and QR payloads.
 /** @param {{text?:string,urls?:string[],kind?:string,uncertain?:boolean,verification?:any}} options */
@@ -11,10 +12,10 @@ export function assessContent({
   verification = null,
 } = {}) {
   const local = analyze(text, urls);
+  local.inputKind = kind;
   local.localPatternLevel = local.level;
   local.uncertainExtraction = uncertain;
-  const unsupportedQr =
-    kind === 'qr' && /^(?:WIFI:|BEGIN:VCARD|otpauth:|upi:|bitcoin:|geo:)/i.test(text.trim());
+  const unsupportedQr = (kind === 'qr' || kind === 'image') && isUnsupportedQrPayload(text);
   const poorEvidence = uncertain || unsupportedQr;
   local.unsupportedQr = unsupportedQr;
   if (poorEvidence && local.level === 'Low risk') {

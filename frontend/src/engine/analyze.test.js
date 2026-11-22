@@ -2,6 +2,48 @@ import { describe, expect, it, vi } from 'vitest';
 import { analyzeInput } from './analyze.js';
 
 describe('analyzeInput', () => {
+  it.each([
+    'Never send your OTP or password to another person. Contact official support if a stranger asks.',
+    'Huwag ibigay ang OTP o password mo sa ibang tao.',
+    'Do not send anyone your password or OTP. Use your bank’s official app instead.',
+  ])('clears stale warnings after review and abstains offline for protective wording: %s', async message => {
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({
+      level: 'Low risk', indicators: [], score: 0, aiReview: { status: 'completed' },
+    }));
+    try {
+      const local = await analyzeInput('text', { message }, { onlineLookup: false });
+      expect(local.level).toBe('unknown');
+      expect(local.signals).toEqual([]);
+      expect(fetcher).not.toHaveBeenCalled();
+      const reviewed = await analyzeInput('text', { message }, { ai: true });
+      expect(reviewed.level).toBe('low');
+      expect(reviewed.signals).toEqual([]);
+    } finally { fetcher.mockRestore(); }
+  });
+
+  it('shows the matched second URL even when the first URL has no report', async () => {
+    const first = 'https://example.com/', second = 'https://example.org/';
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({
+      level: 'High risk', indicators: [], onlineVerification: { status: 'completed',
+        results: [{ url: first, threats: [] }, { url: second, threats: ['SOCIAL_ENGINEERING'] }] },
+    }));
+    try {
+      const result = await analyzeInput('qr', { qrValue: first + '\n' + second });
+      expect(result.level).toBe('high');
+      expect(result.matchedUrls).toEqual([second]);
+      expect(result.signals.find(s => s.id === 'online_match').evidence).toBe(second);
+    } finally { fetcher.mockRestore(); }
+  });
+
+  it('keeps an authenticator QR local even with online AI enabled', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch');
+    try {
+      const result = await analyzeInput('qr', { qrValue: 'otpauth://totp/Demo?secret=EXAMPLE' }, { ai: true });
+      expect(result.privateQr).toBe(true);
+      expect(result.level).toBe('unknown');
+      expect(fetcher).not.toHaveBeenCalled();
+    } finally { fetcher.mockRestore(); }
+  });
   it('classifies a message with an OTP and account threat as high risk', async () => {
     const result = await analyzeInput(
       'text',
@@ -13,15 +55,25 @@ describe('analyzeInput', () => {
     expect(result.signals.map((signal) => signal.id)).toContain('otp_request');
   });
 
-  it('keeps ordinary, sufficiently detailed text at low risk', async () => {
+  it('keeps ordinary text unconfirmed when the detector is unavailable', async () => {
     const result = await analyzeInput(
       'text',
       { message: 'The school meeting has moved to Thursday afternoon at two.' },
       { onlineLookup: false },
     );
 
-    expect(result.level).toBe('low');
+    expect(result.level).toBe('unknown');
     expect(result.signals).toHaveLength(0);
+  });
+
+  it('preserves a backend abstention rather than upgrading it to low risk', async () => {
+    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({
+      level: 'Insufficient evidence', score: 0, indicators: [],
+    }));
+    try {
+      const result = await analyzeInput('text', { message: 'The meeting is on Thursday afternoon.' }, { onlineLookup: true });
+      expect(result.level).toBe('unknown');
+    } finally { fetch.mockRestore(); }
   });
 
   it('does not make a URL request when offline-only checks are selected', async () => {
@@ -107,7 +159,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Please claim now.' },
-        { onlineLookup: false },
+        { onlineLookup: true },
       );
       const signal = result.signals.find((item) => item.id === 'dataset-text-match');
       expect(signal?.evidence).toBe('claim now');
@@ -154,7 +206,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Open https://apintoto.com now. CashAB loan' },
-        { onlineLookup: false },
+        { onlineLookup: true },
       );
       const gambling = result.signals.find((item) => item.id === 'reported-gambling-link');
       const lender = result.signals.find((item) => item.id === 'stopped-lender');
@@ -271,18 +323,8 @@ describe('analyzeInput', () => {
     }
   });
 
-  it('keeps the lookalike warning when the online check is unavailable', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        level: 'Suspicious',
-        score: 3,
-        summary: 'Review signal.',
-        indicators: [],
-        onlineVerification: { status: 'unavailable' },
-      }),
-    });
-
+  it('keeps the local lookalike warning when both online services are unavailable', async () => {
+    const fetch = vi.spyOn(globalThis, 'fetch').mockRejectedValue(Error('offline'));
     try {
       const result = await analyzeInput('links', { url: 'https://gcas1.com/login' });
       expect(result.onlineNoKnownThreat).toBe(false);
@@ -347,7 +389,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Please claim your reward.' },
-        { onlineLookup: false },
+        { onlineLookup: true },
       );
       const ids = result.signals.map((signal) => signal.id);
       expect(ids).not.toContain('dataset-text-model');

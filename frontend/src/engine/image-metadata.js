@@ -3,14 +3,15 @@ import { verifyContentCredentials } from './c2pa-verify.js';
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_METADATA_BYTES = 1024 * 1024;
 const MAX_SEGMENTS = 4096;
-const MAX_VALUE_LENGTH = 300;
 
 const decoder = new TextDecoder();
 
 const AI_TOOL = /\b(?:DALL[- ]?E|Midjourney|Stable Diffusion|ComfyUI|AUTOMATIC1111|InvokeAI|Adobe Firefly|Fooocus|FLUX|Leonardo(?:\.AI)?|Ideogram)\b/i;
 const EDITOR_TOOL = /\b(?:Adobe Photoshop|Photoshop|GIMP|Lightroom|Canva|Affinity Photo|Pixelmator)\b/i;
 const AI_DECLARATION = /\b(?:trainedAlgorithmicMedia|compositeWithTrainedAlgorithmicMedia)\b/i;
-const GENERATION_SETTINGS = /\bSteps\s*:\s*\d+|\bSampler\s*:/i;
+const GENERATION_STEPS = /\bSteps\s*:\s*\d+\b/i;
+const GENERATION_SAMPLER = /\bSampler\s*:\s*[\w-]+/i;
+const GENERATION_CFG = /\bCFG scale\s*:\s*\d/i;
 const WORKFLOW = /"class_type"\s*:\s*"(?:KSampler|KSamplerAdvanced)"/i;
 const SEED = /\bSeed\s*[:=]\s*\d{1,12}\b/i;
 
@@ -28,8 +29,7 @@ function clean(value) {
   return String(value)
     .replace(/[\u0000-\u001f\u007f]+/g, ' ')
     .replace(/\s+/g, ' ')
-    .trim()
-    .slice(0, MAX_VALUE_LENGTH);
+    .trim();
 }
 
 function addFinding(findings, code) {
@@ -45,7 +45,11 @@ function scanText(context, text, key = '') {
   if (!value) return;
   const lowerKey = String(key).toLowerCase();
 
-  if (AI_DECLARATION.test(value)) addFinding(context.findings, 'ai-declaration');
+  if (AI_DECLARATION.test(value) && (lowerKey === 'digitalsourcetype' ||
+      /\bdigitalSourceType\b[^<>]{0,60}[=>:]\s*["']?(?:https?:\/\/[^\s"'<>]+\/)?(?:trainedAlgorithmicMedia|compositeWithTrainedAlgorithmicMedia)\b/i.test(value) ||
+      /\bdigitalSourceType\s*>\s*(?:https?:\/\/[^\s<>]+\/)?(?:trainedAlgorithmicMedia|compositeWithTrainedAlgorithmicMedia)\b/i.test(value))) {
+    addFinding(context.findings, 'ai-declaration');
+  }
 
   const toolValues =
     lowerKey === 'software' || lowerKey === 'creatortool'
@@ -58,7 +62,10 @@ function scanText(context, text, key = '') {
     addNote(context.notes, 'editorOnly');
   }
 
-  if ((lowerKey === 'parameters' || GENERATION_SETTINGS.test(value)) && GENERATION_SETTINGS.test(value)) {
+  const hasSteps = GENERATION_STEPS.test(value);
+  const hasSampler = GENERATION_SAMPLER.test(value);
+  if (((hasSteps || hasSampler) && lowerKey === 'parameters') ||
+      ([hasSteps, hasSampler, GENERATION_CFG.test(value), SEED.test(value)].filter(Boolean).length >= 2 && (hasSteps || hasSampler))) {
     addFinding(context.findings, 'generation-settings');
   }
   if (WORKFLOW.test(value)) addFinding(context.findings, 'generation-workflow');
@@ -135,10 +142,67 @@ function readExif(data, context) {
 
 function addC2pa(context, data) {
   context.credentials = true;
-  scanText(context, decoder.decode(data.subarray(0, Math.min(data.length, 4096))), 'c2pa');
+  scanText(context, decoder.decode(data), 'c2pa');
 }
 
-function readPng(bytes, context) {
+function reserveMetadata(context, length) {
+  if (context.metadataBytes + length > MAX_METADATA_BYTES) {
+    addNote(context.notes, 'limit');
+    return false;
+  }
+  context.metadataBytes += length;
+  return true;
+}
+
+async function readPngText(data, kind, context) {
+  const separator = data.indexOf(0);
+  if (separator < 1 || separator > 79) return;
+  const key = decoder.decode(data.subarray(0, separator));
+  let start = separator + 1;
+  let compressed = kind === 'zTXt';
+  if (kind === 'iTXt') {
+    const flag = data[start++];
+    if (flag !== 0 && flag !== 1) return;
+    compressed = flag === 1;
+  }
+  if (kind !== 'tEXt' && data[start++] !== 0) return;
+  if (kind === 'iTXt') {
+    for (let index = 0; index < 2; index++) {
+      const end = data.indexOf(0, start);
+      if (end < 0) return;
+      start = end + 1;
+    }
+  }
+  if (!compressed) {
+    scanText(context, decoder.decode(data.subarray(start)), key);
+    return;
+  }
+  if (typeof DecompressionStream !== 'function') {
+    addNote(context.notes, 'compressed');
+    return;
+  }
+  const reader = new Blob([data.subarray(start)]).stream().pipeThrough(new DecompressionStream('deflate')).getReader();
+  const textDecoder = new TextDecoder();
+  let text = '';
+  try {
+    while (true) {
+      const chunk = await reader.read();
+      if (chunk.done) break;
+      if (!reserveMetadata(context, chunk.value.length)) {
+        await reader.cancel();
+        return;
+      }
+      text += textDecoder.decode(chunk.value, { stream: true });
+    }
+    scanText(context, text + textDecoder.decode(), key);
+  } catch {
+    addNote(context.notes, 'compressed');
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+async function readPng(bytes, context) {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   let offset = 8;
   while (offset + 12 <= bytes.length && context.segments < MAX_SEGMENTS) {
@@ -151,38 +215,11 @@ function readPng(bytes, context) {
       return;
     }
     const data = bytes.subarray(offset + 8, end);
-    if (context.metadataBytes + data.length > MAX_METADATA_BYTES) {
-      addNote(context.notes, 'limit');
-      return;
+    if (['caBX', 'eXIf', 'tEXt', 'zTXt', 'iTXt'].includes(name) && reserveMetadata(context, data.length)) {
+      if (name === 'caBX') addC2pa(context, data);
+      else if (name === 'eXIf') readExif(data, context);
+      else await readPngText(data, name, context);
     }
-    context.metadataBytes += data.length;
-    if (name === 'caBX') addC2pa(context, data);
-    else if (name === 'eXIf') readExif(data, context);
-    else if (name === 'tEXt') {
-      const separator = data.indexOf(0);
-      if (separator >= 0 && separator <= 79) {
-        scanText(context, decoder.decode(data.subarray(separator + 1)), decoder.decode(data.subarray(0, separator)));
-      }
-    } else if (name === 'iTXt') {
-      const separator = data.indexOf(0);
-      if (separator >= 0 && separator <= 79) {
-        const key = decoder.decode(data.subarray(0, separator));
-        let start = separator + 1;
-        if (start + 2 > data.length) return;
-        if (data[start] === 1) {
-          addNote(context.notes, 'compressed');
-          return;
-        }
-        if (data[start] !== 0) return;
-        start += 2;
-        for (let index = 0; index < 2; index += 1) {
-          const next = data.indexOf(0, start);
-          if (next < 0) return;
-          start = next + 1;
-        }
-        scanText(context, decoder.decode(data.subarray(start)), key);
-      }
-    } else if (name === 'zTXt') addNote(context.notes, 'compressed');
     if (name === 'IEND') return;
     offset = end + 4;
   }
@@ -193,6 +230,7 @@ function readJpeg(bytes, context) {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   let offset = 2;
   while (offset + 4 <= bytes.length && context.segments < MAX_SEGMENTS) {
+    context.segments++;
     if (bytes[offset] !== 0xff) {
       addNote(context.notes, 'malformed');
       return;
@@ -213,19 +251,14 @@ function readJpeg(bytes, context) {
       return;
     }
     const data = bytes.subarray(offset + 2, end);
-    if (context.metadataBytes + data.length > MAX_METADATA_BYTES) {
-      addNote(context.notes, 'limit');
-      return;
-    }
-    context.metadataBytes += data.length;
-    if (marker === 0xe1) {
+    if (marker === 0xe1 && reserveMetadata(context, data.length)) {
       if (decoder.decode(data.subarray(0, 29)) === 'http://ns.adobe.com/xap/1.0/\0') {
         scanText(context, decoder.decode(data.subarray(29)));
       } else if (decoder.decode(data.subarray(0, 6)) === 'Exif\0\0') {
         readExif(data.subarray(6), context);
       }
     }
-    if (marker === 0xeb && data[0] === 0x4a && data[1] === 0x50) {
+    if (marker === 0xeb && data[0] === 0x4a && data[1] === 0x50 && reserveMetadata(context, data.length)) {
       const header = decoder.decode(data.subarray(0, Math.min(data.length, 1024)));
       if (header.includes('c2pa')) addC2pa(context, data);
     }
@@ -249,14 +282,11 @@ function readWebp(bytes, context) {
       return;
     }
     const data = bytes.subarray(offset + 8, end);
-    if (context.metadataBytes + data.length > MAX_METADATA_BYTES) {
-      addNote(context.notes, 'limit');
-      return;
+    if (['C2PA', 'EXIF', 'XMP '].includes(name) && reserveMetadata(context, data.length)) {
+      if (name === 'C2PA') addC2pa(context, data);
+      else if (name === 'EXIF') readExif(data, context);
+      else scanText(context, decoder.decode(data));
     }
-    context.metadataBytes += data.length;
-    if (name === 'C2PA') addC2pa(context, data);
-    else if (name === 'EXIF') readExif(data, context);
-    else if (name === 'XMP ') scanText(context, decoder.decode(data));
     offset = end + (length % 2);
   }
 }
@@ -355,7 +385,7 @@ export async function inspectImageMetadata(file, options = {}) {
       addNote(context.notes, 'tooLarge');
       return finalize(context);
     }
-    if (bytes[0] === 0x89 && decoder.decode(bytes.subarray(1, 4)) === 'PNG') readPng(bytes, context);
+    if (bytes[0] === 0x89 && decoder.decode(bytes.subarray(1, 4)) === 'PNG') await readPng(bytes, context);
     else if (bytes[0] === 0xff && bytes[1] === 0xd8) readJpeg(bytes, context);
     else if (decoder.decode(bytes.subarray(0, 4)) === 'RIFF' && decoder.decode(bytes.subarray(8, 12)) === 'WEBP') readWebp(bytes, context);
     else addNote(context.notes, 'unsupported');

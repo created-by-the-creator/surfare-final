@@ -45,49 +45,22 @@ describe('image visual mode follows connection status', () => {
     });
   });
 
-  it('uses visual AI when online without a separate sharing choice', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch');
-
-    try {
-      const result = await analyzeInput(
-        'image',
-        { image: {} },
-        { onlineLookup: true, imageMode: 'origin' },
-      );
-
-      expect(reviewImageOrigin).toHaveBeenCalledTimes(1);
-      expect(reviewImageOrigin).toHaveBeenCalledWith(
-        {},
-        { metadata: { labelKey: 'result.imageMetadata.label.none' } },
-      );
-      expect(inspectImage).not.toHaveBeenCalled();
-      expect(fetch).not.toHaveBeenCalled();
-      expect(result.imageOrigin.labelKey).toBe('result.imageOrigin.possible');
-      expect(result.summaryKey).toBe('result.imageMetadata.label.none');
-    } finally {
-      fetch.mockRestore();
-    }
+  it('shows the metadata result first and then the visual finding on a stripped image', async () => {
+    const local = vi.fn();
+    const result = await analyzeInput('image', { image: {}, imageVisualConsent: true },
+      { onlineLookup: true, imageMode: 'origin', onLocalResult: local });
+    expect(local.mock.calls[0][0].imageVisualStatus).toBe('pending');
+    expect(reviewImageOrigin).toHaveBeenCalledWith({});
+    expect(result.summaryKey).toBe('result.imageOrigin.possible');
+    expect(inspectImage).not.toHaveBeenCalled();
   });
 
-  it('runs local text detection only when offline, even if origin mode is requested', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({ ok: false });
-
-    try {
-      const result = await analyzeInput(
-        'image',
-        { image: {} },
-        { onlineLookup: false, imageMode: 'origin' },
-      );
-
-      expect(reviewImageOrigin).not.toHaveBeenCalled();
-      expect(inspectImageMetadata).not.toHaveBeenCalled();
-      expect(inspectImage).toHaveBeenCalledWith({}, { includeOcr: true });
-      expect(result.imageOrigin).toBeUndefined();
-      expect(result.imageVisualStatus).toBeUndefined();
-      expect(result.level).toBe('high');
-      expect(result.signals.map((signal) => signal.id)).toContain('otp_request');
-    } finally {
-      fetch.mockRestore();
-    }
+  it.each([false, true])('keeps the origin inconclusive without visual sharing (online=%s)', async onlineLookup => {
+    const result = await analyzeInput('image', { image: {} }, { onlineLookup, imageMode: 'origin' });
+    expect(inspectImageMetadata).toHaveBeenCalled();
+    expect(reviewImageOrigin).not.toHaveBeenCalled();
+    expect(inspectImage).not.toHaveBeenCalled();
+    expect(result.imageVisualStatus).toBe('skipped');
+    expect(result.summaryKey).toBe('result.imageOrigin.unclear');
   });
 });

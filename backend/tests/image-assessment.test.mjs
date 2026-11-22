@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { imageCheck } from '../server/services/image.js';
 import { validateImageAssessment } from '../lib/image-assessment.js';
-import { scoreOriginClues } from '../lib/image-origin-score.js';
+import { buildOriginReview } from '../lib/image-origin-score.js';
 import { imageOriginVerdict } from '../lib/image-origin.js';
 import worker from '../worker/index.js';
 import adapter from '../api/image-assess.js';
@@ -61,7 +61,7 @@ test('image configuration contains no credentials and independently enforces fre
     OPENROUTER_MODEL: 'test/text:free',
   });
   const config = await response.json();
-  assert.equal(config.model, 'openrouter/free');
+  assert.equal(config.model, 'nvidia/nemotron-3.5-super-vl:free');
   assert.equal(config.configured, true);
   assert(!JSON.stringify(config).includes(env.OPENROUTER_API_KEY));
   const paid = await imageCheck(req(), { ...env, OPENROUTER_IMAGE_MODEL: 'test/paid' }, () =>
@@ -143,7 +143,7 @@ test('free image requests send bounded inline data to a fixed provider and retur
   const response = await imageCheck(req(), env, async (url, options) => {
     assert.equal(url, 'https://openrouter.ai/api/v1/chat/completions');
     const payload = JSON.parse(options.body);
-    assert.equal(payload.model, 'openrouter/free');
+    assert.equal(payload.model, 'nvidia/nemotron-3.5-super-vl:free');
     assert.equal(payload.response_format.json_schema.strict, true);
     assert.deepEqual(
       payload.response_format.json_schema.schema.properties.clues.items.properties.id.enum,
@@ -167,7 +167,7 @@ test('free image requests send bounded inline data to a fixed provider and retur
   assert(!('score' in data));
 });
 
-test('local file-note clues are combined into visual review without sending raw values', async () => {
+test('legacy file notes cannot bias the independent visual review', async () => {
   const response = await imageCheck(
     req({
       metadata: {
@@ -180,34 +180,41 @@ test('local file-note clues are combined into visual review without sending raw 
     async (url, options) => {
       const payload = JSON.parse(options.body);
       const inputText = payload.messages[1].content[0].text;
-      assert.match(inputText, /The file names an AI tool/);
-      assert.match(inputText, /A source note was checked and passed/);
-      assert.match(inputText, /A photo editor name alone is not an AI clue/);
-      assert.match(inputText, /A source note was found but could not be checked/);
+      assert.doesNotMatch(inputText, /The file names an AI tool|A source note was checked/);
       assert.doesNotMatch(inputText, /made-up-code/);
       assert.doesNotMatch(inputText, /raw binary must not be sent/);
       return provider(compactReview);
     },
   );
   const data = await response.json();
-  assert.deepEqual(data.origin.nonClues, [
-    'A photo editor name alone is not an AI clue.',
-    'A source note was found but could not be checked.',
-    compactReview.nonClue,
-  ]);
+  assert.deepEqual(data.origin.nonClues, [compactReview.nonClue]);
   assert.equal(response.status, 200);
 });
 
-test('source-note checks add no AI evidence points', () => {
-  const compact = { clarity: 'clear', clues: [] };
-  assert.equal(
-    scoreOriginClues(compact, {
-      findings: ['credentials-verified', 'credentials-valid', 'credentials-invalid'],
-      notes: ['credentialsUnchecked'],
-    }).score,
-    0,
-  );
-  assert.equal(scoreOriginClues(compact, { findings: [], notes: ['c2paUnverified'] }).score, 0);
+test('visual ratings require independent, visible evidence', () => {
+  const clue = { id: 'objects', level: 2, note: 'A handle joins two unrelated objects.' };
+  assert.equal(buildOriginReview({ clarity: 'clear', clues: [] }).origin.likelihood, 'No clear');
+  assert.equal(buildOriginReview({ clarity: 'clear', clues: [clue] }).origin.likelihood, 'Possible');
+  assert.equal(buildOriginReview({ clarity: 'unclear', clues: [clue] }).origin.likelihood, 'Unclear');
+});
+
+test('a second visual review can find a clue on an untagged image and records the disagreement', async () => {
+  const response = await imageCheck(req({ secondReview: true }), { ...env, ...geminiEnv }, async url =>
+    url.includes('openrouter') ? provider({ clarity: 'clear', clues: [] }) : geminiProvider(compactReview));
+  const data = await response.json();
+  assert.equal(data.reviewCount, 2);
+  assert.equal(data.origin.likelihood, 'Possible');
+  assert.match(data.origin.summary, /could not confirm/);
+  assert.deepEqual(data.origin.observations, [compactReview.clues[0].note]);
+});
+
+test('a failed visual recheck preserves the completed first opinion', async () => {
+  const response = await imageCheck(req({ secondReview: true }), { ...env, ...geminiEnv }, async url =>
+    url.includes('openrouter') ? provider(compactReview) : new Response(null, { status: 429 }));
+  const data = await response.json();
+  assert.equal(data.reviewCount, 1);
+  assert.equal(data.origin.likelihood, 'Possible');
+  assert.equal(data.model, 'test/vision:free');
 });
 
 test('visible scam text receives grounded safety findings independently of image origin', async () => {
@@ -455,7 +462,7 @@ test('compact visual scores select labels locally without exposing the number', 
         { id: 'background', level: 2, note: 'A sixth clue.' },
       ],
       likelihood: 'Strong',
-      summary: 'Several specific visual clues were seen.',
+      summary: 'Several specific visual inconsistencies were seen.',
     },
     {
       clues: [
@@ -463,12 +470,12 @@ test('compact visual scores select labels locally without exposing the number', 
         { id: 'lighting', level: 2, note: 'A second clue.' },
       ],
       likelihood: 'Possible',
-      summary: 'Some specific visual clues were seen.',
+      summary: 'The visual review found a specific inconsistency that could be related to AI.',
     },
     {
       clues: [{ id: 'anatomy', level: 1, note: 'A possible clue.' }],
-      likelihood: 'No clear',
-      summary: 'No specific visual clue stood out.',
+      likelihood: 'Unclear',
+      summary: 'The visual details have several possible explanations.',
     },
   ];
   for (const item of cases) {
@@ -480,7 +487,7 @@ test('compact visual scores select labels locally without exposing the number', 
     assert.equal(data.origin.likelihood, item.likelihood);
     assert.equal(
       data.origin.label,
-      item.likelihood === 'No clear' ? 'No clear AI cues' : 'AI-like visual cues',
+      item.likelihood === 'Unclear' ? 'Uncertain' : 'AI-like visual cues',
     );
     assert.equal(data.origin.summary, item.summary);
     assert(!('score' in data));

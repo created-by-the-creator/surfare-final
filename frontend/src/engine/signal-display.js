@@ -6,6 +6,26 @@ function fallbackLabel(t) {
   return clean(t('fallback.missing')) || 'This needs a closer look.';
 }
 
+const EXPLANATION_GROUPS = {
+  pressure: ['pressure', 'urgency', 'threat_loss', 'reward-pressure', 'romance_or_emergency'],
+  personalSafety: ['violence', 'extortion', 'blackmail', 'intimidation', 'harassment'],
+  codes: ['otp_request'],
+  account: ['credential_request', 'personal', 'remote'],
+  money: ['money_demand', 'advance-fee', 'job-fee', 'investment', 'job_scam', 'prize_lottery', 'loan-fee', 'task-recruitment', 'load-transfer', 'guaranteed-winnings', 'winnings-deposit', 'account-bait', 'reward-action', 'delivery', 'new-number'],
+  identity: ['impersonation', 'brand_in_subdomain_not_domain', 'lookalike_brand', 'brand-imitation-link', 'lookalike-link', 'fake-regulator-link', 'cancel-lure', 'benefit-claim'],
+  secrecy: ['secrecy', 'secret'],
+  address: ['link_mismatch', 'ip_host', 'url_shortener', 'at_symbol', 'punycode_or_homoglyph', 'long_or_encoded_url', 'redirect_param', 'non_standard_port', 'excessive_subdomains', 'data_or_javascript_scheme', 'invalid_url', 'userinfo', 'shortener', 'redirect', 'subdomains', 'ip', 'lure', 'idn'],
+  weakAddress: ['no_https', 'risky_tld', 'link_in_message', 'generic_greeting'],
+  pattern: ['dataset-text-match', 'dataset-url-match', 'dataset-text-model', 'dataset-url-model', 'sms-pattern'],
+  report: ['reported-gambling-link', 'unlisted-gambling-link', 'watchlisted-gambling-link', 'stopped-lender'],
+};
+
+export function getSignalExplanation(signal, t) {
+  let group = Object.keys(EXPLANATION_GROUPS).find((key) => EXPLANATION_GROUPS[key].includes(signal?.id));
+  if (!group && /^(brand-|lookalike-)/.test(signal?.id || '')) group = 'identity';
+  return group ? t(`signalHelp.${group}`) : '';
+}
+
 export function getSignalLabel(signal, t) {
   if (!signal) return fallbackLabel(t);
   const key = `signal.${signal.id}`;

@@ -17,6 +17,7 @@ const FOOTER_LINKS = [
   { href: '#check', label: 'Safety Check' },
   { href: '/supported-content.html', label: 'Supported Content' },
   { href: '#how-it-works', label: 'How It Works' },
+  { href: '#practice', label: "Surfy's Scam Challenge" },
   { href: '#golden-rules', label: 'Golden Rules' },
   { href: '/understanding-results.html', label: 'Understanding Results' },
   { href: '#risk-levels', label: 'Risk Levels' },

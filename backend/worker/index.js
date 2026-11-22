@@ -3,8 +3,10 @@ import { semanticCheck } from '../server/services/semantic.js';
 import { imageCheck } from '../server/services/image.js';
 import { feedback } from '../server/services/feedback.js';
 import { detect } from '../server/services/detect.js';
+import { surfyChat } from '../server/services/surfy.js';
 export default {
   async fetch(request, env) {
+    if (new URL(request.url).pathname === '/api/surfy') return surfyChat(request, env);
     if (new URL(request.url).pathname === '/api/detect') return detect(request, env);
     if (new URL(request.url).pathname === '/api/feedback') return feedback(request, env);
     if (new URL(request.url).pathname === '/api/verify') return verify(request, env);

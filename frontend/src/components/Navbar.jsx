@@ -1,5 +1,5 @@
 ﻿import { useEffect, useId, useRef, useState } from 'react';
-import { Check, ChevronDown, Globe, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
+import { Check, ChevronDown, Gamepad2, Globe, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import './Navbar.css';
 
@@ -58,6 +58,7 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
           <img src={ASSETS.appIcon} alt="" width="38" height="38" decoding="async" />
           <span>Surfare</span>
         </a>
+        <a className="nav-practice-link" href="#practice"><Gamepad2 size={18} aria-hidden="true" />{t('nav.practice')}</a>
         <div className="nav-controls" ref={controls} onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setOpen(null);
         }}>
@@ -110,6 +111,7 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
                   {isOnline ? <Wifi size={19} aria-hidden="true" /> : <WifiOff size={19} aria-hidden="true" />}
                   <p>{t(!isOnline ? 'nav.offlineLimit' : import.meta.env.VITE_WORKER_URL ? 'nav.onlineCapability' : 'nav.lookupUnavailable')}</p>
                 </div>
+                <a className="offline-resources-link" href="#offline-resources" onClick={() => setOpen(null)}>{t('offline.connectionLink')}</a>
               </div>
             )}
           </div>

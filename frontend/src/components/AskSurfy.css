@@ -273,3 +273,9 @@
   .ask-panel-position > .ask-dialog, .ask-dialog .ask-content, .ask-dialog .chat-bubble, .ask-dialog .ask-wave, .ask-dialog .ask-avatar, .ask-dialog .chat-typing i { animation: none; }
   .ask-dialog .ask-form, .ask-dialog .ask-chip { transition: none; }
 }
+.check-ai-choice { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 12px; padding: 12px 14px; border: 1px solid #0b2a6f20; border-radius: 14px; background: #ffffff66; color: #244675; font-size: .875rem; cursor: pointer; }
+.check-ai-choice input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: #244f8d; flex-shrink: 0; }
+.check-ai-choice strong { display: block; font-size: .875rem; }
+.check-ai-choice small { display: block; margin-top: 4px; color: #61728a; font-size: .8125rem; line-height: 1.5; }
+.check-ai-choice:has(input:disabled) { cursor: default; opacity: .7; }
+.ask-mode-note { margin: 0; padding: 10px 16px 0; color: #58749a; font-size: .8125rem; line-height: 1.5; }

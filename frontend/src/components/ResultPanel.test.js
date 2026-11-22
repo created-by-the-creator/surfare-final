@@ -1,5 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { buildHighlightSegments } from './ResultPanel.jsx';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import ResultPanel, { buildHighlightSegments } from './ResultPanel.jsx';
+import { translate } from '../i18n/useI18n.js';
+
+it('shows progress and a caution before revealing the verdict or enabling a report', () => {
+  const t = (key, values) => translate('en', key, values);
+  const props = { result: { level: 'high', checkedText: 'Send your OTP', signals: [] }, t };
+  const pending = renderToStaticMarkup(createElement(ResultPanel, { ...props, status: 'reviewing' }));
+  expect(pending).toContain(t('check.progress.wait'));
+  expect(pending).toContain(t('check.progress.caution'));
+  expect(pending).not.toContain('risk-meter');
+  expect(pending).not.toContain('result-save-button');
+  const final = renderToStaticMarkup(createElement(ResultPanel, { ...props, status: 'result' }));
+  expect(final).toContain('result-save-button');
+  expect(final).not.toContain(t('check.progress.wait'));
+});
 
 describe('checked-message highlights', () => {
   it('builds clickable segments for warning evidence', () => {

@@ -1,0 +1,157 @@
+{
+  "provenance": "Synthetic development cases, exercised through Chrome and the running local backend. Not independent production validation.",
+  "count": 30,
+  "failures": 0,
+  "rows": [
+    {
+      "id": "message-challenge-001",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-002",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-003",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-004",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-005",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-006",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-007",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-008",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-009",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-010",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-011",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-012",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-013",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-014",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-015",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-016",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-017",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-018",
+      "label": "legitimate",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-019",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-020",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-021",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-022",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-023",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-024",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-025",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-026",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-027",
+      "label": "scam",
+      "level": "suspicious"
+    },
+    {
+      "id": "message-challenge-028",
+      "label": "spam",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-029",
+      "label": "spam",
+      "level": "unknown"
+    },
+    {
+      "id": "message-challenge-030",
+      "label": "spam",
+      "level": "unknown"
+    }
+  ]
+}

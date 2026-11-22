@@ -7,6 +7,8 @@ export async function generateStructured({
   name = 'message_safety',
   image,
   maxTokens = 3072,
+  timeoutMs = 25000,
+  reasoning = { effort: 'minimal', exclude: true },
   fetcher = fetch,
 }) {
   const payload = {
@@ -25,7 +27,7 @@ export async function generateStructured({
     ],
     response_format: { type: 'json_schema', json_schema: { name, strict: true, schema } },
     max_tokens: maxTokens,
-    reasoning: { effort: 'minimal', exclude: true },
+    reasoning,
     provider: {
       require_parameters: true,
       sort: 'latency',
@@ -39,7 +41,7 @@ export async function generateStructured({
       Authorization: 'Bearer ' + env.OPENROUTER_API_KEY.trim(),
     },
     body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(25000),
+    signal: AbortSignal.timeout(timeoutMs),
   });
   if (!response.ok) return { ok: false, http: response.status };
   const data = await response.json();

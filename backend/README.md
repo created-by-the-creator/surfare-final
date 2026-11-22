@@ -1,41 +1,27 @@
-# Surfare Backend
+# Surfare-Final
 
-This backend provides the local detection API and can also be deployed as a Cloudflare Worker.
+Surfare is an offline-first React and Vite digital safety application with a local Node detector API.
 
-## Local API
+## Structure
 
-Requires Node.js 22.13 or newer.
+- `frontend/` - React/Vite web application
+- `backend/` - Local detector API, detection engine, datasets, optional services, and Cloudflare Worker
+- `package.json` - npm workspace commands
+
+## Run
 
 ```sh
 npm install
+npm run backend:dev
 npm run dev
 ```
 
-The API is available at `http://127.0.0.1:8790`.
+Open the frontend at `http://localhost:5173`. The Vite server proxies `/api/*` to `http://127.0.0.1:8790`.
 
-- `GET /api/health`
-- `POST /api/detect`
-- `GET/POST /api/assess`
-- `GET/POST /api/verify`
-- `GET/POST /api/image-assess`
-- `POST /api/feedback`
-
-Optional online verification for `POST /api/detect` is enabled by setting
-`GOOGLE_SAFE_BROWSING_API_KEY` and sending `"online": true`. A completed check
-with no reported threat can suppress only weak name-lookalike warnings; exact
-list matches and all other warnings remain. A no-match result is not proof that
-a site is legitimate, and unavailable checks leave the original warnings in
-place.
-
-Optional Visual AI uses free-only image providers. Configure
-`OPENROUTER_API_KEY` and/or `GEMINI_API_KEY` as deployment secrets. OpenRouter
-is tried first, then Gemini free-tier models `gemini-4-hydrogen` and
-`gemini-3.5-flash-lite`. `GEMINI_IMAGE_MODEL` may select one of those two
-models; other model names are rejected. No paid model is used.
-
-## Cloudflare Worker
+## Validate
 
 ```sh
-npm run worker:dev
-npm run worker:deploy
+npm run backend:test
+npm test
+npm run build
 ```

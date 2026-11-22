@@ -55,9 +55,12 @@ export async function generateGeminiStructured({
   schema,
   image,
   maxTokens = 3072,
+  timeoutMs = 25000,
+  retryTransient = false,
   fetcher = fetch,
 }) {
-  const response = await fetcher(`${GEMINI_ENDPOINT}${encodeURIComponent(config.model)}:generateContent`, {
+  const url = `${GEMINI_ENDPOINT}${encodeURIComponent(config.model)}:generateContent`;
+  const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -69,12 +72,12 @@ export async function generateGeminiStructured({
         {
           role: 'user',
           parts: [
-            {
+            ...(image ? [{
               inlineData: {
                 mimeType: 'image/jpeg',
                 data: image.slice(IMAGE_DATA_PREFIX.length),
               },
-            },
+            }] : []),
             { text: input },
           ],
         },
@@ -85,8 +88,16 @@ export async function generateGeminiStructured({
         maxOutputTokens: maxTokens,
       },
     }),
-    signal: AbortSignal.timeout(25000),
-  });
+    signal: AbortSignal.timeout(timeoutMs),
+  };
+  let response = await fetcher(url, options);
+  // Retry temporary server errors once, sharing the original total time budget.
+  if (retryTransient && [408, 502, 503, 504].includes(response.status)) {
+    await response.body?.cancel();
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    options.signal.throwIfAborted();
+    response = await fetcher(url, options);
+  }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     const message = typeof body?.error?.message === 'string' ? body.error.message : '';

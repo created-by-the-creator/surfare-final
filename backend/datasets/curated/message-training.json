@@ -1,0 +1,224 @@
+{
+  "version": 1,
+  "role": "training-pool",
+  "provenance": "Hand-authored synthetic scenarios created during development. Not independently collected or human-verified production messages.",
+  "policy": "No user feedback or private messages included. Generic advertising is spam, not a verified scam.",
+  "cases": [
+    {
+      "id": "message-training-001",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Your verification code is 482901. Enter it only in the app you opened. Never share it with another person."
+    },
+    {
+      "id": "message-training-002",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Your parcel is arriving this afternoon. The delivery charge was paid when you placed the order."
+    },
+    {
+      "id": "message-training-003",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Your monthly bill is ready. Review it in your usual banking app before making a payment."
+    },
+    {
+      "id": "message-training-004",
+      "label": "legitimate",
+      "language": "English",
+      "text": "A reminder that the payment for our team lunch is due tomorrow. The receipt is in our group chat."
+    },
+    {
+      "id": "message-training-005",
+      "label": "legitimate",
+      "language": "English",
+      "text": "We received your job application. The interview is on Monday and applicants do not pay any fees."
+    },
+    {
+      "id": "message-training-006",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Security reminder: ignore anyone who asks you to send them your password or verification code."
+    },
+    {
+      "id": "message-training-007",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Ang code mo ay 482901. Ilagay lamang ito sa app na binuksan mo at huwag ibigay sa ibang tao."
+    },
+    {
+      "id": "message-training-008",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Darating ang inorder mong pagkain mamayang tanghali. Bayad na ito kasama ang delivery."
+    },
+    {
+      "id": "message-training-009",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Paalala sa bayarin sa kuryente: tingnan ang detalye sa dati mong account bago magbayad."
+    },
+    {
+      "id": "message-training-010",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Natanggap namin ang aplikasyon mo sa trabaho. Walang bayad ang panayam at pagsusulit."
+    },
+    {
+      "id": "message-training-011",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Huwag ipadala ang password o OTP mo sa taong tumatawag kahit sabihin niyang taga bangko siya."
+    },
+    {
+      "id": "message-training-012",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Nasa sobre ang resibo ng matrikula. Pakitago ito para sa susunod na pagpupulong sa paaralan."
+    },
+    {
+      "id": "message-training-013",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Paid na ang order mo. Check the receipt sa app na ginamit mo noong bumili ka."
+    },
+    {
+      "id": "message-training-014",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Your interview is confirmed bukas. Walang registration fee at hindi kailangan ang bank details mo."
+    },
+    {
+      "id": "message-training-015",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Reminder lang: never send your OTP sa caller. Ikaw lang dapat ang mag-enter nito sa app."
+    },
+    {
+      "id": "message-training-016",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Due na ang rent natin next week. Same payment arrangement as last month, may receipt pa rin."
+    },
+    {
+      "id": "message-training-017",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Na-refund na ang cancelled order. Makikita mo ang status sa purchase history mo."
+    },
+    {
+      "id": "message-training-018",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Security advisory: scammers may promise a prize and ask for a processing fee. Huwag magpadala."
+    },
+    {
+      "id": "message-training-019",
+      "label": "scam",
+      "language": "English",
+      "text": "Send me the OTP from your bank now so I can keep your account from being suspended."
+    },
+    {
+      "id": "message-training-020",
+      "label": "scam",
+      "language": "English",
+      "text": "You won a cash prize you did not enter. Transfer a processing fee to my personal wallet before I release it."
+    },
+    {
+      "id": "message-training-021",
+      "label": "scam",
+      "language": "English",
+      "text": "This investment guarantees triple your deposit in two days with no risk. Pay the activation fee today."
+    },
+    {
+      "id": "message-training-022",
+      "label": "scam",
+      "language": "English",
+      "text": "To receive your salary from this new online job, first send a deposit to unlock the withdrawal."
+    },
+    {
+      "id": "message-training-023",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Ipadala sa akin ang OTP ng bangko mo ngayon para hindi masara ang account mo."
+    },
+    {
+      "id": "message-training-024",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Nanalo ka ng premyo kahit hindi ka sumali. Magbayad muna sa personal kong wallet para makuha ito."
+    },
+    {
+      "id": "message-training-025",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Doble agad ang puhunan mo sa loob ng isang araw at walang panganib. Ipadala na ang deposito."
+    },
+    {
+      "id": "message-training-026",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Para makuha ang sahod sa trabahong ito, magbayad muna ng bayad sa pag-unlock ng withdrawal."
+    },
+    {
+      "id": "message-training-027",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Send mo sa akin ang bank OTP now. I need it para hindi ma-block ang account mo."
+    },
+    {
+      "id": "message-training-028",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Congrats winner ka kahit wala kang entry. Send muna ng release fee sa personal wallet ko."
+    },
+    {
+      "id": "message-training-029",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Guaranteed triple ang investment bukas, zero risk. Transfer your deposit now para makasali."
+    },
+    {
+      "id": "message-training-030",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "May salary ka na sa task job. Deposit muna para ma-unlock ang withdrawal ng earnings mo."
+    },
+    {
+      "id": "message-training-031",
+      "label": "spam",
+      "language": "English",
+      "text": "Weekend sale at our bookstore: selected novels are twenty percent off until Sunday."
+    },
+    {
+      "id": "message-training-032",
+      "label": "spam",
+      "language": "English",
+      "text": "Our cafe has a new lunch menu. Visit during regular opening hours if you would like to try it."
+    },
+    {
+      "id": "message-training-033",
+      "label": "spam",
+      "language": "Filipino",
+      "text": "May diskwento sa mga aklat sa tindahan namin ngayong katapusan ng linggo."
+    },
+    {
+      "id": "message-training-034",
+      "label": "spam",
+      "language": "Filipino",
+      "text": "Bukas na ang bago naming kainan. Tingnan ang menu sa tindahan kung nais mong bumisita."
+    },
+    {
+      "id": "message-training-035",
+      "label": "spam",
+      "language": "Taglish",
+      "text": "New menu sa cafe namin this weekend. Available during normal store hours."
+    },
+    {
+      "id": "message-training-036",
+      "label": "spam",
+      "language": "Taglish",
+      "text": "May sale sa bookstore until Sunday. Optional lang, visit if interested."
+    }
+  ]
+}

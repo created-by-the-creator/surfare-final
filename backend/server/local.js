@@ -5,6 +5,7 @@ import { semanticCheck } from './services/semantic.js';
 import { verify } from './services/reputation.js';
 import { imageCheck } from './services/image.js';
 import { feedback } from './services/feedback.js';
+import { surfyChat } from './services/surfy.js';
 
 export function createDetectorServer(environment = () => process.env) {
   const routes = new Map([
@@ -13,6 +14,7 @@ export function createDetectorServer(environment = () => process.env) {
     ['/api/verify', [verify, 20000]],
     ['/api/image-assess', [imageCheck, 1100000]],
     ['/api/feedback', [feedback, 12000]],
+    ['/api/surfy', [surfyChat, 60000]],
   ].map(([path, [service, maxBodyBytes]]) => [path, createNodeHandler(service, environment, {
     maxBodyBytes, errorMessage: 'Could not complete the check.', protocol: 'http:',
   })]));

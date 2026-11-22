@@ -146,6 +146,7 @@ export function applySemanticAssessment(local, response) {
     indicators: [...contextual.indicators, ...(resolvedWeak ? [] : local.indicators)],
     reviewedLocalIndicators: resolvedWeak ? local.indicators : [],
     semanticStatus: 'completed',
+    semanticLevel: contextual.level,
     semanticConflict: conflict,
     limitations: [
       ...local.limitations,

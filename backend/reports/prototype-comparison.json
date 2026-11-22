@@ -1,0 +1,2829 @@
+{
+  "createdAt": "2026-11-22T20:46:50.641Z",
+  "scope": "Read-only source comparison and authored development examples; not a production accuracy benchmark. No provider keys read or external requests made.",
+  "caveats": [
+    "These examples were used during development, so percentages would not estimate real-world accuracy.",
+    "Offline comparisons do not compare the default AI-enabled prototype against an AI-disabled current app as an accuracy contest.",
+    "The benign-AI experiment uses the same mocked valid answer only to isolate result merging, not to measure model accuracy.",
+    "OCR, image pixels, live website reputation and model providers are not accuracy-benchmarked in this report."
+  ],
+  "summary": {
+    "prototypeLocal": {
+      "count": 62,
+      "legitimate": 34,
+      "scam": 25,
+      "spam": 3,
+      "legitimateFlagged": 3,
+      "legitimateAbstained": 31,
+      "scamsWarned": 21,
+      "scamsCalledLow": 0,
+      "scamsAbstained": 4
+    },
+    "currentBackendLocal": {
+      "count": 62,
+      "legitimate": 34,
+      "scam": 25,
+      "spam": 3,
+      "legitimateFlagged": 0,
+      "legitimateAbstained": 34,
+      "scamsWarned": 25,
+      "scamsCalledLow": 0,
+      "scamsAbstained": 0
+    },
+    "currentDisplayed": {
+      "count": 62,
+      "legitimate": 34,
+      "scam": 25,
+      "spam": 3,
+      "legitimateFlagged": 0,
+      "legitimateAbstained": 34,
+      "scamsWarned": 25,
+      "scamsCalledLow": 0,
+      "scamsAbstained": 0
+    }
+  },
+  "bySource": {
+    "current-development-challenge": {
+      "prototypeLocal": {
+        "count": 30,
+        "legitimate": 18,
+        "scam": 9,
+        "spam": 3,
+        "legitimateFlagged": 3,
+        "legitimateAbstained": 15,
+        "scamsWarned": 8,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 1
+      },
+      "currentBackendLocal": {
+        "count": 30,
+        "legitimate": 18,
+        "scam": 9,
+        "spam": 3,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 18,
+        "scamsWarned": 9,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      },
+      "currentDisplayed": {
+        "count": 30,
+        "legitimate": 18,
+        "scam": 9,
+        "spam": 3,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 18,
+        "scamsWarned": 9,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      }
+    },
+    "prototype-authored-examples": {
+      "prototypeLocal": {
+        "count": 18,
+        "legitimate": 9,
+        "scam": 9,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 9,
+        "scamsWarned": 9,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      },
+      "currentBackendLocal": {
+        "count": 18,
+        "legitimate": 9,
+        "scam": 9,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 9,
+        "scamsWarned": 9,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      },
+      "currentDisplayed": {
+        "count": 18,
+        "legitimate": 9,
+        "scam": 9,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 9,
+        "scamsWarned": 9,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      }
+    },
+    "prototype-ai-smoke": {
+      "prototypeLocal": {
+        "count": 12,
+        "legitimate": 6,
+        "scam": 6,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 6,
+        "scamsWarned": 4,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 2
+      },
+      "currentBackendLocal": {
+        "count": 12,
+        "legitimate": 6,
+        "scam": 6,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 6,
+        "scamsWarned": 6,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      },
+      "currentDisplayed": {
+        "count": 12,
+        "legitimate": 6,
+        "scam": 6,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 6,
+        "scamsWarned": 6,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      }
+    },
+    "user-reported-regressions": {
+      "prototypeLocal": {
+        "count": 2,
+        "legitimate": 1,
+        "scam": 1,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 1,
+        "scamsWarned": 0,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 1
+      },
+      "currentBackendLocal": {
+        "count": 2,
+        "legitimate": 1,
+        "scam": 1,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 1,
+        "scamsWarned": 1,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      },
+      "currentDisplayed": {
+        "count": 2,
+        "legitimate": 1,
+        "scam": 1,
+        "spam": 0,
+        "legitimateFlagged": 0,
+        "legitimateAbstained": 1,
+        "scamsWarned": 1,
+        "scamsCalledLow": 0,
+        "scamsAbstained": 0
+      }
+    }
+  },
+  "fileComparisons": [
+    {
+      "file": "assessment-policy.js",
+      "identicalIgnoringLineEndings": true,
+      "prototypeSha256": "7d4b4896ad91a63b33ddc2da2647c3d5b5378d173f1cc3b3c52ffeaccfa6c6f4",
+      "currentSha256": "7d4b4896ad91a63b33ddc2da2647c3d5b5378d173f1cc3b3c52ffeaccfa6c6f4"
+    },
+    {
+      "file": "content-assessment.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "4d89cda7cb61ca320e10d590d61afda11d3ccc561c42d997b62043b862fd0ddb",
+      "currentSha256": "ab1f896eb72346e37950627c06d379b95e1d1f325c3e952b32813c08ce5a03ca"
+    },
+    {
+      "file": "assessment.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "df07462f1beeaa9823c4b1308c761920b05b472ce33ba7c2db1f7cb67be5a7b2",
+      "currentSha256": "055018995b03e4dcd667b4d33fcf81d87dc967575f93b298ba778f4ce6f67b3f"
+    },
+    {
+      "file": "semantic-assessment.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "08098aca7e9e99c8ebfa4db89e7b6231dab065a6636d767abd9b257f4c406b1e",
+      "currentSha256": "b9b1d1a79a92885c117190768604c28a97e9cbbd33f54286cf1ed17b203ab31e"
+    },
+    {
+      "file": "detection.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "68cd8d61a9612e99f6753ec982c706f52f4177e5282c854959d7e7c19c7e2375",
+      "currentSha256": "7a960060026050457660d1b69aa2581dc12f3b720406d340ef8e9c68ec8b7ca8"
+    },
+    {
+      "file": "scam-signals.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "1e04b1b6c9d471adccecdf36a016cfc7bb2a07350fd5a7ee56a5456ae84516a5",
+      "currentSha256": "20b260dc892527296e9a76e38280d7bd709480c845207e540f6fdb3bbe670f2e"
+    },
+    {
+      "file": "safety-signals.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "629ee376a2e92f5c7c39b3c8e2871b6a822bd72c9e4bf709981b429ca0de1bea",
+      "currentSha256": "764d06fddc6f352c91193a2316d3b96ec123321dba156aa326825301b40673f6"
+    },
+    {
+      "file": "text-evidence.js",
+      "identicalIgnoringLineEndings": false,
+      "prototypeSha256": "df42f98dcf1945c94c71ad029fc4102c19b423fd3c76c3f24c90958663a85f1c",
+      "currentSha256": "6c787eed324a5892d0ba9b186adb125e549f2145168f3ee546178570d20b7c50"
+    },
+    {
+      "file": "sms-features.js",
+      "identicalIgnoringLineEndings": true,
+      "prototypeSha256": "808169345df7292433a5ef424f2ff527ebace9a41e26a81440d1978ec8583796",
+      "currentSha256": "808169345df7292433a5ef424f2ff527ebace9a41e26a81440d1978ec8583796"
+    },
+    {
+      "file": "models/sms-model.json",
+      "identicalIgnoringLineEndings": true,
+      "prototypeSha256": "e85f2f59467c8f70902813b7857b7c51c8eb8f234eea6b441389e49f80aba98e",
+      "currentSha256": "e85f2f59467c8f70902813b7857b7c51c8eb8f234eea6b441389e49f80aba98e"
+    }
+  ],
+  "sourceFindings": [
+    {
+      "finding": "AI defaults differ",
+      "prototype": "AI enabled automatically when configured; unclear/suspicious checks use meaning review.",
+      "current": "AI help starts off and must be selected; enabling it reviews all supported text/URL/OCR/QR submissions.",
+      "files": [
+        "prototype/src/App.tsx:135",
+        "prototype/src/App.tsx:297",
+        "frontend/src/App.jsx:172"
+      ]
+    },
+    {
+      "finding": "Final display uses the completed detector verdict and its retained evidence. The browser runs shared contextual rules when disconnected."
+    },
+    {
+      "finding": "The original SMS model weights are identical",
+      "detail": "The old 97.44% archived score measures a spam/ham classifier, not scam accuracy or the full application. The prototype documentation says its newer detection changes were not accuracy-evaluated.",
+      "files": [
+        "prototype/docs/VALIDATION.md:7",
+        "prototype/README.md:86"
+      ]
+    },
+    {
+      "finding": "Current OCR retries difficult reads and exposes extraction uncertainty and editable text."
+    },
+    {
+      "finding": "Current image-origin mode checks file provenance offline, then separately reviews pixels when online sharing is selected."
+    },
+    {
+      "finding": "Current version also adds useful detection layers",
+      "detail": "Current backend includes exact reference matches, advisory dataset models, improved protective-advice handling, and cash-in/winnings context rules. These should be evaluated separately from frontend integration faults.",
+      "files": [
+        "backend/lib/detection.js",
+        "backend/lib/scam-signals.js",
+        "backend/lib/text-evidence.js"
+      ]
+    }
+  ],
+  "staleWarningsAfterBenignAi": [],
+  "differences": [
+    {
+      "id": "message-challenge-006",
+      "text": "Do not follow messages saying you won a prize and must pay a fee. Report them through the official support channel.",
+      "label": "legitimate",
+      "prototype": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackend": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      }
+    },
+    {
+      "id": "message-challenge-011",
+      "text": "May mga manlolokong nagsasabing may premyo ka. Huwag magbayad ng hinihingi nilang release fee.",
+      "label": "legitimate",
+      "prototype": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackend": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      }
+    },
+    {
+      "id": "message-challenge-016",
+      "text": "May alert ako about prize scams. If someone asks for a release fee, huwag mong bayaran.",
+      "label": "legitimate",
+      "prototype": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackend": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      }
+    },
+    {
+      "id": "message-challenge-024",
+      "text": "Siguradong apat na beses ang balik ng pera mo at walang panganib. Ipadala ang paunang deposito.",
+      "label": "scam",
+      "prototype": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackend": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      }
+    },
+    {
+      "id": "Implied disappearance",
+      "text": "I will make sure your family never sees you again.",
+      "label": "scam",
+      "prototype": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackend": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      }
+    },
+    {
+      "id": "Mixed-language sibling threat",
+      "text": "Pag hindi ka sumunod, I will hurt your sister.",
+      "label": "scam",
+      "prototype": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackend": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      }
+    },
+    {
+      "id": "cash-in-winnings",
+      "text": "okay lang ba makipag deal ako sayo? Cash in ka 100 ipapanalo kita 7k basta hati tayo 2k sakin 5k sayo",
+      "label": "scam",
+      "prototype": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackend": {
+        "level": "High risk",
+        "score": 8,
+        "tags": [
+          "guaranteed-winnings",
+          "winnings-deposit"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 8,
+        "tags": [
+          "guaranteed-winnings",
+          "winnings-deposit"
+        ]
+      }
+    }
+  ],
+  "cases": [
+    {
+      "id": "message-challenge-001",
+      "text": "A sign-in was requested on your device. Use code 735162 in that sign-in screen. Our staff will never ask you for this code.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-002",
+      "text": "The courier has your prepaid package. No additional transfer is needed. Track it using your existing order history.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-003",
+      "text": "Your card payment of 219 pesos was received. This is a receipt, and no reply or action is required.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-004",
+      "text": "Please send your share of the dinner bill after checking the receipt we already discussed.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-005",
+      "text": "The school scholarship committee will interview shortlisted students on Friday. There is no application fee.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-006",
+      "text": "Do not follow messages saying you won a prize and must pay a fee. Report them through the official support channel.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Suspicious",
+          "score": 4,
+          "tags": [
+            "advance-fee"
+          ]
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-007",
+      "text": "May humiling na mag-sign in sa app mo. Ang code ay 735162 at hindi ito dapat sabihin sa tumatawag.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-008",
+      "text": "Natanggap na ang bayad mong 219 piso. Resibo lamang ito at wala kang kailangang sagutin.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-009",
+      "text": "Handa na ang dokumento mo sa opisina. Dalhin ang resibo ng dati mong binayaran sa pagkuha nito.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-010",
+      "text": "Sa Biyernes ang panayam para sa scholarship. Walang sinisingil na aplikasyon ang paaralan.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-011",
+      "text": "May mga manlolokong nagsasabing may premyo ka. Huwag magbayad ng hinihingi nilang release fee.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Suspicious",
+          "score": 4,
+          "tags": [
+            "advance-fee"
+          ]
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-012",
+      "text": "Huwag ibahagi ang PIN mo kahit magpakilalang taga bangko ang kausap. Tumawag sa numerong nasa card mo.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-013",
+      "text": "Your payment went through, salamat. Receipt lang ito at no action needed from you.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-014",
+      "text": "Prepaid na yung parcel mo. Walang extra fee, check mo sa existing order page if needed.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-015",
+      "text": "Confirmed ang scholarship interview sa Friday. No application payment is required.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-016",
+      "text": "May alert ako about prize scams. If someone asks for a release fee, huwag mong bayaran.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Suspicious",
+          "score": 4,
+          "tags": [
+            "advance-fee"
+          ]
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-017",
+      "text": "Keep your PIN private kahit bank staff daw sila. Use the number printed on your card to verify.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-018",
+      "text": "Paki-settle ang share mo sa groceries once na-check mo yung resibo sa group natin.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "message-challenge-019",
+      "text": "Your bank access will be frozen in an hour. Reply to me with your password and the verification code we just sent.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "otp_request"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-020",
+      "text": "An unclaimed reward has been assigned to you. Pay a clearance charge into this personal account before you can receive it.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-021",
+      "text": "Earn a guaranteed four times your money with absolutely no risk. Send an initial deposit to reserve the return.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-022",
+      "text": "Masasara ang bank account mo sa loob ng isang oras. Ibigay mo sa akin ang password at verification code mo.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "otp_request"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-023",
+      "text": "May nakalaang premyo para sa iyo. Magpadala muna ng clearance fee sa personal na account bago ito ibigay.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-024",
+      "text": "Siguradong apat na beses ang balik ng pera mo at walang panganib. Ipadala ang paunang deposito.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-025",
+      "text": "Ma-freeze ang bank access mo in one hour. Reply with your password at verification code para ma-save ko ito.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "secret",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "otp_request"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-026",
+      "text": "May unclaimed reward ka. Pay a clearance fee muna sa personal account ko before release.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "advance-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-027",
+      "text": "Guaranteed four times ang pera mo, absolutely no risk. Deposit now para ma-reserve ang return.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-028",
+      "text": "Our clothing store is holding a clearance sale during normal business hours this Saturday.",
+      "label": "spam",
+      "language": "English",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-029",
+      "text": "May bagong paninda sa tindahan namin. Maaari kang bumisita kung interesado ka.",
+      "label": "spam",
+      "language": "Filipino",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "message-challenge-030",
+      "text": "New arrivals sa shop namin. Drop by during store hours if you want to browse.",
+      "label": "spam",
+      "language": "Taglish",
+      "sources": [
+        "current-development-challenge"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "en-01",
+      "text": "Your bank account has been suspended. Reply with your password and OTP immediately to restore access.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "otp_request",
+          "pressure"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "en-02",
+      "text": "You won a cash prize! Transfer a processing fee today to release your reward.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "en-03",
+      "text": "Congratulations! Click to claim your gift card. Only 2 minutes remain. Enter your information on the next page.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 6,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "reward-information",
+          "sms-pattern"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 6,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "reward-information",
+          "dataset-text-model",
+          "sms-pattern"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 6,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "reward-information",
+          "sms-pattern"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "en-04",
+      "text": "The office meeting starts at 10 AM. Please bring the printed agenda.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "en-05",
+      "text": "Thank you for buying a bookstore gift card. Your receipt is attached.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "en-06",
+      "text": "Never send your OTP or password to another person. Contact official support if a stranger asks.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "fil-01",
+      "text": "Nanalo ka ng premyo! Magbayad ng bayad ngayon bago makuha ang premyo.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "pressure",
+          "advance-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "fil-02",
+      "text": "Ibigay ang OTP ngayon para hindi mawala ang iyong account.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "otp_request",
+          "pressure"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "fil-03",
+      "text": "Siguradong doble ang pera mo sa investment namin. Magdeposit ngayon.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "investment"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "fil-04",
+      "text": "Magandang umaga. May pagpupulong tayo bukas sa paaralan. Dalhin ang inyong kuwaderno.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "fil-05",
+      "text": "Huwag ibigay ang OTP o password mo sa ibang tao.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "fil-06",
+      "text": "Salamat sa regalo mo para sa aking kaarawan. Nagustuhan ko ang aklat.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "tag-01",
+      "text": "GCash support po ito. Send your OTP ngayon para ma-verify ang account mo.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "secret",
+          "pressure",
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "otp_request",
+          "pressure"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "tag-02",
+      "text": "May online job kami. Pay the registration fee para makapag-start sa task.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "job-fee"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "job-fee"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "job-fee"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "tag-03",
+      "text": "Nanalo ka ng gift card! Click continue to claim your prize. Only 5 minutes left.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "sms-pattern"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "dataset-text-model",
+          "sms-pattern"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Suspicious",
+        "score": 4,
+        "tags": [
+          "reward-action",
+          "reward-pressure",
+          "sms-pattern"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "tag-04",
+      "text": "Hi team, meeting natin at 4 PM. Bring your notes para ma-finalize ang paper.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "tag-05",
+      "text": "Happy birthday! May bookstore gift card ako para sa iyo. Enjoy reading!",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "tag-06",
+      "text": "Reminder lang: never share your password. Keep your account secure.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "prototype-authored-examples"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Implied disappearance",
+      "text": "I will make sure your family never sees you again.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Private-image coercion",
+      "text": "Send me money by tonight or I will publish your private photos to everyone you know.",
+      "label": "scam",
+      "language": "English",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Protective advice",
+      "text": "Do not send anyone your password or OTP. Use your bank's official app instead.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Benign idiom",
+      "text": "This workout is killing me. Let's get some water and rest.",
+      "label": "legitimate",
+      "language": "English",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Reported sibling threat",
+      "text": "tanginamo pare yang kapatid mo na yan di pako binabayaran, pag ako nainis tanggal ang ulo nya",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Threat to release images",
+      "text": "Magpadala ka ng pera ngayong gabi o ikakalat ko ang pribado mong mga larawan.",
+      "label": "scam",
+      "language": "Filipino",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Polite debt reminder",
+      "text": "Pare, pakibayaran naman yung hiniram mong pera kapag may sahod ka na. Salamat.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Profanity without a threat",
+      "text": "Tangina, ang traffic ngayon. Late na ako sa klase.",
+      "label": "legitimate",
+      "language": "Filipino",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Mixed-language family threat",
+      "text": "Send mo yung pera by tonight or your family won't see you alive again.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "extortion"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Mixed-language sibling threat",
+      "text": "Pag hindi ka sumunod, I will hurt your sister.",
+      "label": "scam",
+      "language": "Taglish",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 6,
+        "tags": [
+          "violence"
+        ]
+      },
+      "sameBenignAi": null
+    },
+    {
+      "id": "Mixed-language exam idiom",
+      "text": "Grabe this exam is killing me. Tara kape after class.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "Ordinary shared expense",
+      "text": "Send mo yung share mo sa dinner kapag kaya na, no rush.",
+      "label": "legitimate",
+      "language": "Taglish",
+      "sources": [
+        "prototype-ai-smoke"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "gcash-reminder",
+      "text": "GCash Security Reminder: Never share your OTP with anyone. For more information about protecting your account, visit https://www.gcash.com",
+      "label": "legitimate",
+      "language": "Taglish/English",
+      "sources": [
+        "user-reported-regressions"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": [
+          "dataset-text-model"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "sameBenignAi": {
+        "prototypeBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "currentBackend": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": [
+            "dataset-text-model"
+          ]
+        },
+        "currentDisplayed": {
+          "level": "Low risk",
+          "score": 0,
+          "tags": []
+        },
+        "aiUsedByPrototypePolicy": true
+      }
+    },
+    {
+      "id": "cash-in-winnings",
+      "text": "okay lang ba makipag deal ako sayo? Cash in ka 100 ipapanalo kita 7k basta hati tayo 2k sakin 5k sayo",
+      "label": "scam",
+      "language": "Taglish/English",
+      "sources": [
+        "user-reported-regressions"
+      ],
+      "prototypeLocal": {
+        "level": "Insufficient evidence",
+        "score": 0,
+        "tags": []
+      },
+      "currentBackendLocal": {
+        "level": "High risk",
+        "score": 8,
+        "tags": [
+          "guaranteed-winnings",
+          "winnings-deposit"
+        ]
+      },
+      "currentDisplayed": {
+        "level": "High risk",
+        "score": 8,
+        "tags": [
+          "guaranteed-winnings",
+          "winnings-deposit"
+        ]
+      },
+      "sameBenignAi": null
+    }
+  ]
+}

@@ -88,15 +88,24 @@ export function scamSignals(text) {
     hits(/\b(?:points|bonus|prepaid|load|reward|convert|expire)\b/i),
     hits(/\*[\d*\s]{6,}#/),
   );
+  const winningsPromise = hits(
+    /\b(?:(?:ipapanalo|papanalunin|panalunin|papalduhin)\s+(?:(?:ko|namin)\s+)?(?:kita|ka|kayo)|ako bahala sa winning|guaranteed win(?:nings)?|sure win)\b/i,
+  );
   add(
     'guaranteed-winnings',
     'Someone promises to control your winnings',
     'The sender promises winnings and asks for contact or a share. This does not establish that a game or offer is legitimate.',
     3,
-    hits(
-      /\b(?:panalunin kita|papalduhin kita|ako bahala sa winning|guaranteed win(?:nings)?|sure win)\b/i,
-    ),
-    hits(/\b(?:reply|message|facebook|peysbuk|fb|bahala sa(?:kin| akin)|share|deposit)\b/i),
+    winningsPromise,
+    hits(/\b(?:reply|message|facebook|peysbuk|fb|bahala sa(?:kin| akin)|share|deposit|hati tayo|hatian)\b/i),
+  );
+  add(
+    'winnings-deposit',
+    'Cash-in requested for promised winnings',
+    'The sender asks for a cash-in or deposit while promising to control your winnings. This is a strong scam warning sign; do not send money on that promise.',
+    5,
+    winningsPromise,
+    hits(/\b(?:cash[ -]?in\s+(?:ka|kayo|muna)|mag[ -]?cash[ -]?in|mag[ -]?deposito|deposit\s+(?:first|now|money|funds|\d))\b/i),
   );
   return signals;
 }

@@ -173,7 +173,9 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
       if (!blob) throw new Error('capture_failed');
       const file = new File([blob], `surfare-camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
       if (!activeRef.current) return;
-      if (target === 'qr') onCapture(file, decodedValue);
+      // The preview runs on an earlier frame. Decode this exact file in the
+      // checker so a code left in view a moment ago cannot replace this one.
+      if (target === 'qr') onCapture(file, '');
       else {
         const photo = { file, quality: qualityCheckRef.current?.(video, false) ?? quality };
         capturedRef.current = photo;
@@ -246,11 +248,11 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
         ) : <button
           className="camera-capture"
           type="button"
-          disabled={errorKey === 'camera.denied' || !isReady || isCapturing || (isQrMode && !decodedValue)}
+          disabled={errorKey === 'camera.denied' || !isReady || isCapturing}
           onClick={capture}
         >
           <Camera size={19} aria-hidden="true" />
-          {isQrMode ? t('camera.useQr') : t('camera.capture')}
+          {isQrMode && decodedValue ? t('camera.useQr') : t('camera.capture')}
         </button>}
       </section>
     </div>, document.body,

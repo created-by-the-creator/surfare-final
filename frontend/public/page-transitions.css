@@ -1,0 +1,39 @@
+/* Shared by the app and the footer guides, including browser Back/Forward.
+   Native document transitions preserve ordinary links and navigation behavior. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  ::view-transition-group(root) {
+    animation: none;
+  }
+
+  ::view-transition-image-pair(root) {
+    isolation: isolate;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(root) {
+    /* Keep the outgoing page underneath until the incoming page fully covers it. */
+    animation: none;
+    opacity: 1;
+    z-index: 0;
+  }
+
+  ::view-transition-new(root) {
+    z-index: 1;
+    animation: surfare-page-arrive 300ms ease-out both;
+  }
+}
+
+/* Opacity and translation avoid filtering two full-page snapshots every frame. */
+@keyframes surfare-page-arrive {
+  0% { opacity: 0; transform: translateY(12px); }
+  70% { opacity: 1; transform: translateY(-2px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

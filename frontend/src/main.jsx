@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { flushSync } from 'react-dom';
 import '@fontsource-variable/fraunces';
 import '@fontsource-variable/outfit';
 import './index.css';
@@ -18,8 +19,9 @@ const startAtTop = () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' 
 startAtTop();
 window.addEventListener('pageshow', startAtTop);
 
-createRoot(document.getElementById('root')).render(
+// Commit the home page before the browser captures the incoming page transition.
+flushSync(() => createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <PrivacyProvider><App /></PrivacyProvider>
   </React.StrictMode>,
-);
+));

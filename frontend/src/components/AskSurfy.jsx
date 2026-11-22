@@ -12,6 +12,7 @@ export default function AskSurfy({
   onSend,
   openRequest,
   questionKeys = SURFY_QUESTION_KEYS,
+  aiEnabled = false,
   t,
 }) {
   const [draft, setDraft] = useState('');
@@ -33,6 +34,17 @@ export default function AskSurfy({
   }, [messages, isThinking, isCollapsed]);
 
   if (!isOpen) return null;
+
+  const cleanLabel = value => value.toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const seen = new Set(messages.slice(messages.findLastIndex(item => item.role === 'divider') + 1)
+    .filter(item => item.role === 'user').map(item => cleanLabel(item.text)));
+  const suggestions = questionKeys.map(item => typeof item === 'string' ? t(item) : item.text)
+    .filter(label => {
+      const key = cleanLabel(label);
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, 4);
 
   const submit = (value) => {
     const question = value.trim();
@@ -76,6 +88,7 @@ export default function AskSurfy({
       </header>
 
       <div className="ask-content" id="ask-conversation">
+        <p className="ask-mode-note" role="status">{t(aiEnabled ? 'ask.aiMode' : 'ask.localMode')}</p>
         <div className="ask-messages" ref={messagesRef} aria-live="polite" aria-relevant="additions text"
           onScroll={(event) => {
             const element = event.currentTarget;
@@ -108,9 +121,9 @@ export default function AskSurfy({
         </div>
 
         <div className="ask-chips" role="group" aria-label={t('ask.suggestions')}>
-          {questionKeys.map((key) => (
-            <button type="button" className="ask-chip" key={key} onClick={() => submit(t(key))}>
-              {t(key)}
+          {suggestions.map(label => (
+            <button type="button" className="ask-chip" key={label} onClick={() => { followLatestRef.current = true; onSend(label, { local: true }); }}>
+              {label}
             </button>
           ))}
         </div>
@@ -129,6 +142,7 @@ export default function AskSurfy({
             id="ask-input"
             ref={inputRef}
             rows="1"
+            maxLength={2000}
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
             onInput={(event) => {

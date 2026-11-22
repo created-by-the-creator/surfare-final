@@ -37,13 +37,35 @@ export function evidenceMatches(source, pattern, { activeOnly = false } = {}) {
   return found;
 }
 export function isProtective(text, index) {
+  // Treat explicitly quoted examples as advice only with a local educational cue.
+  // A report of an actual threat can have quotation marks too.
+  const beforeQuote = text.slice(Math.max(0, index - 240), index);
+  const quoted = beforeQuote.match(/(?:^|[.!?;\n])([^.!?;\n]{0,145}?)(["“'])[^"”'\n]{0,150}$/);
+  if (quoted) {
+    const closing = quoted[2] === '“' ? '”' : quoted[2];
+    const afterQuote = text.slice(index, index + 200);
+    const closeAt = afterQuote.indexOf(closing);
+    if (closeAt >= 0) {
+      const example = /\b(?:scam example|example (?:of (?:a |an )?(?:scam|phishing|fraudulent) (?:text|message)|of what scammers say)|halimbawa ng scam|sample scam (?:text|message))\s*[:,-]?\s*$/i.test(quoted[1]);
+      const reported = /\b(?:if (?:someone|somebody|anyone) (?:says|texts|writes)|kapag may (?:nagsabi|nagtext))\s*[:,]?\s*$/i.test(quoted[1]) &&
+        /^[,\s]*(?:report|ignore|block|do not|don't|never|i-report|huwag|wag)\b/i.test(afterQuote.slice(closeAt + 1));
+      if (example || reported) return true;
+    }
+  }
   // Negation applies only to the local clause, not to another request elsewhere.
   const before =
     text
       .slice(0, index)
-      .split(/[.!?;\n]|\b(?:but|pero|however|instead)\b/)
+      .split(/[.!?;\n]|\b(?:but|pero|however|instead)\b|\band\s+(?=(?:send|pay|transfer|reply|provide|enter|submit)\b)/)
       .pop() || '';
-  return /\b(?:never|do not|don't|dont|huwag|wag|hindi|di|won't|will not|not going to|avoid)\s+(?:(?:ever|please|mong?|na|po|kita|ka|ako|ikaw|ko|namin|we|i|you|your|ang|iyong|inyong|siya|sila|share|send|give|ibigay|ibahagi|ipadala|say|sabihin|provide|enter|submit|the|a|anyone|anybody|our|their)\s+){0,7}$/i.test(
+  const after = text.slice(index).split(/[.!?;\n]|\b(?:but|pero|however|instead)\b/)[0];
+  const directDemandAfter = /\band\s+(?:pay|send|give|transfer|reply)\s+(?:me|us|to me|to us)\b|\band\s+(?:send|share|give|provide)\s+(?:it|that|them|the code)\s+(?:to|with)\s+(?:me|us)\b/i.test(after);
+  const keepPrivate = !directDemandAfter && /\bkeep\s+(?:(?:your|the)\s+)?$/i.test(before)
+    && /^(?:otp|password|pin|cvv|verification code)\s+(?:private|secret|confidential)\b/i.test(after);
+  const reportedWarning = !directDemandAfter && /\b(?:do not|don't|never)\s+follow\s+(?:messages?|texts?|offers?)\s+(?:saying|that say)\b[^.!?;\n]{0,160}$/i.test(before);
+  const conditionalWarning = /\bif\s+(?:someone|anyone)\s+(?:asks|requests|demands)\b[^.!?;\n]{0,100}$/i.test(before)
+    && /,\s*(?:(?:huwag|wag)\s+(?:(?:mo|mong|na|po|ito|iyong)\s+){0,3}(?:bayaran|magbayad|ibigay|ipadala)|(?:do not|don't|never)\s+(?:pay|send|share|give))\b/i.test(after);
+  return keepPrivate || reportedWarning || conditionalWarning || /\b(?:never|do not|don't|dont|huwag|wag|hindi|di|won't|will not|not going to|avoid)\s+(?:(?:ever|please|mong?|na|po|kita|ka|ako|ikaw|ko|namin|we|i|you|your|ang|iyong|inyong|siya|sila|share|send|give|ibigay|ibahagi|ipadala|say|sabihin|provide|enter|submit|the|a|anyone|anybody|our|their|magbayad|bayaran|ng|hinihingi|nilang)\s+){0,7}$/i.test(
     before,
   );
 }

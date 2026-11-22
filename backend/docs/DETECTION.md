@@ -16,7 +16,7 @@ Spam/ham labels do not establish verified fraud, personal danger or sender ident
 ## Current policy
 
 - Local patterns detect combined requests and context, threats, coercion, suspicious URLs and learned spam-like wording.
-- Strong local High risk warnings skip AI; Suspicious and Insufficient evidence findings may receive opted-in contextual review.
+- The browser applies shared contextual rules and bundled text models first. With online AI help enabled, each supported submission also receives a contextual review. Strong local warnings survive a failed review.
 - Multiple weak hints remain Suspicious without a stronger signal.
 - Ordinary local non-matches abstain rather than certifying benign meaning.
 - AI output must use supported categories and grounded source quotations. Stronger explicit danger and known reputation threats are preserved.
@@ -40,6 +40,8 @@ Spam/ham labels do not establish verified fraud, personal danger or sender ident
 
 Automated regression tests use authored cases and mocked provider responses. Real OCR fixtures are synthetic screenshots, not a representative camera-image benchmark. Neither establishes population accuracy. The migration preserves behavior; it does not claim improved accuracy.
 
-The English OCR language data can read many Latin-script Filipino words, but recognition mistakes require review. QR checks decode one payload and do not authenticate payment/contact/Wi-Fi data. URL rules do not inspect destination pages or redirect chains. Image metadata is unverified, can be edited or stripped, and cannot authenticate an image by its absence. Visual AI review is not a forensic detector.
+OCR uses English and Filipino language data, retries difficult reads with alternate orientations and contrast, and lets the user correct the text before a new check. QR scans can recover multiple payloads. Credential and payment records stay on the device. URL checks inspect explicit cross-site destinations in the submitted address. The checker does not visit destination pages.
+
+Image-origin checks inspect file details first. When the user selects online visual review, the image is resized for pixel inspection. An additional configured provider can review it independently. A disagreement retains the specific observation as a possible clue. Missing provenance and an inconclusive visual review leave the origin undetermined.
 
 Any overall accuracy claim requires a defined task and population, independently labeled untouched examples, complete online/offline pipeline evaluation, provider failures in the denominator, and per-language/task recall, false alarms, abstentions and uncertainty. Preserve source licenses and document overlap/leakage checks before using repository datasets for a new evaluation.
