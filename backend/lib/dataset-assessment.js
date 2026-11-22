@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseCsv, parseCsvRows } from './csv-rows.js';
+import reviewedMessages from '../datasets/external/local-reviewed-messages.json' with { type: 'json' };
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const datasetsDir = path.join(backendRoot, 'datasets');
@@ -22,6 +23,14 @@ function loadTextRows() {
         intent: row.intent?.trim() || '',
         tokens: tokenSet(row.text),
       }));
+    for (const item of reviewedMessages.messages || []) {
+      if (!item.text?.trim()) continue;
+      textRows.push({
+        text: normalizeText(item.text),
+        intent: item.intent === 'HAM' ? 'HAM' : 'Scam',
+        tokens: tokenSet(item.text),
+      });
+    }
     textIndex = new Map();
     for (const row of textRows) {
       const first = row.text.split(' ')[0];
@@ -104,6 +113,7 @@ function textMatch(text) {
   }
 
   let best = null;
+  let bestSuspicious = null;
   for (const row of candidates) {
     if (row.text.length < 12) continue;
     const score = tokenSimilarity(normalized, row.text);
@@ -120,16 +130,26 @@ function textMatch(text) {
     if (!best || score > best.similarity || (score === best.similarity && prefixRatio > best.prefixRatio)) {
       best = match;
     }
+    if (
+      row.intent !== 'HAM' &&
+      (!bestSuspicious ||
+        score > bestSuspicious.similarity ||
+        (score === bestSuspicious.similarity && prefixRatio > bestSuspicious.prefixRatio))
+    ) {
+      bestSuspicious = match;
+    }
   }
-  if (!best || best.intent === 'HAM') {
+  // A benign closest neighbour must not hide a suspicious near-match.
+  const near = best?.intent === 'HAM' ? bestSuspicious : best;
+  if (!near) {
     textMatchCache.set(normalized, null);
     return null;
   }
   const strongPrefix =
     leftTokenCount(normalized) >= 8 &&
-    best.prefixRatio >= 0.82 &&
-    best.similarity >= 0.72;
-  const strongSimilarity = best.similarity >= 0.94;
+    near.prefixRatio >= 0.82 &&
+    near.similarity >= 0.72;
+  const strongSimilarity = near.similarity >= 0.94;
   if (!strongPrefix && !strongSimilarity) {
     textMatchCache.set(normalized, null);
     return null;
@@ -137,8 +157,8 @@ function textMatch(text) {
   const result = {
     kind: 'text',
     risk: 'high',
-    similarity: Math.max(best.similarity, best.prefixRatio),
-    intent: best.intent,
+    similarity: Math.max(near.similarity, near.prefixRatio),
+    intent: near.intent,
   };
   textMatchCache.set(normalized, result);
   return result;

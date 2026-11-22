@@ -3,3 +3,4 @@
 # Hostnames only; URLs on these hosts and their subdomains are covered.
 3go.run
 mpjl.run
+bangowin.com

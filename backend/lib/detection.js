@@ -536,7 +536,8 @@ export function analyze(text, explicitUrls = []) {
       'scam',
     );
   const datasetModels = assessDatasetModels(text, urls.map((u) => u.url));
-  if (datasetModels.text?.flagged)
+  const reviewedBenign = datasetMatch?.risk === 'low' && datasetMatch.kind === 'text';
+  if (datasetModels.text?.flagged && !reviewedBenign)
     add(
       'dataset-text-model',
       'Unusual message pattern',

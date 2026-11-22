@@ -94,9 +94,25 @@ export function scamSignals(text) {
     'The sender promises winnings and asks for contact or a share. This does not establish that a game or offer is legitimate.',
     3,
     hits(
-      /\b(?:panalunin kita|papalduhin kita|ako bahala sa winning|guaranteed win(?:nings)?|sure win)\b/i,
+      /\b(?:panalunin kita|papalduhin kita|ipapanalo kita|ako bahala sa winning|guaranteed win(?:nings)?|sure win)\b/i,
     ),
-    hits(/\b(?:reply|message|facebook|peysbuk|fb|bahala sa(?:kin| akin)|share|deposit)\b/i),
+    hits(/\b(?:reply|message|facebook|peysbuk|fb|bahala sa(?:kin| akin)|share|deposit|search)\b|@[\w.]+/i),
+  );
+  add(
+    'profit-share-bait',
+    'Money-doubling or profit-share offer',
+    'A stranger offers to grow your money and split the profit after you send cash. Confirm the person through a channel you already trust before sending money.',
+    5,
+    hits(/\b(?:cash in|magdeposito|mag-deposito|ipapanalo|papalduhin|panalunin|double your|multiply your)\b/i),
+    hits(/\b(?:hati tayo|hatian|split|komisyon|commission|deal|basta)\b/i),
+  );
+  add(
+    'gambling-signup-offer',
+    'Gambling sign-up bonus offer',
+    'A gambling message promises free credits or a welcome bonus and gives a code to use. Check the operator and the offer through its own official channel before signing up.',
+    3,
+    hits(/\b(?:welcome package|welcome bonus|free spins?|free credits?|bonus|panalo|nanalo|premyo|jackpot)\b/i),
+    hits(/\b(?:use code|promo code|use\s+\d+|register|sign up|maglaro|play now)\b/i),
   );
   return signals;
 }
