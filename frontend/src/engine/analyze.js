@@ -33,30 +33,35 @@ function completedOnlineCheck(verification) {
   );
 }
 
-async function checkUrlOnline(url) {
+async function checkUrlOnline(url, online = true) {
+  if (!online) return { matched: false, unavailable: true };
+
+  const endpoints = ['/api/check-url'];
   const workerUrl = import.meta.env.VITE_WORKER_URL;
-  if (!navigator.onLine || !workerUrl) {
-    return { matched: false, unavailable: true };
+  if (workerUrl) endpoints.push(`${workerUrl.replace(/\/$/, '')}/check-url`);
+
+  for (const endpoint of endpoints) {
+    const controller = new AbortController();
+    const timeout = globalThis.setTimeout(() => controller.abort(), 3000);
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url }),
+        signal: controller.signal,
+      });
+      if (!response.ok) continue;
+      const result = await response.json();
+      if (result?.unavailable === true || typeof result?.matched !== 'boolean') continue;
+      return { matched: result.matched, unavailable: false };
+    } catch (error) {
+      console.error('Online URL check failed:', error);
+    } finally {
+      globalThis.clearTimeout(timeout);
+    }
   }
 
-  const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 3000);
-  try {
-    const response = await fetch(`${workerUrl.replace(/\/$/, '')}/check-url`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url }),
-      signal: controller.signal,
-    });
-    if (!response.ok) throw new Error(`online_check_${response.status}`);
-    const result = await response.json();
-    return { matched: Boolean(result.matched), unavailable: false };
-  } catch (error) {
-    console.error('Online URL check failed:', error);
-    return { matched: false, unavailable: true };
-  } finally {
-    window.clearTimeout(timeout);
-  }
+  return { matched: false, unavailable: true };
 }
 
 function uniqueSignals(signals) {
@@ -230,7 +235,7 @@ export async function analyzeInput(
     onlineMatch = detector.onlineVerification.results.some((result) => result.threats?.length);
     if (onlineMatch) onlineNoKnownThreat = false;
   } else if (firstUrl && onlineLookup) {
-    const online = await checkUrlOnline(firstUrl);
+    const online = await checkUrlOnline(firstUrl, onlineLookup);
     onlineMatch = online.matched;
     onlineUnavailable = online.unavailable;
     onlineNoKnownThreat = !onlineMatch && !online.unavailable;

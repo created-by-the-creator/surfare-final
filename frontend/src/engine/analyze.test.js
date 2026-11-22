@@ -45,6 +45,32 @@ describe('analyzeInput', () => {
     }
   });
 
+  it('uses the same-origin Safe Browsing check for an online URL check', async () => {
+    const fetch = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
+      if (String(url).includes('/api/check-url')) {
+        return new Response(JSON.stringify({ matched: false, unavailable: false }), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+      return new Response('{}', { status: 404 });
+    });
+
+    try {
+      const result = await analyzeInput(
+        'links',
+        { url: 'example.com/help' },
+        { onlineLookup: true },
+      );
+
+      expect(result.onlineNoKnownThreat).toBe(true);
+      expect(result.onlineUnavailable).toBe(false);
+      expect(fetch).toHaveBeenCalledWith('/api/check-url', expect.anything());
+    } finally {
+      fetch.mockRestore();
+    }
+  });
+
   it('returns an insufficient-information result for short text', async () => {
     const result = await analyzeInput(
       'text',

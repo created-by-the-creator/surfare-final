@@ -9433,3 +9433,29 @@ html {
   .result-panel .result-cap { padding: 20px 18px 0; }
   .result-idle .result-body { min-height: 200px; padding: 22px 18px; }
 }
+
+/* =========================================
+   ANALYZING STATE - FULL WIDTH MESSAGE
+========================================= */
+
+.result-analyzing .result-loading {
+  width: 100%;
+  min-height: 100%;
+  align-content: center;
+  justify-content: stretch;
+  justify-items: stretch;
+  gap: 20px;
+}
+
+.result-analyzing .result-loading p {
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.result-analyzing .loading-orbit {
+  width: clamp(52px, 10vw, 72px);
+  height: clamp(52px, 10vw, 72px);
+  border-width: 5px;
+}
