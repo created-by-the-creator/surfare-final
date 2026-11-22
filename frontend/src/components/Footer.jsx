@@ -13,17 +13,17 @@ import './Footer.css';
 
 const FOOTER_LINKS = [
   { href: '#top', label: 'Home' },
-  { href: '#about', label: 'About Surfare' },
+  { href: '/about-surfare.html', label: 'About Surfare' },
   { href: '#check', label: 'Safety Check' },
-  { href: '#supported-content', label: 'Supported Content' },
+  { href: '/supported-content.html', label: 'Supported Content' },
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#golden-rules', label: 'Golden Rules' },
-  { href: '#results', label: 'Understanding Results' },
+  { href: '/understanding-results.html', label: 'Understanding Results' },
   { href: '#risk-levels', label: 'Risk Levels' },
-  { href: '#safety-tips', label: 'Online Safety Tips' },
+  { href: '/online-safety-tips.html', label: 'Online Safety Tips' },
   { href: '#privacy', label: 'Privacy & Security' },
-  { href: '#faq', label: 'Frequently Asked Questions' },
-  { href: '#contact', label: 'Contact Us' },
+  { href: '/faqs.html', label: 'Frequently Asked Questions' },
+  { href: '/contact-us.html', label: 'Contact Us' },
 ];
 
 export default function Footer({ t }) {
