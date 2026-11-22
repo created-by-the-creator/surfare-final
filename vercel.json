@@ -1,0 +1,27 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "frontend/dist",
+  "functions": {
+    "api/detect.js": {
+      "runtime": "@vercel/node",
+      "includeFiles": "backend/datasets/**"
+    },
+    "api/assess.js": {
+      "runtime": "@vercel/node",
+      "includeFiles": "backend/datasets/**"
+    },
+    "api/verify.js": {
+      "runtime": "@vercel/node",
+      "includeFiles": "backend/datasets/**"
+    },
+    "api/image-assess.js": {
+      "runtime": "@vercel/node",
+      "includeFiles": "backend/datasets/**"
+    },
+    "api/feedback.js": {
+      "runtime": "@vercel/node",
+      "includeFiles": "backend/datasets/**"
+    }
+  }
+}
