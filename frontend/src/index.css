@@ -9435,27 +9435,22 @@ html {
 }
 
 /* =========================================
-   ANALYZING STATE - FULL WIDTH MESSAGE
+   CHECK BUTTON - FULL WIDTH
 ========================================= */
 
-.result-analyzing .result-loading {
+.check-button {
   width: 100%;
-  min-height: 100%;
-  align-content: center;
-  justify-content: stretch;
-  justify-items: stretch;
-  gap: 20px;
+  min-height: 64px;
+  margin-top: 14px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.2;
+  white-space: normal;
+  text-align: center;
 }
 
-.result-analyzing .result-loading p {
-  font-size: clamp(26px, 4vw, 44px);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.result-analyzing .loading-orbit {
-  width: clamp(52px, 10vw, 72px);
-  height: clamp(52px, 10vw, 72px);
-  border-width: 5px;
+.check-button svg {
+  width: 22px;
+  height: 22px;
 }
