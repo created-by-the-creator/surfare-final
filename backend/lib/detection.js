@@ -109,6 +109,7 @@ function addReferenceIndicators(text, urls, add) {
       lenderEvidence,
       'scam',
     );
+  return datasetMatch?.risk === 'low' && datasetMatch.kind === 'text';
 }
 
 export function analyze(text, explicitUrls = []) {

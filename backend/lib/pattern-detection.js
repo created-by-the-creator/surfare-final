@@ -384,9 +384,9 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     }
     urls.push(a);
   }
-  addReferenceIndicators?.(text, urls, add);
+  const reviewedBenign = addReferenceIndicators?.(text, urls, add);
   const datasetModels = assessDatasetModels(text, urls.map((u) => u.url));
-  if (datasetModels.text?.flagged)
+  if (datasetModels.text?.flagged && !reviewedBenign)
     add(
       'dataset-text-model',
       'Unusual message pattern',
@@ -412,7 +412,7 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     /\b(?:otp|password|pin|cvv|seed phrase)\b/i.test(text) &&
     request.length === 0 &&
     indicators.length === 0;
-  if (model.flagged && !protectiveOnly)
+  if (model.flagged && !protectiveOnly && !reviewedBenign)
     add(
       'sms-pattern',
       'Pattern found in unwanted messages',

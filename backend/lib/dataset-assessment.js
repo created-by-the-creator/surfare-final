@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseCsv, parseCsvRows } from './csv-rows.js';
 import { messageLabel } from './message-labels.js';
+import reviewedMessages from '../datasets/external/local-reviewed-messages.json' with { type: 'json' };
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const datasetsDir = path.join(backendRoot, 'datasets');
@@ -23,6 +24,14 @@ function loadTextRows() {
         intent: row.intent?.trim() || '',
         tokens: tokenSet(row.text),
       }));
+    for (const item of reviewedMessages.messages || []) {
+      if (!item.text?.trim()) continue;
+      textRows.push({
+        text: normalizeText(item.text),
+        intent: item.intent === 'HAM' ? 'HAM' : 'Scam',
+        tokens: tokenSet(item.text),
+      });
+    }
     textIndex = new Map();
     for (const row of textRows) {
       const first = row.text.split(' ')[0];
@@ -107,7 +116,7 @@ function textMatch(text) {
     return result;
   }
 
-  let best = null;
+  let bestSuspicious = null;
   for (const row of candidates) {
     if (row.text.length < 12) continue;
     const score = tokenSimilarity(normalized, row.text);
@@ -121,19 +130,26 @@ function textMatch(text) {
     ) matchedPrefix += 1;
     const prefixRatio = leftTokens.length ? matchedPrefix / leftTokens.length : 0;
     const match = { ...row, similarity: score, prefixRatio };
-    if (!best || score > best.similarity || (score === best.similarity && prefixRatio > best.prefixRatio)) {
-      best = match;
+    if (
+      messageLabel(row.intent) === 'scam' &&
+      (!bestSuspicious ||
+        score > bestSuspicious.similarity ||
+        (score === bestSuspicious.similarity && prefixRatio > bestSuspicious.prefixRatio))
+    ) {
+      bestSuspicious = match;
     }
   }
-  if (!best || messageLabel(best.intent) !== 'scam') {
+  // A benign closest neighbour must not hide a suspicious near-match.
+  const near = bestSuspicious;
+  if (!near) {
     textMatchCache.set(normalized, null);
     return null;
   }
   const strongPrefix =
     leftTokenCount(normalized) >= 8 &&
-    best.prefixRatio >= 0.82 &&
-    best.similarity >= 0.72;
-  const strongSimilarity = best.similarity >= 0.94;
+    near.prefixRatio >= 0.82 &&
+    near.similarity >= 0.72;
+  const strongSimilarity = near.similarity >= 0.94;
   if (!strongPrefix && !strongSimilarity) {
     textMatchCache.set(normalized, null);
     return null;
@@ -141,8 +157,8 @@ function textMatch(text) {
   const result = {
     kind: 'text',
     risk: 'high',
-    similarity: Math.max(best.similarity, best.prefixRatio),
-    intent: best.intent,
+    similarity: Math.max(near.similarity, near.prefixRatio),
+    intent: near.intent,
   };
   textMatchCache.set(normalized, result);
   return result;
@@ -153,17 +169,18 @@ function leftTokenCount(value) {
 }
 
 function urlMatch(urls) {
+  if (!urls.length) return null;
   const index = loadUrlIndex();
+  let benign = null;
   for (const raw of urls || []) {
     const normalized = normalizeUrl(raw);
     if (!normalized || !index.has(normalized)) continue;
     const label = String(index.get(normalized)).trim();
     // PhiUSIIL: label 1 is legitimate; label 0 is phishing.
-    return label === '1'
-      ? { kind: 'url', risk: 'low', similarity: 1, label, url: normalized }
-      : { kind: 'url', risk: 'high', similarity: 1, label, url: normalized };
+    if (label === '0') return { kind: 'url', risk: 'high', similarity: 1, label, url: normalized };
+    if (label === '1') benign ??= { kind: 'url', risk: 'low', similarity: 1, label, url: normalized };
   }
-  return null;
+  return benign;
 }
 
 export function assessDatasets(text, urls = []) {
@@ -171,5 +188,5 @@ export function assessDatasets(text, urls = []) {
   const urlResult = urlMatch(urls);
   if (urlResult?.risk === 'high') return urlResult;
   if (textResult?.risk === 'high') return textResult;
-  return urlResult?.risk === 'low' ? urlResult : textResult?.risk === 'low' ? textResult : null;
+  return textResult?.risk === 'low' ? textResult : urlResult;
 }

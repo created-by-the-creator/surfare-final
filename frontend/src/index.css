@@ -9532,3 +9532,20 @@ html {
   .check-card .ask-dialog .ask-chip { max-width: 100%; min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
   .check-card .check-tab { min-height: 44px; }
 }
+
+.check-button {
+  width: 100%;
+  min-height: 64px;
+  margin-top: 14px;
+  padding: 0 16px;
+  border-radius: 12px;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.2;
+  white-space: normal;
+  text-align: center;
+}
+
+.check-button svg {
+  width: 22px;
+  height: 22px;
+}

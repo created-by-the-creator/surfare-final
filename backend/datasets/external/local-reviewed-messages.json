@@ -1,0 +1,21 @@
+{
+  "source": "Locally reviewed examples supplied by the app owner on 2026-11-23. Not from a public dataset; no redistribution licence applies.",
+  "messages": [
+    {
+      "text": "Dito nagsisimula ang saya at panalo! 8P FREE + 8888P welcome package + bonus. USE 716120 at  BangoWin.com",
+      "intent": "scam"
+    },
+    {
+      "text": "okay lang ba makipag deal ako sayo? Cash in ka 100 ipapanalo kita 7k basta hati tayo 2k sakin 5k sayo, Name :Allexa Brielle Lim search:@officialalex09",
+      "intent": "scam"
+    },
+    {
+      "text": "GCash,Sagot na ni GLoan ang 10.10 budols mo! Huwag papahuli sa best deals when you get affordable installments via GLoan! Tap Borrow > GLoan in the GCash app to avail.",
+      "intent": "HAM"
+    },
+    {
+      "text": "GCash Security Reminder: Never share your OTP with anyone. For more information about protecting your account, visit https://www.gcash.com",
+      "intent": "HAM"
+    }
+  ]
+}
