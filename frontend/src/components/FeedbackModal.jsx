@@ -25,6 +25,27 @@ function topicForCheckType(type) {
   return 'Message check';
 }
 
+async function loadEmailConfig() {
+  const builtIn = {
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  };
+  if (builtIn.publicKey && builtIn.serviceId && builtIn.templateId) return builtIn;
+  try {
+    const response = await fetch('/api/feedback-config', { cache: 'no-store' });
+    if (!response.ok) return builtIn;
+    const remote = await response.json();
+    return {
+      publicKey: remote.publicKey || builtIn.publicKey,
+      serviceId: remote.serviceId || builtIn.serviceId,
+      templateId: remote.templateId || builtIn.templateId,
+    };
+  } catch {
+    return builtIn;
+  }
+}
+
 export default function FeedbackModal({ isOpen, initialType, onClose, t }) {
   const [rating, setRating] = useState('');
   const [hoveredRating, setHoveredRating] = useState(0);
@@ -136,9 +157,7 @@ export default function FeedbackModal({ isOpen, initialType, onClose, t }) {
       return setError('feedback.error.email');
     }
 
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const { publicKey, serviceId, templateId } = await loadEmailConfig();
     if (!publicKey || !serviceId || !templateId) {
       setError('feedback.error.config');
       return;
