@@ -517,6 +517,7 @@ export default function App() {
             status={status}
             result={result}
             errorKey={errorKey}
+            isOnline={isOnline}
             t={t}
             onReset={reset}
             onReviewText={() => {

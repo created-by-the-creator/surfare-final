@@ -1,7 +1,8 @@
 export const OFFLINE_CACHE_NAME = 'surfare-ocr-offline-v1';
+// These sizes must match the files in frontend/public. resources.test.js verifies them.
 export const OFFLINE_RESOURCES = [
-  { url: '/tesseract/worker.min.js', bytes: 111309 },
-  { url: '/tesseract/tesseract-core-simd-lstm.wasm.js', bytes: 3899663 },
+  { url: '/tesseract/worker.min.js', bytes: 111307 },
+  { url: '/tesseract/tesseract-core-simd-lstm.wasm.js', bytes: 3899472 },
   { url: '/tesseract/tesseract-core-simd-lstm.wasm', bytes: 2857601 },
   { url: '/tessdata/eng.traineddata.gz', bytes: 10923060, decodedBytes: 23466654 },
   { url: '/tessdata/fil.traineddata.gz', bytes: 1516176, decodedBytes: 2509440 },

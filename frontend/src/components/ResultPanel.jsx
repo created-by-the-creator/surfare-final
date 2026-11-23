@@ -154,7 +154,7 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-export default function ResultPanel({ status, result, errorKey, t, onReset, onReviewText }) {
+export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedSignals, setSelectedSignals] = useState([]);
@@ -332,6 +332,9 @@ export default function ResultPanel({ status, result, errorKey, t, onReset, onRe
             )}
             {showResult && ['completed', 'unavailable'].includes(result.aiReview?.status) && (
               <p className="image-origin-status" role="status">{t(`ask.review.${result.aiReview.status}`)}</p>
+            )}
+            {showResult && !isOnline && (
+              <p className="image-origin-status" role="status">{t('result.offlineNotice')}</p>
             )}
             {showResult && result.mediaInfo?.text && !isImageReview && (
               <div className="image-origin-status">

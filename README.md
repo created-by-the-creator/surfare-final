@@ -61,13 +61,15 @@ Its authored scenarios are separate from detector training and evaluation data.
 
 ## Offline resources
 
-Choose **Download resources** below the checker to save the files needed for
-local image text checks in English and Filipino (about 19.3 MB to download).
-Progress, cancellation, and retry are available. Completed downloads stay on
-the device, and retry resumes from completed files. Browser storage clearing
-removes them. The production app caches its page separately, so it can reopen
-offline after the first online visit; external AI and reputation services still
-require a connection.
+On the first online visit, the installed app caches its page and then saves the
+files needed for local image text checks in English and Filipino (about 19.3 MB)
+in the background. **Download resources** below the checker still shows
+progress, cancellation, and retry, and resumes from completed files. Completed
+downloads stay on the device until browser storage is cleared. Surfare can be
+installed from the browser menu or the **Install Surfare** button where the
+browser offers it. After the first online visit, message, link, image, and QR
+detection run locally offline; online reputation lookups, AI help, and feedback
+are unavailable until you reconnect, and results say so.
 
 The welcome tour includes the download option and the scam-awareness game.
 

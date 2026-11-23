@@ -12,6 +12,8 @@
 .offline-resource-action small { color: #7a8ca5; font-size: .75rem; }
 .offline-cancel { min-height: 32px; padding: 2px 12px; border: 0; border-radius: 6px; background: transparent; color: #607897; font: inherit; font-size: .8125rem; cursor: pointer; }
 .offline-cancel:hover { background: #eaf1fc; }
+.offline-install-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 34px; padding: 5px 12px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: #275894; font: inherit; font-size: .8125rem; font-weight: 650; cursor: pointer; }
+.offline-install-button:hover { border-color: #bdcfe9; background: #edf4ff; }
 .offline-download-progress { display: flex; align-items: center; gap: 12px; max-width: 420px; margin-top: 12px; color: #3c659c; font-size: .75rem; }
 .offline-download-progress progress { flex: 1; height: 5px; border: 0; border-radius: 99px; overflow: hidden; appearance: none; }
 .offline-download-progress progress::-webkit-progress-bar { background: #dfe8f6; }

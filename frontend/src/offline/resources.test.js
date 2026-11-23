@@ -21,7 +21,7 @@ describe('offline resource pack', () => {
       expect(file.length).toBe(resource.bytes);
       if (resource.decodedBytes) expect(gunzipSync(file).length).toBe(resource.decodedBytes);
     }
-    expect(OFFLINE_PACK_BYTES).toBe(19307809);
+    expect(OFFLINE_PACK_BYTES).toBe(19307616);
   });
   it('downloads, caches, and recognizes a complete pack without another request', async () => {
     const cacheStorage = fakeStorage(); let requests = 0;
