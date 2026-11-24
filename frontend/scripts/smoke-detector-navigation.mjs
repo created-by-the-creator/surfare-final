@@ -23,12 +23,12 @@ try {
     const tabs = page.getByRole('tab');
     async function finish() {
       await page.locator('.check-button').click();
-      await page.locator('.result-actions').waitFor();
+      await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').waitFor();
       for (let i = 0; i < 4; i++) assert.equal(await tabs.nth(i).isEnabled(), true);
     }
     async function switched(index) {
       assert.equal(await tabs.nth(index).getAttribute('aria-selected'), 'true');
-      assert.equal(await page.locator('.result-actions').count(), 0);
+      assert.equal(await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').count(), 0);
       assert.equal(await page.locator('#ask-surfy').count(), 0);
       assert.equal(await page.locator('dialog[open]').count(), 0);
       assert.equal(await page.locator('.check-button').isDisabled(), true);
@@ -85,10 +85,10 @@ try {
   await page.locator('.image-local-progress').waitFor();
   for (let i = 0; i < 4; i++) assert.equal(await page.getByRole('tab').nth(i).isDisabled(), true);
   release();
-  await page.locator('.result-actions').waitFor();
+  await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').waitFor();
   await page.getByRole('tab').nth(0).click();
   assert.equal(await page.getByRole('tab').nth(0).getAttribute('aria-selected'), 'true');
-  assert.equal(await page.locator('.result-actions').count(), 0);
+  assert.equal(await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').count(), 0);
   records.push({ pendingCheck: 'tabs stay disabled until completion' });
   console.log(JSON.stringify(records, null, 2));
 } finally { await browser.close(); }

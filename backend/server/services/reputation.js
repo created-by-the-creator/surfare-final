@@ -1,6 +1,21 @@
 const json = (body, status = 200) =>
   Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
 
+function sameOrLocalOrigin(request) {
+  const origin = request.headers.get('origin');
+  if (!origin) return true;
+  try {
+    const source = new URL(origin);
+    const target = new URL(request.url);
+    if (source.origin === target.origin) return true;
+    return source.protocol === 'http:' && target.protocol === 'http:' &&
+      ['localhost', '127.0.0.1'].includes(source.hostname) &&
+      ['localhost', '127.0.0.1'].includes(target.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export async function verifyUrls(urls, env, fetcher = fetch) {
   if (!env.GOOGLE_SAFE_BROWSING_API_KEY)
     return json(
@@ -96,4 +111,37 @@ export async function verify(request, env, fetcher = fetch) {
     return json({ error: 'Only HTTP and HTTPS URLs are supported.' }, 400);
   }
   return verifyUrls(urls, env, fetcher);
+}
+
+// Local equivalent of the Vercel edge function in frontend/api/check-url.js.
+// It uses the same response contract so the frontend needs no deployment-specific code.
+export async function checkUrl(request, env = {}, fetcher = fetch) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405);
+  if (!sameOrLocalOrigin(request)) return json({ error: 'Origin rejected.' }, 403);
+  if (Number(request.headers.get('content-length') || 0) > 20000)
+    return json({ error: 'Request too large.' }, 413);
+  let body;
+  try {
+    const raw = await request.text();
+    if (raw.length > 20000) return json({ error: 'Request too large.' }, 413);
+    body = JSON.parse(raw);
+  } catch {
+    return json({ error: 'Provide a URL.' }, 400);
+  }
+  let url;
+  try {
+    url = new URL(String(body?.url || ''));
+  } catch {
+    return json({ error: 'Provide a URL.' }, 400);
+  }
+  if (!['http:', 'https:'].includes(url.protocol))
+    return json({ error: 'Unsupported URL.' }, 400);
+  const response = await verifyUrls([url.href], env, fetcher);
+  if (!response.ok) return json({ matched: false, unavailable: true });
+  const report = await response.json();
+  if (report.status !== 'completed') return json({ matched: false, unavailable: true });
+  const matched = (report.results || []).some(
+    (row) => Array.isArray(row.threats) && row.threats.length > 0,
+  );
+  return json({ matched, unavailable: false });
 }

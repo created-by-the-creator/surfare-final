@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseCsv, parseCsvRows } from './csv-rows.js';
 import { messageLabel } from './message-labels.js';
+import { normalizeForMatching } from './text-evidence.js';
 import reviewedMessages from '../datasets/external/local-reviewed-messages.json' with { type: 'json' };
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -34,11 +35,14 @@ function loadTextRows() {
     }
     textIndex = new Map();
     for (const row of textRows) {
-      const first = row.text.split(' ')[0];
-      if (!first) continue;
-      const bucket = textIndex.get(first) || [];
-      bucket.push(row);
-      textIndex.set(first, bucket);
+      // A changed greeting should not hide a known scam template. The final
+      // similarity and prefix gates below still decide whether it is a match.
+      const keys = row.text.split(' ').filter(Boolean).slice(0, 3);
+      for (const key of keys) {
+        const bucket = textIndex.get(key) || [];
+        bucket.push(row);
+        textIndex.set(key, bucket);
+      }
     }
   }
   return textRows;
@@ -64,9 +68,7 @@ function loadUrlIndex() {
 }
 
 export function normalizeText(value) {
-  return String(value ?? '')
-    .normalize('NFKC')
-    .toLowerCase()
+  return normalizeForMatching(value)
     .replace(/https?:\/\/\S+/g, ' ')
     .replace(/[^\p{L}\p{N}\s]/gu, ' ')
     .replace(/\s+/g, ' ')
@@ -100,8 +102,8 @@ function textMatch(text) {
   if (normalized.length < 12) return null;
   if (textMatchCache.has(normalized)) return textMatchCache.get(normalized);
   loadTextRows();
-  const firstToken = normalized.split(' ')[0];
-  const candidates = textIndex.get(firstToken) || [];
+  const keys = normalized.split(' ').filter(Boolean).slice(0, 3);
+  const candidates = [...new Set(keys.flatMap((key) => textIndex.get(key) || []))];
   const exact = candidates.find((row) =>
     row.text === normalized
   );

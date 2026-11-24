@@ -175,6 +175,11 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   );
   const onlineClean = Boolean(showResult && !warningCount && result?.onlineNoKnownThreat);
   const isUnknown = Boolean(showResult && level === 'unknown');
+  const unconfirmedContext = isUnknown && result.aiReview?.status !== 'completed' &&
+    !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction;
+  const enoughText = (result?.checkedText?.trim().split(/\s+/).filter(Boolean).length || 0) >= 4;
+  const noWarningToShow = Boolean(unconfirmedContext && !warningCount && enoughText);
+  const weakSignalsToShow = Boolean(unconfirmedContext && warningCount);
   const isMetadataReview = Boolean(showResult && result?.imageMetadata);
   const isOriginReview = Boolean(showResult && result?.imageOrigin);
   const isImageReview = isMetadataReview || isOriginReview;
@@ -253,7 +258,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
           ? t('result.imageReview.summaryVisual', { visual: originLabel })
           : t('result.imageReview.summaryFileOnly', { file: metadataLabel })
         : isUnknown
-      ? t(outcome ? `result.${outcome}.summary` : 'result.unknown.subtitle')
+      ? t(outcome ? `result.${outcome}.summary` : weakSignalsToShow ? 'result.unknown.withSignals' : 'result.unknown.subtitle')
       : onlineOnly
         ? t('result.summary.onlineOnly')
         : warningCount
@@ -324,15 +329,6 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 <p className="result-prompt">{summary}</p>
               </div>
             </div>
-
-            {status === 'error' && (
-              <div className="result-error" role="alert">
-                <button type="button" className="result-secondary-button" onClick={onReset}>
-                  <RotateCcw size={17} aria-hidden="true" />
-                  {t('check.new')}
-                </button>
-              </div>
-            )}
 
             {showResult && !isUnknown && (
               <div className={`risk-meter-wrap meter-position-${level}`}>

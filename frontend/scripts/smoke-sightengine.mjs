@@ -30,7 +30,7 @@ async function selectImage(page) {
 }
 async function start(page) { await page.locator('.check-button').click(); }
 async function completed(page) {
-  await page.locator('.result-actions').waitFor({ timeout: 45000 });
+  await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').waitFor({ timeout: 45000 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
 }
 try {

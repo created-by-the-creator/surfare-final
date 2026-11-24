@@ -99,7 +99,7 @@ try {
     const actual = await page.locator('.share-received').innerText();
     assert(actual.includes(notice), `Expected "${notice}", received "${actual}"`);
     assert.equal(new URL(page.url()).search, '');
-    assert.equal(await page.locator('.result-actions').count(), 0);
+    assert.equal(await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').count(), 0);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
   }
   async function arrive(url, notice) { await page.goto(url); await ready(notice); }

@@ -3,6 +3,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
   "functions": {
+    "api/extension.js": {
+      "includeFiles": "backend/datasets/**"
+    },
     "api/detect.js": {
       "includeFiles": "backend/datasets/**"
     }

@@ -17,6 +17,22 @@ const cases = [
 ];
 for (const [input, expected] of cases)
   test(input, () => assert.equal(analyze(input).level, expected));
+test('dotted and leet secret requests stay detectable with exact evidence', () => {
+  for (const text of [
+    'Send me your O.T.P code now or your account will be blocked.',
+    'Send me your p.i.n now.',
+    'Send me your 0ne t1me p4ssw0rd now.',
+    "Ano'ng O.T.P mo? Kailangan ko ngayon para ma-unlock yung account mo.",
+    'Ano’ng p.i.n mo? I-send mo sa akin ngayon.',
+  ]) {
+    const result = analyze(text);
+    assert.ok(result.indicators.some((item) => item.id === 'secret'), text);
+    assert.equal(result.level, 'High risk');
+    for (const indicator of result.indicators)
+      for (const evidence of indicator.evidence)
+        assert.equal(text.slice(evidence.start, evidence.end), evidence.text);
+  }
+});
 test('registered domain defeats subdomain impersonation', () =>
   assert.equal(analyzeUrl('https://gcash.com.attacker.example/login').domain, 'attacker.example'));
 test('correct PH domain suffix', () =>
@@ -28,6 +44,27 @@ test('trailing punctuation stripped', () =>
   assert.deepEqual(extractUrls('Open https://example.com/test.'), ['https://example.com/test']));
 test('official gcash not flagged for brand', () =>
   assert(!analyzeUrl('https://www.gcash.com').indicators.some((x) => x.id.startsWith('brand'))));
+test('reviewed social platform domains are treated as known official domains', () => {
+  const url = analyzeUrl('https://secure.avaaz.org');
+  assert(!url.indicators.some((x) => x.id === 'lure'));
+  assert.deepEqual(matchKnownPhishingHosts([
+    { host: 'www.instagram.com', url: 'https://www.instagram.com/' },
+  ]), []);
+  assert(analyzeUrl('https://faceb00k.com').indicators.some((x) => x.id === 'lookalike-facebook'));
+});
+test('brand names on user-controlled platform subdomains remain impersonation signals', () => {
+  for (const address of [
+    'https://facebook.substack.com/login',
+    'https://gcash.tumblr.com/verify',
+    'https://bpi.wordpress.com/pay',
+  ]) {
+    const ids = analyzeUrl(address).indicators.map((item) => item.id);
+    assert.ok(
+      ids.some((id) => id.startsWith('brand-')),
+      `${address} should still be checked for brand impersonation`,
+    );
+  }
+});
 test('gambling context flags a web address absent from the PAGCOR registered list', () => {
   const url = 'https://yyphs8i.com/#/cashwheel?a=0twbf7dc';
   for (const text of [`Play at ${url} now`, url]) {
@@ -64,6 +101,15 @@ test('registered gambling sites and non-gambling links do not get an unlisted wa
   const ordinary = analyze('Open https://example.com/docs for the meeting.');
   assert.equal(
     ordinary.indicators.some((item) => item.id === 'unlisted-gambling-link'),
+    false,
+  );
+});
+test('casual wager wording with an ordinary link is not treated as gambling promotion', () => {
+  const result = analyze(
+    'I bet you $5 that the lottery ticket is in my pocket. See https://example.com/photo',
+  );
+  assert.equal(
+    result.indicators.some((item) => item.id === 'unlisted-gambling-link'),
     false,
   );
 });

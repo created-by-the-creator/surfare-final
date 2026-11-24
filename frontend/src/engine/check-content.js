@@ -3,6 +3,7 @@ import { normalizeUrl } from '../../../backend/lib/url-input.js';
 import { isPrivateQrPayload, isUnsupportedQrPayload } from '../../../backend/lib/qr-payload.js';
 import { groundSignals } from './signal-display.js';
 import { apiFetch } from '../api/fetch.js';
+import { addBrowserReferenceIndicators } from './reference-indicators.js';
 
 const LEVELS = { 'High risk': 'high', Suspicious: 'suspicious', 'Low risk': 'low', 'Insufficient evidence': 'unknown' };
 const ADVISORY = new Set(['dataset-text-model', 'dataset-url-model']);
@@ -70,7 +71,11 @@ export async function checkExtractedContent(tab, content, mediaInfo, { onlineLoo
   const qrValues = mediaInfo?.qrValues || (mediaInfo?.qrValue ? [mediaInfo.qrValue] : []);
   const privateQr = isPrivateQrPayload(content) || qrValues.some(isPrivateQrPayload);
   const unsupportedQr = isUnsupportedQrPayload(content) || qrValues.some(isUnsupportedQrPayload);
-  const local = analyzePatterns(content, tab === 'links' ? [content] : []);
+  const local = analyzePatterns(
+    content,
+    tab === 'links' ? [content] : [],
+    addBrowserReferenceIndicators,
+  );
   const urls = local.urls.map(item => item.url).filter(url => url.length <= 2048);
   const base = {
     checkedText: content, mediaInfo, privateQr, unsupportedQr, score: local.score,

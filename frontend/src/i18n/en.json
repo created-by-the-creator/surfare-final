@@ -8,7 +8,7 @@
   "check.highlightHint": "Tap highlighted words to see why they stood out.",
   "check.nextSafety": "Save the message and tell someone you trust. If you feel in immediate danger, seek help now.",
   "check.reviewAgain": "Double-check with AI",
-  "result.noLocalWarning": "No strong warning surfaced, and the meaning of this message remains unconfirmed.",
+  "result.noLocalWarning": "The local checks found no recognised scam or threat patterns in this message. This does not verify the sender or establish that the message is safe.",
   "result.ocrUncertain": "Some words were hard to read. Compare the extracted text with the image and correct any mistakes before checking again.",
   "result.reviewText": "Edit extracted text and check again",
   "result.qrUnsupported": "This code contains structured data. Confirm its recipient or details in the app that issued it.",
@@ -387,6 +387,7 @@
   "signal.unlisted-gambling-link": "This gambling web address is not on the Philippine gaming regulator's published list of registered sites.",
   "signal.watchlisted-gambling-link": "This web address was reported for review and is not on the Philippine gaming regulator's published list of registered gambling sites.",
   "signal.fake-regulator-link": "This web address pretends to check gaming licences but is not official.",
+  "signal.gambling": "The link or message mentions gambling winnings, bonuses, or prize payouts.",
   "signal.stopped-lender": "The Philippine securities regulator ordered this loan service to stop.",
   "signal.sms-pattern": "The wording looks like an unwanted or scam text message.",
   "signal.invalid_url": "The link could not be read as a web address.",
@@ -487,7 +488,7 @@
   "error.image_dimensions": "This image is too large to check safely. Choose a smaller image.",
   "error.canvas_unavailable": "This browser cannot process the image. Try another image.",
   "error.image_ai_unavailable": "Visual AI is not available right now. File notes still worked.",
-  "error.image_ai_busy": "Visual AI is busy or out of free tries. No paid service was used.",
+  "error.image_ai_busy": "Visual AI is busy or unavailable. No result was used.",
   "error.image_ai_incomplete": "Visual AI did not give a clear answer. Nothing from it was used.",
   "error.image_ai_provider": "Visual AI could not connect. Refresh the page and try again.",
   "error.ocr_failed": "Text could not be read from this image. Try a clearer image or enter the text.",
@@ -565,7 +566,7 @@
   "notice.policy.sharing.title": "What may leave your device",
   "notice.policy.sharing.body": "Online URL checks run only when your connection status is Online. A detected web address may then be sent to the lookup service on Cloudflare and Google Safe Browsing when available. The app does not upload the full message or image for this lookup. AI image check is a separate mode; when used online, it sends a smaller copy of the image for visual review. A URL can itself contain personal information. Network services also receive technical connection information, such as an IP address.",
   "notice.policy.ai.title": "AI signals and image sharing",
-  "notice.policy.ai.body": "Image creation notes are checked on your device first. If you choose online AI-image detection, a resized copy is sent to Sightengine. Text double-checks and Surfy AI chat use OpenRouter, with Gemini as backup: submitted text, check details, questions and recent chat are shared for those features. Each service has its own account quotas, retention and data-use policies. Do not share information you want to keep private. Turning off AI help keeps Surfy replies local; online image detection has its own sharing choice.",
+  "notice.policy.ai.body": "Image creation notes are checked on your device first. If you choose online AI-image detection, a resized copy is sent to Sightengine. Text double-checks and Surfy AI chat use the configured AI providers (Agent Router, OpenRouter or Gemini): submitted text, check details, questions and recent chat are shared for those features. Each service has its own account quotas, retention and data-use policies. Do not share information you want to keep private. Turning off AI help keeps Surfy replies local; online image detection has its own sharing choice.",
   "notice.policy.retention.title": "Storage, feedback, and improvement",
   "notice.policy.retention.body": "Submitted content, analysis results, and the local chat are held in the current page session; the app does not write them to a saved submission history. Reloading or closing the page clears this in-memory state. Your language choice and a notice version with an acknowledgment date are saved in this browser until cleared. Offline app files may also be cached. Downloaded reports remain on your device. If you send feedback, EmailJS and the configured recipient receive the fields you submit, plus the page address and send time. Provider and recipient retention follow their own policies; no fixed deletion period is promised here. Reusing submissions or feedback for model training or a learning dataset requires a separate opt-in; this version does not perform automatic learning. Items shared from another app wait briefly in storage on this device. They are removed when opened in Surfare. Unopened items expire after 10 minutes and are removed on a later share or when opened; at most three are kept. Sharing does not start a check or an AI upload.",
   "notice.policy.security.title": "Security and data minimization",
@@ -685,5 +686,7 @@
   "share.error.empty": "Nothing came through. Try sharing it again.",
   "share.error.expired": "This shared item is no longer available. Please share it again.",
   "share.error.unavailable": "We couldn't open this shared item. Try sharing it again, or paste or upload it here.",
-  "share.installTip": "On Android: install Surfare from Chrome, then press and hold a message, link or image and choose Share ? Surfare."
+  "share.installTip": "On Android: install Surfare from Chrome, then press and hold a message, link or image and choose Share ? Surfare.",
+  "result.unknown.noWarning": "No local warning signs",
+  "result.unknown.withSignals": "A few warning signs were found, but they are not enough for a verdict. Verify before you act."
 }

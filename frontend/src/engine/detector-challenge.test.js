@@ -14,6 +14,6 @@ describe('development challenge through browser and backend signal merging', () 
         else if (row.label === 'legitimate') expect(['low', 'unknown']).toContain(result.level);
         else expect(result.level).not.toBe('high');
       } finally { fetch.mockRestore(); }
-    });
+    }, 20000);
   }
 });

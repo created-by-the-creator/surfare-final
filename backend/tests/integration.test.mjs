@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { checkContent, assessContent } from '../index.js';
 import { createDetectorServer } from '../server/local.js';
-import { verifyUrls } from '../server/services/reputation.js';
+import { verifyUrls, checkUrl } from '../server/services/reputation.js';
 import worker from '../worker/index.js';
 import { assessDatasets } from '../lib/dataset-assessment.js';
 
@@ -30,6 +30,13 @@ test('dataset assessment matches labeled text and URL records', () => {
   });
   const match = checked.indicators.find((indicator) => indicator.id === 'dataset-url-match');
   assert.equal(match?.evidence[0]?.text, 'http://www.teramill.com');
+});
+
+test('a changed greeting does not hide a known scam template', () => {
+  const match = assessDatasets(
+    'Hi Kai, Dito nagsisimula ang saya at panalo! 8P FREE + 8888P welcome package + bonus. USE 716120 at  BangoWin.com',
+  );
+  assert.equal(match?.risk, 'high');
 });
 
 test('address reference lists produce grounded warnings with exact evidence', () => {
@@ -138,6 +145,31 @@ test('reputation helper can report a completed check with no known threat', asyn
   assert.deepEqual(data.results[0].threats, []);
 });
 
+test('local URL check maps reputation results to the frontend contract', async () => {
+  const request = (body, headers = {}) => new Request('http://127.0.0.1:8790/api/check-url', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body),
+  });
+  const unconfigured = await checkUrl(request({ url: 'https://example.com/' }));
+  assert.deepEqual(await unconfigured.json(), { matched: false, unavailable: true });
+  assert.equal((await checkUrl(request({ url: 'javascript:alert(1)' }))).status, 400);
+  assert.equal((await checkUrl(request({ url: 'https://example.com/' }, { origin: 'https://evil.example' }))).status, 403);
+
+  const env = { GOOGLE_SAFE_BROWSING_API_KEY: 'test-key' };
+  const fetcher = async (url, options) => {
+    assert.match(String(url), /safebrowsing\.googleapis\.com/);
+    assert(!JSON.stringify(options).includes('test-key'));
+    return Response.json({
+      matches: [{ threat: { url: 'https://example.com/' }, threatType: 'SOCIAL_ENGINEERING' }],
+    });
+  };
+  const matched = await checkUrl(request({ url: 'https://example.com/' }), env, fetcher);
+  assert.deepEqual(await matched.json(), { matched: true, unavailable: false });
+
+  const clean = await checkUrl(request({ url: 'https://example.com/' }), env, async () =>
+    Response.json({ matches: [] }));
+  assert.deepEqual(await clean.json(), { matched: false, unavailable: false });
+});
+
 test('image upload helper requires explicit consent before accessing canvas or network', async () => {
   const { imageRequest } = await import('../browser.js');
   await assert.rejects(imageRequest(null, 'openrouter', 'origin'), /Opt in/);
@@ -177,6 +209,11 @@ test('standalone HTTP server validates local input and keeps provider services s
     assert.equal((await post({ text: threat, urls: ['x'.repeat(61000)] })).status, 413);
     assert.equal((await fetch(base + '/api/verify')).status, 200);
     assert.deepEqual(await (await fetch(base + '/api/verify')).json(), { configured: false });
+    const urlCheck = await fetch(base + '/api/check-url', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: 'https://example.com/' }),
+    });
+    assert.deepEqual(await urlCheck.json(), { matched: false, unavailable: true });
     const ai = await fetch(base + '/api/assess', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: normal, kind: 'message', consent: true, provider: 'openrouter' }),

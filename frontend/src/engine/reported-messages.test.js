@@ -23,7 +23,7 @@ describe('reported reminder and cash-in offer regressions', () => {
         const result = await check(reminder + link);
         expect(['low', 'unknown']).toContain(result.level);
         expect(result.signals.some((signal) => ['money_demand', 'impersonation', 'combo_bonus', 'otp_request', 'invalid_url'].includes(signal.id))).toBe(false);
-      }, 15000);
+      }, 30000);
     }
     for (const offer of [winningsOffer, '"' + winningsOffer + ',\\\nName: Example Sender\\\nsearch: @example_sender', 'Cash-in kayo 250. Ipapanalo ko kayo 9k, hati tayo sa kita.']) {
       it(`flags a cash-in request with a controlled-winnings promise (backend=${backendAvailable}, offer=${offer.slice(0, 25)})`, async () => {

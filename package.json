@@ -17,6 +17,7 @@
     "backend:dev": "npm run dev --workspace backend",
     "backend:start": "npm run start --workspace backend",
     "backend:test": "npm run test --workspace backend",
+    "build:browser-references": "npm run build:browser-url-indexes --workspace backend",
     "worker:dev": "npm run worker:dev --workspace backend",
     "worker:deploy": "npm run worker:deploy --workspace backend"
   },

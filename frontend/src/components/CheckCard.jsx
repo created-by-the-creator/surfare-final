@@ -71,6 +71,8 @@ export default function CheckCard({
     (activeTab === 'text' && inputs.message.trim().length > 0) ||
     (activeTab === 'links' && inputs.url.trim().length > 0) ||
     ((activeTab === 'image' || activeTab === 'qr') && Boolean(currentFile));
+  const isNewCheck = status === 'result' && !canReviewAgain;
+  const isPrimaryDisabled = isReceivingShare || isAnalyzing || (!isNewCheck && (!canCheck || (isLocked && !canReviewAgain)));
   const [ruleIndex, setRuleIndex] = useState(0);
   const guideState = isAnalyzing ? 'checking' : status === 'error' ? 'error'
     : status === 'result' ? 'done' : canCheck ? 'ready' : 'idle';
@@ -313,12 +315,12 @@ export default function CheckCard({
                   <button
                     className="check-button"
                     type="button"
-                    disabled={shareNotice === 'share.loading' || !canCheck || (isLocked && !canReviewAgain)}
-                    aria-disabled={shareNotice === 'share.loading' || !canCheck || (isLocked && !canReviewAgain)}
-                    onClick={canReviewAgain ? onReviewAgain : onCheck}
+                    disabled={isPrimaryDisabled}
+                    aria-disabled={isPrimaryDisabled}
+                    onClick={isNewCheck ? onReset : canReviewAgain ? onReviewAgain : onCheck}
                   >
-                    <ShieldCheck aria-hidden="true" />
-                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(canReviewAgain ? result?.aiImageOnly ? 'result.sightengine.retry' : 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
+                    {isNewCheck ? <RotateCcw aria-hidden="true" /> : <ShieldCheck aria-hidden="true" />}
+                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(isNewCheck ? 'check.new' : canReviewAgain ? result?.aiImageOnly ? 'result.sightengine.retry' : 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
                   </button>
                 </div>
               </div>
@@ -327,13 +329,6 @@ export default function CheckCard({
 
           <div className="check-result-column">
             {children}
-            {status === 'result' && (
-              <div className="result-actions">
-                <button className="new-check-button" type="button" onClick={onReset}>
-                  <RotateCcw aria-hidden="true" />{t('check.new')}
-                </button>
-              </div>
-            )}
           </div>
 
           {isAskOpen && !isAnalyzing && (

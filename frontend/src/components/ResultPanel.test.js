@@ -51,6 +51,51 @@ it('shows progress and a caution before revealing the verdict or enabling a repo
   expect(final).not.toContain(t('check.progress.wait'));
 });
 
+describe('unknown result wording', () => {
+  const renderUnknown = (result) => {
+    const t = (key, values) => translate('en', key, values);
+    return { html: renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t })), t };
+  };
+
+  it('does not call a long message with no warnings "too little to judge"', () => {
+    const { html, t } = renderUnknown({
+      level: 'unknown',
+      checkedText: 'Hey, are we still meeting at the cafe tomorrow morning?',
+      signals: [],
+    });
+    expect(html).toContain(t('result.unknown.noWarning'));
+    expect(html).toContain(t('result.noLocalWarning'));
+    expect(html).not.toContain(t('result.unknown.subtitle'));
+  });
+
+  it('explains weak warning signs instead of saying there is too little text', () => {
+    const { html, t } = renderUnknown({
+      level: 'unknown',
+      checkedText: 'Open http://example.com when you have a moment',
+      signals: [{ id: 'http', evidence: 'http://example.com' }],
+    });
+    expect(html).toContain(t('result.unknown.withSignals'));
+    expect(html).not.toContain(t('result.unknown.subtitle'));
+  });
+
+  it('keeps the original wording when there really is very little text', () => {
+    const { html, t } = renderUnknown({ level: 'unknown', checkedText: 'Hi.', signals: [] });
+    expect(html).toContain(t('result.unknown'));
+    expect(html).toContain(t('result.unknown.subtitle'));
+  });
+
+  it('keeps the original wording when AI review completed without a verdict', () => {
+    const { html, t } = renderUnknown({
+      level: 'unknown',
+      checkedText: 'Hey, are we still meeting at the cafe tomorrow morning?',
+      signals: [],
+      aiReview: { status: 'completed' },
+    });
+    expect(html).toContain(t('result.unknown'));
+    expect(html).toContain(t('result.unknown.subtitle'));
+  });
+});
+
 describe('checked-message highlights', () => {
   it('builds clickable segments for warning evidence', () => {
     const segments = buildHighlightSegments(

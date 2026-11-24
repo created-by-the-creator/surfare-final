@@ -2,7 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { parse as parseDomain } from 'tldts';
+
+import {
+  hostCandidates,
+  hostSuffixes,
+  matchesHostSet,
+  normalizeHost,
+} from './host-reference.js';
+import { hasGamblingContext } from './gambling-context.js';
+import { matchStoppedLenders, prepareLenderNames } from './lender-reference.js';
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const externalDir = path.join(backendRoot, 'datasets', 'external');
@@ -19,7 +27,9 @@ const lendersPath = path.join(externalDir, 'sec-stopped-lenders.txt');
 // Verified official domains that appear in the compact upstream index are
 // upstream false positives. They are not treated as conclusive known-phishing
 // matches; any enabled online threat check still applies independently.
-const VERIFIED_OFFICIAL_DOMAINS = new Set([
+// Reviewed platforms are deliberately not included: user-controlled subdomains
+// on those hosts must still be checkable for impersonation.
+export const VERIFIED_OFFICIAL_DOMAINS = Object.freeze([
   'bdo.com.ph',
   'bpi.com.ph',
   'gcash.com',
@@ -78,68 +88,19 @@ function loadHostSet(file) {
   return set;
 }
 
-function normalizeHost(value) {
-  return String(value || '')
-    .trim()
-    .toLowerCase()
-    .replace(/^\[/, '')
-    .replace(/\]$/, '')
-    .replace(/:\d+$/, '')
-    .replace(/\.$/, '');
-}
-
-function hostCandidates(host) {
-  const normalized = normalizeHost(host);
-  if (!normalized) return [];
-  return [...new Set([normalized, normalized.replace(/^www\./, '')])].filter(Boolean);
-}
-
-function hostSuffixes(host) {
-  const normalized = normalizeHost(host);
-  if (!normalized || !normalized.includes('.')) return [];
-  let base = normalized;
-  try {
-    base = normalizeHost(parseDomain(normalized, { allowPrivateDomains: true }).domain || normalized);
-  } catch {}
-  const labels = normalized.split('.');
-  const baseCount = base.split('.').length;
-  const suffixes = [];
-  for (let i = 0; i <= labels.length - baseCount; i++) {
-    suffixes.push(labels.slice(i).join('.'));
-  }
-  return [...new Set(suffixes)];
-}
-
 function fingerprint(host) {
   return crypto.createHash('sha256').update(host).digest('hex').slice(0, 16);
 }
 
-function matchesHostSet(urls, set) {
-  const matches = [];
-  const seen = new Set();
-  for (const info of Array.isArray(urls) ? urls : []) {
-    for (const candidate of hostCandidates(info?.host)) {
-      for (const suffix of hostSuffixes(candidate)) {
-        if (!set.has(suffix)) continue;
-        const key = `${info.url}:${suffix}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        matches.push({ url: info.url, host: suffix });
-        break;
-      }
-    }
-  }
-  return matches;
-}
-
 export function matchKnownPhishingHosts(urls) {
   const index = loadPhishingIndex();
+  const verified = new Set(VERIFIED_OFFICIAL_DOMAINS);
   const matches = [];
   const seen = new Set();
   for (const info of Array.isArray(urls) ? urls : []) {
     for (const candidate of hostCandidates(info?.host)) {
       for (const suffix of hostSuffixes(candidate)) {
-        if (VERIFIED_OFFICIAL_DOMAINS.has(suffix)) continue;
+        if (verified.has(suffix)) continue;
         if (!index.has(fingerprint(suffix))) continue;
         const key = `${info.url}:${suffix}`;
         if (seen.has(key)) continue;
@@ -157,24 +118,6 @@ export function matchReportedGamblingHosts(urls) {
 
 export function matchFakeRegulatorHosts(urls) {
   return matchesHostSet(urls, loadHostSet(regulatorHostsPath));
-}
-
-const GAMBLING_CONTEXT_PATTERN =
-  /\b(?:gambl(?:e|ing)|casino|sports(?:book|[- ]?bet(?:ting)?)|bet(?:ting|s|\d+)?|wager(?:ing)?|poker|bingo|lotto|lottery|perya|swert(?:e|res)|taya|juankada|baccarat|roulette|slots?|cash[- ]?wheel|jackpot|free spins?|payout|igaming|online gaming|mahjong|sabong|cockfight)\b/i;
-
-function decodeUrlText(value) {
-  try {
-    return decodeURIComponent(String(value || ''));
-  } catch {
-    return String(value || '');
-  }
-}
-
-function hasGamblingContext(text, urls) {
-  const urlText = (Array.isArray(urls) ? urls : [])
-    .map((info) => decodeUrlText(info?.url))
-    .join(' ');
-  return GAMBLING_CONTEXT_PATTERN.test(`${String(text || '')} ${urlText}`);
 }
 
 export function matchReviewedGamblingHosts(urls) {
@@ -202,104 +145,14 @@ export function matchUnlistedGamblingHosts(text, urls) {
   return matches;
 }
 
-function compact(value) {
-  return String(value || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, '');
-}
-
-function compactText(text) {
-  let value = '';
-  const offsets = [];
-  for (let i = 0; i < text.length; i++) {
-    const character = compact(text[i]);
-    if (!character) continue;
-    value += character;
-    offsets.push(i);
-  }
-  return { value, offsets };
-}
-
-function isWordCharacter(character) {
-  return Boolean(character && /[\p{L}\p{N}]/u.test(character));
-}
-
-const genericLenderNames = new Set([
-  'bat loan',
-  'cash 100',
-  'easy cash',
-  'flash cash',
-  'happy credit',
-  'happy loan',
-  'hatulong',
-  'little cash',
-  'umbrella',
-]);
-
-function hasLoanContext(text, start, end) {
-  const before = text.slice(Math.max(0, start - 90), start);
-  const after = text.slice(end, Math.min(text.length, end + 90));
-  return /\b(?:loan|lending|lender|pera|cash|credit|pautang|hiram|bayad|installment|loan app)\b/i.test(
-    `${before} ${after}`,
-  );
-}
-
 function loadLenderNames() {
   if (lenderNames) return lenderNames;
-  lenderNames = loadLines(lendersPath)
-    .map((name) => ({ name, key: compact(name) }))
-    .filter((entry) => entry.key.length >= 5 && !genericLenderNames.has(entry.name.toLowerCase()));
+  lenderNames = prepareLenderNames(loadLines(lendersPath));
   return lenderNames;
 }
 
-export function matchStoppedLenders(text, urls) {
-  const source = String(text || '');
-  const indexed = compactText(source);
-  const matches = [];
-  const byStart = new Map();
-
-  const addMatch = (name, start, end) => {
-    if (start < 0 || end <= start) return;
-    const previous = byStart.get(start);
-    if (previous && previous.name.length >= name.length) return;
-    const match = {
-      name,
-      evidence: [{ start, end, text: source.slice(start, end) }],
-    };
-    if (previous) matches.splice(matches.indexOf(previous), 1, match);
-    else matches.push(match);
-    byStart.set(start, match);
-  };
-
-  for (const { name, key } of loadLenderNames()) {
-    let from = 0;
-    while (from <= indexed.value.length - key.length) {
-      const at = indexed.value.indexOf(key, from);
-      if (at < 0) break;
-      from = at + 1;
-      const start = indexed.offsets[at];
-      const end = indexed.offsets[at + key.length - 1] + 1;
-      if (isWordCharacter(source[start - 1]) || isWordCharacter(source[end])) continue;
-      if (genericLenderNames.has(name.toLowerCase()) && !hasLoanContext(source, start, end)) continue;
-      addMatch(name, start, end);
-      break;
-    }
-
-    for (const info of Array.isArray(urls) ? urls : []) {
-      const rawHost = String(info?.host || '');
-      const labels = rawHost.split('.').filter(Boolean);
-      const matchedLabel = labels.find((label) => compact(label) === key);
-      if (!matchedLabel) continue;
-      const start = source.indexOf(matchedLabel);
-      if (start < 0) continue;
-      const end = start + matchedLabel.length;
-      if (genericLenderNames.has(name.toLowerCase()) && !hasLoanContext(source, start, end)) continue;
-      addMatch(name, start, end);
-    }
-  }
-  return matches;
+function browserMatchStoppedLenders(text, urls) {
+  return matchStoppedLenders(text, urls, loadLenderNames());
 }
 
 export function assessUrlReferences(text, urls) {
@@ -309,6 +162,6 @@ export function assessUrlReferences(text, urls) {
     reviewedGambling: matchReviewedGamblingHosts(urls),
     unlistedGambling: matchUnlistedGamblingHosts(text, urls),
     fakeRegulator: matchFakeRegulatorHosts(urls),
-    lenders: matchStoppedLenders(text, urls),
+    lenders: browserMatchStoppedLenders(text, urls),
   };
 }

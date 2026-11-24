@@ -1,9 +1,8 @@
+import { normalizeForMatching } from './text-evidence.js';
+
 // Shared by training and browser inference to prevent preprocessing drift.
 export function smsFeatures(text) {
-  const normalized = text
-    .normalize('NFKC')
-    .toLowerCase()
-    .replace(/[\u200b-\u200d\ufeff]/g, '')
+  const normalized = normalizeForMatching(text)
     .replace(/https?:\/\/\S+|\b\S+\.(?:com|net|org|ph|online|xyz|co|uk)\S*/g, ' urltoken ')
     .replace(/\d+/g, ' numbertoken ');
   const words = normalized.match(/[a-z]+/g) || [];

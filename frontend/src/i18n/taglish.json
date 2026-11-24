@@ -8,7 +8,7 @@
   "check.highlightHint": "I-tap ang highlighted words para malaman kung bakit.",
   "check.nextSafety": "I-save ang message at magsabi sa taong trusted mo. Kung may agarang panganib, humingi agad ng tulong.",
   "check.reviewAgain": "I-double-check gamit ang AI",
-  "result.noLocalWarning": "Walang lumabas na malakas na warning. Kailangan pa ng context para makumpirma ang ibig sabihin ng message.",
+  "result.noLocalWarning": "Walang recognised scam o threat pattern na nakita sa local check. Hindi nito verified ang sender o guaranteed na safe ang message.",
   "result.ocrUncertain": "May mga salitang malabo. I-compare ang nabasang text sa image at ayusin ito bago mag-check ulit.",
   "result.reviewText": "I-edit ang nabasang text at i-check ulit",
   "result.qrUnsupported": "May naka-encode na data rito. I-check ang recipient o details sa app na nag-issue nito.",
@@ -387,6 +387,7 @@
   "signal.unlisted-gambling-link": "Ang gambling web address na 'to ay hindi naka-list sa published list ng Philippine gaming regulator ng mga registered site.",
   "signal.watchlisted-gambling-link": "Na-report para sa review ang web address na 'to at hindi naka-list sa published list ng Philippine gaming regulator ng mga registered gambling site.",
   "signal.fake-regulator-link": "Nagpanggap ang web address na 'to na nagche-check ng gaming license, pero hindi ito official.",
+  "signal.gambling": "May mention ng winnings sa sugal, bonus, o prize payout ang link o message.",
   "signal.stopped-lender": "Inutusan ng Philippine securities regulator ang loan service na 'to na huminto.",
   "signal.sms-pattern": "Parang spam o scam text message ang pagkakasulat.",
   "signal.invalid_url": "Hindi mabasa ang link bilang web address.",
@@ -488,7 +489,7 @@
   "error.image_dimensions": "Masyadong malaki ang image para safe na ma-check.",
   "error.canvas_unavailable": "Hindi ma-process ng browser ang image. Subukan ang iba.",
   "error.image_ai_unavailable": "Hindi available ang Visual AI ngayon. Gumana pa rin ang file notes.",
-  "error.image_ai_busy": "Busy ang Visual AI o wala nang free tries. Walang paid service na ginamit.",
+  "error.image_ai_busy": "Busy ang Visual AI o hindi available. Walang resultang ginamit.",
   "error.image_ai_incomplete": "Walang clear na sagot ang Visual AI. Walang ginamit mula rito.",
   "error.image_ai_provider": "Hindi makaconnect ang Visual AI. I-refresh ang page at subukang muli.",
   "error.ocr_failed": "Hindi mabasa ang text sa image. Subukan ang mas malinaw o i-type ang text.",
@@ -566,7 +567,7 @@
   "notice.policy.sharing.title": "What may leave your device",
   "notice.policy.sharing.body": "Tumutakbo ang online URL checks kapag Online ang connection status mo. Kapag naka-on, detected web address lang ang puwedeng i-send sa lookup service sa Cloudflare at Google Safe Browsing kung available. Hindi ina-upload ng app ang buong message o image para rito. Hiwalay na mode ang AI image check; kapag ginamit online, nagse-send ito ng mas maliit na kopya ng image para sa visual review. Ang URL mismo ay pwede may personal info. May technical connection info din na natatanggap ang network services, gaya ng IP address.",
   "notice.policy.ai.title": "AI signals at image sharing",
-  "notice.policy.ai.body": "Sa device muna ang creation notes check. Kapag pinili ang online AI-image detection, resized copy ang sinesend sa Sightengine. OpenRouter with Gemini backup ang text double-check at Surfy AI chat; shared ang text, check details, questions at recent chat para sa features na iyon. May sariling quotas at data-use policies ang bawat service. Huwag mag-share ng info na gusto mong private. Kapag off ang AI help, local ang Surfy replies; separate ang sharing choice ng online image detection.",
+  "notice.policy.ai.body": "Sa device muna ang creation notes check. Kapag pinili ang online AI-image detection, resized copy ang sinesend sa Sightengine. Configured AI providers ang text double-check at Surfy AI chat; shared ang text, check details, questions at recent chat para sa features na iyon. May sariling quotas at data-use policies ang bawat service. Huwag mag-share ng info na gusto mong private. Kapag off ang AI help, local ang Surfy replies; separate ang sharing choice ng online image detection.",
   "notice.policy.retention.title": "Storage, feedback, and improvement",
   "notice.policy.retention.body": "Submitted content, analysis results, and the local chat are held in the current page session; the app does not write them to a saved submission history. Reloading or closing the page clears this in-memory state. Your language choice and a notice version with an acknowledgment date are saved in this browser until cleared. Offline app files may also be cached. Downloaded reports remain on your device. If you send feedback, EmailJS and the configured recipient receive the fields you submit, plus the page address and send time. Provider and recipient retention follow their own policies; no fixed deletion period is promised here. Reusing submissions or feedback for model training or a learning dataset requires a separate opt-in; this version does not perform automatic learning. Items shared from another app ay pansamantalang nasa storage ng device na ito. Tinatanggal kapag nabuksan sa Surfare. Unopened items expire after 10 minutes at tinatanggal sa next share o kapag binuksan; up to three lang ang kept. Sharing alone does not start a check or AI upload.",
   "notice.policy.security.title": "Security and data minimization",
@@ -686,5 +687,7 @@
   "share.error.empty": "Walang natanggap. Try sharing it again.",
   "share.error.expired": "Wala na ang shared item na ito. Please share it again.",
   "share.error.unavailable": "Hindi mabuksan ang shinare mo. Try ulit, o i-paste o i-upload dito.",
-  "share.installTip": "Sa Android: install Surfare from Chrome, then long-press a message, link or image at piliin ang Share ? Surfare."
+  "share.installTip": "Sa Android: install Surfare from Chrome, then long-press a message, link or image at piliin ang Share ? Surfare.",
+  "result.unknown.noWarning": "Walang local warning signs",
+  "result.unknown.withSignals": "May ilang warning signs, pero hindi sapat para mag-verdict. I-verify muna bago mag-act."
 }

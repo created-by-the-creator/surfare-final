@@ -58,23 +58,39 @@ OS share sheet separately on a physical Android phone after deployment.
 ## Optional AI help
 
 Enable **AI help** in the checker to share the submitted text, check details,
-and Surfy conversation with the configured AI services. Local findings
-appear first while the additional assessment runs. Completed, pending, and
-unavailable AI checks are shown separately. New chat questions include recent
-conversation and the actual check context; chat answers never change a verdict.
-Without this choice, or without internet, Surfy uses local explanations.
+and Surfy conversation with the configured AI services. Local findings appear
+first while the additional assessment runs. Completed, pending, and unavailable
+AI checks are shown separately. For links, the AI review is advisory only: it
+can flag impersonation, gambling, credential/payment and scam cues from the
+submitted text, but it never calls a link legitimate, verified, or safe. Safe
+Browsing and the local reviewed lists remain authoritative. New chat questions
+include recent conversation and the actual check context; chat answers never
+change a verdict. Without this choice, or without internet, Surfy uses local
+explanations.
 
-Detection and Surfy chat use free OpenRouter models first, with configured Gemini models as
-backup. Existing server-side `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`,
-`GEMINI_API_KEY`, and `GEMINI_IMAGE_MODEL` settings apply. Keys never enter the
-frontend. `/api/surfy` serves chat; `/api/detect` runs the extra assessment only
-when `ai: true` and `consent: true` are supplied. Provider errors preserve local
-findings; AI findings require exact quotes from the submitted text.
+When `AGENT_ROUTER_API_KEY` and `AGENT_ROUTER_MODEL` are set on the server,
+Agent Router is tried first for text and Surfy chat. Copy the model ID exactly
+from the Agent Router console or pricing page; an unavailable model returns an
+error instead of silently routing to another one. The Agent Router names
+`AGENTROUTER_API_KEY`, `AGENTROUTER_BASE_URL`, and `AGENTROUTER_MODEL` are also
+accepted. Set `AGENT_ROUTER_BASE_URL` if your gateway is not
+`https://agentrouter.org/v1`. It is followed by the reviewed free OpenRouter
+model and the configured Gemini backup. Existing `OPENROUTER_API_KEY`,
+`OPENROUTER_MODEL`, `GEMINI_API_KEY`, and `GEMINI_IMAGE_MODEL` settings still
+apply. `AGENT_ROUTER_IMAGE_MODEL` enables an Agent Router vision model for image
+review; without it, image review stays on the existing providers. Keys never
+enter the frontend. `/api/surfy` serves chat; `/api/detect` runs the extra
+assessment only when `ai: true` and `consent: true` are supplied. Provider errors
+preserve local findings; AI findings require exact quotes from the submitted
+text. Agent Router may be a paid service, so review your gateway billing and
+data policy before enabling it.
 
-Text detection and chat are pinned to `baidu/ernie-5.5-flash-preview:free`.
-Only reviewed OpenRouter models are accepted. The old `openrouter/free` setting
-migrates to the relevant pinned model. No random model or paid-model fallback is used. Availability and
-quality can change, so maintain this allowlist against local regression checks.
+The OpenRouter text/chat fallback is pinned to
+`baidu/ernie-5.5-flash-preview:free`; image review is pinned to
+`nvidia/nemotron-3.5-super-vl:free`. Only these reviewed OpenRouter models are
+accepted. The old `openrouter/free` setting migrates to the relevant pinned
+model. No random model or unreviewed OpenRouter fallback is used. Availability
+and quality can change, so maintain this allowlist against local regression checks.
 
 The local Gemini backup is configured with
 `GEMINI_IMAGE_MODEL=gemini-3.5-flash-lite`. The same configured Gemini model is
@@ -99,10 +115,10 @@ providers are used by this flow. Sightengine account usage applies: `genai`
 currently consumes five operations per image. The result and Surfy include the
 provider score and limitations without inventing visual observations.
 
-Surfy chat uses the same server-side OpenRouter and Gemini configuration as text
-detection. Restart the local backend after changing `backend/.dev.vars`; redeploy
-Vercel after changing its runtime environment. Provider failures and exhausted
-quotas preserve Surfy's local explanations. AgentRouter is not used.
+Surfy chat and text detection follow the configured server provider order.
+Restart the local backend after changing `backend/.dev.vars`; redeploy Vercel
+after changing its runtime environment. Provider failures and exhausted quotas
+preserve Surfy's local explanations.
 
 ## Scam-awareness practice
 

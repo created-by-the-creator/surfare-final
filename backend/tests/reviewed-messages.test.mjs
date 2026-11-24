@@ -52,3 +52,6 @@ search:@juan_dc_`,
 test('an ordinary shared expense is not treated as profit sharing', () => {
   assert(!ids(check('Cash in ka muna para sa dinner. Hati tayo sa bayad.')).has('profit-share-bait'));
 });
+test('money doubling without a profit split is not profit-share bait', () => {
+  assert(!ids(check('Deposit 100 pesos now and I will double your money.')).has('profit-share-bait'));
+});

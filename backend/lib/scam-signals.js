@@ -5,26 +5,36 @@ export function scamSignals(text) {
   const source = normalizeEvidence(text),
     signals = [];
   const hits = (pattern) => evidenceMatches(source, pattern, { activeOnly: true });
-  const add = (id, title, message, weight, a, b) => {
-    const pairs = a.flatMap((left) =>
-      b
-        .filter(
-          (right) =>
-            Math.abs(left.start - right.start) <= 220 &&
-            !/[!?;\n]/.test(
-              text.slice(Math.min(left.end, right.end), Math.max(left.start, right.start)),
-            ),
-        )
-        .flatMap((right) => [left, right]),
+  const close = (left, right) =>
+    Math.abs(left.start - right.start) <= 220 &&
+    !/[!?;\n]/.test(
+      text.slice(Math.min(left.end, right.end), Math.max(left.start, right.start)),
     );
-    if (pairs.length)
+  // Every supplied condition group must match near the same clause. Passing a
+  // third group is not silently ignored, which keeps broad payout promises
+  // from becoming profit-share accusations on their own.
+  const add = (id, title, message, weight, ...groups) => {
+    const evidence = [];
+    for (const left of groups[0] || []) {
+      const chosen = [left];
+      for (const group of groups.slice(1)) {
+        const match = group.find((right) => chosen.every((item) => close(item, right)));
+        if (!match) {
+          chosen.length = 0;
+          break;
+        }
+        chosen.push(match);
+      }
+      if (chosen.length) evidence.push(...chosen);
+    }
+    if (evidence.length)
       signals.push({
         id,
         title,
         message,
         weight,
         category: 'scam',
-        evidence: [...new Map(pairs.map((p) => [p.start + ':' + p.end, p])).values()],
+        evidence: [...new Map(evidence.map((p) => [p.start + ':' + p.end, p])).values()],
       });
   };
   const fee = hits(
