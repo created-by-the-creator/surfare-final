@@ -6,10 +6,20 @@ panel. Right-click checks run locally first. Online help is a separate choice.
 
 ## Build and install locally
 
-1. From the repository root, run `npm run extension:build`.
-2. Open `chrome://extensions` in desktop Chrome and enable **Developer mode**.
-3. Choose **Load unpacked** and select this repository's `extension/dist` folder.
-4. Pin Surfare, or right-click content on a webpage and choose its Surfare option.
+1. Download and extract the repository, or clone it with Git. Install Node.js
+   22.13 or later and npm 10 or later.
+2. From the repository root, run `npm install`, then `npm run extension:build`.
+3. Open `chrome://extensions` in desktop Chrome and enable **Developer mode**.
+4. Choose **Load unpacked** and select this repository's generated `extension/dist`
+   folder. It contains `manifest.json`; the source `extension` folder does not.
+5. Pin Surfare from Chrome's Extensions menu, or right-click selected text, a
+   link or image on a webpage and choose its Surfare option.
+
+The build output is not committed to GitHub. If you received a prepared extension
+ZIP, extract it and load the folder containing `manifest.json`; skip the Node.js
+installation and build steps. Keep the extracted folder in place after loading.
+There is no need to start a local server for normal use: online features connect
+to the configured production Surfare website.
 
 Chrome 116 or later is required. Reload the extension from `chrome://extensions`
 after rebuilding. A ZIP is for transferring or submitting the package; Chrome's
