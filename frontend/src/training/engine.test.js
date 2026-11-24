@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MISSIONS, PRACTICE_COPY, SENDER_LABELS, localize } from './content.js';
-import { PROGRESS_KEY, answerMission, completeMission, continueMission, readProgress, startMission, writeProgress } from './engine.js';
+import { PROGRESS_KEY, answerMission, availableBoard, completeMission, continueMission, readProgress, routeStars, startMission, surfProfile, writeProgress } from './engine.js';
 
 const mission = MISSIONS[0];
 const finish = (item) => {
@@ -19,7 +19,7 @@ describe('practice missions', () => {
       expect(Object.keys(PRACTICE_COPY[lang]).sort()).toEqual(Object.keys(PRACTICE_COPY.en).sort());
       for (const item of MISSIONS) {
         for (const value of [item.title, item.category, item.lesson]) expect(localize(value, lang).length).toBeGreaterThan(10);
-        expect(item.steps).toHaveLength(2);
+        expect(item.steps).toHaveLength(5);
         for (const step of item.steps) {
           expect(SENDER_LABELS[step.sender][lang]).toBeTruthy();
           expect(step.options).toHaveLength(3);
@@ -35,7 +35,7 @@ describe('practice missions', () => {
     for (const item of MISSIONS) {
       const state = finish(item);
       expect(state.phase).toBe('complete');
-      expect(state.score).toBe(20);
+      expect(state.score).toBe(50);
       expect(state.mistakes).toBe(0);
     }
   });
@@ -73,7 +73,7 @@ describe('practice missions', () => {
   it('saves only completed missions and retains the best score on replay', () => {
     expect(completeMission({}, mission, startMission(mission))).toEqual({});
     const progress = completeMission({}, mission, finish(mission));
-    expect(progress).toEqual({ [mission.id]: 20 });
+    expect(progress).toEqual({ [mission.id]: 50 });
     expect(completeMission(progress, mission, { ...finish(mission), score: 14 })).toEqual(progress);
   });
 
@@ -88,5 +88,34 @@ describe('practice missions', () => {
     writeProgress({ setItem: (...args) => writes.push(args) }, { wallet: 20 });
     expect(writes).toEqual([[PROGRESS_KEY, JSON.stringify({ version: 1, best: { wallet: 20 } })]]);
     expect(() => writeProgress({ setItem: () => { throw Error('quota'); } }, {})).not.toThrow();
+  });
+});
+
+describe('surf rewards', () => {
+  it('earns XP only from completed best scores, with bounded levels', () => {
+    expect(surfProfile({}, MISSIONS)).toMatchObject({ level: 1, xp: 0, nextXP: 60 });
+    const first = completeMission({}, mission, finish(mission));
+    expect(surfProfile(first, MISSIONS)).toMatchObject({ level: 2, xp: 60, completed: 1 });
+    expect(surfProfile(completeMission(first, mission, finish(mission)), MISSIONS).xp).toBe(60);
+    expect(surfProfile(Object.fromEntries(MISSIONS.map(item => [item.id, 50])), MISSIONS)).toMatchObject({ level: 6, xp: 360, nextXP: 0 });
+    expect(surfProfile({ fake: 999, wallet: 999 }, MISSIONS).xp).toBe(60);
+  });
+  it('counts consecutive first tries and breaks the streak on a mistake', () => {
+    let state = startMission(mission);
+    for (let i = 0; i < 2; i++) state = continueMission(mission, answerMission(mission, state, mission.steps[i].correct));
+    expect(state.streak).toBe(2);
+    state = answerMission(mission, state, (mission.steps[2].correct + 1) % 3);
+    expect(state.streak).toBe(0);
+    expect(state.bestStreak).toBe(2);
+    state = answerMission(mission, continueMission(mission, state), mission.steps[2].correct);
+    expect(state.streak).toBe(0);
+    expect(state.score).toBe(27);
+  });
+  it('unlocks cosmetic boards by completed routes and awards score-based stars', () => {
+    expect(availableBoard(1, 1)).toBe(0);
+    expect(availableBoard(1, 2)).toBe(1);
+    expect(availableBoard(3, 6)).toBe(3);
+    for (const invalid of [-1, 4, NaN, '1']) expect(availableBoard(invalid, 6)).toBe(0);
+    expect([20, 40, 47, 50].map(routeStars)).toEqual([1, 2, 2, 3]);
   });
 });

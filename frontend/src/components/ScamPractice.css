@@ -178,3 +178,70 @@
   .practice-dialog .practice-message { padding: 16px; }
   .practice-dialog .practice-action-receipt { margin-left: 14px; }
 }
+
+/* Surf School: touch-friendly answers, a living ocean, and device-local rewards. */
+.surf-profile { display: flex; align-items: center; gap: 18px; padding: 24px; margin-top: 24px; border: 1px solid #cbdcf0; border-radius: 22px; background: #fff; box-shadow: 0 5px 20px #15365f06; }
+.surf-level-icon { display: grid; place-items: center; flex: none; width: 56px; height: 56px; border-radius: 18px; background: #fff0c9; color: #895d0b; }
+.surf-profile-copy { display: grid; gap: 9px; flex: 1; min-width: 0; }
+.surf-profile-copy strong { font-size: 1.1rem; line-height: 1.4; }
+.surf-profile-copy > span { font-size: .8125rem; color: #526b8a; }
+.surf-profile-copy progress { appearance: none; border: 0; border-radius: 99px; overflow: hidden; width: 100%; height: 9px; background: #e7eef8; }
+.surf-profile-copy progress::-webkit-progress-bar { background: #e7eef8; }
+.surf-profile-copy progress::-webkit-progress-value { background: linear-gradient(90deg, #3278b9, #3ca59f); border-radius: 99px; }
+.surf-profile-copy progress::-moz-progress-bar { background: #3278b9; }
+.surf-profile-total { display: flex; align-items: center; gap: 8px; font-weight: 700; white-space: nowrap; }
+.surf-stars { display: inline-flex; gap: 5px; color: #8796ad; }
+.surf-stars .is-earned { color: #9a6808; fill: #ffd469; }
+.surf-boards { margin-top: 32px; }
+.surf-boards h3 { margin: 0 0 8px; font: 700 1.6rem 'Fraunces Variable', Georgia, serif; }
+.surf-boards > p { color: #526b8a; line-height: 1.6; margin: 0 0 18px; }
+.surf-board-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.surf-board-choice { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px 12px; border: 1px solid #cbd9eb; border-radius: 18px; background: #fff; color: #173c71; font: inherit; cursor: pointer; }
+.surf-board-choice > span:last-child { font-size: .75rem; line-height: 1.5; color: #526b8a; }
+.surf-board-choice[aria-pressed="true"] { background: #e7f2fc; border: 2px solid #3169a1; padding: 19px 11px; }
+.surf-board-choice:disabled { cursor: default; background: #f0f3f8; }
+.surf-board-choice:disabled .surf-board-preview { filter: grayscale(1); opacity: .45; }
+.surf-board-0 { --board-color: #ee6d67; --board-stripe: #fff0ce; }
+.surf-board-1 { --board-color: #19a79e; --board-stripe: #d4ffff; }
+.surf-board-2 { --board-color: #e9a038; --board-stripe: #af3555; }
+.surf-board-3 { --board-color: #433574; --board-stripe: #b9abff; }
+.surf-tap-hint { color: #526b8a; font-size: .8125rem; line-height: 1.5; margin: -4px 0 14px; }
+.surf-reward { display: grid; gap: 7px; padding: 15px 24px; width: 100%; border-radius: 16px; background: #edf6fc; color: #24557e; font-size: .875rem; }
+.surf-reward strong { font-size: 1.125rem; }
+.practice-dialog .practice-close { width: 44px; height: 44px; top: 11px; right: 11px; }
+.practice-dialog .practice-dialog-top { position: sticky; top: 0; z-index: 10; background: #fff; }
+.practice-dialog .practice-options { gap: 10px; }
+.practice-dialog .practice-option { min-height: 56px; align-items: center; border-radius: 16px; transition: border-color .15s, background .15s; }
+.practice-dialog .practice-option-marker { min-width: 30px; height: 30px; border-radius: 50%; background: #eff5fe; color: #244d7f; }
+.practice-dialog .practice-option.is-right .practice-option-marker { background: #43866b; color: white; }
+.practice-dialog .practice-feedback { scroll-margin: 80px 0; }
+.practice-section button:focus-visible, .practice-dialog button:focus-visible { outline: 3px solid #4286bd; outline-offset: 4px; }
+@media (min-width: 601px) { .practice-dialog .practice-coach > img { width: 185px; } }
+@media (max-width: 600px) {
+  .surf-profile { padding: 16px; gap: 12px; }
+  .surf-level-icon { width: 42px; height: 42px; border-radius: 13px; }
+  .surf-profile-copy strong { font-size: .9375rem; }
+  .surf-profile-total { display: none; }
+  .surf-board-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .surf-board-choice { padding: 17px 10px; }
+  .surf-board-choice[aria-pressed="true"] { padding: 16px 9px; }
+  .surf-board-choice strong { font-size: .875rem; }
+  .practice-dialog { width: 100%; max-width: 100%; max-height: 100dvh; height: 100dvh; border-radius: 0; border: 0; overscroll-behavior: contain; padding-bottom: env(safe-area-inset-bottom); }
+  .practice-dialog .practice-dialog-top { padding-left: 16px; padding-top: calc(14px + env(safe-area-inset-top)); min-height: calc(62px + env(safe-area-inset-top)); }
+  .practice-dialog .practice-close { top: calc(9px + env(safe-area-inset-top)); right: 7px; }
+  .practice-dialog .practice-brand { max-width: 53%; font-size: .8125rem; }
+  .practice-dialog .practice-coach { padding: 14px 18px; }
+  .practice-dialog .practice-coach h2 { font-size: 1.1875rem; line-height: 1.3; }
+  .practice-dialog .practice-coach > .practice-kicker { display: none; }
+  .practice-dialog .practice-play-area { padding: 18px 16px 26px; }
+  .practice-dialog .practice-progress { margin-bottom: 16px; }
+  .practice-dialog .practice-option { padding: 12px; min-height: 58px; font-size: .9375rem; gap: 10px; }
+  .practice-dialog .practice-feedback { padding: 15px; }
+  .practice-dialog .practice-feedback { scroll-margin-top: calc(78px + env(safe-area-inset-top)); }
+  .practice-dialog .practice-action-receipt { display: none; }
+  .practice-dialog .practice-result { padding-top: 6px; }
+  .practice-dialog .practice-result-score { margin: 16px 0; }
+  .practice-dialog .practice-primary { min-height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) {
+}

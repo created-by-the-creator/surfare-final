@@ -3,6 +3,7 @@ import { getSurfyResultMessage } from './templates.js';
 import { imageOriginSummary } from '../engine/image-ai.js';
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
 import { apiFetch } from '../api/fetch.js';
+import { linkDescription } from '../engine/link-description.js';
 
 export function buildSurfyContext(result, t) {
   if (!result || result.errorKey || result.privateQr) return null;
@@ -14,6 +15,8 @@ export function buildSurfyContext(result, t) {
       evidence: getSignalEvidenceItems(signal)[0].text.slice(0, 700),
     })),
     explanation: [getSurfyResultMessage(result, t),
+      result.linkInfo && `${linkDescription(result.linkInfo, t)} ${t('linkInfo.addressOnly')}`,
+      result.linkInfo?.embeddedHosts?.length && t('linkInfo.embedded', { host: result.linkInfo.embeddedHosts.join(', ') }),
       result.imageOrigin?.source === 'sightengine' && imageOriginSummary(result.imageOrigin, t),
       result.imageOrigin?.source === 'sightengine' && t(result.imageOrigin.limitationKey),
       result.imageMetadata?.summaryKey && t(result.imageMetadata.summaryKey),

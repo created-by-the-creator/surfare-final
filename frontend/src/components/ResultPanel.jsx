@@ -15,6 +15,7 @@ import { ASSETS } from '../assets.js';
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
 import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
 import { localOutcome } from '../engine/result-presentation.js';
+import { linkDescription } from '../engine/link-description.js';
 import {
   getDisplaySignals,
   getSignalEvidenceItems,
@@ -175,6 +176,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   );
   const onlineClean = Boolean(showResult && !warningCount && result?.onlineNoKnownThreat);
   const isUnknown = Boolean(showResult && level === 'unknown');
+  const linkNeedsVerification = Boolean(isUnknown && result.linkInfo && !warningCount && !result.onlineNoKnownThreat);
   const unconfirmedContext = isUnknown && result.aiReview?.status !== 'completed' &&
     !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction;
   const enoughText = (result?.checkedText?.trim().split(/\s+/).filter(Boolean).length || 0) >= 4;
@@ -201,7 +203,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
         low: ['result.nextPointLow1', 'result.nextPointLow2'],
         suspicious: ['result.nextPointSuspicious1', 'result.nextPointSuspicious2'],
         high: ['result.nextPointHigh1', 'result.nextPointHigh2', 'result.nextPointHigh3'],
-        unknown: outcome ? ['result.nextPointLocalVerify', 'result.nextPointLocalContext'] : result?.mediaInfo?.uncertainExtraction
+        unknown: result?.linkInfo ? ['linkInfo.next', 'result.nextPointLow2'] : outcome ? ['result.nextPointLocalVerify', 'result.nextPointLocalContext'] : result?.mediaInfo?.uncertainExtraction
           ? ['result.nextPointUnknownImage', 'result.nextPointUnknownVerify']
           : ['result.nextPointUnknownMore', 'result.nextPointUnknownVerify'],
       })[level];
@@ -240,14 +242,14 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const stateTitle = showResult
     ? isImageReview
       ? t(result.summaryKey || 'result.imageOrigin.unclear')
-      : t(outcome ? `result.${outcome}.title` : `result.${level}`)
+      : t(linkNeedsVerification ? 'linkInfo.unverifiedTitle' : outcome ? `result.${outcome}.title` : `result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
       : status === 'error'
         ? t('result.error')
         : t('result.ready');
   const summary = showResult
-    ? isSightengineReview
+    ? linkNeedsVerification ? t('linkInfo.unverifiedSummary') : isSightengineReview
       ? t(result.imageOrigin.summaryKey)
       : isImageReview && result.imageVisualNoteKey && !isOriginReview
         ? t(result.imageVisualNoteKey)
@@ -330,6 +332,13 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </div>
             </div>
 
+            {showResult && result.linkInfo && <section className="result-link-info" aria-label={t('linkInfo.title')}>
+              <span>{t(`linkInfo.type.${result.linkInfo.type}`)}</span>
+              <p>{linkDescription(result.linkInfo, t)}</p>
+              {result.linkInfo.embeddedHosts.length > 0 && <p className="link-info-forward">{t('linkInfo.embedded', { host: result.linkInfo.embeddedHosts.join(', ') })}</p>}
+              <small>{t('linkInfo.addressOnly')}</small>
+            </section>}
+
             {showResult && !isUnknown && (
               <div className={`risk-meter-wrap meter-position-${level}`}>
                 <div
@@ -354,7 +363,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 {t(result.imageVisualNoteKey)}
               </p>
             )}
-            {showResult && ['completed', 'unavailable'].includes(result.aiReview?.status) && (
+            {showResult && result.aiReview?.status === 'unavailable' && (
               <p className="image-origin-status" role="status">{t(`ask.review.${result.aiReview.status}`)}</p>
             )}
             {showResult && !isOnline && (
@@ -375,14 +384,43 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
             {isOriginReview && hasImageAiClues({ imageMetadata: result.imageMetadata }) && (
               <p className="image-file-clue">{t('result.imageSimple.fileAi')}</p>
             )}
-            {showResult && onAskAboutResult && (
-              <div className="result-surfy-help">
-                <p>{t('result.askHelp')}</p>
-                <button className="result-ask-button" type="button" onClick={onAskAboutResult} aria-expanded={isAskOpen} aria-controls={isAskOpen ? 'ask-surfy' : undefined}>
-                  <MessageSquareText size={20} aria-hidden="true" />{t('check.askAboutResult')}
-                </button>
-              </div>
-            )}
+                {showResult && !isImageReview && (
+                  <details className="checked-reading">
+                    <summary>
+                      <FileText aria-hidden="true" /><span>{t('result.viewChecked')}</span><ChevronDown aria-hidden="true" />
+                    </summary>
+                    <div className="checked-reading-body">
+                      {warningCount > 0 && <p className="checked-hint">{t('check.highlightHint')}</p>}
+                      <div className="checked-reading-text">
+                        {buildHighlightSegments(result.checkedText || t('result.insufficient'), result).map((segment, index) =>
+                          segment.signals.length ? (
+                            <button
+                              type="button"
+                              className="checked-highlight"
+                              key={`${segment.text}-${index}`}
+                              onClick={() => setSelectedSignals(segment.signals)}
+                              aria-label={`${t('result.whyFlagged')}: ${segment.text}`}
+                            >
+                              {segment.text}
+                            </button>
+                          ) : (
+                            <span key={`${segment.text}-${index}`}>{segment.text}</span>
+                          ),
+                        )}
+                      </div>
+                        {selectedSignals.length > 0 && (
+                          <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
+                            <strong>{t('result.whyFlagged')}</strong>
+
+                            <p>{[...new Set(selectedSignals.map(signal => getSignalLabel(signal, t)))].join(' ')}</p>
+                            {[...new Set(selectedSignals.map(signal => getSignalExplanation(signal, t)).filter(Boolean))]
+                              .map(help => <p key={help}>{help}</p>)}
+                          </div>
+                        )}
+                      </div>
+                  </details>
+                )}
+
             {isImageReview && <details className="image-check-details" key={`${result.imageVisualStatus}-${result.summaryKey}`}>
               <summary><FileText size={18} aria-hidden="true" />{t('result.imageSimple.details')}<ChevronDown size={17} aria-hidden="true" /></summary>
               <div className="image-check-details-body">
@@ -458,43 +496,6 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                     ))}</ul>
                   </section>
                 )}
-                {!isImageReview && (
-                  <details className="checked-reading">
-                    <summary>
-                      <FileText aria-hidden="true" /><span>{t('result.viewChecked')}</span><ChevronDown aria-hidden="true" />
-                    </summary>
-                    <div className="checked-reading-body">
-                      {warningCount > 0 && <p className="checked-hint">{t('check.highlightHint')}</p>}
-                      <div className="checked-reading-text">
-                        {buildHighlightSegments(result.checkedText || t('result.insufficient'), result).map((segment, index) =>
-                          segment.signals.length ? (
-                            <button
-                              type="button"
-                              className="checked-highlight"
-                              key={`${segment.text}-${index}`}
-                              onClick={() => setSelectedSignals(segment.signals)}
-                              aria-label={`${t('result.whyFlagged')}: ${segment.text}`}
-                            >
-                              {segment.text}
-                            </button>
-                          ) : (
-                            <span key={`${segment.text}-${index}`}>{segment.text}</span>
-                          ),
-                        )}
-                      </div>
-                        {selectedSignals.length > 0 && (
-                          <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
-                            <strong>{t('result.whyFlagged')}</strong>
-
-                            <p>{[...new Set(selectedSignals.map(signal => getSignalLabel(signal, t)))].join(' ')}</p>
-                            {[...new Set(selectedSignals.map(signal => getSignalExplanation(signal, t)).filter(Boolean))]
-                              .map(help => <p key={help}>{help}</p>)}
-                          </div>
-                        )}
-                      </div>
-                  </details>
-                )}
-
                 {isImageReview ? <p className="image-simple-next">{t('result.imageSimple.next')}</p> : <section className="result-next">
                   <h3><ListChecks aria-hidden="true" />{t(nextTitleKey)}</h3>
                   <ul>{nextPointKeys.map(key => (
@@ -540,6 +541,15 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </button>
             </div>}
           </footer>
+            {showResult && onAskAboutResult && (
+              <div className="result-surfy-help">
+                <p>{t('result.askHelp')}</p>
+                <button className="result-ask-button" type="button" onClick={onAskAboutResult} aria-expanded={isAskOpen} aria-controls={isAskOpen ? 'ask-surfy' : undefined}>
+                  <MessageSquareText size={20} aria-hidden="true" />{t('check.askAboutResult')}
+                </button>
+              </div>
+            )}
+
         </div>
       </section>
     </div>

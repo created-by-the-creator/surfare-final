@@ -5,7 +5,7 @@
 :root {
   color: #0b2a6f;
   background: #fff;
-  font-family: 'Plus Jakarta Sans Variable', sans-serif;
+  font-family: 'Outfit Variable', sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   font-optical-sizing: auto;
@@ -5170,7 +5170,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 50%;
   color: rgba(255, 255, 255, 0.75);
-  font-family: Georgia, serif;
+  font-family: 'Fraunces Variable', Georgia, serif;
   font-size: 12px;
   font-weight: 700;
 }

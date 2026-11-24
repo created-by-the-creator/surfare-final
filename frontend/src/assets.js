@@ -12,6 +12,7 @@ export const ASSETS = Object.freeze({
   surfyAlarm: asset('8.png'),
   surfyWink: asset('9.png'),
   surfySurfingLeft: asset('surfy-surfing-left.png'),
+  surfySurfingBody: asset('surfy-surfing-body.png'),
   surfyMagnify: asset('10.png'),
   iconWarning: asset('11.png'),
   iconAlert: asset('12.png'),

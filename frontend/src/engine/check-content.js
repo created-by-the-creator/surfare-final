@@ -4,6 +4,7 @@ import { isPrivateQrPayload, isUnsupportedQrPayload } from '../../../backend/lib
 import { groundSignals } from './signal-display.js';
 import { apiFetch } from '../api/fetch.js';
 import { addBrowserReferenceIndicators } from './reference-indicators.js';
+import { describeLink } from './link-description.js';
 
 const LEVELS = { 'High risk': 'high', Suspicious: 'suspicious', 'Low risk': 'low', 'Insufficient evidence': 'unknown' };
 const ADVISORY = new Set(['dataset-text-model', 'dataset-url-model']);
@@ -78,6 +79,7 @@ export async function checkExtractedContent(tab, content, mediaInfo, { onlineLoo
   );
   const urls = local.urls.map(item => item.url).filter(url => url.length <= 2048);
   const base = {
+    ...(tab === 'links' ? { linkInfo: describeLink(content) } : {}),
     checkedText: content, mediaInfo, privateQr, unsupportedQr, score: local.score,
     level: local.level === 'Low risk' ? 'unknown' : LEVELS[local.level],
     signals: displayIndicators(local.indicators, content), summaryKey: 'summary_local',

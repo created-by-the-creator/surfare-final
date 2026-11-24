@@ -3,6 +3,29 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ResultPanel, { buildHighlightSegments } from './ResultPanel.jsx';
 import { translate } from '../i18n/useI18n.js';
+import { describeLink } from '../engine/link-description.js';
+
+it('describes a complete government URL without calling it safe or asking for a clearer image', () => {
+  const t = (key, values) => translate('en', key, values);
+  const result = { level: 'unknown', checkedText: 'https://www.bir.gov.ph', signals: [], linkInfo: describeLink('https://www.bir.gov.ph') };
+  const html = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t }));
+  expect(html).toContain('Bureau of Internal Revenue (BIR)');
+  expect(html).toContain(t('linkInfo.unverifiedTitle'));
+  expect(html).not.toContain(t('result.unknown.subtitle'));
+  expect(html).not.toContain(t('result.nextPointUnknownMore'));
+  expect(html).not.toContain('meter-position-low');
+});
+
+it('puts message review before advice and Ask Surfy after every other result action', () => {
+  const t = (key, values) => translate('en', key, values);
+  const html = renderToStaticMarkup(createElement(ResultPanel, {
+    status: 'result', result: { level: 'high', checkedText: 'Send your OTP now.', signals: [], aiReview: { status: 'completed' } },
+    t, onAskAboutResult: () => {},
+  }));
+  expect(html.indexOf('checked-reading')).toBeLessThan(html.indexOf('result-next'));
+  expect(html.indexOf('result-save-button')).toBeLessThan(html.indexOf('result-ask-button'));
+  expect(html).not.toContain(t('ask.review.completed'));
+});
 
 it('reports a completed no-match local check without calling the message unsafe or low risk', () => {
   const t = (key, values) => translate('en', key, values);

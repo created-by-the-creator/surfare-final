@@ -8,6 +8,7 @@ import {
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
 import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
 import { localOutcome } from '../engine/result-presentation.js';
+import { linkDescription } from '../engine/link-description.js';
 
 export const SURFY_QUESTION_KEYS = [
   'ask.why',
@@ -22,9 +23,18 @@ export const SURFY_QUESTION_KEYS = [
   'ask.imageScore',
   'ask.imageFile',
   'ask.imageLimits',
+  'ask.destination',
+  'ask.clickedLink', 'ask.sharedSecret', 'ask.sentMoney', 'ask.verifySender', 'ask.reportSender', 'ask.imageScreenshot', 'ask.imageVerify',
 ];
 
 const QUESTION_MATCHERS = [
+  { key: 'ask.destination', words: ['where does this link go', 'where does it go', 'what website', 'link destination', 'saan papunta', 'uri ng link'] },
+  { key: 'ask.clickedLink', words: ['already clicked', 'clicked the link', 'clicked a link', 'na click', 'napindot'] },
+  { key: 'ask.sharedSecret', words: ['shared my otp', 'shared otp', 'gave my password', 'shared my password', 'gave my code', 'naibigay ang code'] },
+  { key: 'ask.sentMoney', words: ['sent money', 'already paid', 'already sent', 'nakapagbayad', 'nakapagpadala'] },
+  { key: 'ask.verifySender', words: ['verify the sender', 'verify sender', 'check the sender', 'confirm the sender'] },
+  { key: 'ask.reportSender', words: ['report', 'block', 'ireport'] },
+  { key: 'ask.imageScreenshot', words: ['screenshot', 'screenshots', 'screen shot'] },
   { key: 'ask.imageScore', words: ['score', 'percentage', 'puntos'] },
   { key: 'ask.whyClean', words: ['wasn', 'weren', 'clean', 'unflagged', 'not flagged', 'not mark'] },
   { key: 'ask.why', words: ['why', 'flag', 'flagged', 'warning', 'reason', 'bakit', 'dahilan', 'mark', 'suspicious', 'explain', 'explanation', 'result', 'results', 'tag', 'tags', 'highlight', 'highlighted', 'ipaliwanag', 'paliwanag', 'scam', 'legit'] },
@@ -123,15 +133,26 @@ export function getSuggestedSignalQuestions(result, t) {
 }
 
 export function getSurfyResultMessage(result, t) {
-  const answer = getSurfyAnswer(t('ask.why'), result, t);
-  return [answer,
-    ...(result?.matchedUrls || []).map(url => t('ask.addressMatch', { url })),
+  if (result?.imageMetadata || result?.imageOrigin) return imageReviewAnswer(result, t);
+  if (!result) return t('ask.noResult');
+  const signals = getDisplaySignals(result);
+  const outcome = localOutcome(result);
+  const title = t(result.linkInfo && result.level === 'unknown' && !signals.length && !outcome ? 'linkInfo.unverifiedTitle' : outcome ? `result.${outcome}.title` : `result.${result.level || 'unknown'}`);
+  const reason = signals.length
+    ? signals.slice(0, 2).map(signal => getSignalLabel(signal, t)).join(' · ')
+    : result.linkInfo ? linkDescription(result.linkInfo, t)
+    : t(isFlaggedResult(result) ? 'ask.brief.noEvidence' : result.level === 'unknown' && !outcome ? 'ask.brief.unclear' : 'ask.brief.noSigns');
+  const next = signals.some(signal => ['violence', 'extortion', 'blackmail', 'intimidation', 'harassment'].includes(signal.id))
+    ? t('check.nextSafety')
+    : t(isFlaggedResult(result) ? `result.nextPoint${result.level === 'high' ? 'High' : 'Suspicious'}1` : 'ask.brief.verify');
+  const answer = `${title}\n- ${reason}\n- ${next}`;
+  const limitation = [
+    result?.semanticConflict && t('result.conflictingReviews'),
     result?.mediaInfo?.uncertainExtraction && t('result.ocrUncertain'),
     result?.unsupportedQr && t('result.qrUnsupported'),
-    result?.semanticConflict && t('result.conflictingReviews'),
-    result?.onlineUnavailable && t('result.reputationIncomplete'),
-    ['pending', 'completed', 'unavailable'].includes(result?.aiReview?.status) && t(`ask.review.${result.aiReview.status}`),
-  ].filter(Boolean).join('\n\n');
+    (result?.onlineUnavailable || result?.aiReview?.status === 'unavailable') && t('result.reputationIncomplete'),
+  ].find(Boolean);
+  return [answer, limitation && `- ${limitation}`].filter(Boolean).join('\n');
 }
 
 function imageReviewAnswer(result, t) {
@@ -156,12 +177,17 @@ function imageReviewAnswer(result, t) {
 
 export function getSuggestedQuestionKeys({ result, activeTab } = {}) {
   if (result?.imageMetadata || result?.imageOrigin) {
-    return ['ask.imageMeaning', 'ask.imageLimits', 'ask.next', 'ask.imageScore', 'ask.imageFile'];
+    return ['ask.imageMeaning', 'ask.imageVerify', 'ask.imageScreenshot', 'ask.imageLimits', 'ask.next', 'ask.imageScore', 'ask.imageFile'];
   }
   const whyKey = result?.level === 'unknown' && !localOutcome(result) ? 'ask.uncertain' : !result || isFlaggedResult(result) ? 'ask.why' : 'ask.whyClean';
-  const keys = [whyKey, 'ask.next'];
+  const keys = [whyKey, 'ask.next', 'ask.verifySender'];
+  if (result?.linkInfo) keys.splice(1, 0, 'ask.destination');
+  const ids = getDisplaySignals(result).map(signal => signal.id);
+  if (ids.some(id => ['otp_request', 'credential_request', 'personal'].includes(id))) keys.push('ask.sharedSecret');
+  if (ids.some(id => ['money_demand', 'advance-fee', 'job-fee', 'investment', 'loan-fee', 'winnings-deposit', 'load-transfer', 'task-recruitment'].includes(id))) keys.push('ask.sentMoney');
 
-  if (hasCheckedUrl(result)) keys.push('ask.link');
+  if (hasCheckedUrl(result)) keys.push('ask.link', 'ask.clickedLink');
+  if (isFlaggedResult(result)) keys.push('ask.reportSender');
   if (result?.imageMetadata || result?.imageOrigin) keys.push('ask.aiImage');
   keys.push('ask.offline', 'ask.uncertain');
   if (activeTab === 'image' || activeTab === 'qr') keys.push('ask.photo');
@@ -171,6 +197,14 @@ export function getSuggestedQuestionKeys({ result, activeTab } = {}) {
 
 export function getSurfyAnswer(question, result, t) {
   const key = findQuestionKey(question, t);
+  if (key === 'ask.destination') {
+    if (!result?.linkInfo) return t('ask.noResult');
+    return [linkDescription(result.linkInfo, t),
+      result.linkInfo.embeddedHosts.length > 0 && `- ${t('linkInfo.embedded', { host: result.linkInfo.embeddedHosts.join(', ') })}`,
+      `- ${t('linkInfo.addressOnly')}`,
+    ].filter(Boolean).join('\n');
+  }
+  if (['ask.clickedLink', 'ask.sharedSecret', 'ask.sentMoney', 'ask.verifySender', 'ask.reportSender', 'ask.imageScreenshot', 'ask.imageVerify'].includes(key)) return t(`${key}.answer`);
   if (key === 'ask.imageMeaning') return imageReviewAnswer(result, t);
   if (key === 'ask.imageLimits') return t('ask.imageLimits.answer');
   if (key === 'ask.imageFile') {
@@ -219,9 +253,9 @@ export function getSurfyAnswer(question, result, t) {
         : t('ask.why.flaggedNoSignals', { level: t(`result.${result.level}`) });
     }
 
-    const reasons = [explainSignals(signals.slice(0, 4), t)];
+    const reasons = [explainSignals(signals.slice(0, 2), t)];
     if (hasOnlineMatch) reasons.push(t('signal.online_match'));
-    return [t('ask.why.flaggedIntro', { level: t(`result.${result.level}`) }), reasons.join('\n\n'), t('ask.why.outro')].join('\n\n');
+    return [t('ask.why.flaggedIntro', { level: t(`result.${result.level}`) }), reasons.join('\n\n')].join('\n\n');
   }
   if (key === 'ask.next') {
     if (result?.imageMetadata || result?.imageOrigin) {

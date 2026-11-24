@@ -1,0 +1,116 @@
+.practice-dialog .surf-school-layout { display: block; }
+.surf-school-layout .practice-coach { padding: 18px 28px; background: #102e59; }
+.surf-school-layout .practice-coach h2 { font-size: 1.4rem; }
+.surf-school-layout .practice-coach .practice-kicker { margin-bottom: 5px; }
+.surf-school-layout .practice-play-area { max-width: 790px; margin: 0 auto; padding: 22px 28px 30px; }
+.surf-school-layout .practice-message[hidden] { display: none; }
+.surf-school-layout .practice-progress { margin-bottom: 16px; }
+.surf-run { --wake-color: var(--board-color); margin-top: 16px; scroll-margin-top: calc(80px + env(safe-area-inset-top)); }
+.surf-launch { display: flex; align-items: center; gap: 16px; padding: 22px; border-radius: 22px; background: #fbf4e8; border: 1px solid #e8dac7; }
+.surf-launch > .surfy-rider-art { width: 145px; height: auto; flex-shrink: 0; }
+.surf-launch h3 { font: 700 1.6rem 'Fraunces Variable', Georgia, serif; margin: 0 0 10px; }
+.surf-launch p { font-size: .9375rem; line-height: 1.6; color: #435e7d; margin: 6px 0 12px; }
+.surf-run-heading { display: flex; align-items: center; gap: 12px; justify-content: space-between; margin-bottom: 10px; font-size: .875rem; color: #29476d; }
+.surf-run-heading > span { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.surf-run-heading > strong { text-align: center; }
+.surf-pause { display: grid; place-items: center; min-width: 44px; min-height: 44px; border: 1px solid #cfdbeb; border-radius: 50%; color: #24486f; background: #fff; cursor: pointer; }
+.surf-course { position: relative; isolation: isolate; height: 310px; overflow: hidden; border-radius: 24px; border: 2px solid #163d68; background: #153b68; touch-action: pan-y; scroll-margin-top: 78px; }
+.surf-course:focus-visible { outline: 3px solid #b73739; outline-offset: 3px; }
+.surf-hero-ocean { position: absolute; z-index: 0; isolation: isolate; pointer-events: none; inset: 0; --wave-height: 172px; overflow: hidden; background: #faf3e8; }
+.surf-hero-wave { position: absolute; z-index: 1; top: 0; left: 50%; width: max(100%, 900px); max-width: none; height: var(--wave-height); transform: translateX(-50%); mask-image: linear-gradient(#000 calc(100% - 14px), transparent); }
+.surf-deep-water { position: absolute; top: calc(var(--wave-height) - 16px); bottom: 0; left: 0; right: 0; background: linear-gradient(90deg, #0090fe, #008afe 50%, #0090fe); }
+.surfy-rider-art { display: block; width: 100%; height: auto; overflow: visible; }
+.practice-intro-art > .surfy-rider-art { width: min(100%, 365px); filter: drop-shadow(0 18px 16px #091a3b60); }
+.surf-current { position: absolute; z-index: 1; pointer-events: none; inset: 5% 0 0; display: grid; grid-template-columns: repeat(3, 1fr); transform: perspective(500px) rotateX(12deg); }
+.surf-current span { position: relative; border-right: 1px dashed #f9f1e359; }
+.surf-current span:last-child { border: 0; }
+.surf-current span:after { content: ''; position: absolute; width: 36%; height: 22px; left: 32%; top: 20%; border-top: 2px solid #fff4dc70; border-radius: 50%; animation: surf-flow 1.5s linear infinite; }
+.surf-current span:nth-child(2):after { animation-delay: -.8s; }
+.surf-current span:nth-child(3):after { animation-delay: -.4s; }
+.surf-player { position: absolute; z-index: 4; top: 61%; width: 128px; transform: translate(-50%, -30%); transition: left .16s ease-out; pointer-events: none; }
+.surf-player > .surfy-rider-art { position: relative; display: block; width: 100%; height: auto; filter: drop-shadow(0 6px 3px #0c234b55); animation: surf-ride 1.4s ease-in-out infinite alternate; }
+.surf-wake { position: absolute; width: 78%; height: 20px; bottom: 7px; left: 13%; border-radius: 50%; border-bottom: 4px solid var(--wake-color); border-top: 2px solid #fff3d4; box-shadow: 0 5px 0 #fbf4e81f; transform: rotate(-9deg); }
+.surf-pickup { position: absolute; z-index: 2; transform: translate(-50%, -50%); display: grid; place-items: center; width: 38px; height: 38px; pointer-events: none; }
+.surf-pickup.is-shell { color: #fff0c8; background: #b73739; border: 2px solid #fff0c8; border-radius: 50%; box-shadow: 0 3px 0 #102e5955; }
+.surf-pickup.is-rock { width: 47px; height: 38px; }
+.surf-pickup svg { width: 100%; height: 100%; }
+.surf-pickup.is-shell svg { width: 25px; height: 25px; }
+.surf-distance { position: absolute; z-index: 5; bottom: 0; left: 0; appearance: none; width: 100%; height: 5px; border: 0; background: #102e59; }
+.surf-distance::-webkit-progress-bar { background: #102e59; }
+.surf-distance::-webkit-progress-value { background: #f9d699; }
+.surf-distance::-moz-progress-bar { background: #f9d699; }
+.surf-course-notice { position: absolute; z-index: 5; pointer-events: none; bottom: 12px; left: 10%; right: 10%; min-height: 24px; text-align: center; color: #fff6e7; font-size: .875rem; font-weight: 700; text-shadow: 0 1px 3px #102e59; }
+.surf-gates { position: absolute; z-index: 3; top: 21%; left: 0; right: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+.surf-gates > span { justify-self: center; display: flex; align-items: center; justify-content: center; gap: 6px; width: 62%; min-height: 60px; border: 2px solid #fff0d7; border-radius: 60px 60px 12px 12px; background: #173b68; color: #fff5e2; font: 700 1.6rem 'Fraunces Variable', Georgia, serif; box-shadow: 0 8px 0 #173b6840; }
+.surf-gates > .is-target { background: #b73739; transform: translateY(8px); box-shadow: 0 0 0 4px #fff5e24d, 0 10px 0 #173b6840; }
+.surf-gates > .is-closed { opacity: .45; background: #404f65; }
+.surf-steering { display: flex; align-items: center; gap: 14px; justify-content: space-between; padding: 12px 0; }
+.surf-steering > button { display: grid; place-items: center; flex: none; width: 58px; height: 54px; border-radius: 18px; border: 1px solid #b7c9e0; background: #eff4fb; color: #153b68; cursor: pointer; box-shadow: 0 3px 0 #cbd7e6; }
+.surf-steering > button:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
+.surf-steering > button:disabled { opacity: .38; cursor: default; }
+.surf-steering p { flex: 1; margin: 0; max-width: 42ch; text-align: center; color: #37577d; font-size: .875rem; line-height: 1.5; }
+.surf-steering small { display: block; font-size: .6875rem; margin-top: 4px; color: #647995; }
+.surf-gate-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; list-style: none; padding: 0; margin: 0 0 14px; }
+.surf-gate-legend li { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 13px; border: 1px solid #d3deeb; border-radius: 15px; font-size: .875rem; line-height: 1.5; color: #526984; }
+.surf-gate-legend li > span { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #e9f0f8; color: #294e7a; font-weight: 700; }
+.surf-gate-legend .is-target { background: #fff5ea; border-color: #ba6262; color: #78343c; box-shadow: inset 0 0 0 1px #ba6262; }
+.surf-gate-legend .is-target > span { background: #b73739; color: #fff; }
+.surf-gate-legend .is-closed { text-decoration: line-through; opacity: .5; }
+.surf-catch { width: 100%; }
+.surf-catch:disabled { opacity: .5; cursor: default; }
+.surf-read { display: flex; margin: 6px auto 0; }
+.surf-pause-overlay { position: absolute; z-index: 8; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; color: #fff4e2; background: #102e59e8; }
+.surf-pause-overlay h3 { margin: 0; font: 700 1.8rem 'Fraunces Variable', Georgia, serif; }
+.surf-course.is-paused *, .surf-course.at-gates .surf-current span:after { animation-play-state: paused; }
+.surf-player.is-hit > .surfy-rider-art { opacity: .65; }
+.has-landed .surf-player > .surfy-rider-art { animation: surf-land .65s ease-out forwards; }
+.has-bumped .surf-player > .surfy-rider-art { animation: surf-bump .4s ease-out; }
+.surf-board-art { width: 110px; height: 55px; display: block; margin: 10px 0; }
+.surf-board-choice:disabled .surf-board-art { filter: grayscale(1); opacity: .4; }
+.surf-session-shells { display: flex; align-items: center; gap: 8px; margin: 16px 0 !important; color: #855836 !important; }
+@keyframes surf-flow { from { translate: 0 -12px; opacity: .2; } to { translate: 0 180px; opacity: .65; } }
+@keyframes surf-ride { from { transform: rotate(-3deg) translateY(0); } to { transform: rotate(2deg) translateY(-4px); } }
+@keyframes surf-land { to { transform: translateY(-95px) scale(.78); } }
+@keyframes surf-bump { 25%, 75% { transform: rotate(-12deg); } 50% { transform: rotate(12deg); } }
+@media (max-width: 600px) {
+  .surf-school-layout .practice-play-area { padding: 16px 14px 24px; }
+  .surf-school-layout .practice-coach { padding: 12px 16px; }
+  .surf-launch { padding: 16px; gap: 8px; align-items: flex-start; }
+  .surf-launch > .surfy-rider-art { width: 80px; margin-top: 20px; }
+  .surf-launch h3 { font-size: 1.25rem; }
+  .surf-launch p { font-size: .875rem; }
+  .surf-start { padding: 12px 18px; }
+  .surf-course { height: 250px; border-radius: 20px; scroll-margin-top: calc(72px + env(safe-area-inset-top)); }
+  .surf-player { width: 106px; }
+  .surf-hero-ocean { --wave-height: 140px; }
+  .surf-hero-wave { width: 735px; }
+  .surf-gates > span { min-height: 48px; width: 67%; font-size: 1.25rem; }
+  .surf-gates svg { width: 15px; }
+  .surf-run-heading { font-size: .75rem; gap: 7px; }
+  .surf-run-heading > strong { max-width: 48%; }
+  .surf-steering { gap: 9px; }
+  .surf-steering p { font-size: .75rem; }
+  .surf-steering small { display: none; }
+  .surf-gate-legend { grid-template-columns: 1fr; gap: 7px; }
+  .surf-gate-legend li { flex-direction: row; align-items: center; padding: 10px 12px; gap: 10px; font-size: .875rem; }
+  .surf-gate-legend li > span { flex: none; }
+  .surf-school-layout .practice-feedback { scroll-margin-top: calc(78px + env(safe-area-inset-top)); }
+}
+@media (min-width: 601px) and (max-height: 750px) {
+  .surf-course { height: 220px; }
+  .surf-gates { top: 13%; }
+  .surf-gates > span { min-height: 52px; }
+  .surf-player { top: 62%; width: 100px; }
+  .surf-steering { padding: 8px 0; }
+}
+@media (max-height: 550px) {
+  .surf-course { height: 190px; }
+  .surf-player { top: 56%; width: 94px; }
+  .surf-gates { top: 10%; }
+  .surf-gates > span { min-height: 44px; font-size: 1.125rem; }
+  .surf-gates > .is-target { transform: translateY(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .surf-current span:after, .surf-player > .surfy-rider-art, .has-landed .surf-player > .surfy-rider-art, .has-bumped .surf-player > .surfy-rider-art { animation: none; }
+  .surf-player { transition: none; }
+}

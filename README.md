@@ -167,12 +167,32 @@ preserve Surfy's local explanations.
 
 ## Scam-awareness practice
 
-Use **Play & learn** in the desktop header, or scroll to **Build your scam
-radar**. Surfy's Scam Challenge contains six fictional Philippine scenarios,
-each with two decisions, explanations, retry opportunities, and a completion
-score. It follows the selected English, Filipino, or Taglish language. Best
-completed scores are saved on the device and can be reset from the practice
-section. The game makes no API calls and works offline after the app is cached.
+Use **Play & learn** in the desktop header, or scroll to **Catch a wave. Spot a
+scam.** Surfy's Surf School has six routes with five questions each (30 fictional
+situations). Read each message, then launch an eight-second surf run. Swipe,
+use the on-screen arrows, or press the keyboard arrow keys to change lanes.
+Collect shells and avoid rocks; a collision costs one shell, down to zero.
+At the end, steer toward answer gate A, B, or C and choose **Catch this wave**.
+The gates wait while you decide. Incorrect choices include explanations and a
+chance to try another gate without repeating the course. Shell totals are shown
+for the current route, separately from the saved learning score and XP.
+
+Use **Pause** or the Space key while focused on the course to take a break.
+**Read the message again** pauses the run and reopens the message. The course
+also pauses when its browser tab becomes hidden; resuming is explicit.
+
+First-try answers earn 10 points; retries earn fewer points. Completed routes
+award XP from the best score plus a 10-XP completion reward. Replays award only
+the improvement over the previous best, so repeating a perfect route does not
+earn extra XP. Players can reach six levels, earn up to three stars per route,
+and unlock cosmetic boards after completing two, four, and six routes. Choose
+an unlocked board in the board rack to use it in the game.
+
+The game follows the selected English, Filipino, or Taglish language. Best
+scores, levels, and the chosen board stay on the device; **Reset progress**
+clears them. Phone layouts use large steering buttons and swipe controls;
+keyboard controls and reduced-motion settings are supported. The game makes
+no API calls and works offline after the app is cached.
 Its authored scenarios are separate from detector training and evaluation data.
 
 ## Offline resources
@@ -196,6 +216,11 @@ npm run backend:test
 npm test
 npm run build
 ```
+
+With the local frontend running at `http://127.0.0.1:5173`, run
+`node frontend/scripts/smoke-surf-school.mjs` to check the game at phone,
+tablet, and desktop widths in all three languages, including touch controls,
+retries, rewards, persistence, and keyboard exit.
 
 With the local app running, `node frontend/scripts/audit-detectors.mjs` exercises
 Text, Links, image text, QR content, and image-origin AI using authored fixtures.

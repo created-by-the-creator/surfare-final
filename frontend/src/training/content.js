@@ -1,3 +1,5 @@
+import { EXTRA_STEPS } from './surf-content.js';
+
 const L = (en, tl, taglish) => ({ en, tl, taglish });
 export const localize = (value, language) => value[language] || value.en;
 
@@ -73,7 +75,7 @@ export const PRACTICE_COPY = {
 };
 
 // Original Surfare teaching scenarios. Do not feed game answers into detector training.
-export const MISSIONS = [
+const BASE_MISSIONS = [
   {
     id: 'wallet', icon: 'wallet', title: L('The locked-wallet text', 'Ang mensaheng naka-lock ang wallet', 'The locked-wallet text'),
     category: L('E-wallet safety', 'Kaligtasan ng e-wallet', 'E-wallet safety'),
@@ -177,3 +179,5 @@ export const MISSIONS = [
     ],
   },
 ];
+
+export const MISSIONS = BASE_MISSIONS.map((mission) => ({ ...mission, steps: [...mission.steps, ...EXTRA_STEPS[mission.id]] }));

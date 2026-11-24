@@ -2,26 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Send } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import { SURFY_QUESTION_KEYS } from '../surfy/templates.js';
+import { formatSurfyReply } from '../surfy/reply-format.js';
 import './AskSurfy.css';
 
 function MessageContent({ text }) {
-  // Render provider text as text, never HTML or executable links.
-  const blocks = String(text).split(/\n\s*\n/).filter(Boolean);
-  return blocks.map((block, index) => {
-    const lines = block.split('\n');
-    if (lines.every((line) => /^\s*[-•]\s+/.test(line))) {
-      return <ul key={index}>{lines.map((line, item) => <li key={item}>{line.replace(/^\s*[-•]\s+/, '')}</li>)}</ul>;
-    }
-    if (block.length > 350 && typeof Intl.Segmenter === 'function') {
-      const sentences = [...new Intl.Segmenter(document.documentElement.lang || 'en', { granularity: 'sentence' }).segment(block)].map((part) => part.segment);
-      return sentences.reduce((paragraphs, sentence, item) => {
-        if (item % 2 === 0) paragraphs.push(sentence);
-        else paragraphs[paragraphs.length - 1] += sentence;
-        return paragraphs;
-      }, []).map((paragraph, item) => <p key={`${index}-${item}`}>{paragraph}</p>);
-    }
-    return <p key={index}>{block}</p>;
-  });
+  const { lead, points } = formatSurfyReply(text, document.documentElement.lang || 'en');
+  // Support emphasis while keeping HTML and links inert.
+  const inline = value => value.split(/(\*\*[^*\n]+\*\*)/g).map((part, index) => part.startsWith('**') && part.endsWith('**')
+    ? <strong key={index}>{part.slice(2, -2)}</strong> : part);
+  return <>{lead && <p className="surfy-reply-lead">{inline(lead)}</p>}{points.length > 0 && <ul className="surfy-reply-points">{points.map((point, index) => <li key={index}>{inline(point)}</li>)}</ul>}</>;
 }
 
 export default function AskSurfy({
@@ -32,16 +21,16 @@ export default function AskSurfy({
   onSend,
   openRequest,
   questionKeys = SURFY_QUESTION_KEYS,
-  aiEnabled = false,
   t,
 }) {
   const [draft, setDraft] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showAllQuestions, setShowAllQuestions] = useState(false);
   const messagesRef = useRef(null);
   const inputRef = useRef(null);
   const followLatestRef = useRef(true);
 
-  useEffect(() => { setIsCollapsed(false); }, [openRequest]);
+  useEffect(() => { setIsCollapsed(false); setShowAllQuestions(false); }, [openRequest]);
 
   useEffect(() => {
     const messagesElement = messagesRef.current;
@@ -64,7 +53,8 @@ export default function AskSurfy({
       if (!key || seen.has(key)) return false;
       seen.add(key);
       return true;
-    }).slice(0, 4);
+    });
+  const visibleSuggestions = showAllQuestions ? suggestions : suggestions.slice(0, 4);
 
   const submit = (value) => {
     const question = value.trim();
@@ -93,9 +83,6 @@ export default function AskSurfy({
       </div>
 
       <header className="ask-brand">
-        <span className="ask-avatar" aria-hidden="true">
-          <img src={ASSETS.surfyWink} alt="" width="1000" height="1000" decoding="async" />
-        </span>
         <div className="ask-heading">
           <p className="ask-eyebrow">{t('ask.eyebrow')}</p>
           <h2 tabIndex={-1}>{t('ask.title')}</h2>
@@ -108,8 +95,9 @@ export default function AskSurfy({
         </button>
       </header>
 
-      <div className="ask-content" id="ask-conversation">
-        <p className="ask-mode-note" role="status">{t(aiEnabled ? 'ask.aiMode' : 'ask.localMode')}</p>
+      <div className="ask-layout" id="ask-conversation">
+        <div className="ask-mascot-stage" aria-hidden="true"><span /><img src={ASSETS.surfyWink} alt="" width="1000" height="1000" decoding="async" /></div>
+      <div className="ask-content">
         <div className="ask-messages" ref={messagesRef} aria-live="polite" aria-relevant="additions text"
           onScroll={(event) => {
             const element = event.currentTarget;
@@ -142,12 +130,14 @@ export default function AskSurfy({
         </div>
 
         <div className="ask-chips" role="group" aria-label={t('ask.suggestions')}>
-          {suggestions.map(label => (
+          {visibleSuggestions.map(label => (
             <button type="button" className="ask-chip" key={label} onClick={() => { followLatestRef.current = true; onSend(label, { local: true }); }}>
               {label}
             </button>
           ))}
         </div>
+        {suggestions.length > 4 && <button className="ask-more-questions" type="button" aria-expanded={showAllQuestions}
+          onClick={() => setShowAllQuestions(value => !value)}>{t(showAllQuestions ? 'ask.fewerQuestions' : 'ask.moreQuestions')}</button>}
 
         <form
           className="ask-form"
@@ -191,6 +181,7 @@ export default function AskSurfy({
             <Send aria-hidden="true" />
           </button>
         </form>
+      </div>
       </div>
     </section>
   );
