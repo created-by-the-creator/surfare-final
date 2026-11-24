@@ -42,6 +42,7 @@ try {
   }, NOTICE_VERSION);
   await page.goto(`chrome-extension://${EXTENSION_ID}/sidepanel.html`);
   await page.locator('#selected-text').waitFor();
+  await page.screenshot({ path: path.join(output, 'ready.png'), fullPage: true });
   const windowId = await page.evaluate(async () => (await chrome.windows.getCurrent()).id);
   async function select(menuItemId, value) {
     await page.evaluate(async ({ menuItemId, value, windowId }) => {
@@ -115,13 +116,23 @@ try {
   }
   await page.locator('.extension-header select').selectOption('en');
   await page.locator('.extension-tabs button').nth(2).click();
-  await page.locator('#extension-image').setInputFiles(path.join(root, 'backend/tests/fixtures/content/tagalog-threat-qr.png'));
+  const chooserPromise = page.waitForEvent('filechooser');
+  await page.locator('.extension-upload').click();
+  await (await chooserPromise).setFiles(path.join(root, 'backend/tests/fixtures/content/tagalog-threat-qr.png'));
   await page.locator('#image-mode').selectOption('qr');
   await page.locator('.extension-check').click();
   await completed();
   await expect(page.locator('.result-panel')).toHaveClass(/result-high/);
   records.push({ check: 'packaged QR worker', worksOffline: true });
-  await page.locator('#extension-image').setInputFiles(path.join(root, 'backend/tests/fixtures/content/tagalog-threat.png'));
+  const textImage = await readFile(path.join(root, 'backend/tests/fixtures/content/tagalog-threat.png'));
+  const transfer = await page.evaluateHandle(base64 => {
+    const data = new DataTransfer();
+    const bytes = Uint8Array.from(atob(base64), value => value.charCodeAt(0));
+    data.items.add(new File([bytes], 'authored-screenshot.png', { type: 'image/png' }));
+    return data;
+  }, textImage.toString('base64'));
+  await page.locator('.extension-upload').dispatchEvent('drop', { dataTransfer: transfer });
+  await transfer.dispose();
   await page.locator('#image-mode').selectOption('ocr');
   await page.locator('.extension-check').click();
   await completed();

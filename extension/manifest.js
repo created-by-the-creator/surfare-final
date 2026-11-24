@@ -1,6 +1,6 @@
 import { EXTENSION_PUBLIC_KEY, SURFARE_ORIGIN } from './identity.js';
 export const manifest = {
-  manifest_version: 3, name: 'Surfare — Check with Surfy', version: '1.0.0',
+  manifest_version: 3, name: 'Surfare — Check with Surfy', version: '1.0.1',
   description: 'Check selected messages, links and images for warning signs, with simple results and Ask Surfy.',
   minimum_chrome_version: '116', key: EXTENSION_PUBLIC_KEY,
   permissions: ['contextMenus', 'sidePanel', 'storage', 'activeTab'],

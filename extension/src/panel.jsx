@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ExternalLink, Image, Link2, MessageSquareText, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Globe, Image, Link2, MessageSquareText, ShieldCheck, Upload, Wifi, WifiOff } from 'lucide-react';
+import { ASSETS } from '../../frontend/src/assets.js';
 import ResultPanel from '../../frontend/src/components/ResultPanel.jsx';
 import AskSurfy from '../../frontend/src/components/AskSurfy.jsx';
 import PrivacyNotice from '../../frontend/src/components/PrivacyNotice.jsx';
@@ -158,14 +159,26 @@ export default function ExtensionPanel() {
     void drainChat();
   }
   const questions = [...getSuggestedSignalQuestions(result, t), ...getSuggestedQuestionKeys({ result, activeTab: tab })];
+  const guideState = busy ? 'checking' : status === 'error' || errorKey ? 'error' : status === 'result' ? 'done' : (tab === 'image' ? file : text.trim()) ? 'ready' : 'idle';
+  const mascot = busy || guideState === 'error' ? ASSETS.surfyMagnify
+    : status === 'result' ? result?.level === 'high' ? ASSETS.surfyAlarm : ASSETS.surfyTablet : ASSETS.surfyPoint;
+  function chooseImage(selected) {
+    if (busy) return;
+    clearResult(); setSourceUrl(''); setFile(selected || null);
+  }
   return <div className="extension-shell check-section">
     <header className="extension-header">
-      <div><img src="/assets/pwa-64x64.png" alt="" width="36" height="36" /><h1>Surfare</h1></div>
-      <select aria-label={t('nav.language')} value={lang} onChange={event => setLang(event.target.value)}><option value="en">English</option><option value="tl">Filipino</option><option value="taglish">Taglish</option></select>
+      <div className="extension-brand"><img src={ASSETS.appIcon} alt="" width="36" height="36" /><h1>Surfare</h1></div>
+      <label className="extension-language"><Globe size={16} aria-hidden="true" /><select aria-label={t('nav.language')} value={lang} onChange={event => setLang(event.target.value)}><option value="en">English</option><option value="tl">Filipino</option><option value="taglish">Taglish</option></select></label>
       <button type="button" className="extension-site" aria-label={t('extension.website')} onClick={() => chrome.tabs.create({ url: SURFARE_ORIGIN })}><ExternalLink size={18} /></button>
     </header>
     <main>
-      <p className="extension-intro">{t('extension.intro')}</p>
+      <div className="extension-form-card">
+        <div className="extension-workspace-top"><h2>{t('check.title')}</h2><span className={`extension-connection ${online ? 'is-online' : 'is-offline'}`} role="status">{online ? <Wifi size={13} aria-hidden="true" /> : <WifiOff size={13} aria-hidden="true" />}{t(online ? 'nav.online' : 'nav.offline')}</span></div>
+        <div className={`extension-guide is-${guideState}`}>
+          <img src={mascot} alt="" width="88" height="96" />
+          <p role="status">{t(`check.guide.${guideState}`)}</p>
+        </div>
       <div className="extension-tabs" role="group" aria-label={t('check.tabs.label')}>
         {tabs.map(([kind, Icon]) => <button key={kind} type="button" disabled={busy} aria-pressed={tab === kind} onClick={() => { reset(); setTab(kind); }}><Icon size={17} />{t(`check.tabs.${kind}`)}</button>)}
       </div>
@@ -173,8 +186,12 @@ export default function ExtensionPanel() {
         {tab !== 'image' ? <><label htmlFor="selected-text">{t(tab === 'links' ? 'check.link.label' : 'check.text.label')}</label><textarea id="selected-text" value={text} maxLength={12000} disabled={busy} placeholder={t('extension.placeholder')} onChange={event => { clearResult(); setText(event.target.value); }} /></> : <>
           <label htmlFor="extension-image">{t('check.image.label')}</label>
           {sourceUrl && <div className="extension-image-access"><p>{t('extension.imageAccess', { host: new URL(sourceUrl).hostname })}</p><button type="button" disabled={busy} onClick={() => { void getImage(sourceUrl, true); }}>{t('extension.loadImage')}</button></div>}
-          <input id="extension-image" type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={event => { clearResult(); setSourceUrl(''); setFile(event.target.files[0] || null); }} />
-          {preview && <img className="extension-preview" src={preview} alt={t('check.image.preview')} />}
+          <input className="extension-file-input" id="extension-image" type="file" accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={event => { chooseImage(event.target.files[0]); event.target.value = ''; }} />
+          <button type="button" className="extension-upload" disabled={busy} onClick={() => document.getElementById('extension-image').click()} onDragOver={event => event.preventDefault()} onDrop={event => { event.preventDefault(); if (event.dataTransfer.files[0]) chooseImage(event.dataTransfer.files[0]); }}>
+            {preview ? <img className="extension-preview" src={preview} alt={t('check.image.preview')} /> : <Upload size={28} aria-hidden="true" />}
+            <span>{t('check.image.choose')}</span><small>{t('check.image.formats')}</small>
+          </button>
+          {file && <p className="extension-file-name">{file.name}</p>}
           <label htmlFor="image-mode">{t('check.image.modeLabel')}</label>
           <select id="image-mode" value={imageMode} disabled={busy} onChange={event => { clearResult(); setImageMode(event.target.value); }}><option value="origin">{t('check.image.modeAi')}</option><option value="ocr">{t('check.image.modeOcr')}</option><option value="qr">{t('check.tabs.qr')}</option></select>
         </>}
@@ -183,13 +200,14 @@ export default function ExtensionPanel() {
         {!online && <p className="extension-local">{t('extension.offline')}</p>}
         <button className="extension-check" disabled={busy || (tab === 'image' ? !file : !text.trim())} type="button" onClick={() => { void check({ useOnline: onlineHelp && online }); }}><ShieldCheck size={19} />{t(busy ? 'result.loading' : onlineHelp ? 'extension.checkOnline' : 'check.button')}</button>
       </section>
+      </div>
       <ResultPanel status={status} result={result} errorKey={errorKey} isOnline={online} t={t} onReset={reset} isAskOpen={askOpen}
         onReviewText={() => { const value = result.checkedText; reset(); setTab('text'); setText(value); }}
         onAskAboutResult={() => { setAskOpen(true); setOpenRequest(value => value + 1); requestAnimationFrame(() => { document.querySelector('.ask-dialog h2')?.focus({ preventScroll: true }); document.querySelector('.ask-dialog')?.scrollIntoView({ block: 'start' }); }); }} />
       {status === 'result' && <button className="extension-reset" type="button" onClick={reset}>{t('check.new')}</button>}
       {askOpen && <AskSurfy isOpen isThinking={thinking} messages={messages} onSend={send} openRequest={openRequest} questionKeys={questions} aiEnabled={onlineHelp && online} t={t} />}
     </main>
-    <footer className="extension-footer"><p>{t('extension.localFirst')}</p><details><summary>{t('extension.accessTitle')}</summary><p>{t('extension.accessDetail')}</p></details><button type="button" onClick={reviewNotice}>{t('extension.privacy')}</button></footer>
+    <footer className="extension-footer"><p className="extension-intro">{t('extension.intro')}</p><p>{t('extension.localFirst')}</p><details><summary>{t('extension.accessTitle')}</summary><p>{t('extension.accessDetail')}</p></details><button type="button" onClick={reviewNotice}>{t('extension.privacy')}</button></footer>
     {notice && <PrivacyNotice t={t} reduced key={`${notice}-${hasAcknowledged}`} />}
   </div>;
 }

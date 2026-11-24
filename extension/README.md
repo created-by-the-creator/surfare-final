@@ -15,6 +15,11 @@ Chrome 116 or later is required. Reload the extension from `chrome://extensions`
 after rebuilding. A ZIP is for transferring or submitting the package; Chrome's
 **Load unpacked** option uses the extracted folder.
 
+Version 1.0.1 matches the website's cream checker card, red headings, blue tabs,
+Surfy poses and result cards. The image picker supports choosing a file or
+dropping one onto the upload area. For an existing unpacked installation, click
+its reload button in `chrome://extensions`, then close and reopen the side panel.
+
 ## Online checks
 
 The default server is `https://surfare.vercel.app`. Deploy the repository's new
