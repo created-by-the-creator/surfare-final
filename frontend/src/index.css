@@ -9458,10 +9458,13 @@ html {
 
 .check-progress-body {
   display: grid;
-  justify-items: start;
+  flex: 1;
+  align-content: center;
+  justify-items: center;
   gap: 12px;
   padding: 24px;
   color: #eff6ff;
+  text-align: center;
 }
 .progress-icon {
   display: grid; place-items: center; width: 46px; height: 46px;
@@ -9474,7 +9477,7 @@ html {
 .check-progress-body h3 { font-size: clamp(23px, 3vw, 30px); }
 .check-progress-body p { margin: 0; max-width: 40ch; font-size: 16px; line-height: 1.55; color: #dce9f8; }
 .progress-finished {
-  display: flex; gap: 8px; align-items: center; padding-top: 8px;
+  display: flex; gap: 8px; align-items: center; justify-content: center; padding-top: 8px;
   font-size: 14px; color: #b9e6d1;
 }
 .progress-finished svg { width: 18px; }
