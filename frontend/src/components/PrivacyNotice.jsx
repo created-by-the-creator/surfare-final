@@ -10,6 +10,7 @@ const REFERENCES = [
   ['Republic Act No. 10173', 'https://privacy.gov.ph/data-privacy-act/'],
   ['National Privacy Commission', 'https://privacy.gov.ph/data-subject-rights/'],
   ['OpenRouter', 'https://openrouter.ai/privacy'],
+  ['Sightengine', 'https://sightengine.com/policies/privacy'],
   ['Google', 'https://policies.google.com/privacy'],
   ['Cloudflare', 'https://www.cloudflare.com/privacypolicy/'],
   ['EmailJS', 'https://www.emailjs.com/legal/privacy-policy/'],

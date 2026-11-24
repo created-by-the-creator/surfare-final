@@ -3,9 +3,20 @@ import { translate } from '../i18n/useI18n.js';
 import { buildSurfyContext, requestSurfyReply } from './client.js';
 import { getSuggestedSignalQuestions } from './templates.js';
 import { analyzeInput } from '../engine/analyze.js';
+import { buildImageOriginResult } from '../engine/image-ai.js';
 const t = (key, values) => translate('en', key, values);
 
 describe('AI Surfy and detector wiring', () => {
+  it('includes the Sightengine score and limitations in chat context without image bytes', () => {
+    const result = buildImageOriginResult({ providerId: 'sightengine', detection: { aiGeneratedScore: 0.51 } }, null, {
+      labelKey: 'result.imageMetadata.label.none', summaryKey: 'result.imageMetadata.summary.none',
+    });
+    const context = buildSurfyContext({ ...result, image: 'private image bytes' }, t);
+    expect(context.explanation).toContain('0.510');
+    expect(context.explanation).toContain(t('result.sightengine.uncertain'));
+    expect(context.explanation).toContain(t('result.sightengine.limitation'));
+    expect(JSON.stringify(context)).not.toContain('private image bytes');
+  });
   it.each(['en', 'tl', 'taglish'])('shows a single clean prompt for overlapping quotes in %s', lang => {
     const questions = getSuggestedSignalQuestions({ signals: [
       { id: 'winnings-deposit', evidence: 'Cash in ka 100' },

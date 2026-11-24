@@ -1,0 +1,106 @@
+/* The checker has one reading order: input, result, then optional explanation. */
+.check-section .check-card { transition: none; }
+.check-section .check-columns { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.check-section .check-workspace { grid-template-columns: 156px minmax(0, 1fr); gap: 20px; padding-top: 0; }
+.check-section .input-card { padding: 0; }
+.check-section .check-form-column { min-width: 0; }
+.check-section .check-tabs { width: 100%; border-radius: 16px; padding: 5px; gap: 2px; }
+.check-section .share-received { display: flex; align-items: flex-start; gap: 10px; margin: 0 0 16px; padding: 12px 14px; border: 1px solid #aec8e5; border-radius: 12px; color: #234a7b; background: #edf5ff; font-size: .9375rem; line-height: 1.5; }
+.check-section .share-received svg { flex: 0 0 19px; margin-top: 2px; }
+.check-section .share-received:focus { outline: 2px solid #3f72ad; outline-offset: 3px; }
+.check-section .check-tab { gap: 6px; min-height: 48px; padding: 8px 4px; border-radius: 12px; font-size: .875rem; }
+.check-section .check-tab svg { width: 20px; height: 20px; }
+.check-section .tab-panel { min-height: 0; padding: 20px 0 0; }
+.check-section .field-group { gap: 12px; }
+.check-section .field-group > label, .check-section .field-heading label { color: #233d61; font-size: 1rem; font-weight: 600; }
+.check-section .field-group textarea { min-height: 190px; height: 210px; padding: 16px; border: 1px solid #b8c8d9; border-radius: 16px; background: #fffefa; color: #233d61; font-size: 1rem; line-height: 1.6; }
+.check-section .field-group textarea::placeholder { color: #65738a; opacity: 1; }
+.check-section .field-help, .check-section .field-meta > span { color: #59697d; font-size: .8125rem; line-height: 1.5; }
+.check-section .guide-row { align-items: center; gap: 14px; padding: 76px 0 0; height: auto; }
+.check-section .guide-bubble { width: 100%; max-width: 165px; height: auto; min-height: 44px; margin: 0; padding: 12px; border-radius: 12px; font-size: .875rem; font-weight: 600; line-height: 1.45; white-space: normal; }
+.check-section .guide-bubble::after { top: auto; bottom: -4px; left: calc(50% - 4px); }
+.check-section .guide-mascot { order: 0; width: 180px; max-width: 115%; height: 200px; flex: none; object-fit: contain; object-position: center; }
+.check-section .check-ai-choice { margin: 18px 0 12px; padding: 14px; background: #ffffff80; }
+.check-section .check-ai-choice strong { font-size: .875rem; }
+.check-section .check-ai-choice small { font-size: .875rem; line-height: 1.55; color: #52647c; }
+.check-section .check-button { min-height: 52px; margin-top: 0; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 600; }
+.check-section .check-title { margin-bottom: 28px; gap: 20px; }
+.check-section .check-title h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); }
+.check-section .check-title > span { height: 2px; opacity: .35; }
+.check-section .check-title .golden-rules > p { font-family: inherit; font-size: .75rem; letter-spacing: .04em; }
+.check-section .check-title .golden-rules h3 { font-family: inherit; font-size: .875rem; font-weight: 500; line-height: 1.5; }
+.check-section .result-panel .result-cap h2 { font-family: 'Outfit Variable', sans-serif; font-size: 1rem; font-weight: 500; color: #b9d2f0; }
+.check-section .result-panel .result-state-title { font-size: 1.75rem; line-height: 1.2; }
+.check-section .result-panel .result-prompt { font-size: 1rem; line-height: 1.55; color: #e2edfb; }
+.check-section .result-panel .result-next h3 { font-family: inherit; font-size: 1rem; font-weight: 600; }
+.check-section .result-panel .result-next li, .check-section .image-origin-report { font-size: 1rem; line-height: 1.6; }
+.check-section .result-heading { scroll-margin-top: 100px; }
+.check-section .result-state-title:focus { outline: none; }
+.check-section .result-actions { display: grid; gap: 10px; margin-top: 16px; }
+.check-section .result-surfy-help { margin: 22px 0; }
+.check-section .result-surfy-help > p { color: #dce9f8; font-size: .9375rem; line-height: 1.5; margin: 0 0 10px; }
+.check-section .image-check-details { border-top: 1px solid #b5d1ef44; margin-top: 20px; }
+.check-section .image-check-details > summary { display: flex; align-items: center; gap: 10px; padding: 18px 0; color: #dce9f8; font-size: .9375rem; cursor: pointer; list-style: none; }
+.check-section .image-check-details > summary::-webkit-details-marker { display: none; }
+.check-section .image-check-details > summary > svg:last-child { margin-left: auto; }
+.check-section .image-check-details[open] > summary > svg:last-child { transform: rotate(180deg); }
+.check-section .image-check-details > summary:focus-visible { outline: 2px solid #b9d2f0; outline-offset: 3px; border-radius: 4px; }
+.check-section .image-check-details-body { display: grid; gap: 16px; padding-bottom: 8px; }
+.check-section .image-check-details-body .image-origin-report { margin: 0; }
+.check-section .image-simple-next { margin: 12px 0 0; font-size: .9375rem; line-height: 1.55; color: #c8daf0; }
+.check-section .image-file-clue { padding: 12px 14px; border-left: 3px solid #b9d2f0; color: #e2edfb; font-size: 1rem; line-height: 1.55; }
+.check-section .result-reasons { padding: 0 0 4px; }
+.check-section .result-reasons h4 { margin: 0 0 12px; color: #b9d2f0; font-size: .875rem; font-weight: 500; }
+.check-section .result-reasons ul { margin: 0; padding-left: 20px; display: grid; gap: 12px; list-style: disc; }
+.check-section .result-reasons li { color: #e2edfb; font-size: 1rem; line-height: 1.5; }
+.check-section .result-reasons strong { font-weight: 500; }
+.check-section .result-reasons li > span { display: block; color: #b9d2f0; font-size: .875rem; overflow-wrap: anywhere; }
+.check-section .image-origin-report .image-observation-note { display: block; margin-top: 6px; color: #526b8e; font-size: .875rem; line-height: 1.5; }
+.check-section .sightengine-score { display: grid; gap: 10px; margin: 18px 0; }
+.check-section .sightengine-score label { color: #234a7b; font-size: .875rem; font-weight: 600; }
+.check-section .sightengine-score meter { width: 100%; height: 16px; }
+.check-section .sightengine-score meter::-webkit-meter-bar { background: #dce6f1; border: 0; border-radius: 6px; }
+.check-section .sightengine-score meter::-webkit-meter-optimum-value { background: #3f72ad; border-radius: 6px; }
+.check-section .sightengine-score meter::-moz-meter-bar { background: #3f72ad; border-radius: 6px; }
+.check-section .sightengine-score p { margin: 0; color: #526b8e; font-size: .875rem; line-height: 1.55; }
+.check-section .image-local-progress { padding: 16px; border: 1px solid #b5d1ef66; border-radius: 14px; background: #ffffff0a; }
+.check-section .image-local-progress > strong { display: block; margin-bottom: 10px; font-size: 1rem; color: #cfebdf; }
+.check-section .image-local-progress ul { margin: 12px 0 0; padding-left: 20px; list-style: disc; color: #dce9f8; font-size: .875rem; line-height: 1.6; }
+.check-section .result-ask-button { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 50px; padding: 12px 16px; border: 1px solid #254d80; border-radius: 12px; background: #fffefa; color: #173d72; font: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.check-section .result-ask-button:hover, .check-section .result-ask-button[aria-expanded="true"] { background: #e8f0fb; }
+.check-section .result-actions .new-check-button { width: 100%; min-height: 44px; margin: 0; border: 0; background: transparent; font-size: .875rem; }
+.check-section .check-columns > .ask-panel-position { grid-column: 1 / -1; grid-row: 2; margin: 0; min-height: 0; max-height: none; aspect-ratio: auto; }
+.check-section .ask-dialog .chat-bubble { font-size: 1rem; line-height: 1.65; }
+.check-section .chat-bubble > p { margin: 0 0 12px; color: inherit; font: inherit; }
+.check-section .chat-bubble > p:last-child { margin-bottom: 0; }
+.check-section .chat-bubble > ul { margin: 12px 0; padding-left: 1.25em; display: grid; gap: 12px; list-style: disc; }
+.check-section .chat-bubble > ul:last-child { margin-bottom: 0; }
+.check-section .ask-dialog .ask-mode-note { font-size: .875rem; color: #bdd0e9; padding: 0 0 12px; }
+.check-section .ask-dialog .ask-chip { font-size: .875rem; }
+.check-section .ask-dialog .ask-messages { max-height: 440px; }
+@media (prefers-reduced-motion: no-preference) {
+  .check-section .guide-mascot { animation: guide-arrive .28s ease-out; }
+  .check-section .guide-checking .guide-mascot { animation: guide-checking 2.4s ease-in-out infinite; }
+}
+@keyframes guide-arrive { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@keyframes guide-checking { 50% { transform: translateY(-6px) rotate(-2deg); } }
+@media (max-width: 1100px) {
+  .check-section .check-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .check-section .check-result-column, .check-section .check-columns.has-ask-panel > .check-result-column { grid-column: 1; grid-row: 2; }
+  .check-section .check-columns > .ask-panel-position { grid-column: 1; grid-row: 3; }
+  .check-section .guide-row { padding-top: 70px; }
+}
+@media (max-width: 640px) {
+  .check-section .check-workspace { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .check-section .guide-row { padding: 0; flex-direction: row; justify-content: flex-start; gap: 14px; }
+  .check-section .guide-mascot { order: -1; width: 86px; max-width: 86px; height: 90px; flex: 0 0 86px; }
+  .check-section .guide-bubble { max-width: 225px; text-align: left; }
+  .check-section .guide-bubble::after { top: calc(50% - 4px); bottom: auto; left: -4px; }
+  .check-section .check-title { margin-bottom: 20px; }
+  .check-section .check-title .golden-rules { gap: 10px; }
+  .check-section .check-title .golden-rules > p { flex-basis: 100px; max-width: 100px; font-size: .75rem; }
+  .check-section .check-tab { flex-direction: column; gap: 5px; padding: 8px 2px; font-size: .875rem; }
+  .check-section .field-group textarea { height: 180px; min-height: 160px; }
+  .check-section .check-ai-choice { padding: 12px; }
+  .check-section .result-panel .result-state-title { font-size: 1.75rem; }
+}

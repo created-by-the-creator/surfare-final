@@ -7,12 +7,14 @@ import {
   FileText,
   ListChecks,
   LoaderCircle,
+  MessageSquareText,
   RotateCcw,
   ShieldCheck,
 } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
-import { hasImageAiClues } from '../engine/image-ai.js';
+import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
+import { localOutcome } from '../engine/result-presentation.js';
 import {
   getDisplaySignals,
   getSignalEvidenceItems,
@@ -43,11 +45,13 @@ function saveReport(result, t, includeContent) {
   const signals = getDisplaySignals(result);
   const lines = [
     t('report.title'),
-    t('report.result', { level: t(result.aiImageOnly ? result.summaryKey : `result.${level}`) }),
+    t('report.result', { level: t(result.aiImageOnly ? result.summaryKey : localOutcome(result) ? `result.${localOutcome(result)}.title` : `result.${level}`) }),
     ...(result.aiImageOnly ? [
       result.imageMetadata?.summaryKey && t(result.imageMetadata.summaryKey),
-      ...imageMetadataDetails(result.imageMetadata, t), result.imageOrigin?.summary,
+      ...imageMetadataDetails(result.imageMetadata, t), imageOriginSummary(result.imageOrigin, t),
+      result.imageOrigin?.limitationKey && t(result.imageOrigin.limitationKey),
       ...(result.imageOrigin?.observations || []), result.imageVisualNoteKey && t(result.imageVisualNoteKey),
+      ...(result.imageOrigin?.nonClues?.length ? [t('result.imageOrigin.nonClueTitle'), ...result.imageOrigin.nonClues] : []),
     ].filter(Boolean) : [result.usedOnline && !signals.length ? t('result.summary.onlineOnly') : warningSummary(result, t)]),
     ...(result.matchedUrls || []).map(url => t('ask.addressMatch', { url })),
     '',
@@ -154,13 +158,14 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText }) {
+export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText, onAskAboutResult, isAskOpen = false }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedSignals, setSelectedSignals] = useState([]);
   const titleId = useId();
   const reportPopoverId = useId();
   const reportPopoverRef = useRef(null);
+  const previousStatus = useRef(status);
   const level = result ? (LEVEL_KEYS[result.level] ?? 'unknown') : 'low';
   const showResult = status === 'result' && result;
   const displaySignals = getDisplaySignals(result);
@@ -173,6 +178,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const isMetadataReview = Boolean(showResult && result?.imageMetadata);
   const isOriginReview = Boolean(showResult && result?.imageOrigin);
   const isImageReview = isMetadataReview || isOriginReview;
+  const isSightengineReview = isOriginReview && result.imageOrigin.source === 'sightengine';
+  const outcome = localOutcome(result);
   const metadataLabel = isMetadataReview ? t(result.imageMetadata.labelKey) : '';
   const originLabel = isOriginReview ? t(result.imageOrigin.labelKey) : '';
   const hasAiClues = hasImageAiClues(result);
@@ -189,8 +196,19 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
         low: ['result.nextPointLow1', 'result.nextPointLow2'],
         suspicious: ['result.nextPointSuspicious1', 'result.nextPointSuspicious2'],
         high: ['result.nextPointHigh1', 'result.nextPointHigh2', 'result.nextPointHigh3'],
-        unknown: ['ask.next.unknown'],
+        unknown: outcome ? ['result.nextPointLocalVerify', 'result.nextPointLocalContext'] : result?.mediaInfo?.uncertainExtraction
+          ? ['result.nextPointUnknownImage', 'result.nextPointUnknownVerify']
+          : ['result.nextPointUnknownMore', 'result.nextPointUnknownVerify'],
       })[level];
+
+  useEffect(() => {
+    if (status === 'result' && ['analyzing', 'reviewing'].includes(previousStatus.current)) {
+      const title = document.getElementById(titleId);
+      title?.focus({ preventScroll: true });
+      if (window.matchMedia('(max-width: 1100px)').matches) title?.closest('.result-panel')?.scrollIntoView({ block: 'start' });
+    }
+    previousStatus.current = status;
+  }, [status, titleId]);
 
   useEffect(() => {
     setIncludeContent(false);
@@ -217,22 +235,25 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const stateTitle = showResult
     ? isImageReview
       ? t(result.summaryKey || 'result.imageOrigin.unclear')
-      : t(`result.${level}`)
+      : t(outcome ? `result.${outcome}.title` : `result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
       : status === 'error'
         ? t('result.error')
         : t('result.ready');
   const summary = showResult
-    ? isMetadataReview && isOriginReview
-      ? t('result.imageReview.summary', { file: metadataLabel, visual: originLabel })
+    ? isSightengineReview
+      ? t(result.imageOrigin.summaryKey)
+      : isImageReview && result.imageVisualNoteKey && !isOriginReview
+        ? t(result.imageVisualNoteKey)
+      : isMetadataReview && isOriginReview
+      ? t('result.imageReview.summaryVisual', { visual: originLabel })
       : isImageReview
         ? isOriginReview
           ? t('result.imageReview.summaryVisual', { visual: originLabel })
           : t('result.imageReview.summaryFileOnly', { file: metadataLabel })
         : isUnknown
-      ? t(result.aiReview?.status !== 'completed' && !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction &&
-          !warningCount && result.checkedText?.trim().split(/\s+/).length >= 4 ? 'result.noLocalWarning' : 'result.unknown.subtitle')
+      ? t(outcome ? `result.${outcome}.summary` : 'result.unknown.subtitle')
       : onlineOnly
         ? t('result.summary.onlineOnly')
         : warningCount
@@ -259,9 +280,16 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
           <div className="result-cap"><h2>{t('check.inProgress')}</h2></div>
           <div className="check-progress-body" role="status">
             <span className="progress-icon"><LoaderCircle aria-hidden="true" /></span>
-            <h3 id={titleId}>{t(reviewing ? 'check.progress.ai' : 'result.loading')}</h3>
+            <h3 id={titleId}>{t(reviewing ? result?.aiImageOnly ? 'result.sightengine.pending' : 'check.progress.ai' : 'result.loading')}</h3>
             <p>{t(reviewing ? 'check.progress.wait' : 'check.progress.local')}</p>
             {reviewing && <div className="progress-finished"><Check aria-hidden="true" />{t('check.progress.finished')}</div>}
+            {reviewing && result?.aiImageOnly && result.imageMetadata && (
+              <section className="image-local-progress" aria-label={t('result.imageMetadata.title')}>
+                <strong>{t('result.sightengine.localComplete')}</strong>
+                <p>{t(result.imageMetadata.summaryKey || result.imageMetadata.labelKey)}</p>
+                {imageMetadataDetails(result.imageMetadata, t).length > 0 && <ul>{imageMetadataDetails(result.imageMetadata, t).map(note => <li key={note}>{note}</li>)}</ul>}
+              </section>
+            )}
             {reviewing && result?.level === 'high' && <p className="progress-caution">{t('check.progress.caution')}</p>}
           </div>
         </section>
@@ -292,7 +320,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 <span className="result-ready-icon" aria-hidden="true"><ShieldCheck /></span>
               )}
               <div className="result-title-copy">
-                <h3 id={titleId} className="result-state-title">{stateTitle}</h3>
+                <h3 id={titleId} className="result-state-title" tabIndex={-1}>{stateTitle}</h3>
                 <p className="result-prompt">{summary}</p>
               </div>
             </div>
@@ -325,7 +353,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 </div>
               </div>
             )}
-            {showResult && result.imageVisualNoteKey && (
+            {showResult && result.imageVisualNoteKey && !isImageReview && (
               <p className="image-origin-status" role="status">
                 {t(result.imageVisualNoteKey)}
               </p>
@@ -348,37 +376,50 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
             {showResult && result.semanticConflict && <p className="image-origin-status">{t('result.conflictingReviews')}</p>}
             {showResult && result.onlineUnavailable && <p className="image-origin-status">{t('result.reputationIncomplete')}</p>}
             {showResult && result.matchedUrls?.map(url => <p className="image-origin-status" key={url}>{t('ask.addressMatch', { url })}</p>)}
-            {isMetadataReview && (
-              <section className="image-origin-report image-metadata-report" role="region" aria-label={t('result.imageMetadata.title')}>
-                <div className="image-report-head">
-                  <strong>{t('result.imageMetadata.title')}</strong>
-                </div>
-                <p>{t(result.imageMetadata.summaryKey)}</p>
-                {imageMetadataDetails(result.imageMetadata, t).length > 0 && (
-                  <ul>{imageMetadataDetails(result.imageMetadata, t).map((detail) => <li key={detail}>{detail}</li>)}</ul>
-                )}
-                <p className="image-origin-limitation">{t(result.imageMetadata.limitationKey)}</p>
-              </section>
+            {isOriginReview && hasImageAiClues({ imageMetadata: result.imageMetadata }) && (
+              <p className="image-file-clue">{t('result.imageSimple.fileAi')}</p>
             )}
+            {showResult && onAskAboutResult && (
+              <div className="result-surfy-help">
+                <p>{t('result.askHelp')}</p>
+                <button className="result-ask-button" type="button" onClick={onAskAboutResult} aria-expanded={isAskOpen} aria-controls={isAskOpen ? 'ask-surfy' : undefined}>
+                  <MessageSquareText size={20} aria-hidden="true" />{t('check.askAboutResult')}
+                </button>
+              </div>
+            )}
+            {isImageReview && <details className="image-check-details" key={`${result.imageVisualStatus}-${result.summaryKey}`}>
+              <summary><FileText size={18} aria-hidden="true" />{t('result.imageSimple.details')}<ChevronDown size={17} aria-hidden="true" /></summary>
+              <div className="image-check-details-body">
             {isOriginReview && (
-              <section className="image-origin-report" role="region" aria-label={t('result.imageOrigin.title')}>
+              <section className="image-origin-report" role="region" aria-label={t(result.imageOrigin.source === 'sightengine' ? 'result.sightengine.title' : 'result.imageOrigin.title')}>
                 <div className="image-report-head">
-                  <strong>{t('result.imageOrigin.title')}</strong>
+                  <strong>{t(result.imageOrigin.source === 'sightengine' ? 'result.sightengine.title' : 'result.imageOrigin.title')}</strong>
                   <span>{t(result.imageOrigin.labelKey)}</span>
                 </div>
-                {result.imageOrigin.summary && <p>{result.imageOrigin.summary}</p>}
-                <div className="image-evidence">
+                {imageOriginSummary(result.imageOrigin, t) && <p>{imageOriginSummary(result.imageOrigin, t)}</p>}
+                {result.imageOrigin.source === 'sightengine' && (
+                  <div className="sightengine-score">
+                    <label htmlFor={`${titleId}-ai-score`}>{t('result.sightengine.scoreLabel')}</label>
+                    <meter id={`${titleId}-ai-score`} min="0" max="1" value={result.imageOrigin.score}>{result.imageOrigin.score.toFixed(3)}</meter>
+                    <p>{t('result.sightengine.scoreHelp')}</p>
+                  </div>
+                )}
+                {result.imageOrigin.reviewDisagreement && <p className="image-origin-limitation">{t('result.imageReview.disagree')}</p>}
+                {result.imageOrigin.source !== 'sightengine' && <div className="image-evidence">
                   <h4>{t('result.imageOrigin.evidenceTitle')}</h4>
                   {result.imageOrigin.observations.length > 0 ? (
                     <ul>
                       {result.imageOrigin.observations.map((observation, index) => (
-                        <li key={`${observation}-${index}`}>{observation}</li>
+                        <li key={`${observation}-${index}`}>
+                          {observation}
+                          {result.imageOrigin.ambiguousObservations?.includes(observation) && <span className="image-observation-note">{t('result.imageOrigin.ambiguousNote')}</span>}
+                        </li>
                       ))}
                     </ul>
                   ) : (
                     <p>{t('result.imageOrigin.noObservations')}</p>
                   )}
-                </div>
+                </div>}
                 {result.imageOrigin.nonClues?.length > 0 && (
                   <div className="image-evidence image-non-clues">
                     <h4>{t('result.imageOrigin.nonClueTitle')}</h4>
@@ -393,8 +434,34 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </section>
             )}
 
+            {isMetadataReview && (
+              <section className="image-origin-report image-metadata-report" role="region" aria-label={t('result.imageMetadata.title')}>
+                <div className="image-report-head">
+                  <strong>{t('result.imageMetadata.title')}</strong>
+                </div>
+                <p>{t(result.imageMetadata.summaryKey)}</p>
+                {imageMetadataDetails(result.imageMetadata, t).length > 0 && (
+                  <ul>{imageMetadataDetails(result.imageMetadata, t).map((detail) => <li key={detail}>{detail}</li>)}</ul>
+                )}
+                <p className="image-origin-limitation">{t(result.imageMetadata.limitationKey)}</p>
+              </section>
+            )}
+              </div>
+            </details>}
+
             {showResult && (
               <div className={`result-details ${isUnknown ? 'result-details-unknown' : ''}`}>
+                {!isImageReview && warningCount > 0 && (
+                  <section className="result-reasons" aria-label={t('report.warningSigns')}>
+                    <h4>{t('report.warningSigns')}</h4>
+                    <ul>{displaySignals.slice(0, 3).map((signal, index) => (
+                      <li key={`${signal.id}-${index}`}>
+                        <strong>{getSignalLabel(signal, t)}</strong>
+                        <span>{getSignalEvidenceItems(signal)[0].text}</span>
+                      </li>
+                    ))}</ul>
+                  </section>
+                )}
                 {!isImageReview && (
                   <details className="checked-reading">
                     <summary>
@@ -432,12 +499,12 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                   </details>
                 )}
 
-                <section className="result-next">
+                {isImageReview ? <p className="image-simple-next">{t('result.imageSimple.next')}</p> : <section className="result-next">
                   <h3><ListChecks aria-hidden="true" />{t(nextTitleKey)}</h3>
                   <ul>{nextPointKeys.map(key => (
                     <li key={key}>{t(key)}</li>
                   ))}</ul>
-                </section>
+                </section>}
               </div>
             )}
           </div>

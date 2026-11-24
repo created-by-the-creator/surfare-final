@@ -8,6 +8,7 @@ import {
 } from '../../lib/image-assessment.js';
 import {
   buildOriginReview,
+  mergeOriginReviews,
   ORIGIN_CRITERIA,
 } from '../../lib/image-origin-score.js';
 
@@ -86,7 +87,8 @@ Areas: anatomy = hands, fingers, eyes, teeth, ears and proportions; lighting = l
 Return clarity 'unclear' only when the image is too small, blurry, dark or covered to review usefully; otherwise 'clear'.
 Inspect both the whole scene and local details. In a screenshot or social post inspect the embedded picture separately from app controls, captions, stickers and borders. For each suspected inconsistency, check perspective, occlusion, lighting, motion, intentional art, ordinary edits, and compression as possible explanations. Use level 2 only for a specific anomaly which remains difficult to explain; level 1 for an ambiguous one. Locate each observation in plain words, in 20 words or fewer. Count a single artifact in only one area. Omit areas with no clue.
 Do not mention scores, numbers, percentages, probability, authenticity, proof, creation method, metadata or tools. Ordinary compression, blur, illustrations, stylisation, screenshots and an editor name alone are not clues; you may add one short nonClue for something you noticed but did not count.
-If no anomaly survives inspection, return an empty clues list. Image origin remains unknown without supporting evidence.`;
+Keep specific but unresolved irregularities as level 1 clues, including an unusual hand or finger shape when perspective or occlusion remains a plausible explanation. State that alternative in the note. Do not discard these observations just because they are inconclusive. Reserve nonClue for an ordinary property that has a clear explanation, and include that explanation rather than naming a feature without saying why it was excluded.
+If no specific irregularity is visible, return an empty clues list. Image origin remains unknown without supporting evidence.`;
 
 function normalizeClueLevels(value) {
   if (!Array.isArray(value?.clues)) return;
@@ -244,15 +246,7 @@ export async function imageCheck(request, env, fetcher = fetch) {
               continue;
             }
             if (firstVisual) {
-              const first = firstVisual.review.origin, second = review.origin;
-              const hasClue = origin => ['Possible', 'Strong'].includes(origin.likelihood);
-              if (hasClue(first) !== hasClue(second)) {
-                const positive = hasClue(first) ? first : second;
-                review.origin = { ...positive, likelihood: 'Possible',
-                  summary: 'One visual review identified a possible AI clue. The other could not confirm it.' };
-              } else if (hasClue(first) && first.likelihood !== second.likelihood) {
-                review.origin = first.likelihood === 'Possible' ? first : second;
-              }
+              review.origin = mergeOriginReviews(firstVisual.review.origin, review.origin);
             }
             break;
           } catch {

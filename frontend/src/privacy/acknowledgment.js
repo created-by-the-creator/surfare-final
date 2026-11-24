@@ -1,4 +1,4 @@
-export const NOTICE_VERSION = '2026-11-22.1';
+export const NOTICE_VERSION = '2026-11-24.4';
 export const ACKNOWLEDGMENT_KEY = 'surfare-privacy-acknowledgment';
 
 export function readAcknowledgment(storage) {

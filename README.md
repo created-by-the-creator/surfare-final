@@ -18,36 +18,91 @@ npm run dev
 
 Open the frontend at `http://localhost:5173`. The Vite server proxies `/api/*` to `http://127.0.0.1:8790`.
 
+## Share to Surfare on Android
+
+For the desktop Chrome companion, see [extension setup](extension/README.md).
+Build it with `npm run extension:build`, then load `extension/dist` unpacked in
+Chrome. Its online features require deployment of the new `/api/extension`
+gateway alongside the existing server services.
+
+Install the deployed HTTPS app from Chrome on Android. In an app that offers
+sharing, press and hold a message, link or image, choose **Share**, then
+**Surfare**. Messages and links fill the matching detector; an image opens the
+image-check options. The user still chooses **Check** before detector analysis
+or an AI request. Messages containing a link stay intact in the message detector.
+
+The manifest uses one multipart `POST /share-target/` share target. The generated
+service worker imports `share-target.js` to receive the share on the device,
+including offline. A random receipt ID opens the app; shared text and image
+bytes never appear in the URL. IndexedDB holds at most three pending shares,
+which are deleted when received by the page. Unopened receipts expire after
+10 minutes and are deleted when opened or pruned on a later share. The app does
+not keep a submission history. Images retain their original bytes and metadata.
+Only one JPG, PNG or WebP image (up to 8 MiB), or 12,000 text characters, is
+accepted per share. Unsupported and oversized items show a simple error.
+
+This requires a supported installed PWA, not an ordinary browser tab. Existing
+Android installations may need updating or reinstalling after deployment before
+Surfare appears in the share sheet. The source app must offer **Share** for the
+selected content; Surfare cannot add a long-press menu inside another app.
+Safari on iPhone does not support Web Share Target; paste and image upload
+remain available there. An iOS app with a Share Extension would be a separate
+integration.
+
+Use a production preview to test the receiver: `npm run build`, then
+`npm run preview --workspace frontend -- --host 127.0.0.1 --port 4173` and
+`node frontend/scripts/smoke-share-target.mjs`. This tests the actual service
+worker, receipt storage, multipart input and offline flow in Chrome; verify the
+OS share sheet separately on a physical Android phone after deployment.
+
 ## Optional AI help
 
 Enable **AI help** in the checker to share the submitted text, check details,
-and Surfy conversation with the configured free AI services. Local findings
+and Surfy conversation with the configured AI services. Local findings
 appear first while the additional assessment runs. Completed, pending, and
 unavailable AI checks are shown separately. New chat questions include recent
 conversation and the actual check context; chat answers never change a verdict.
 Without this choice, or without internet, Surfy uses local explanations.
 
-The server uses free OpenRouter models first, with configured Gemini models as
+Detection and Surfy chat use free OpenRouter models first, with configured Gemini models as
 backup. Existing server-side `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`,
 `GEMINI_API_KEY`, and `GEMINI_IMAGE_MODEL` settings apply. Keys never enter the
 frontend. `/api/surfy` serves chat; `/api/detect` runs the extra assessment only
 when `ai: true` and `consent: true` are supplied. Provider errors preserve local
 findings; AI findings require exact quotes from the submitted text.
 
-Text and chat are pinned to `baidu/ernie-5.5-flash-preview:free`; image review is
-pinned to `nvidia/nemotron-3.5-super-vl:free`. Only these reviewed OpenRouter
-models are accepted. The old `openrouter/free` setting migrates to the relevant
-pinned model. No random model or paid-model fallback is used. Availability and
+Text detection and chat are pinned to `baidu/ernie-5.5-flash-preview:free`.
+Only reviewed OpenRouter models are accepted. The old `openrouter/free` setting
+migrates to the relevant pinned model. No random model or paid-model fallback is used. Availability and
 quality can change, so maintain this allowlist against local regression checks.
 
 The local Gemini backup is configured with
 `GEMINI_IMAGE_MODEL=gemini-3.5-flash-lite`. The same configured Gemini model is
-used as backup for text and chat. Temporary server errors get one retry within
+used as backup for text detection and chat. Temporary server errors get one retry within
 the existing request timeout; invalid keys and quota errors are not retried.
 
-AI image checks inspect metadata in the original file before sending the resized
-image for visual review. The result and Surfy include metadata findings and read
-limitations. Missing metadata does not establish authenticity.
+AI image checks inspect metadata in the original file on the device first. The
+metadata result stays visible while the optional online check runs. When online
+image sharing is selected, a resized JPEG is sent through `/api/image-detect`
+to Sightengine's `genai` model. Set both `SIGHTENGINE_API_USER` and
+`SIGHTENGINE_API_SECRET` in `backend/.dev.vars` locally and in Vercel's server
+environment when deployed. Never prefix these credentials with `VITE_`.
+Restart the local backend after changing them; redeploy after Vercel changes.
+
+The result shows the provider score on a 0–1 scale. The application uses a low
+signal band up to 0.2, an uncertain band between 0.2 and 0.8, and a high signal
+band from 0.8. These are conservative display bands, not measured accuracy or
+proof of authenticity. Metadata and the online score remain separate findings.
+Offline, missing credentials, quota limits and provider failures preserve local
+metadata findings. Retrying is explicit; no automatic retries or other image
+providers are used by this flow. Sightengine account usage applies: `genai`
+currently consumes five operations per image. The result and Surfy include the
+provider score and limitations without inventing visual observations.
+
+Surfy chat uses the same server-side OpenRouter and Gemini configuration as text
+detection. Restart the local backend after changing `backend/.dev.vars`; redeploy
+Vercel after changing its runtime environment. Provider failures and exhausted
+quotas preserve Surfy's local explanations. AgentRouter is not used.
 
 ## Scam-awareness practice
 
@@ -80,3 +135,9 @@ npm run backend:test
 npm test
 npm run build
 ```
+
+With the local app running, `node frontend/scripts/audit-detectors.mjs` exercises
+Text, Links, image text, QR content, and image-origin AI using authored fixtures.
+It saves `artifacts/detector-audit.json`. Successful requests confirm integration;
+they do not measure real-world accuracy. The existing dataset reports measure
+individual offline model components, not the full application or live AI.

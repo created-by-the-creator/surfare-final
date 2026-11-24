@@ -20,6 +20,7 @@ import useFluidMotion from './useFluidMotion.js';
 import { usePrivacyNotice } from './privacy/PrivacyContext.jsx';
 import WelcomeExperience from './components/WelcomeExperience.jsx';
 import useConnectionStatus from './useConnectionStatus.js';
+import { receiveShare } from './sharing/receive.js';
 
 const LANGUAGES = ['en', 'tl', 'taglish'];
 
@@ -145,7 +146,7 @@ function demoResult(scenario, checkedText) {
   };
 }
 
-export default function App() {
+export default function App({ shareLaunch = null }) {
   useScrollReveal();
   useFluidMotion();
   const { hasAcknowledged, requestAcknowledgment } = usePrivacyNotice();
@@ -178,6 +179,8 @@ export default function App() {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [cameraTarget, setCameraTarget] = useState('');
   const [isImageModeModalOpen, setIsImageModeModalOpen] = useState(false);
+  const [shareNotice, setShareNotice] = useState(shareLaunch ? 'share.loading' : '');
+  const pendingSharedImage = useRef(false);
   const askQuestionKeys = useMemo(
     () => {
       const tagged = getSuggestedSignalQuestions(result, t);
@@ -192,6 +195,38 @@ export default function App() {
   const askRequestRef = useRef(null);
   const checkRunId = useRef(0);
   const checkUsedRef = useRef(false);
+
+  useEffect(() => {
+    if (!shareLaunch) return undefined;
+    let active = true;
+    receiveShare(shareLaunch).then(shared => {
+      if (!active) return;
+      pendingSharedImage.current = shared.tab === 'image';
+      setInputs(previous => ({ ...previous, ...shared.inputs }));
+      setActiveTab(shared.tab);
+      setShareNotice(shared.notice);
+    }).catch(error => {
+      if (!active) return;
+      const reason = ['tooLarge', 'longText', 'manyImages', 'unsupported', 'empty', 'expired'].includes(error.message) ? error.message : 'unavailable';
+      setShareNotice(`share.error.${reason}`);
+    });
+    return () => { active = false; };
+  }, [shareLaunch]);
+
+  useEffect(() => {
+    if (!hasAcknowledged || !shareNotice || shareNotice === 'share.loading') return;
+    if (pendingSharedImage.current) {
+      pendingSharedImage.current = false;
+      setIsImageModeModalOpen(true);
+    }
+    const frame = requestAnimationFrame(() => {
+      document.getElementById('check')?.scrollIntoView({ block: 'start', behavior: 'instant' });
+      if (!document.querySelector('dialog[open]')) {
+        (document.querySelector('.tab-panel textarea') || document.querySelector('.share-received'))?.focus({ preventScroll: true });
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hasAcknowledged, shareNotice]);
 
   useEffect(() => () => {
     window.clearTimeout(askOpenTimer.current);
@@ -273,6 +308,7 @@ export default function App() {
   }, []);
 
   const updateInput = useCallback((key, value) => {
+    setShareNotice('');
     if (status === 'result' && (key === 'message' || key === 'url') &&
         value.trim() !== inputs[key].trim()) {
       checkUsedRef.current = false;
@@ -296,21 +332,25 @@ export default function App() {
   }, [status, inputs]);
 
   const handleCheck = async (retryRunId) => {
+    if (shareNotice === 'share.loading') return;
     if (activeTab === 'image' && inputs.image && !inputs.imageMode) {
       setIsImageModeModalOpen(true);
       return;
     }
+    if (activeTab === 'image' && inputs.imageMode === 'origin' && isOnline && !inputs.imageVisualConsent) {
+      setIsImageModeModalOpen(true);
+      return;
+    }
     if (!await requestAcknowledgment()) return;
+    setShareNotice('');
     if (checkUsedRef.current && retryRunId !== checkRunId.current) return;
     checkUsedRef.current = true;
     setIsCheckUsed(true);
     const runId = ++checkRunId.current;
     window.clearTimeout(askCloseTimer.current);
     setIsAskClosing(false);
-    if (!isAskOpen) {
-      window.clearTimeout(askOpenTimer.current);
-      askOpenTimer.current = window.setTimeout(() => setIsAskOpen(true), 150);
-    }
+    window.clearTimeout(askOpenTimer.current);
+    setIsAskOpen(false);
     setStatus('analyzing');
     setResult(null);
     askRequestRef.current?.abort();
@@ -388,6 +428,8 @@ export default function App() {
       imageVisualConsent: false,
     });
     setStatus('idle');
+    setShareNotice('');
+    pendingSharedImage.current = false;
     setResult(null);
     setErrorKey('');
     setIsImageModeModalOpen(false);
@@ -396,6 +438,12 @@ export default function App() {
     setIsAskClosing(false);
     setIsAskThinking(false);
   }, [isOnline]);
+
+  const handleTabChange = useCallback((nextTab) => {
+    if (nextTab === activeTab || ['analyzing', 'reviewing'].includes(status)) return;
+    if (isCheckUsed || ['result', 'edited', 'error'].includes(status)) reset();
+    setActiveTab(nextTab);
+  }, [activeTab, isCheckUsed, reset, status]);
 
   const scheduleAskAnswer = useCallback(async () => {
     if (askRequestRef.current || !askAnswerQueue.current.length) return;
@@ -458,7 +506,7 @@ export default function App() {
   );
 
   return (
-    <WelcomeExperience t={t}>
+    <WelcomeExperience t={t} skipIntro={Boolean(shareLaunch)}>
     <div className="app-bg">
       <Navbar
         lang={lang}
@@ -469,6 +517,7 @@ export default function App() {
       <main>
         <Hero t={t} />
         <CheckCard
+          shareNotice={shareNotice}
           aiEnabled={aiEnabled}
           onAiChange={(enabled) => {
             setAiEnabled(enabled);
@@ -483,12 +532,13 @@ export default function App() {
           isOnline={isOnline}
           activeTab={activeTab}
           inputs={inputs}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
           onInputChange={updateInput}
           onImageModeChange={() => setIsImageModeModalOpen(true)}
           onCheck={() => handleCheck()}
-          canReviewAgain={status === 'result' && isOnline && aiEnabled && !result?.privateQr &&
-            !result?.aiImageOnly && ['not_checked', 'unavailable'].includes(result?.aiReview?.status)}
+          canReviewAgain={status === 'result' && isOnline && (result?.aiImageOnly
+            ? ['skipped', 'unavailable'].includes(result.imageVisualStatus)
+            : aiEnabled && !result?.privateQr && ['not_checked', 'unavailable'].includes(result?.aiReview?.status))}
           onReviewAgain={() => handleCheck(checkRunId.current)}
           onReset={handleNewCheck}
           onCamera={async (target) => { if (await requestAcknowledgment()) setCameraTarget(target); }}
@@ -500,6 +550,7 @@ export default function App() {
           isAskThinking={isAskThinking}
           askMessages={askMessages}
           onAskSend={handleAskSend}
+          result={result}
           surfyOpenRequest={surfyOpenRequest}
           questionKeys={askQuestionKeys}
           offlineResources={<OfflineResources t={t} isOnline={isOnline} />}
@@ -514,6 +565,16 @@ export default function App() {
           t={t}
         >
           <ResultPanel
+            isAskOpen={isAskOpen}
+            onAskAboutResult={() => {
+              setIsAskOpen(true);
+              setSurfyOpenRequest((previous) => previous + 1);
+              requestAnimationFrame(() => {
+                const panel = document.querySelector('.ask-panel-position');
+                panel?.querySelector('h2')?.focus({ preventScroll: true });
+                panel?.scrollIntoView({ block: 'start', behavior: 'instant' });
+              });
+            }}
             status={status}
             result={result}
             errorKey={errorKey}

@@ -51,10 +51,10 @@ function GuideCursor({ cursorRef, className = '' }) {
   );
 }
 
-export default function WelcomeExperience({ children, t }) {
+export default function WelcomeExperience({ children, t, skipIntro = false }) {
   const { notice, hasAcknowledged, requestAcknowledgment } = usePrivacyNotice();
   const initialPrivacyRequested = useRef(false);
-  const [firstVisit] = useState(() => !hasSeenWelcome());
+  const [firstVisit] = useState(() => !skipIntro && !hasSeenWelcome());
   const [phase, setPhase] = useState(firstVisit ? 'intro' : 'ready');
   const [tourActive, setTourActive] = useState(false);
   const [tourClosing, setTourClosing] = useState(false);

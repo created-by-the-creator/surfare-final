@@ -4,6 +4,26 @@ import { ASSETS } from '../assets.js';
 import { SURFY_QUESTION_KEYS } from '../surfy/templates.js';
 import './AskSurfy.css';
 
+function MessageContent({ text }) {
+  // Render provider text as text, never HTML or executable links.
+  const blocks = String(text).split(/\n\s*\n/).filter(Boolean);
+  return blocks.map((block, index) => {
+    const lines = block.split('\n');
+    if (lines.every((line) => /^\s*[-•]\s+/.test(line))) {
+      return <ul key={index}>{lines.map((line, item) => <li key={item}>{line.replace(/^\s*[-•]\s+/, '')}</li>)}</ul>;
+    }
+    if (block.length > 350 && typeof Intl.Segmenter === 'function') {
+      const sentences = [...new Intl.Segmenter(document.documentElement.lang || 'en', { granularity: 'sentence' }).segment(block)].map((part) => part.segment);
+      return sentences.reduce((paragraphs, sentence, item) => {
+        if (item % 2 === 0) paragraphs.push(sentence);
+        else paragraphs[paragraphs.length - 1] += sentence;
+        return paragraphs;
+      }, []).map((paragraph, item) => <p key={`${index}-${item}`}>{paragraph}</p>);
+    }
+    return <p key={index}>{block}</p>;
+  });
+}
+
 export default function AskSurfy({
   isOpen,
   isClosing,
@@ -60,6 +80,7 @@ export default function AskSurfy({
 
   return (
     <section
+      id="ask-surfy"
       className={`ask-dialog${isClosing ? ' is-closing' : ''}${isCollapsed ? ' is-collapsed' : ''}`}
       role="complementary"
       aria-label={t('ask.title')}
@@ -77,7 +98,7 @@ export default function AskSurfy({
         </span>
         <div className="ask-heading">
           <p className="ask-eyebrow">{t('ask.eyebrow')}</p>
-          <h2>{t('ask.title')}</h2>
+          <h2 tabIndex={-1}>{t('ask.title')}</h2>
         </div>
         <button className="ask-toggle" type="button"
           aria-label={t(isCollapsed ? 'ask.expand' : 'ask.collapse')}
@@ -105,12 +126,12 @@ export default function AskSurfy({
               );
             }
             return (
-              <p
+              <div
                 className={`chat-bubble ${message.role === 'user' ? 'chat-user' : 'chat-surfy'}`}
                 key={`${message.role}-${index}`}
               >
-                {message.text}
-              </p>
+                {message.role === 'user' ? message.text : <MessageContent text={message.text} />}
+              </div>
             );
           })}
           {isThinking && (

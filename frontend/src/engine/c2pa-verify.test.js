@@ -21,6 +21,22 @@ function fakeSdk(store, { noReader = false, fails = false } = {}) {
 }
 
 describe('local Content Credentials verification', () => {
+  it('explains a file mismatch without exposing manifest text or signer details', async () => {
+    const sdk = fakeSdk({ validation_state: 'Invalid', secret: 'private manifest data', validation_results: {
+      activeManifest: { success: [{ code: 'claimSignature.validated' }], failure: [{ code: 'assertion.dataHash.mismatch', explanation: 'private manifest data' }] },
+    } });
+    const result = await verifyContentCredentials(file, { loadSdk: sdk.loadSdk });
+    expect(result).toEqual({ status: 'invalid', checks: ['signature-valid', 'file-mismatch'] });
+    expect(JSON.stringify(result)).not.toContain('private manifest data');
+  });
+
+  it('distinguishes an untrusted signer from a signature or file mismatch', async () => {
+    const sdk = fakeSdk({ validation_state: 'Invalid', validation_results: {
+      activeManifest: { failure: [{ code: 'signingCredential.untrusted' }] },
+    } });
+    expect(await verifyContentCredentials(file, { loadSdk: sdk.loadSdk })).toEqual({ status: 'invalid', checks: ['signer-untrusted'] });
+  });
+
   it('reports a trusted source note and frees the reader', async () => {
     const sdk = fakeSdk({ validation_state: 'Trusted' });
     const result = await verifyContentCredentials(file, { loadSdk: sdk.loadSdk });
@@ -49,6 +65,7 @@ describe('local Content Credentials verification', () => {
     });
     expect(await verifyContentCredentials(file, { loadSdk: sdk.loadSdk })).toEqual({
       status: 'invalid',
+      checks: ['manifest-invalid'],
     });
   });
 

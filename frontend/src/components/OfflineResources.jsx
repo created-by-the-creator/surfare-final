@@ -99,6 +99,7 @@ export default function OfflineResources({ t, isOnline }) {
       <div className="offline-resource-copy">
         <h3 id="offline-title">{t(ready ? 'offline.readyTitle' : 'offline.title')}</h3>
         <p>{t(description)}</p>
+        <p className="offline-share-tip">{t('share.installTip')}</p>
         {downloading && <div className="offline-download-progress"><progress max={100} value={percent} aria-label={t(automatic ? 'offline.caching' : 'offline.downloading')} /><span aria-live="polite">{percent}%</span></div>}
         {error && <p className="offline-resource-error" role="alert">{t(error)}</p>}
       </div>

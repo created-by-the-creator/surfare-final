@@ -4,6 +4,40 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ResultPanel, { buildHighlightSegments } from './ResultPanel.jsx';
 import { translate } from '../i18n/useI18n.js';
 
+it('reports a completed no-match local check without calling the message unsafe or low risk', () => {
+  const t = (key, values) => translate('en', key, values);
+  const result = { level: 'unknown', checkedText: 'Our meeting is tomorrow at four.', signals: [], aiReview: { status: 'not_checked' } };
+  const html = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t }));
+  expect(html).toContain(t('result.noLocalWarnings.title'));
+  expect(html).not.toContain(t('result.unknown.subtitle'));
+  expect(html).not.toContain('treat it as unsafe');
+  expect(html).not.toContain('meter-position-low');
+  const unreadable = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result: { ...result, mediaInfo: { uncertainExtraction: true } }, t }));
+  expect(unreadable).not.toContain(t('result.noLocalWarnings.title'));
+});
+
+it('shows ambiguous visual details and source-note failure reasons independently', () => {
+  const t = (key, values) => translate('en', key, values);
+  const note = 'The hand looks elongated, but perspective may explain it.';
+  const result = {
+    level: 'unknown', aiImageOnly: true, signals: [], summaryKey: 'result.imageOrigin.inconclusive',
+    imageMetadata: {
+      labelKey: 'result.imageMetadata.label.credentialsInvalid', summaryKey: 'result.imageMetadata.summary.credentialsInvalid',
+      limitationKey: 'result.imageMetadata.limitation', findings: ['credentials-invalid'], credentialChecks: ['file-mismatch'],
+    },
+    imageOrigin: {
+      labelKey: 'result.imageOrigin.inconclusive', observations: [note], ambiguousObservations: [note], nonClues: [],
+      limitationKey: 'result.imageOrigin.limitation',
+    },
+  };
+  const html = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t }));
+  expect(html).toContain(note);
+  expect(html).toContain(t('result.imageOrigin.ambiguousNote'));
+  expect(html).toContain(t('result.imageMetadata.check.file-mismatch'));
+  expect(html).not.toContain('We do not show');
+  expect(html.indexOf(t('result.imageOrigin.title'))).toBeLessThan(html.indexOf(t('result.imageMetadata.title')));
+});
+
 it('shows progress and a caution before revealing the verdict or enabling a report', () => {
   const t = (key, values) => translate('en', key, values);
   const props = { result: { level: 'high', checkedText: 'Send your OTP', signals: [] }, t };

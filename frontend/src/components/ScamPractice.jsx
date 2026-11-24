@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { ArrowRight, Briefcase, Check, CheckCircle2, CircleHelp, Coins, Gamepad2, Package, Phone, RotateCcw, ShieldCheck, Sparkles, Star, Trophy, WifiOff, X } from 'lucide-react';
+import { Briefcase, Check, CheckCircle2, Circle, CircleHelp, Coins, Gamepad2, Package, Phone, RotateCcw, Search, ShieldCheck, Sparkles, Star, Trophy, WifiOff, X } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import { MISSIONS, PRACTICE_COPY, SENDER_LABELS, localize } from '../training/content.js';
 import { answerMission, completeMission, continueMission, readProgress, startMission, writeProgress } from '../training/engine.js';
+import { PRACTICE_CLUES, splitPracticeMessage } from '../training/inspection.js';
 import './ScamPractice.css';
 
 const ICONS = { wallet: ShieldCheck, coins: Coins, package: Package, briefcase: Briefcase, shield: ShieldCheck, phone: Phone };
@@ -12,12 +13,14 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
   const copy = PRACTICE_COPY[lang] || PRACTICE_COPY.en;
   const text = (value) => localize(value, lang);
   const [state, setState] = useState(() => startMission(mission));
+  const [inspection, setInspection] = useState('');
   const dialogRef = useRef(null);
   const focusRef = useRef(null);
   const id = useId();
   const step = mission.steps[state.step];
   const sender = text(SENDER_LABELS[step.sender]);
   const isComplete = state.phase === 'complete';
+  const clue = text(PRACTICE_CLUES[mission.id][state.step]);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -35,6 +38,7 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
   useEffect(() => { focusRef.current?.focus({ preventScroll: true }); }, [state.step, state.phase]);
 
   const next = () => {
+    setInspection('');
     const updated = continueMission(mission, state);
     setState(updated);
     if (updated.phase === 'complete') onComplete(mission, updated);
@@ -64,7 +68,7 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
         <aside className="practice-coach">
           <p className="practice-kicker">{text(mission.category)}</p>
           <h2 id={`${id}-title`}>{text(mission.title)}</h2>
-          <img src={isComplete ? ASSETS.surfyCheer : ASSETS.surfyWink} alt="" width="1000" height="1000" />
+          <img src={isComplete || state.correct ? ASSETS.surfyCheer : state.phase === 'feedback' ? ASSETS.surfyMagnify : ASSETS.surfyTablet} alt="" width="1000" height="1000" />
           <div className="practice-coach-tip"><Sparkles size={17} aria-hidden="true" /><p>{isComplete ? text(mission.lesson) : copy.about}</p></div>
         </aside>
         <div className="practice-play-area">
@@ -77,7 +81,7 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
               <p>{copy.resultBody}</p>
               <div className="practice-result-lesson"><strong>{copy.tip}</strong><p>{text(mission.lesson)}</p></div>
               <button className="practice-primary" type="button" onClick={onClose}>{copy.another}</button>
-              <button className="practice-text-button" type="button" onClick={() => setState(startMission(mission))}><RotateCcw size={16} aria-hidden="true" />{copy.replay}</button>
+              <button className="practice-text-button" type="button" onClick={() => { setInspection(''); setState(startMission(mission)); }}><RotateCcw size={16} aria-hidden="true" />{copy.replay}</button>
               <small>{copy.saved}</small>
             </div>
           ) : (
@@ -85,10 +89,23 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
               <div className="practice-step-meta"><span>{copy.step} {state.step + 1} {copy.of} {mission.steps.length}</span><span>{copy.inbox}</span></div>
               <progress className="practice-progress" max={mission.steps.length} value={state.step + (state.correct ? 1 : 0)} aria-label={copy.progress} />
               <div className="practice-message">
-                <div className="practice-message-sender"><span aria-hidden="true">{sender.slice(0, 1)}</span><strong>{sender}</strong><span className="practice-message-dots" aria-hidden="true">•••</span></div>
+                <div className="practice-message-sender"><span aria-hidden="true">{sender.slice(0, 1)}</span><strong>{sender}</strong>
+                  <button className="practice-inspect-sender" type="button" aria-label={copy.inspectSender}
+                    aria-expanded={inspection === 'sender'} aria-controls={`${id}-inspection`}
+                    onClick={() => setInspection(inspection === 'sender' ? '' : 'sender')}><Search size={18} aria-hidden="true" /></button>
+                </div>
                 <p className="practice-fictional">{copy.fictional}</p>
-                <p className="practice-message-body">{text(step.message)}</p>
+                <p className="practice-message-body">{splitPracticeMessage(text(step.message), clue).map((part, index) => part.inspectable ? (
+                  <button className="practice-clue" type="button" key={index} aria-expanded={inspection === 'message'} aria-controls={`${id}-inspection`}
+                    onClick={() => setInspection(inspection === 'message' ? '' : 'message')}>{part.text}</button>
+                ) : <span key={index}>{part.text}</span>)}</p>
+                <p className="practice-inspection-hint"><Search size={15} aria-hidden="true" />{copy.inspectHint}</p>
               </div>
+              <div id={`${id}-inspection`} className="practice-inspection" role="region" aria-label={copy.closerLook} hidden={!inspection}>
+                <strong><Search size={17} aria-hidden="true" />{copy.closerLook}</strong>
+                <p>{inspection === 'sender' ? copy.senderNote : text(step.explanation)}</p>
+              </div>
+              {state.phase === 'feedback' && <div className="practice-action-receipt"><span>{copy.youChose}: {text(step.options[state.selected])}</span></div>}
               <h3 className="practice-question" id={`${id}-question`} ref={state.phase === 'question' ? focusRef : null} tabIndex={-1}>{copy.choose}</h3>
               <div className="practice-options" role="group" aria-labelledby={`${id}-question`}>
                 {step.options.map((option, index) => {
@@ -98,7 +115,7 @@ function PracticeDialog({ mission, lang, onClose, onComplete }) {
                     <button key={`${state.step}-${index}`} className={`practice-option${selected ? state.correct ? ' is-right' : ' is-wrong' : ''}${rejected && !selected ? ' is-rejected' : ''}`}
                       type="button" disabled={state.phase !== 'question' || rejected}
                       onClick={() => setState((current) => answerMission(mission, current, index))}>
-                      <span className="practice-option-marker" aria-hidden="true">{selected && state.correct ? <Check size={15} /> : String.fromCharCode(65 + index)}</span>
+                      <span className="practice-option-marker" aria-hidden="true">{selected && state.correct ? <Check size={15} /> : <Circle size={12} />}</span>
                       <span>{text(option)}</span>
                     </button>
                   );
@@ -163,7 +180,7 @@ export default function ScamPractice({ lang }) {
                 <span className="practice-mission-icon"><Icon size={23} aria-hidden="true" /></span>
                 <span className="practice-mission-copy"><small>{text(item.category)}</small><strong>{text(item.title)}</strong><span>{done ? `${copy.best}: ${progress[item.id]} / ${item.steps.length * 10}` : copy.decisions}</span></span>
                 {done ? <CheckCircle2 className="practice-mission-check" size={19} aria-label={copy.done} />
-                  : <ArrowRight className="practice-mission-arrow" size={18} aria-hidden="true" />}
+                  : <Gamepad2 className="practice-mission-arrow" size={18} aria-hidden="true" />}
               </button>
             );
           })}

@@ -17,6 +17,9 @@ export const SENDER_LABELS = {
 
 export const PRACTICE_COPY = {
   en: {
+    inspectSender: 'Inspect sender', inspectHint: 'Tap the underlined words or inspect the sender before you decide.',
+    closerLook: 'A closer look', youChose: 'Your action',
+    senderNote: 'A displayed name or logo can be copied. Verify through a contact or app you already trust.',
     eyebrow: 'A LITTLE PRACTICE. A SAFER NEXT CLICK.', title: 'Build your scam radar.',
     description: 'Practice with Surfy before a suspicious message catches you off guard. Small decisions. Useful lessons. No pressure.',
     play: 'Play with Surfy', free: 'Free to play', offline: 'Works offline', language: 'English, Filipino & Taglish',
@@ -32,6 +35,9 @@ export const PRACTICE_COPY = {
     clear: 'Reset progress', reset: 'Your practice scores have been reset.', resetConfirm: 'Reset the practice scores on this device?',
   },
   tl: {
+    inspectSender: 'Suriin ang nagpadala', inspectHint: 'Pindutin ang mga salitang may salungguhit o suriin ang sender bago pumili.',
+    closerLook: 'Suriin nang mabuti', youChose: 'Ang pinili mo',
+    senderNote: 'Maaaring kopyahin ang pangalan o logo. Magtanong sa pinagkakatiwalaang contact o opisyal na app.',
     eyebrow: 'KAUNTING PAGSASANAY. MAS MAINGAT NA PAGPILI.', title: 'Sanayin ang pagkilala sa scam.',
     description: 'Magsanay kasama si Surfy bago ka makatanggap ng kahina-hinalang mensahe. Maiikling pagpili at kapaki-pakinabang na aral.',
     play: 'Maglaro kasama si Surfy', free: 'Libreng laruin', offline: 'Gumagana offline', language: 'English, Filipino at Taglish',
@@ -47,6 +53,9 @@ export const PRACTICE_COPY = {
     clear: 'I-reset ang progreso', reset: 'Na-reset na ang iyong mga puntos.', resetConfirm: 'I-reset ang mga puntos sa device na ito?',
   },
   taglish: {
+    inspectSender: 'Inspect ang sender', inspectHint: 'Tap ang underlined words o inspect ang sender bago mag-decide.',
+    closerLook: 'Tingnan nang mabuti', youChose: 'Your action',
+    senderNote: 'Puwedeng kopyahin ang name o logo. Verify sa trusted contact o usual app mo.',
     eyebrow: 'A LITTLE PRACTICE. MAS MAINGAT NA NEXT CLICK.', title: 'Sanayin ang scam radar mo.',
     description: 'Practice with Surfy bago may suspicious message na dumating. Small decisions, useful lessons, walang pressure.',
     play: 'Play with Surfy', free: 'Libreng laruin', offline: 'Works offline', language: 'English, Filipino at Taglish',

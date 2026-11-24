@@ -217,6 +217,32 @@ test('a failed visual recheck preserves the completed first opinion', async () =
   assert.equal(data.model, 'test/vision:free');
 });
 
+test('a second no-clue opinion cannot erase an ambiguous hand observation', async () => {
+  const note = 'The hand appears elongated, although perspective could explain it.';
+  const response = await imageCheck(req({ secondReview: true }), { ...env, ...geminiEnv }, async url =>
+    url.includes('openrouter')
+      ? provider({ clarity: 'clear', clues: [{ id: 'anatomy', level: 1, note }], nonClue: 'The image has screenshot borders.' })
+      : geminiProvider({ clarity: 'clear', clues: [], nonClue: 'Small text looks compressed.' }));
+  const data = await response.json();
+  assert.equal(data.status, 'completed');
+  assert.equal(data.origin.likelihood, 'Unclear');
+  assert.deepEqual(data.origin.observations, [note]);
+  assert.deepEqual(data.origin.ambiguousObservations, [note]);
+  assert.equal(data.origin.nonClues.length, 2);
+});
+
+test('both visual reviews keep their observations when only one finds a specific inconsistency', async () => {
+  const response = await imageCheck(req({ secondReview: true }), { ...env, ...geminiEnv }, async url =>
+    url.includes('openrouter')
+      ? provider({ clarity: 'clear', clues: [{ id: 'anatomy', level: 2, note: 'Two fingers visibly join into one.' }] })
+      : geminiProvider({ clarity: 'clear', clues: [{ id: 'lighting', level: 1, note: 'The shadow could come from another light.' }] }));
+  const data = await response.json();
+  assert.equal(data.origin.likelihood, 'Possible');
+  assert.equal(data.origin.reviewDisagreement, true);
+  assert.equal(data.origin.observations.length, 2);
+  assert.deepEqual(data.origin.ambiguousObservations, ['The shadow could come from another light.']);
+});
+
 test('visible scam text receives grounded safety findings independently of image origin', async () => {
   const value = {
     ...review,

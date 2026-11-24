@@ -2,6 +2,7 @@ import { analyzePatterns } from '../../../backend/lib/pattern-detection.js';
 import { normalizeUrl } from '../../../backend/lib/url-input.js';
 import { isPrivateQrPayload, isUnsupportedQrPayload } from '../../../backend/lib/qr-payload.js';
 import { groundSignals } from './signal-display.js';
+import { apiFetch } from '../api/fetch.js';
 
 const LEVELS = { 'High risk': 'high', Suspicious: 'suspicious', 'Low risk': 'low', 'Insufficient evidence': 'unknown' };
 const ADVISORY = new Set(['dataset-text-model', 'dataset-url-model']);
@@ -30,7 +31,7 @@ function displayIndicators(indicators, text) {
 
 async function fetchDetector(input) {
   try {
-    const response = await fetch('/api/detect', {
+    const response = await apiFetch('/api/detect', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(input), signal: AbortSignal.timeout(input.ai ? 45000 : 15000),
     });
@@ -47,7 +48,7 @@ async function lookupUrl(url) {
   if (import.meta.env.VITE_WORKER_URL) endpoints.push(import.meta.env.VITE_WORKER_URL.replace(/\/$/, '') + '/check-url');
   for (const endpoint of endpoints) {
     try {
-      const response = await fetch(endpoint, {
+      const response = await (endpoint.startsWith('/') ? apiFetch : fetch)(endpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url }), signal: AbortSignal.timeout(3000),
       });

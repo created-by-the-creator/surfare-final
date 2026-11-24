@@ -3,9 +3,24 @@ import { translate } from '../i18n/useI18n.js';
 import { getSuggestedQuestionKeys, getSuggestedSignalQuestions, getSurfyAnswer, getSurfyResultMessage } from './templates.js';
 import { analyzeInput } from '../engine/analyze.js';
 import { getDisplaySignals, getSignalExplanation, getSignalLabel } from '../engine/signal-display.js';
+import { buildImageOriginResult } from '../engine/image-ai.js';
 
 describe('Ask Surfy topic matching', () => {
   const english = (key, values) => translate('en', key, values);
+
+  it.each(['en', 'tl', 'taglish'])('keeps image explanations short and answers score questions from the current result in %s', language => {
+    const t = (key, values) => translate(language, key, values);
+    const image = buildImageOriginResult({ providerId: 'sightengine', detection: { aiGeneratedScore: 0.94 } });
+    const opening = getSurfyResultMessage(image, t);
+    expect(opening).toContain(t('result.sightengine.high'));
+    expect(opening).not.toContain('0.940');
+    expect(getSurfyAnswer(t('ask.imageMeaning'), image, t)).toBe(opening);
+    expect(getSurfyAnswer(t('ask.imageScore'), image, t)).toContain('0.940');
+    expect(getSurfyAnswer(t('ask.imageLimits'), image, t)).toBe(t('ask.imageLimits.answer'));
+    const unavailable = buildImageOriginResult(null);
+    expect(getSurfyAnswer(t('ask.imageScore'), unavailable, t)).toBe(t('ask.imageScore.unavailable'));
+    expect(getSuggestedQuestionKeys({ result: image }).slice(0, 4)).toEqual(['ask.imageMeaning', 'ask.imageLimits', 'ask.next', 'ask.imageScore']);
+  });
 
   it('does not mistake "Does" for the next-step keyword "do"', () => {
     expect(getSurfyAnswer('Does this work offline?', null, english)).toBe(english('ask.offline.answer'));

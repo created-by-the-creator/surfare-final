@@ -1,0 +1,2 @@
+# Offline resource byte counts require the shipped OCR scripts to stay unchanged.
+frontend/public/tesseract/*.js text eol=lf

@@ -74,7 +74,35 @@ export function buildOriginReview(value) {
       likelihood,
       summary: summary.slice(0, 800),
       observations,
+      ambiguousObservations: clues.filter((clue) => clue.level === 1).slice(0, 4).map((clue) => clue.note.trim()),
       nonClues: nonClues.slice(0, 3),
     },
+  };
+}
+
+export function mergeOriginReviews(first, second) {
+  const positive = (origin) => ['Possible', 'Strong'].includes(origin.likelihood);
+  const distinct = (values, limit) => [...new Map(values.map((value) => [value.trim().toLowerCase(), value])).values()].slice(0, limit);
+  const disagreed = positive(first) !== positive(second);
+  const preferred = positive(first) ? first : second;
+  const other = preferred === first ? second : first;
+  const likelihood = positive(first) || positive(second)
+    ? first.likelihood === 'Strong' && second.likelihood === 'Strong' ? 'Strong' : 'Possible'
+    : first.likelihood === 'Unclear' || second.likelihood === 'Unclear' ? 'Unclear' : 'No clear';
+  const observations = distinct([...preferred.observations, ...other.observations], 4);
+  const ambiguous = distinct([...(first.ambiguousObservations || []), ...(second.ambiguousObservations || [])], 4);
+  return {
+    ...preferred,
+    label: ['Possible', 'Strong'].includes(likelihood) ? 'AI-like visual cues' : likelihood === 'No clear' ? 'No clear AI cues' : 'Uncertain',
+    likelihood,
+    summary: disagreed
+      ? 'One visual review identified a possible AI clue. The other could not confirm it.'
+      : likelihood === 'Unclear' && observations.length
+        ? 'Possible visual irregularities were noted, but ordinary explanations could not be ruled out.'
+        : preferred.summary,
+    observations,
+    ambiguousObservations: ambiguous.filter((note) => observations.includes(note)),
+    nonClues: distinct([...preferred.nonClues, ...other.nonClues], 3),
+    reviewDisagreement: first.likelihood !== second.likelihood,
   };
 }

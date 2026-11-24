@@ -148,11 +148,12 @@ describe('local image metadata inspection', () => {
   it('reports a source note that did not pass its check', async () => {
     const sourceFile = { ...fileFrom(webpC2pa('source')), type: 'image/webp' };
     const result = await inspectImageMetadata(sourceFile, {
-      verifyCredentials: async () => ({ status: 'invalid' }),
+      verifyCredentials: async () => ({ status: 'invalid', checks: ['file-mismatch', 'unsupported-private-value'] }),
     });
 
     expect(result.findings).toContain('credentials-invalid');
     expect(result.labelKey).toBe('result.imageMetadata.label.credentialsInvalid');
+    expect(result.credentialChecks).toEqual(['file-mismatch']);
   });
 
   it('reports a source note that could not be checked', async () => {

@@ -31,3 +31,4 @@
 }
 @media (max-width: 380px) { .offline-resource-action { padding-left: 0; } }
 @media (prefers-reduced-motion: reduce) { .offline-spinner { animation: none; } }
+.offline-resource-copy .offline-share-tip { margin: 8px 0 0; color: #526b8e; font-size: .8125rem; line-height: 1.5; }

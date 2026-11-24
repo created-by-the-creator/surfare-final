@@ -65,7 +65,7 @@ function groundedRecommendation(level) {
     return "Pause before clicking, paying, or sharing anything. Confirm the request through an official app or a contact you already trust.";
   if (level === 'Low risk')
     return 'Nothing jumped out, but stay careful. If the request is unexpected, confirm it through an official app or a number you already trust.';
-  return "Share more of the message or the full link, or treat it as unsafe. Don't click, pay, or share codes until you've confirmed it with the sender.";
+  return 'Add the full message or complete link. Verify unexpected requests through an official app or a contact you already trust before acting.';
 }
 
 export function validateSemanticResult(value, text) {

@@ -17,6 +17,8 @@ export function validateImageAssessment(value) {
     !Array.isArray(origin.observations) ||
     origin.observations.length > 4 ||
     origin.observations.some((s) => typeof s !== 'string' || !s.trim() || s.length > 400) ||
+    (origin.ambiguousObservations !== undefined && (!Array.isArray(origin.ambiguousObservations) ||
+      origin.ambiguousObservations.length > 4 || origin.ambiguousObservations.some((note) => !origin.observations.includes(note)))) ||
     (origin.nonClues !== undefined && !Array.isArray(origin.nonClues)) ||
     (Array.isArray(origin.nonClues) &&
       (origin.nonClues.length > 3 ||

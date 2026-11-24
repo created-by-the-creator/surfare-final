@@ -1,0 +1,10 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/outfit';
+import '../../frontend/src/index.css';
+import '../../frontend/src/components/CheckExperience.css';
+import { PrivacyProvider } from '../../frontend/src/privacy/PrivacyContext.jsx';
+import ExtensionPanel from './panel.jsx';
+import './panel.css';
+createRoot(document.getElementById('root')).render(<React.StrictMode><PrivacyProvider><ExtensionPanel /></PrivacyProvider></React.StrictMode>);

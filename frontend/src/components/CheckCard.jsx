@@ -1,5 +1,5 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { ArrowDown, Camera, Image, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, ShieldCheck, Sparkles, Upload } from 'lucide-react';
+import { useEffect, useId, useRef, useState } from 'react';
+import { Camera, Image, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, Share2, ShieldCheck, Sparkles, Upload } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import AskSurfy from './AskSurfy.jsx';
 
@@ -32,6 +32,7 @@ function FilePreview({ file, onRemove, disabled, t }) {
 export default function CheckCard({
   activeTab,
   inputs,
+  shareNotice = '',
   onTabChange,
   onInputChange,
   onImageModeChange,
@@ -48,6 +49,7 @@ export default function CheckCard({
   isAskThinking,
   askMessages,
   onAskSend,
+  result,
   surfyOpenRequest,
   questionKeys,
   feedbackDialog,
@@ -59,93 +61,39 @@ export default function CheckCard({
   children,
 }) {
   const tabRefs = useRef([]);
-  const cardRef = useRef(null);
   const id = useId();
   const panelId = `${id}-panel`;
   const selectedTab = TABS.find((tab) => tab.id === activeTab) ?? TABS[0];
   const currentFile = activeTab === 'image' ? inputs.image : inputs.qr;
-  const isLocked = isCheckUsed || isAnalyzing || status === 'result';
+  const isReceivingShare = shareNotice === 'share.loading';
+  const isLocked = isCheckUsed || isAnalyzing || isReceivingShare || status === 'result';
   const canCheck =
     (activeTab === 'text' && inputs.message.trim().length > 0) ||
     (activeTab === 'links' && inputs.url.trim().length > 0) ||
     ((activeTab === 'image' || activeTab === 'qr') && Boolean(currentFile));
   const [ruleIndex, setRuleIndex] = useState(0);
+  const guideState = isAnalyzing ? 'checking' : status === 'error' ? 'error'
+    : status === 'result' ? 'done' : canCheck ? 'ready' : 'idle';
+  const guideImage = isAnalyzing || status === 'error' ? ASSETS.surfyMagnify
+    : status === 'result' ? result?.aiImageOnly ? ASSETS.surfyTablet
+      : result?.level === 'high' ? ASSETS.surfyAlarm
+        : result?.level === 'low' ? ASSETS.surfyWink
+          : result?.level === 'unknown' ? ASSETS.surfyMagnify : ASSETS.surfyPoint
+      : canCheck ? ASSETS.surfyTablet : ASSETS.surfyPoint;
 
   useEffect(() => {
     const timer = window.setInterval(() => setRuleIndex((current) => (current + 1) % 3), 6000);
     return () => window.clearInterval(timer);
   }, []);
 
-  useLayoutEffect(() => {
-    // The chat grows independently; keep its composer inside the natural card.
-    if (isAskOpen || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const card = cardRef.current;
-    if (!card || typeof ResizeObserver === 'undefined') return undefined;
-
-    let previousHeight;
-    let animationFrame = 0;
-    let isAnimating = false;
-    const observer = new ResizeObserver(() => {
-      const nextHeight = card.getBoundingClientRect().height;
-      if (previousHeight === undefined) {
-        previousHeight = nextHeight;
-        return;
-      }
-      if (isAnimating || Math.abs(nextHeight - previousHeight) < 1) return;
-
-      isAnimating = true;
-      card.style.height = `${previousHeight}px`;
-      card.style.overflow = 'hidden';
-      card.getBoundingClientRect();
-      animationFrame = window.requestAnimationFrame(() => {
-        card.style.height = `${nextHeight}px`;
-      });
-    });
-    const finishAnimation = (event) => {
-      if (event.target !== card || event.propertyName !== 'height') return;
-      card.style.height = 'auto';
-      card.style.overflow = '';
-      previousHeight = card.getBoundingClientRect().height;
-      isAnimating = false;
-    };
-
-    card.addEventListener('transitionend', finishAnimation);
-    observer.observe(card);
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(animationFrame);
-      card.removeEventListener('transitionend', finishAnimation);
-      card.style.height = '';
-      card.style.overflow = '';
-    };
-  }, [isAskOpen]);
-
-  useLayoutEffect(() => {
-    if (!isAskOpen || status !== 'result') return undefined;
-    const grid = cardRef.current?.querySelector('.check-columns');
-    const input = grid?.querySelector('.check-input-column');
-    if (!input) return undefined;
-    // A tall result must not stretch the row above the assistant.
-    const measure = () => grid.style.setProperty('--check-input-row', `${input.getBoundingClientRect().height}px`);
-    measure();
-    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
-    observer?.observe(input);
-    window.addEventListener('resize', measure);
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener('resize', measure);
-      grid.style.removeProperty('--check-input-row');
-    };
-  }, [isAskOpen, status]);
-
   const selectTab = (nextIndex) => {
-    if (isLocked) return;
+    if (isAnalyzing || isReceivingShare) return;
     const nextTab = TABS[nextIndex].id;
     onTabChange(nextTab);
     tabRefs.current[nextIndex]?.focus();
   };
   const handleTabKeyDown = (event, index) => {
-    if (isLocked) return;
+    if (isAnalyzing || isReceivingShare) return;
     let nextIndex = index;
     if (event.key === 'ArrowRight') nextIndex = (index + 1) % TABS.length;
     if (event.key === 'ArrowLeft') nextIndex = (index - 1 + TABS.length) % TABS.length;
@@ -165,7 +113,7 @@ export default function CheckCard({
 
   return (
     <section className="check-section" id="check" aria-labelledby={`${id}-title`}>
-      <div className="check-card page-container" ref={cardRef}>
+      <div className="check-card page-container">
         <img
           className="check-foam"
           src={ASSETS.waveFoam}
@@ -192,38 +140,12 @@ export default function CheckCard({
         <div className={`check-columns${isAskOpen ? ' has-ask-panel' : ''}${['result', 'reviewing'].includes(status) ? ' has-check-result' : ''}`}>
           <div className={`check-input-column${isAskOpen ? ' has-ask' : ''}`}>
             <div className="input-card">
-              <div className="check-tabs" role="tablist" aria-label={t('check.tabs.label')}>
-                {TABS.map(({ id: tabId, Icon }, index) => (
-                  <button
-                    key={tabId}
-                    ref={(element) => {
-                      tabRefs.current[index] = element;
-                    }}
-                    id={`${id}-${tabId}-tab`}
-                    className={`check-tab ${activeTab === tabId ? 'is-active' : ''}`}
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === tabId}
-                    aria-controls={panelId}
-                    tabIndex={activeTab === tabId ? 0 : -1}
-                    disabled={isLocked}
-                    onClick={() => {
-                      if (!isLocked) onTabChange(tabId);
-                    }}
-                    onKeyDown={(event) => handleTabKeyDown(event, index)}
-                  >
-                    <Icon aria-hidden="true" />
-                    <span>{t(`check.tabs.${tabId}`)}</span>
-                  </button>
-                ))}
-              </div>
-
               <div className="check-workspace">
-                <div className="guide-row">
-                  <div className="guide-bubble">{t('check.guide')}</div>
+                <div className={`guide-row guide-${guideState}`}>
+                  <div className="guide-bubble" role="status">{t(`check.guide.${guideState}`)}</div>
                   <img
                     className="guide-mascot"
-                    src={ASSETS.surfyPoint}
+                    src={guideImage}
                     alt=""
                     width="1000"
                     height="1000"
@@ -232,6 +154,32 @@ export default function CheckCard({
                 </div>
 
                 <div className="check-form-column">
+                  {shareNotice && <p className="share-received" role="status" tabIndex={-1}><Share2 size={19} aria-hidden="true" />{t(shareNotice)}</p>}
+                  <div className="check-tabs" role="tablist" aria-label={t('check.tabs.label')}>
+                    {TABS.map(({ id: tabId, Icon }, index) => (
+                      <button
+                        key={tabId}
+                        ref={(element) => {
+                          tabRefs.current[index] = element;
+                        }}
+                        id={`${id}-${tabId}-tab`}
+                        className={`check-tab ${activeTab === tabId ? 'is-active' : ''}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={activeTab === tabId}
+                        aria-controls={panelId}
+                        tabIndex={activeTab === tabId ? 0 : -1}
+                        disabled={isAnalyzing || isReceivingShare}
+                        onClick={() => {
+                          if (!isAnalyzing && !isReceivingShare) onTabChange(tabId);
+                        }}
+                        onKeyDown={(event) => handleTabKeyDown(event, index)}
+                      >
+                        <Icon aria-hidden="true" />
+                        <span>{t(`check.tabs.${tabId}`)}</span>
+                      </button>
+                    ))}
+                  </div>
                   <div
                     id={panelId}
                     className="tab-panel"
@@ -250,7 +198,7 @@ export default function CheckCard({
                           value={inputs.message}
                           placeholder={t('check.text.placeholder')}
                           onChange={(event) => onInputChange('message', event.target.value)}
-                          disabled={isAnalyzing}
+                          disabled={isAnalyzing || isReceivingShare}
                           aria-describedby={`${id}-message-help`}
                         />
                         <div className="field-meta">
@@ -274,7 +222,7 @@ export default function CheckCard({
                           value={inputs.url}
                           onChange={(event) => onInputChange('url', event.target.value)}
                           onBlur={() => onInputChange('url', inputs.url.trim())}
-                          disabled={isAnalyzing}
+                          disabled={isAnalyzing || isReceivingShare}
                           aria-describedby={`${id}-url-help`}
                         />
                         <p className="field-help" id={`${id}-url-help`}>{t(status === 'result' ? 'check.editHint' : 'check.link.privacy')}</p>
@@ -360,18 +308,17 @@ export default function CheckCard({
 
                   <label className="check-ai-choice">
                     <input type="checkbox" checked={aiEnabled} onChange={(event) => onAiChange(event.target.checked)} disabled={!isOnline || isAnalyzing} />
-                    <span><strong>{t('ask.aiHelp')}</strong><small>{t('ask.aiConsent')}</small></span>
+                    <span><strong>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.aiChatHelp' : 'ask.aiHelp')}</strong><small>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.aiChatConsent' : 'ask.aiConsent')}</small></span>
                   </label>
                   <button
                     className="check-button"
                     type="button"
-                    disabled={!canCheck || (isLocked && !canReviewAgain)}
-                    aria-disabled={!canCheck || (isLocked && !canReviewAgain)}
+                    disabled={shareNotice === 'share.loading' || !canCheck || (isLocked && !canReviewAgain)}
+                    aria-disabled={shareNotice === 'share.loading' || !canCheck || (isLocked && !canReviewAgain)}
                     onClick={canReviewAgain ? onReviewAgain : onCheck}
                   >
                     <ShieldCheck aria-hidden="true" />
-                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(canReviewAgain ? 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
-                    <ArrowDown aria-hidden="true" />
+                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(canReviewAgain ? result?.aiImageOnly ? 'result.sightengine.retry' : 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
                   </button>
                 </div>
               </div>
@@ -381,10 +328,11 @@ export default function CheckCard({
           <div className="check-result-column">
             {children}
             {status === 'result' && (
-              <button className="new-check-button" type="button" onClick={onReset}>
-                <RotateCcw aria-hidden="true" />
-                {t('check.new')}
-              </button>
+              <div className="result-actions">
+                <button className="new-check-button" type="button" onClick={onReset}>
+                  <RotateCcw aria-hidden="true" />{t('check.new')}
+                </button>
+              </div>
             )}
           </div>
 

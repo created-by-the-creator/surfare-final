@@ -156,3 +156,25 @@
   .practice-mission, .practice-primary { transition: none; }
   .practice-mission:hover { transform: none; }
 }
+
+.practice-dialog .practice-message { padding: 22px; border-radius: 20px; background: #f0f5fd; border-color: #cfddf0; }
+.practice-dialog .practice-fictional { font-size: .75rem; line-height: 1.5; }
+.practice-dialog .practice-inspect-sender { display: grid; place-items: center; width: 44px; height: 44px; margin-left: auto; border: 1px solid #b9cce6; border-radius: 12px; background: #fff; color: #244e83; cursor: pointer; }
+.practice-dialog .practice-clue { display: inline; padding: 2px 1px; border: 0; border-bottom: 2px dotted #4673af; border-radius: 3px; background: #dbe8fb; color: #173a6a; font: inherit; text-align: left; cursor: pointer; }
+.practice-dialog .practice-clue:hover, .practice-dialog .practice-clue[aria-expanded="true"] { background: #c3d8f6; }
+.practice-dialog .practice-clue:focus-visible { outline: 3px solid #4673af; outline-offset: 3px; }
+.practice-dialog .practice-inspection-hint { display: flex; align-items: flex-start; gap: 8px; margin: 16px 0 0; color: #526d91; font-size: .875rem; line-height: 1.5; }
+.practice-dialog .practice-inspection-hint svg { flex: none; margin-top: 3px; }
+.practice-dialog .practice-inspection { margin-top: 12px; padding: 16px; border: 1px solid #bfd4ec; border-radius: 14px; background: #f6f9fe; color: #294b73; }
+.practice-dialog .practice-inspection[hidden] { display: none; }
+.practice-dialog .practice-inspection > strong { display: flex; align-items: center; gap: 8px; font-size: .875rem; }
+.practice-dialog .practice-inspection > p { margin: 10px 0 0; font-size: 1rem; line-height: 1.6; }
+.practice-dialog .practice-action-receipt { display: flex; gap: 8px; margin: 16px 0 0 24px; padding: 14px 16px; background: #e2edf9; border-radius: 16px 16px 4px 16px; color: #244d7f; font-size: 1rem; line-height: 1.5; }
+.practice-dialog .practice-action-receipt svg { flex: none; margin-top: 4px; }
+.practice-dialog .practice-option { font-size: 1rem; line-height: 1.5; padding: 14px; }
+.practice-dialog .practice-feedback p { font-size: 1rem; line-height: 1.6; }
+.practice-dialog .practice-step-meta { font-size: .875rem; }
+@media (max-width: 600px) {
+  .practice-dialog .practice-message { padding: 16px; }
+  .practice-dialog .practice-action-receipt { margin-left: 14px; }
+}

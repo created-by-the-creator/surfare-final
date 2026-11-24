@@ -1,4 +1,7 @@
-const AI_ENDPOINT = '/api/image-assess';
+import { classifyAiGeneratedScore } from '../../../backend/lib/sightengine-assessment.js';
+import { apiFetch } from '../api/fetch.js';
+
+const AI_ENDPOINT = '/api/image-detect';
 const MAX_IMAGE_DATA_LENGTH = 1000000;
 const ORIGIN_LABEL_KEYS = {
   'AI-like visual cues': 'result.imageOrigin.likely',
@@ -23,11 +26,14 @@ const ERROR_BY_REASON = {
   consent: 'error.image_ai_unavailable',
   invalid_image: 'error.image_ai_unavailable',
   invalid_request: 'error.image_ai_unavailable',
+  credentials: 'result.sightengine.credentials',
+  quota: 'result.sightengine.quota',
+  unsupported_image: 'result.sightengine.unsupported',
   method: 'error.image_ai_unavailable',
   too_large: 'error.image_ai_unavailable',
 };
 const FILE_AI_LABELS = new Set(['result.imageMetadata.label.declaration', 'result.imageMetadata.label.generation', 'result.imageMetadata.label.tool']);
-const VISUAL_AI_LABELS = new Set(['result.imageOrigin.strong', 'result.imageOrigin.possible', 'result.imageOrigin.likely']);
+const VISUAL_AI_LABELS = new Set(['result.imageOrigin.strong', 'result.imageOrigin.possible', 'result.imageOrigin.likely', 'result.sightengine.high']);
 
 const NOTE_BY_REASON = {
   not_configured: 'result.imageMetadata.visualNotConfigured',
@@ -41,6 +47,9 @@ const NOTE_BY_REASON = {
   consent: 'result.imageMetadata.visualConsent',
   invalid_image: 'result.imageMetadata.visualImageIssue',
   invalid_request: 'result.imageMetadata.visualUnavailable',
+  credentials: 'result.sightengine.credentials',
+  quota: 'result.sightengine.quota',
+  unsupported_image: 'result.sightengine.unsupported',
   method: 'result.imageMetadata.visualUnavailable',
   too_large: 'result.imageMetadata.visualImageIssue',
 };
@@ -49,13 +58,13 @@ export function hasImageAiClues(result) {
   return FILE_AI_LABELS.has(result?.imageMetadata?.labelKey) || VISUAL_AI_LABELS.has(result?.imageOrigin?.labelKey);
 }
 
-export async function getImageAiConfig(fetcher = fetch) {
+export async function getImageAiConfig(fetcher = apiFetch) {
   const response = await fetcher(AI_ENDPOINT, { signal: AbortSignal.timeout(8000) });
   if (!response.ok) return { configured: false, providerId: '' };
   const data = await response.json();
   return {
-    configured: Boolean(data.configured),
-    providerId: typeof data.providerId === 'string' ? data.providerId : '',
+    configured: data.configured === true && data.providerId === 'sightengine',
+    providerId: data.providerId === 'sightengine' ? data.providerId : '',
   };
 }
 
@@ -97,7 +106,7 @@ export async function prepareImageForReview(file, maxLength = MAX_IMAGE_DATA_LEN
 
 async function reviewImage(
   file,
-  { fetcher = fetch, prepare = prepareImageForReview } = {},
+  { fetcher = apiFetch, prepare = prepareImageForReview } = {},
 ) {
   try {
     const config = await getImageAiConfig(fetcher);
@@ -111,12 +120,11 @@ async function reviewImage(
     const image = await prepare(file);
     const response = await fetcher(AI_ENDPOINT, {
       method: 'POST',
-      signal: AbortSignal.timeout(90000),
+      signal: AbortSignal.timeout(30000),
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         image,
         mode: 'origin',
-        secondReview: true,
         consent: true,
         provider: config.providerId,
       }),
@@ -141,6 +149,8 @@ async function reviewImage(
         errorKey: ERROR_BY_REASON[reason] || 'error.image_ai_unavailable',
       };
     }
+    if (data.providerId !== 'sightengine') throw Error('invalid_image_provider');
+    classifyAiGeneratedScore(data.detection?.aiGeneratedScore);
     return { status: 'completed', review: data };
   } catch (error) {
     if (error?.name === 'TimeoutError')
@@ -166,10 +176,23 @@ export function reviewImageOrigin(file, options = {}) {
 }
 
 export function imageOriginVerdict(review) {
+  if (review?.providerId === 'sightengine') {
+    const score = review.detection?.aiGeneratedScore;
+    const band = classifyAiGeneratedScore(score);
+    return {
+      source: 'sightengine', score, band,
+      labelKey: `result.sightengine.${band}`,
+      summaryKey: `result.sightengine.summary.${band}`,
+      confidenceKey: band === 'high' ? 'result.imageOrigin.confidence.strong' : 'result.imageOrigin.confidence.low',
+      summary: '', observations: [], ambiguousObservations: [], nonClues: [],
+      limitationKey: 'result.sightengine.limitation',
+    };
+  }
   const label = review?.origin?.label;
   const likelihood = review?.origin?.likelihood;
-  const labelKey =
-    ORIGIN_LIKELIHOOD_KEYS[likelihood] || ORIGIN_LABEL_KEYS[label] || 'result.imageOrigin.unclear';
+  const labelKey = likelihood === 'Unclear' && review?.origin?.observations?.length
+    ? 'result.imageOrigin.inconclusive'
+    : ORIGIN_LIKELIHOOD_KEYS[likelihood] || ORIGIN_LABEL_KEYS[label] || 'result.imageOrigin.unclear';
   const confidenceKey =
     likelihood === 'Strong'
       ? 'result.imageOrigin.confidence.strong'
@@ -187,9 +210,18 @@ export function imageOriginVerdict(review) {
     confidenceKey,
     summary: typeof review?.origin?.summary === 'string' ? review.origin.summary.slice(0, 800) : '',
     observations,
+    ambiguousObservations: Array.isArray(review?.origin?.ambiguousObservations)
+      ? review.origin.ambiguousObservations.filter((note) => observations.includes(note)) : [],
+    reviewDisagreement: review?.origin?.reviewDisagreement === true,
     nonClues,
     limitationKey: 'result.imageOrigin.limitation',
   };
+}
+
+export function imageOriginSummary(origin, t) {
+  return origin?.summaryKey
+    ? `${t(origin.summaryKey)} ${t('result.sightengine.score', { score: origin.score.toFixed(3) })}`
+    : origin?.summary || '';
 }
 
 export function buildImageOriginResult(
@@ -199,11 +231,9 @@ export function buildImageOriginResult(
   visual = {},
 ) {
   const imageOrigin = review ? imageOriginVerdict(review) : null;
-  const labelKey = FILE_AI_LABELS.has(imageMetadata?.labelKey)
+  const labelKey = imageOrigin?.source === 'sightengine' ? imageOrigin.labelKey : FILE_AI_LABELS.has(imageMetadata?.labelKey)
     ? imageMetadata.labelKey
-    : VISUAL_AI_LABELS.has(imageOrigin?.labelKey)
-      ? imageOrigin.labelKey
-      : 'result.imageOrigin.unclear';
+    : imageOrigin?.labelKey || (visual.status === 'unavailable' ? 'result.imageOrigin.unavailable' : 'result.imageOrigin.unclear');
   return {
     level: 'unknown',
     score: 0,

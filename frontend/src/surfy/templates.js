@@ -6,7 +6,8 @@ import {
   getSignalExplanation,
 } from '../engine/signal-display.js';
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
-import { hasImageAiClues } from '../engine/image-ai.js';
+import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
+import { localOutcome } from '../engine/result-presentation.js';
 
 export const SURFY_QUESTION_KEYS = [
   'ask.why',
@@ -17,9 +18,14 @@ export const SURFY_QUESTION_KEYS = [
   'ask.uncertain',
   'ask.link',
   'ask.aiImage',
+  'ask.imageMeaning',
+  'ask.imageScore',
+  'ask.imageFile',
+  'ask.imageLimits',
 ];
 
 const QUESTION_MATCHERS = [
+  { key: 'ask.imageScore', words: ['score', 'percentage', 'puntos'] },
   { key: 'ask.whyClean', words: ['wasn', 'weren', 'clean', 'unflagged', 'not flagged', 'not mark'] },
   { key: 'ask.why', words: ['why', 'flag', 'flagged', 'warning', 'reason', 'bakit', 'dahilan', 'mark', 'suspicious', 'explain', 'explanation', 'result', 'results', 'tag', 'tags', 'highlight', 'highlighted', 'ipaliwanag', 'paliwanag', 'scam', 'legit'] },
   { key: 'ask.next', words: ['what', 'do', 'now', 'should', 'next', 'action', 'gagawin', 'fix'] },
@@ -98,11 +104,10 @@ function requestedSignals(question, result, t) {
 }
 
 function explainSignals(signals, t) {
-  const phrases = signals.flatMap(signal => [
+  return signals.map((signal) => `- ${[
     getSignalLabel(signal, t), formatEvidenceList(getSignalEvidenceItems(signal), t, 1),
-  ]);
-  const advice = signals.map(signal => getSignalExplanation(signal, t));
-  return [...new Set([...phrases, ...advice].filter(Boolean))].join(' ');
+    getSignalExplanation(signal, t),
+  ].filter(Boolean).join(' ')}`).join('\n');
 }
 
 export function getSuggestedSignalQuestions(result, t) {
@@ -126,26 +131,34 @@ export function getSurfyResultMessage(result, t) {
     result?.semanticConflict && t('result.conflictingReviews'),
     result?.onlineUnavailable && t('result.reputationIncomplete'),
     ['pending', 'completed', 'unavailable'].includes(result?.aiReview?.status) && t(`ask.review.${result.aiReview.status}`),
-  ].filter(Boolean).join(' ');
+  ].filter(Boolean).join('\n\n');
 }
 
 function imageReviewAnswer(result, t) {
   const metadata = result?.imageMetadata;
   const origin = result?.imageOrigin;
+  if (origin?.source === 'sightengine') {
+    return [t(origin.labelKey), t(origin.summaryKey),
+      hasImageAiClues({ imageMetadata: metadata }) && t('result.imageSimple.fileAi'),
+    ].filter(Boolean).join('\n\n');
+  }
   if (metadata && origin) {
     const overview = t('ask.imageReview.answer', {
       metadata: t(metadata.labelKey),
       visual: t(origin.labelKey),
     });
-    return [result.summaryKey && t(result.summaryKey), overview, metadata.summaryKey ? t(metadata.summaryKey) : '', ...imageMetadataDetails(metadata, t), origin.summary, ...(origin.observations || []).slice(0, 4), result.imageVisualNoteKey ? t(result.imageVisualNoteKey) : ''].filter(Boolean).join(' ');
+    return [result.summaryKey && t(result.summaryKey), overview, metadata.summaryKey ? t(metadata.summaryKey) : '', imageMetadataDetails(metadata, t).map(note => `- ${note}`).join('\n'), imageOriginSummary(origin, t), origin.source === 'sightengine' && t(origin.limitationKey), (origin.observations || []).slice(0, 4).map(note => `- ${note}`).join('\n'), origin.nonClues?.length ? `${t('result.imageOrigin.nonClueTitle')}\n${origin.nonClues.map(note => `- ${note}`).join('\n')}` : '', result.imageVisualNoteKey ? t(result.imageVisualNoteKey) : ''].filter(Boolean).join('\n\n');
   }
-  if (metadata) return [t('ask.imageMetadata.answer', { label: t(metadata.labelKey) }), metadata.summaryKey ? t(metadata.summaryKey) : '', ...imageMetadataDetails(metadata, t), result.imageVisualNoteKey ? t(result.imageVisualNoteKey) : ''].filter(Boolean).join(' ');
-  if (origin) return [t('ask.aiImage.answer', { label: t(origin.labelKey) }), ...(origin.observations || []).slice(0, 2)].join(' ');
+  if (metadata) return [t('ask.imageMetadata.answer', { label: t(metadata.labelKey) }), metadata.summaryKey ? t(metadata.summaryKey) : '', imageMetadataDetails(metadata, t).map(note => `- ${note}`).join('\n'), result.imageVisualNoteKey ? t(result.imageVisualNoteKey) : ''].filter(Boolean).join('\n\n');
+  if (origin) return [t('ask.aiImage.answer', { label: t(origin.labelKey) }), imageOriginSummary(origin, t), origin.source === 'sightengine' && t(origin.limitationKey), (origin.observations || []).slice(0, 2).map(note => `- ${note}`).join('\n')].filter(Boolean).join('\n\n');
   return t('ask.aiImage.noResult');
 }
 
 export function getSuggestedQuestionKeys({ result, activeTab } = {}) {
-  const whyKey = result?.level === 'unknown' ? 'ask.uncertain' : !result || isFlaggedResult(result) ? 'ask.why' : 'ask.whyClean';
+  if (result?.imageMetadata || result?.imageOrigin) {
+    return ['ask.imageMeaning', 'ask.imageLimits', 'ask.next', 'ask.imageScore', 'ask.imageFile'];
+  }
+  const whyKey = result?.level === 'unknown' && !localOutcome(result) ? 'ask.uncertain' : !result || isFlaggedResult(result) ? 'ask.why' : 'ask.whyClean';
   const keys = [whyKey, 'ask.next'];
 
   if (hasCheckedUrl(result)) keys.push('ask.link');
@@ -158,6 +171,19 @@ export function getSuggestedQuestionKeys({ result, activeTab } = {}) {
 
 export function getSurfyAnswer(question, result, t) {
   const key = findQuestionKey(question, t);
+  if (key === 'ask.imageMeaning') return imageReviewAnswer(result, t);
+  if (key === 'ask.imageLimits') return t('ask.imageLimits.answer');
+  if (key === 'ask.imageFile') {
+    if (!result?.imageMetadata) return t('ask.aiImage.noResult');
+    return [t(result.imageMetadata.summaryKey || result.imageMetadata.labelKey),
+      imageMetadataDetails(result.imageMetadata, t).map(note => `- ${note}`).join('\n'),
+    ].filter(Boolean).join('\n\n');
+  }
+  if (key === 'ask.imageScore') {
+    return result?.imageOrigin?.source === 'sightengine'
+      ? `${t('result.sightengine.score', { score: result.imageOrigin.score.toFixed(3) })} ${t('ask.imageScore.answer')}`
+      : t('ask.imageScore.unavailable');
+  }
   const specific = requestedSignals(question, result, t);
   // Service/privacy questions should not be mistaken for a warning topic.
   if (!['ask.offline', 'ask.photo', 'ask.link', 'ask.aiImage', 'ask.uncertain'].includes(key) && specific !== null) {
@@ -175,7 +201,8 @@ export function getSurfyAnswer(question, result, t) {
       .some((signal) => signal?.id === 'online_match');
 
     if (result?.level === 'unknown') {
-      return [t('ask.uncertain.answer'), explainSignals(signals.slice(0, 2), t)].filter(Boolean).join(' ');
+      const outcome = localOutcome(result);
+      return [t(outcome ? `result.${outcome}.summary` : 'ask.uncertain.answer'), explainSignals(signals.slice(0, 2), t)].filter(Boolean).join('\n\n');
     }
     if (!isFlaggedResult(result)) {
       if (hasOnlineMatch) return t('ask.why.onlyOnline');
@@ -194,14 +221,13 @@ export function getSurfyAnswer(question, result, t) {
 
     const reasons = [explainSignals(signals.slice(0, 4), t)];
     if (hasOnlineMatch) reasons.push(t('signal.online_match'));
-    return `${t('ask.why.flaggedIntro', { level: t(`result.${result.level}`) })} ${reasons.join(' ')} ${t('ask.why.outro')}`
-      .replace(/\s+/g, ' ')
-      .trim();
+    return [t('ask.why.flaggedIntro', { level: t(`result.${result.level}`) }), reasons.join('\n\n'), t('ask.why.outro')].join('\n\n');
   }
   if (key === 'ask.next') {
     if (result?.imageMetadata || result?.imageOrigin) {
       return t(hasImageAiClues(result) ? 'ask.next.aiImageClues' : 'ask.next.aiImageNone');
     }
+    if (localOutcome(result)) return `${t('result.nextPointLocalVerify')} ${t('result.nextPointLocalContext')}`;
     const level = ['low', 'suspicious', 'high'].includes(result?.level) ? result.level : 'unknown';
     return t(`ask.next.${level}`);
   }
@@ -216,6 +242,7 @@ export function getSurfyAnswer(question, result, t) {
     if (result?.imageOrigin || result?.imageMetadata) return imageReviewAnswer(result, t);
     if (result?.unsupportedQr) return t('result.qrUnsupported');
     if (result?.mediaInfo?.uncertainExtraction) return t('result.ocrUncertain');
+    if (localOutcome(result)) return t(`result.${localOutcome(result)}.summary`);
     return t('ask.uncertain.answer');
   }
   return t('ask.next.unknown');

@@ -1,4 +1,5 @@
 import wasmSrc from '@contentauth/c2pa-web/resources/c2pa.wasm?url';
+import { credentialChecks } from './credential-checks.js';
 
 const SUPPORTED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const clients = new WeakMap();
@@ -69,7 +70,8 @@ export async function verifyContentCredentials(file, options = {}) {
         if (!created) return { status: 'none' };
         reader = created;
         const store = await reader.manifestStore();
-        return { status: validationStatus(store) };
+        const checks = credentialChecks(store);
+        return { status: validationStatus(store), ...(checks.length ? { checks } : {}) };
       })(),
       timeoutMs,
     );

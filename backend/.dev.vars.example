@@ -4,6 +4,10 @@ OPENROUTER_API_KEY=
 GEMINI_API_KEY=
 GOOGLE_SAFE_BROWSING_API_KEY=
 
+# Online AI image detection. Get both values from the Sightengine API keys page.
+SIGHTENGINE_API_USER=
+SIGHTENGINE_API_SECRET=
+
 # Optional feedback storage.
 FEEDBACK_ENABLED=false
 SUPABASE_URL=

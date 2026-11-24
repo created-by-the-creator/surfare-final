@@ -1,4 +1,5 @@
 import { verifyContentCredentials } from './c2pa-verify.js';
+import { CREDENTIAL_CHECK_CODES } from './credential-checks.js';
 
 const MAX_FILE_BYTES = 8 * 1024 * 1024;
 const MAX_METADATA_BYTES = 1024 * 1024;
@@ -364,6 +365,7 @@ function finalize(context) {
     findings: context.findings,
     notes: [...new Set(context.notes)],
     credentials: context.credentials,
+    credentialChecks: context.credentialChecks || [],
     limitationKey: 'result.imageMetadata.limitation',
   };
 }
@@ -396,6 +398,8 @@ export async function inspectImageMetadata(file, options = {}) {
   if (context.credentials && typeof file?.type === 'string' && typeof verifyCredentials === 'function') {
     const result = await verifyCredentials(file);
     context.credentialsChecked = true;
+    context.credentialChecks = Array.isArray(result?.checks)
+      ? result.checks.filter((code) => CREDENTIAL_CHECK_CODES.has(code)) : [];
     const finding = {
       verified: 'credentials-verified',
       valid: 'credentials-valid',
