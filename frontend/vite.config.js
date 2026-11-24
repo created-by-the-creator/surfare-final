@@ -4,6 +4,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { OFFLINE_CACHE_NAME } from './src/offline/resources.js';
 
 export default defineConfig({
+  // The bundled offline reference index is large enough that the first import
+  // in each worker can exceed Vitest's 5s default under parallel load.
+  test: {
+    testTimeout: 30000,
+    hookTimeout: 30000,
+  },
   server: {
     proxy: {
       '/api': 'http://127.0.0.1:8790',

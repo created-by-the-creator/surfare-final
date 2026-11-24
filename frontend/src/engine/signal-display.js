@@ -17,7 +17,7 @@ const EXPLANATION_GROUPS = {
   address: ['link_mismatch', 'ip_host', 'url_shortener', 'at_symbol', 'punycode_or_homoglyph', 'long_or_encoded_url', 'redirect_param', 'non_standard_port', 'excessive_subdomains', 'data_or_javascript_scheme', 'invalid_url', 'userinfo', 'shortener', 'redirect', 'subdomains', 'ip', 'lure', 'idn'],
   weakAddress: ['no_https', 'risky_tld', 'link_in_message', 'generic_greeting'],
   pattern: ['dataset-text-match', 'dataset-url-match', 'dataset-text-model', 'dataset-url-model', 'sms-pattern'],
-  report: ['reported-gambling-link', 'unlisted-gambling-link', 'watchlisted-gambling-link', 'stopped-lender'],
+  report: ['gambling', 'reported-gambling-link', 'unlisted-gambling-link', 'watchlisted-gambling-link', 'stopped-lender'],
 };
 
 export function getSignalExplanation(signal, t) {

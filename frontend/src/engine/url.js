@@ -1,4 +1,5 @@
 import { parse } from 'tldts';
+import { assessUrlReferences } from './reference-data.js';
 
 const BRANDS = [
   'gcash',
@@ -25,8 +26,12 @@ const OFFICIAL_BRAND_DOMAINS = {
   shopee: ['shopee.ph'],
   lazada: ['lazada.com.ph'],
 };
+const OFFICIAL_DOMAINS = new Set(Object.values(OFFICIAL_BRAND_DOMAINS).flat());
 
-const SHORTENERS = ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'cutt.ly'];
+const SHORTENERS = [
+  'bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'cutt.ly',
+  'shorturl.at', 'rb.gy', 'rebrand.ly',
+];
 const RISKY_TLDS = ['zip', 'xyz', 'top', 'click', 'work', 'support', 'rest', 'country'];
 
 function editDistance(left, right) {
@@ -48,6 +53,28 @@ function editDistance(left, right) {
 
 function pushSignal(signals, id, evidence, weight = 2, severity = 2) {
   signals.push({ id, evidence, weight, severity });
+}
+
+const REFERENCE_SIGNALS = [
+  ['phishing', 'dataset-url-match', 5, 3],
+  ['gambling', 'reported-gambling-link', 5, 3],
+  ['reviewedGambling', 'watchlisted-gambling-link', 2, 2],
+  ['unlistedGambling', 'unlisted-gambling-link', 2, 2],
+  ['fakeRegulator', 'fake-regulator-link', 5, 3],
+];
+
+function addReferenceSignals(signals, text, normalized, host) {
+  const references = assessUrlReferences(text, [{ url: normalized, host }]);
+  const added = new Set();
+  for (const [key, id, weight, severity] of REFERENCE_SIGNALS) {
+    if (added.has(id)) continue;
+    const match = references[key]?.[0];
+    if (!match) continue;
+    added.add(id);
+    pushSignal(signals, id, match.host || normalized, weight, severity);
+  }
+  const lender = references.lenders?.[0]?.evidence?.[0]?.text;
+  if (lender) pushSignal(signals, 'stopped-lender', lender, 5, 3);
 }
 
 export function normalizeUrl(value) {
@@ -88,9 +115,7 @@ export function analyzeUrl(value) {
     pushSignal(signals, 'url_shortener', url.hostname, 2, 2);
   }
   if (/xn--/i.test(url.hostname)) pushSignal(signals, 'punycode_or_homoglyph', url.hostname, 3, 3);
-  const officialDomain = Object.values(OFFICIAL_BRAND_DOMAINS).some((domains) =>
-    domains.includes(domain),
-  );
+  const officialDomain = OFFICIAL_DOMAINS.has(domain);
   if (
     !officialDomain &&
     subdomain.split('.').some((label) => BRANDS.some((brand) => label.includes(brand)))
@@ -100,7 +125,10 @@ export function analyzeUrl(value) {
   if (
     !officialDomain &&
     BRANDS.some(
-      (brand) => editDistance(registrableLabel, brand) === 1 && registrableLabel !== brand,
+      (brand) =>
+        brand.length >= 4 &&
+        editDistance(registrableLabel, brand) === 1 &&
+        registrableLabel !== brand,
     )
   ) {
     pushSignal(signals, 'lookalike_brand', domain, 3, 3);
@@ -120,6 +148,7 @@ export function analyzeUrl(value) {
   if (/[?&](?:url|redirect|next|return)=/i.test(url.search)) {
     pushSignal(signals, 'redirect_param', url.search, 2, 2);
   }
+  addReferenceSignals(signals, value, normalized, url.hostname);
 
   return { normalized, signals, hostname: url.hostname, domain };
 }

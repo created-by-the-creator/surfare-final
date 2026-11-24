@@ -69,6 +69,8 @@ export default function CheckCard({
     (activeTab === 'text' && inputs.message.trim().length > 0) ||
     (activeTab === 'links' && inputs.url.trim().length > 0) ||
     ((activeTab === 'image' || activeTab === 'qr') && Boolean(currentFile));
+  const isNewCheck = status === 'result' && !canReviewAgain;
+  const isPrimaryDisabled = isAnalyzing || (!isNewCheck && (!canCheck || (isLocked && !canReviewAgain)));
   const [ruleIndex, setRuleIndex] = useState(0);
 
   useEffect(() => {
@@ -365,13 +367,13 @@ export default function CheckCard({
                   <button
                     className="check-button"
                     type="button"
-                    disabled={!canCheck || (isLocked && !canReviewAgain)}
-                    aria-disabled={!canCheck || (isLocked && !canReviewAgain)}
-                    onClick={canReviewAgain ? onReviewAgain : onCheck}
+                    disabled={isPrimaryDisabled}
+                    aria-disabled={isPrimaryDisabled}
+                    onClick={isNewCheck ? onReset : canReviewAgain ? onReviewAgain : onCheck}
                   >
-                    <ShieldCheck aria-hidden="true" />
-                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(canReviewAgain ? 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
-                    <ArrowDown aria-hidden="true" />
+                    {isNewCheck ? <RotateCcw aria-hidden="true" /> : <ShieldCheck aria-hidden="true" />}
+                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(isNewCheck ? 'check.new' : canReviewAgain ? 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
+                    {!isNewCheck && <ArrowDown aria-hidden="true" />}
                   </button>
                 </div>
               </div>
@@ -380,12 +382,6 @@ export default function CheckCard({
 
           <div className="check-result-column">
             {children}
-            {status === 'result' && (
-              <button className="new-check-button" type="button" onClick={onReset}>
-                <RotateCcw aria-hidden="true" />
-                {t('check.new')}
-              </button>
-            )}
           </div>
 
           {isAskOpen && !isAnalyzing && (

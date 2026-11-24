@@ -9,6 +9,7 @@ const SECTIONS = ['purpose', 'sharing', 'ai', 'retention', 'security', 'rights',
 const REFERENCES = [
   ['Republic Act No. 10173', 'https://privacy.gov.ph/data-privacy-act/'],
   ['National Privacy Commission', 'https://privacy.gov.ph/data-subject-rights/'],
+  ['Agent Router', 'https://agentrouter.org/privacy'],
   ['OpenRouter', 'https://openrouter.ai/privacy'],
   ['Google', 'https://policies.google.com/privacy'],
   ['Cloudflare', 'https://www.cloudflare.com/privacypolicy/'],

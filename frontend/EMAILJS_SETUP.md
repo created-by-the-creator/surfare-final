@@ -60,4 +60,4 @@ In your EmailJS template, add these variables where you want them in the email:
 
 - **“Feedback sending is not configured yet.”** — `.env.local` is missing, a value is still a placeholder, or the dev server was not restarted.
 - **“Couldn’t send your feedback.”** — check the EmailJS service ID, template ID, public key, and your internet connection.
-- **No feedback form after New Check** — the form appears only after a check has produced a result. On a fresh page, New Check just resets the form.
+- **No feedback form after New Check** — the form appears only after a check has produced a result. On a fresh page, the primary button is **Check** and simply runs a check.

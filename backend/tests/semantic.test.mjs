@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { semanticCheck, semanticConfiguration } from '../server/services/semantic.js';
+import { semanticCheck, semanticConfiguration, semanticInstruction } from '../server/services/semantic.js';
 import { validateSemanticResult, applySemanticAssessment } from '../lib/semantic-assessment.js';
 import { assessContent } from '../lib/content-assessment.js';
 import { combineAssessment } from '../lib/assessment.js';
@@ -222,6 +222,36 @@ test('uncertain OCR and unverified URLs stay unconfirmed after benign AI', () =>
     ).level,
     'Insufficient evidence',
   );
+});
+test('link cue guidance is advisory and never certifies legitimacy', () => {
+  assert.match(semanticInstruction, /Never call a link legitimate, official, verified, or safe/);
+  assert.match(semanticInstruction, /impersonation or gambling finding kinds/);
+  assert.match(semanticInstruction, /Do not infer ownership, licences, PAGCOR registration/);
+});
+test('impersonation and gambling finding kinds are accepted and grounded', () => {
+  const url = 'https://gcash-login.example.bonus88.com';
+  const result = validateSemanticResult({
+    level: 'Suspicious',
+    summary: 'Link cues need verification.',
+    recommendation: 'Open the official app instead.',
+    findings: [
+      {
+        kind: 'impersonation',
+        level: 'Suspicious',
+        quote: 'gcash-login.example',
+        explanation: 'A brand name appears outside the main domain.',
+      },
+      {
+        kind: 'gambling',
+        level: 'Suspicious',
+        quote: 'bonus88',
+        explanation: 'A bonus promise appears in the address.',
+      },
+    ],
+  }, url);
+  assert.deepEqual(result.indicators.map((item) => item.id), ['impersonation', 'gambling']);
+  assert.equal(result.level, 'Suspicious');
+  assert.equal(result.indicators[1].evidence[0].text, 'bonus88');
 });
 test('fabricated quote, contradictory severity and unsupported labels are rejected', () => {
   assert.throws(() => validateSemanticResult(dangerous, 'A different message'));

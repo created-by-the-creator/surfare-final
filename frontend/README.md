@@ -1,6 +1,6 @@
 # Surfare
 
-Surfare is an offline-first web app for checking suspicious messages, links, images, and QR codes. Detection runs locally; online URL lookup is optional and sends only a detected URL to the configured Worker.
+Surfare is an offline-first web app for checking suspicious messages, links, images, and QR codes. Detection runs locally; online URL lookup is optional and sends only a detected URL to the configured Worker. Offline checks include browser-safe copies of the reviewed platform, phishing-index, gambling-reference and lender-name lists in `src/engine/generated/url-reference-data.js`; regenerate that file with `npm run build:browser-references` after backend reference data changes. Reference matches are review clues and never certify a destination.
 
 ## Run locally
 

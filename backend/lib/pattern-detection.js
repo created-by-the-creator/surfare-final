@@ -6,6 +6,7 @@ import { classifySms } from './sms-model.js';
 import { assessDatasetModels } from './dataset-models.js';
 
 import { normalizeUrl, redirectDestinations, urlCandidates } from './url-input.js';
+import { SOCIAL_PLATFORM_DOMAINS } from './known-platform-domains.js';
 export { normalizeUrl, extractUrls } from './url-input.js';
 const brands = {
   gcash: ['gcash.com'],
@@ -19,6 +20,7 @@ const brands = {
   shopee: ['shopee.ph'],
   lazada: ['lazada.com.ph'],
 };
+const KNOWN_DOMAINS = new Set([...Object.values(brands).flat(), ...SOCIAL_PLATFORM_DOMAINS]);
 const oneEdit = (a, b) => {
   if (Math.abs(a.length - b.length) > 1) return false;
   let i = 0,
@@ -111,7 +113,7 @@ export function analyzeUrl(raw, context = '') {
       1,
     );
   if (
-    ['bit.ly', 'tinyurl.com', 't.co', 'shorturl.at', 'rb.gy', 'cutt.ly', 'rebrand.ly'].includes(
+    ['bit.ly', 'tinyurl.com', 't.co', 'goo.gl', 'is.gd', 'shorturl.at', 'rb.gy', 'cutt.ly', 'rebrand.ly'].includes(
       domain,
     )
   )
@@ -165,7 +167,7 @@ export function analyzeUrl(raw, context = '') {
   }
   if (
     /(?:verify|secure|login|account|update|wallet)/i.test(host) &&
-    !Object.values(brands).flat().includes(domain)
+    !KNOWN_DOMAINS.has(domain)
   )
     add(
       'lure',
@@ -195,7 +197,7 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     /\b(?:o\s*t\s*p|one[- ]time (?:password|pin|code)|password|passcode|pin|cvv|(?:verification|security|login|sign-in|authentication|(?:six|6)[- ]digit) code|recovery phrase|seed phrase)\b/i,
   );
   const request = find(
-    /\b(?:send|share|give|provide|enter|submit|reply|confirm|verify|(?:read|tell|text|forward)\s+(?:me|us)|ano(?:ng|\s+(?:ang|yung|iyong))(?=\s+(?:otp|pin|password|verification code)\b)|ibigay|isend|i-send|ipadala|ilagay|ibahagi|isulat|pakisend|paki-send|paki\s*bigay|paki\s*send)\b/i,
+    /\b(?:send|share|give|provide|enter|submit|reply|confirm|verify|(?:read|tell|text|forward)\s+(?:me|us)|ano(?:['’]?ng|\s+(?:ang|yung|iyong))(?=\s+(?:otp|pin|password|verification code)\b)|ibigay|isend|i-send|ipadala|ilagay|ibahagi|isulat|pakisend|paki-send|paki\s*bigay|paki\s*send)\b/i,
   );
   const secretRequests = secret.filter((e) =>
     request.some((r) => {

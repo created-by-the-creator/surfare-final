@@ -7,7 +7,6 @@ import {
   FileText,
   ListChecks,
   LoaderCircle,
-  RotateCcw,
   ShieldCheck,
 } from 'lucide-react';
 import { ASSETS } from '../assets.js';
@@ -154,7 +153,7 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText }) {
+export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReviewText }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedSignals, setSelectedSignals] = useState([]);
@@ -170,6 +169,11 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   );
   const onlineClean = Boolean(showResult && !warningCount && result?.onlineNoKnownThreat);
   const isUnknown = Boolean(showResult && level === 'unknown');
+  const unconfirmedContext = isUnknown && result.aiReview?.status !== 'completed' &&
+    !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction;
+  const enoughText = (result?.checkedText?.trim().split(/\s+/).filter(Boolean).length || 0) >= 4;
+  const noWarningToShow = Boolean(unconfirmedContext && !warningCount && enoughText);
+  const weakSignalsToShow = Boolean(unconfirmedContext && warningCount);
   const isMetadataReview = Boolean(showResult && result?.imageMetadata);
   const isOriginReview = Boolean(showResult && result?.imageOrigin);
   const isImageReview = isMetadataReview || isOriginReview;
@@ -217,7 +221,9 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const stateTitle = showResult
     ? isImageReview
       ? t(result.summaryKey || 'result.imageOrigin.unclear')
-      : t(`result.${level}`)
+      : isUnknown
+        ? t(noWarningToShow ? 'result.unknown.noWarning' : 'result.unknown')
+        : t(`result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
       : status === 'error'
@@ -231,8 +237,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
           ? t('result.imageReview.summaryVisual', { visual: originLabel })
           : t('result.imageReview.summaryFileOnly', { file: metadataLabel })
         : isUnknown
-      ? t(result.aiReview?.status !== 'completed' && !result.unsupportedQr && !result.mediaInfo?.uncertainExtraction &&
-          !warningCount && result.checkedText?.trim().split(/\s+/).length >= 4 ? 'result.noLocalWarning' : 'result.unknown.subtitle')
+      ? t(noWarningToShow ? 'result.noLocalWarning'
+          : weakSignalsToShow ? 'result.unknown.withSignals' : 'result.unknown.subtitle')
       : onlineOnly
         ? t('result.summary.onlineOnly')
         : warningCount
@@ -296,15 +302,6 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 <p className="result-prompt">{summary}</p>
               </div>
             </div>
-
-            {status === 'error' && (
-              <div className="result-error" role="alert">
-                <button type="button" className="result-secondary-button" onClick={onReset}>
-                  <RotateCcw size={17} aria-hidden="true" />
-                  {t('check.new')}
-                </button>
-              </div>
-            )}
 
             {showResult && !isUnknown && (
               <div className={`risk-meter-wrap meter-position-${level}`}>

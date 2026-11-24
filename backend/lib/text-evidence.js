@@ -1,6 +1,64 @@
 // Index every normalized UTF-16 character back to the exact original text.
 // Highlights never reconstruct user text or inject HTML.
-export function normalizeEvidence(text) {
+const TOKEN_CHAR = /[a-z0-9@]/;
+const SEPARATED_TOKEN = /\b[a-z0-9](?:[\s.\-]*[.\-][\s.\-]*[a-z0-9])+\b/g;
+const LEET = { 0: 'o', 3: 'e', 4: 'a', '@': 'a' };
+
+function appendRange(target, source, from, to) {
+  target.text += source.text.slice(from, to);
+  for (let index = from; index < to; index += 1) {
+    target.starts.push(source.starts[index]);
+    target.ends.push(source.ends[index]);
+  }
+}
+
+// O.T.P / p-i-n / p4ss.w0rd keep their original character spans even though
+// the separators disappear from the matching form.
+function collapseSeparators(source) {
+  const target = { text: '', starts: [], ends: [] };
+  let cursor = 0;
+  for (const match of source.text.matchAll(SEPARATED_TOKEN)) {
+    const token = match[0];
+    const segments = token.split(/[\s.\-]+/).filter(Boolean);
+    const compact = segments.join('');
+    if (!/[a-z]/.test(compact) || compact.length > 10 || segments.some((part) => part.length > 4))
+      continue;
+    appendRange(target, source, cursor, match.index);
+    let at = match.index;
+    for (const ch of compact) {
+      while (at < match.index + token.length && !TOKEN_CHAR.test(source.text[at])) at += 1;
+      target.text += ch;
+      target.starts.push(source.starts[at]);
+      target.ends.push(source.ends[at]);
+      at += 1;
+    }
+    cursor = match.index + token.length;
+  }
+  appendRange(target, source, cursor, source.text.length);
+  return target;
+}
+
+function foldLeet(source) {
+  const tokenHasLetter = (index) => {
+    let start = index;
+    let end = index + 1;
+    while (start > 0 && TOKEN_CHAR.test(source.text[start - 1])) start -= 1;
+    while (end < source.text.length && TOKEN_CHAR.test(source.text[end])) end += 1;
+    return /[a-z]/.test(source.text.slice(start, end));
+  };
+  let text = '';
+  for (let index = 0; index < source.text.length; index += 1) {
+    const ch = source.text[index];
+    if (LEET[ch] && tokenHasLetter(index)) text += LEET[ch];
+    else if (ch === '1' && /[a-z]/.test(source.text[index - 1] || '') &&
+      /[a-z]/.test(source.text[index + 1] || '')) text += 'i';
+    else text += ch;
+  }
+  return { text, starts: source.starts, ends: source.ends };
+}
+
+export function normalizeEvidence(value) {
+  const text = String(value ?? '');
   let normalized = '',
     starts = [],
     ends = [],
@@ -18,11 +76,15 @@ export function normalizeEvidence(text) {
     normalized += folded;
     offset += ch.length;
   }
-  // Common evasion in words; leave standalone numbers and phone numbers intact.
-  normalized = normalized.replace(/[a-z][a-z0-9@]*|[0-9@]+[a-z][a-z0-9@]*/g, (word) =>
-    word.replace(/[034@]/g, (c) => ({ 0: 'o', 3: 'e', 4: 'a', '@': 'a' })[c]),
-  );
-  return { text, normalized, starts, ends };
+  const collapsed = collapseSeparators({ text: normalized, starts, ends });
+  const leet = foldLeet(collapsed);
+  return { text, normalized: leet.text, starts: leet.starts, ends: leet.ends };
+}
+
+// Shared by rule evidence, SMS features and dataset matching so the same
+// obfuscated spelling reaches every local layer.
+export function normalizeForMatching(value) {
+  return normalizeEvidence(value).normalized;
 }
 export function evidenceMatches(source, pattern, { activeOnly = false } = {}) {
   const re = new RegExp(pattern.source, pattern.flags.replace(/[gy]/g, '') + 'g'),

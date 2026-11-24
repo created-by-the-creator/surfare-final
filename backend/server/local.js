@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 import { createNodeHandler } from './http-node.js';
 import { detect } from './services/detect.js';
 import { semanticCheck } from './services/semantic.js';
-import { verify } from './services/reputation.js';
+import { verify, checkUrl } from './services/reputation.js';
 import { imageCheck } from './services/image.js';
 import { feedback } from './services/feedback.js';
 import { surfyChat } from './services/surfy.js';
@@ -12,6 +12,7 @@ export function createDetectorServer(environment = () => process.env) {
     ['/api/detect', [detect, 60000]],
     ['/api/assess', [semanticCheck, 60000]],
     ['/api/verify', [verify, 20000]],
+    ['/api/check-url', [checkUrl, 20000]],
     ['/api/image-assess', [imageCheck, 1100000]],
     ['/api/feedback', [feedback, 12000]],
     ['/api/surfy', [surfyChat, 60000]],

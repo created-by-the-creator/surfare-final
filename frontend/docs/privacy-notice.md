@@ -17,13 +17,14 @@ and images stay local for that lookup. URLs and signal excerpts can contain
 personal data, so minimization must not be described as guaranteed anonymity.
 Feedback is submitted through EmailJS only when the user sends the form.
 
-The intended OpenRouter AI and learning features are not implemented in this
-checkout. The notice describes the separate choices they will require rather
-than claiming those features or their privacy controls already exist. Before
-enabling them, present the exact signal payload, selected model and provider,
-retention/training rules, and separate optional permission for personal data
-and feedback reuse. Enforce those permissions on every request; never use the
-seven-item acknowledgment as authorization for these optional purposes.
+AI help is optional and uses the AI providers configured by the deployment,
+which may include Agent Router, OpenRouter or Gemini. The notice describes the
+separate choices these features require rather than claiming provider privacy
+controls have been verified here. Before enabling a provider, present the exact
+signal payload, selected model and provider, retention/training rules, and
+separate optional permission for personal data and feedback reuse. Enforce those
+permissions on every request; never use the seven-item acknowledgment as
+authorization for these optional purposes.
 
 ## Details needed to finalize the legal notice
 
@@ -42,4 +43,5 @@ perfect detection, or perfect security is made by this interface.
 References: [NPC notice guidance](https://privacy.gov.ph/the-right-to-be-informed/),
 [RA 10173](https://privacy.gov.ph/data-privacy-act/),
 [data-subject rights](https://privacy.gov.ph/data-subject-rights/), and
+[Agent Router privacy notice](https://agentrouter.org/privacy) and
 [OpenRouter privacy policy](https://openrouter.ai/privacy).

@@ -97,6 +97,24 @@ describe('analyzeInput', () => {
     }
   });
 
+  it('uses bundled reference lists in a fully offline URL check', async () => {
+    const fetch = vi.spyOn(globalThis, 'fetch');
+
+    try {
+      const result = await analyzeInput(
+        'links',
+        { url: 'https://0-0sc.com/login' },
+        { onlineLookup: false },
+      );
+
+      expect(fetch).not.toHaveBeenCalled();
+      expect(result.level).toBe('high');
+      expect(result.signals.some((signal) => signal.id === 'dataset-url-match')).toBe(true);
+    } finally {
+      fetch.mockRestore();
+    }
+  });
+
   it('uses the same-origin Safe Browsing check for an online URL check', async () => {
     const fetch = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
       if (String(url).includes('/api/check-url')) {

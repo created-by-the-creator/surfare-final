@@ -519,7 +519,6 @@ export default function App() {
             errorKey={errorKey}
             isOnline={isOnline}
             t={t}
-            onReset={reset}
             onReviewText={() => {
               const extracted = result.checkedText;
               reset();

@@ -13,6 +13,8 @@ export const semanticKinds = [
   'remote',
   'personal',
   'scam',
+  'impersonation',
+  'gambling',
   'other',
 ];
 const phrases = {
@@ -28,6 +30,8 @@ const phrases = {
   remote: 'a request for access to your device or account',
   personal: 'a request for private information',
   scam: 'a possible trick to get money or information',
+  impersonation: 'a claim to be a known company or group',
+  gambling: 'gambling winnings or prize-money promises',
   other: 'something that does not look right',
 };
 const messages = {
@@ -43,6 +47,8 @@ const messages = {
   remote: 'The message asks for access to your device or account.',
   personal: 'The message asks for private information.',
   scam: 'The message looks like a trick to get money or information.',
+  impersonation: 'The link or message claims to be from a known company or group.',
+  gambling: 'The link or message promises gambling winnings or a prize payout.',
   other: 'Something in the message does not look right.',
 };
 const bounded = (s, n) => typeof s === 'string' && s.trim().length > 0 && s.length <= n;
