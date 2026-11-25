@@ -312,13 +312,20 @@ export default function App({ shareLaunch = null }) {
 
   const updateInput = useCallback((key, value) => {
     setShareNotice('');
-    if (status === 'result' && (key === 'message' || key === 'url') &&
-        value.trim() !== inputs[key].trim()) {
+    const fileChanged = (key === 'image' || key === 'qr') && value !== inputs[key];
+    const textChanged = (key === 'message' || key === 'url') && value.trim() !== inputs[key].trim();
+    if ((status === 'result' && textChanged) || (fileChanged && ['result', 'edited', 'error'].includes(status))) {
+      checkRunId.current += 1;
       checkUsedRef.current = false;
       setIsCheckUsed(false);
-      setStatus('edited');
+      setStatus(fileChanged ? 'idle' : 'edited');
       setResult(null);
+      setErrorKey('');
       setAskMessages([]);
+      window.clearTimeout(askOpenTimer.current);
+      window.clearTimeout(askCloseTimer.current);
+      setIsAskOpen(false);
+      setIsAskClosing(false);
       askRequestRef.current?.abort();
       askRequestRef.current = null;
       askAnswerQueue.current = [];
@@ -328,6 +335,7 @@ export default function App({ shareLaunch = null }) {
       ...previous,
       [key]: value,
       ...(key === 'image' ? { imageMode: '', imageVisualConsent: false } : {}),
+      ...(key === 'qr' ? { qrValue: '' } : {}),
     }));
     if (key === 'image') {
       setIsImageModeModalOpen(Boolean(value));

@@ -5,13 +5,16 @@ export const OFFLINE_RESOURCES = [
   { url: '/tesseract/worker.min.js', bytes: 111307, sha256: '576b7df7e3393e137e51849357c9adb53fe7ac1bb69bfa06cf3d61520f182c6d' },
   { url: '/tesseract/tesseract-core-simd-lstm.wasm.js', bytes: 3899472, sha256: 'c58b46a4c796c0b8afccf77591d5b875b6896b45d402bbce8caa6f5362447b38' },
   { url: '/tesseract/tesseract-core-simd-lstm.wasm', bytes: 2857601, sha256: '34e8d50cac216427d86bf397d610fdd9f49492539bbcdfbfccc4eda20c810bea' },
-  { url: '/tessdata/eng.traineddata.gz', bytes: 10923060, decodedBytes: 23466654, sha256: 'daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047' },
-  { url: '/tessdata/fil.traineddata.gz', bytes: 1516176, decodedBytes: 2509440, sha256: '1fae58039fcc8f56357579a10a049e25c68e7b08415b82c64fae1df1d01ce15c' },
+  { url: '/tessdata/eng.traineddata.gz', bytes: 10923060, decodedBytes: 23466654, compressedSha256: 'ed350f3752f81ee8f38769edc14d92d997dababe23b565c59879372cc46a2468', sha256: 'daa0c97d651c19fba3b25e81317cd697e9908c8208090c94c3905381c23fc047' },
+  { url: '/tessdata/fil.traineddata.gz', bytes: 1516176, decodedBytes: 2509440, compressedSha256: '7de9316afa4cc6bf408bb4ca2deee86bbf4736553f035d5ebe0d3fe128a4cea6', sha256: '1fae58039fcc8f56357579a10a049e25c68e7b08415b82c64fae1df1d01ce15c' },
 ];
 export const OFFLINE_PACK_BYTES = OFFLINE_RESOURCES.reduce((sum, resource) => sum + resource.bytes, 0);
 export const OFFLINE_STORAGE_BYTES = OFFLINE_RESOURCES.reduce((sum, resource) => sum + (resource.decodedBytes || resource.bytes), 0);
 
 const expectedSizes = (resource) => [resource.bytes, resource.decodedBytes].filter(Boolean);
+// Fetch may expose the original .gz file or transparently decompressed data.
+const expectedHash = (resource, size) => size === resource.bytes && resource.compressedSha256
+  ? resource.compressedSha256 : resource.sha256;
 
 async function sha256(body) {
   const digest = await crypto.subtle.digest('SHA-256', await body.arrayBuffer());
@@ -23,11 +26,12 @@ async function validResponse(response, resource) {
   const knownSize = Number(response.headers.get('x-surfare-bytes') || response.headers.get('content-length'));
   if (!expectedSizes(resource).includes(knownSize)) return false;
   const declared = response.headers.get('x-surfare-sha256');
-  if (declared && declared !== resource.sha256) return false;
+  const hash = expectedHash(resource, knownSize);
+  if (declared && declared !== hash) return false;
   // Verify the cached bytes themselves; a size check alone cannot detect a
   // truncated, replaced, or partially written OCR language file.
   try {
-    return (await sha256(response)) === resource.sha256;
+    return (await sha256(response)) === hash;
   }
   catch {
     return false;
@@ -91,12 +95,13 @@ export async function downloadOfflinePack({ cacheStorage = globalThis.caches, fe
     }
     if (!expectedSizes(resource).includes(current)) throw Error('offline_resource_changed');
     const body = new Blob(chunks);
-    if ((await sha256(body)) !== resource.sha256) throw Error('offline_resource_changed');
+    const hash = expectedHash(resource, current);
+    if ((await sha256(body)) !== hash) throw Error('offline_resource_changed');
     const headers = new Headers(response.headers);
     headers.delete('content-encoding');
     headers.set('content-length', String(current));
     headers.set('x-surfare-bytes', String(current));
-    headers.set('x-surfare-sha256', resource.sha256);
+    headers.set('x-surfare-sha256', hash);
     await cache.put(resource.url, new Response(body, { status: 200, headers }));
     // Progress tracks download bytes, not the larger decoded OCR data.
     loaded += resource.bytes;

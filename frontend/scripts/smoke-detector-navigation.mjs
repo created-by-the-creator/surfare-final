@@ -47,10 +47,27 @@ try {
     await page.locator('input[type="file"]').setInputFiles(path.join(root, 'backend/tests/fixtures/ocr/screenshot.png'));
     await page.locator('.image-mode-confirm').click();
     await finish();
+    await page.locator('.result-ask-button').click();
+    await page.locator('#ask-surfy').waitFor();
+    await page.locator('.selected-file-preview button').click();
+    await switched(2);
+    assert.equal(await page.locator('.selected-file-preview').count(), 0);
+    await page.locator('input[type="file"]').setInputFiles(path.join(root, 'backend/tests/fixtures/ocr/screenshot.png'));
+    await page.locator('.image-mode-confirm').click();
+    await finish();
+    // Replacing a completed image directly also starts a fresh check in this tab.
+    await page.locator('input[type="file"]').setInputFiles(path.join(root, 'backend/tests/fixtures/ocr/screenshot.png'));
+    await page.locator('.image-mode-confirm').click();
+    assert.equal(await tabs.nth(2).getAttribute('aria-selected'), 'true');
+    assert.equal(await page.locator('.check-columns.has-check-result').count(), 0);
+    await finish();
     await tabs.nth(3).click();
     await switched(3);
     await page.locator('input[type="file"]').setInputFiles(path.join(root, 'backend/tests/fixtures/content/tagalog-threat-qr.png'));
     await finish();
+    await page.locator('.selected-file-preview button').click();
+    await switched(3);
+    assert.equal(await page.locator('.qr-decoded').count(), 0);
     await tabs.nth(3).focus();
     await tabs.nth(3).press('Home');
     await switched(0);
@@ -59,7 +76,7 @@ try {
     await page.locator('.tab-panel textarea').fill('Please send your password now.');
     await finish();
     assert.deepEqual(errors, []);
-    records.push({ width, completedChecks: 5, mouseAndKeyboardSwitching: 'passed', staleResultAndChat: 'cleared' });
+    records.push({ width, completedChecks: 7, imageRemovalAndReplacement: 'passed', qrRemoval: 'passed', mouseAndKeyboardSwitching: 'passed', staleResultAndChat: 'cleared' });
     await page.close();
   }
   // Keep the current detector stable while a provider call is still running.
@@ -83,6 +100,8 @@ try {
   await page.locator('.image-mode-confirm').click();
   await page.locator('.check-button').click();
   await page.locator('.image-local-progress').waitFor();
+  assert.equal(await page.locator('.selected-file-preview button').isDisabled(), true);
+  assert.equal(await page.locator('input[type="file"]').isDisabled(), true);
   for (let i = 0; i < 4; i++) assert.equal(await page.getByRole('tab').nth(i).isDisabled(), true);
   release();
   await page.locator('.check-columns.has-check-result .result-panel:not(.check-progress)').waitFor();

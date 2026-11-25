@@ -42,6 +42,10 @@ describe('offline resource pack', () => {
     for (const resource of OFFLINE_RESOURCES) {
       const file = readFileSync(new URL(`../../public${resource.url}`, import.meta.url));
       expect(file.length).toBe(resource.bytes);
+      if (resource.compressedSha256) {
+        const digest = await crypto.subtle.digest('SHA-256', file);
+        expect(Buffer.from(digest).toString('hex')).toBe(resource.compressedSha256);
+      }
       if (resource.decodedBytes) expect(gunzipSync(file).length).toBe(resource.decodedBytes);
       const value = resourceBytes(resource);
       const digest = await crypto.subtle.digest('SHA-256', value);
@@ -116,5 +120,33 @@ describe('offline resource pack', () => {
       expect(cached.headers.get('x-surfare-sha256')).toBe(resource.sha256);
     }
     for (const name of LEGACY_OFFLINE_CACHE_NAMES) expect(cacheStorage.deleted.has(name)).toBe(true);
+  });
+  it('downloads and reuses original gzip files from static hosts', async () => {
+    const cacheStorage = fakeStorage();
+    let requests = 0;
+    const fetcher = async (url) => {
+      requests++;
+      const file = readFileSync(new URL(`../../public${url}`, import.meta.url));
+      return new Response(file, { headers: { 'Content-Type': 'application/octet-stream' } });
+    };
+    expect((await downloadOfflinePack({ cacheStorage, fetcher })).ready).toBe(true);
+    for (const resource of OFFLINE_RESOURCES.filter((item) => item.compressedSha256)) {
+      const cached = cacheStorage.entries.get(resource.url);
+      expect(Number(cached.headers.get('content-length'))).toBe(resource.bytes);
+      expect(cached.headers.get('x-surfare-sha256')).toBe(resource.compressedSha256);
+    }
+    expect((await downloadOfflinePack({ cacheStorage, fetcher })).ready).toBe(true);
+    expect(requests).toBe(OFFLINE_RESOURCES.length);
+  });
+  it('rejects corrupted gzip files even when their size matches', async () => {
+    const cacheStorage = fakeStorage();
+    const fetcher = async (url) => {
+      const file = readFileSync(new URL(`../../public${url}`, import.meta.url));
+      if (url.endsWith('.gz')) file[file.length - 1] ^= 1;
+      return new Response(file);
+    };
+    await expect(downloadOfflinePack({ cacheStorage, fetcher })).rejects.toThrow('offline_resource_changed');
+    expect(cacheStorage.entries.has('/tessdata/eng.traineddata.gz')).toBe(false);
+    expect(cacheStorage.entries.size).toBe(3);
   });
 });

@@ -75,7 +75,8 @@ export default function CheckCard({
     : activeTab === 'text' ? extractUrls(inputs.message).some(url => describeLink(url)?.shortened)
       : Boolean(currentFile) && (activeTab === 'qr' || inputs.imageMode === 'ocr');
   const isReceivingShare = shareNotice === 'share.loading';
-  const isLocked = isCheckUsed || isAnalyzing || isReceivingShare || status === 'result';
+  const isUploadLocked = isAnalyzing || isReceivingShare;
+  const isLocked = isCheckUsed || isUploadLocked || status === 'result';
   const canCheck =
     (activeTab === 'text' && inputs.message.trim().length > 0) ||
     (activeTab === 'links' && inputs.url.trim().length > 0) ||
@@ -116,7 +117,7 @@ export default function CheckCard({
     }
   };
   const selectFile = (file, key) => {
-    if (file && !isLocked) {
+    if (file && !isUploadLocked) {
       onInputChange(key, file);
       if (key === 'qr') onInputChange('qrValue', '');
     }
@@ -250,7 +251,7 @@ export default function CheckCard({
                           onDragOver={(event) => event.preventDefault()}
                           onDrop={(event) => {
                             event.preventDefault();
-                            if (isLocked) return;
+                            if (isUploadLocked) return;
                             selectFile(event.dataTransfer.files?.[0], activeTab);
                           }}
                         >
@@ -267,7 +268,7 @@ export default function CheckCard({
                             type="file"
                             accept="image/png,image/jpeg,image/webp"
                             aria-label={t(activeTab === 'image' ? 'check.image.choose' : 'check.qr.choose')}
-                            disabled={isLocked}
+                            disabled={isUploadLocked}
                             onChange={(event) => {
                               selectFile(event.target.files?.[0], activeTab);
                               event.target.value = '';
@@ -276,9 +277,9 @@ export default function CheckCard({
                           {currentFile && (
                             <FilePreview
                               file={currentFile}
-                              disabled={isLocked}
+                              disabled={isUploadLocked}
                               onRemove={() => {
-                                if (isLocked) return;
+                                if (isUploadLocked) return;
                                 onInputChange(activeTab, null);
                                 if (activeTab === 'qr') onInputChange('qrValue', '');
                               }}
@@ -305,7 +306,7 @@ export default function CheckCard({
                           className="camera-button"
                           type="button"
                           onClick={() => onCamera(activeTab)}
-                          disabled={isLocked}
+                          disabled={isUploadLocked}
                         >
                           <Camera aria-hidden="true" />
                           {t(activeTab === 'image' ? 'check.camera.use' : 'check.qr.scan')}
