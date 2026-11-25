@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-25T05:07:12.000Z",
+  "status": "completed",
+  "http": 200,
+  "provider": "openrouter",
+  "hasAnswer": true,
+  "renderedAnswer": true,
+  "paths": [
+    "/api/surfy"
+  ],
+  "browserErrors": []
+}

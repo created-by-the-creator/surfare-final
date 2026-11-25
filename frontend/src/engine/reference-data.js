@@ -18,6 +18,7 @@ import {
 import { hasGamblingContext } from '../../../backend/lib/gambling-context.js';
 import { matchStoppedLenders, prepareLenderNames } from '../../../backend/lib/lender-reference.js';
 import { sha256Fingerprint } from './sha256.js';
+import { isShortLinkHost } from '../../../backend/lib/short-links.js';
 
 export { SOCIAL_PLATFORM_DOMAINS };
 
@@ -57,7 +58,7 @@ export function matchKnownPhishingHosts(urls) {
   for (const info of Array.isArray(urls) ? urls : []) {
     for (const candidate of hostCandidates(info?.host)) {
       for (const suffix of hostSuffixes(candidate)) {
-        if (verifiedOfficialDomains.has(suffix)) continue;
+        if (verifiedOfficialDomains.has(suffix) || isShortLinkHost(suffix)) continue;
         if (!index.has(sha256Fingerprint(suffix))) continue;
         const key = `${info.url}:${suffix}`;
         if (seen.has(key)) continue;

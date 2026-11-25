@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import {
   Download,
   HelpCircle,
+  LifeBuoy,
   Check,
   ChevronDown,
   FileText,
@@ -16,6 +17,8 @@ import { imageMetadataDetails } from '../engine/image-metadata-display.js';
 import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
 import { localOutcome } from '../engine/result-presentation.js';
 import { linkDescription } from '../engine/link-description.js';
+import LinkDestinationReport from './LinkDestinationReport.jsx';
+import { linkReportLines } from '../engine/link-destination.js';
 import {
   getDisplaySignals,
   getSignalEvidenceItems,
@@ -31,6 +34,7 @@ const LEVEL_KEYS = {
 };
 
 function warningSummary(result, t) {
+  if (result?.destinationWarning) return t('qr.warningSummary');
   const warningCount = getDisplaySignals(result).length;
   if (!warningCount)
     return result?.onlineNoKnownThreat
@@ -55,6 +59,7 @@ function saveReport(result, t, includeContent) {
       ...(result.imageOrigin?.nonClues?.length ? [t('result.imageOrigin.nonClueTitle'), ...result.imageOrigin.nonClues] : []),
     ].filter(Boolean) : [result.usedOnline && !signals.length ? t('result.summary.onlineOnly') : warningSummary(result, t)]),
     ...(result.matchedUrls || []).map(url => t('ask.addressMatch', { url })),
+    ...(includeContent ? linkReportLines(result, t) : []),
     '',
     t('report.warningSigns'),
     ...(signals.length
@@ -64,7 +69,7 @@ function saveReport(result, t, includeContent) {
             .join(', ');
           return `- ${getSignalLabel(signal, t)}${evidence ? ` (${evidence})` : ''}`;
         })
-      : [`- ${t('report.noWarnings')}`]),
+      : [`- ${t(result.destinationWarning ? 'qr.warningSummary' : 'report.noWarnings')}`]),
     '',
     t('report.safeNextStep'),
     result.aiImageOnly ? t(hasImageAiClues(result) ? 'ask.next.aiImageClues' : 'ask.next.aiImageNone') : t(`result.advice.${level}`),
@@ -159,7 +164,7 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText, onAskAboutResult, isAskOpen = false }) {
+export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText, onAskAboutResult, onRecovery, onDestinationResolved, isAskOpen = false }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [selectedSignals, setSelectedSignals] = useState([]);
@@ -199,6 +204,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const nextPointKeys = isImageReview
     ? hasAiClues ? ['result.nextPointAiClues1', 'result.nextPointAiClues2'] : ['result.nextPointAiNone2', 'result.nextPointAiNone3']
     : safetyThreat ? ['check.nextSafety']
+    : result?.loginQr && !warningCount ? ['result.loginQr.next']
     : ({
         low: ['result.nextPointLow1', 'result.nextPointLow2'],
         suspicious: ['result.nextPointSuspicious1', 'result.nextPointSuspicious2'],
@@ -239,9 +245,15 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
     };
   }, [isReportOpen]);
 
+  const hasDestinationLinks = result?.linkPayloads?.some(item => item.type === 'url');
+  const destinationUnresolved = Object.values(result?.linkDestinations || {}).some(report => report.status === 'unresolved');
+  const destinationsChecked = hasDestinationLinks && result.linkPayloads.filter(item => item.type === 'url')
+    .every(item => result.linkDestinations?.[item.url]?.status === 'resolved');
   const stateTitle = showResult
-    ? isImageReview
+    ? result.loginQr && isUnknown && !warningCount ? t('result.loginQr.title') : isImageReview
       ? t(result.summaryKey || 'result.imageOrigin.unclear')
+      : hasDestinationLinks && level === 'unknown' ? t(destinationUnresolved ? 'qr.unresolved' : destinationsChecked
+        ? warningCount ? 'destination.reviewDetails' : 'destination.noWarnings' : 'qr.unchecked')
       : t(linkNeedsVerification ? 'linkInfo.unverifiedTitle' : outcome ? `result.${outcome}.title` : `result.${level}`)
     : status === 'analyzing'
       ? t('result.loading')
@@ -249,7 +261,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
         ? t('result.error')
         : t('result.ready');
   const summary = showResult
-    ? linkNeedsVerification ? t('linkInfo.unverifiedSummary') : isSightengineReview
+    ? result.loginQr && isUnknown && !warningCount ? t('result.loginQr.summary') : result.destinationWarning ? t('qr.warningSummary') : hasDestinationLinks && isUnknown ? t(destinationUnresolved ? 'qr.simple.tryLater' : destinationsChecked ? 'qr.simple.checkedSummary' : 'qr.summary')
+      : linkNeedsVerification ? t('linkInfo.unverifiedSummary') : isSightengineReview
       ? t(result.imageOrigin.summaryKey)
       : isImageReview && result.imageVisualNoteKey && !isOriginReview
         ? t(result.imageVisualNoteKey)
@@ -287,8 +300,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
           <div className="result-cap"><h2>{t('check.inProgress')}</h2></div>
           <div className="check-progress-body" role="status">
             <span className="progress-icon"><LoaderCircle aria-hidden="true" /></span>
-            <h3 id={titleId}>{t(reviewing ? result?.aiImageOnly ? 'result.sightengine.pending' : 'check.progress.ai' : 'result.loading')}</h3>
-            <p>{t(reviewing ? 'check.progress.wait' : 'check.progress.local')}</p>
+            <h3 id={titleId}>{t(result?.destinationPending ? 'destination.checking' : reviewing ? result?.aiImageOnly ? 'result.sightengine.pending' : 'check.progress.ai' : 'result.loading')}</h3>
+            <p>{t(result?.destinationPending ? 'destination.checkingBody' : reviewing ? 'check.progress.wait' : 'check.progress.local')}</p>
             {reviewing && <div className="progress-finished"><Check aria-hidden="true" />{t('check.progress.finished')}</div>}
             {reviewing && result?.aiImageOnly && result.imageMetadata && (
               <section className="image-local-progress" aria-label={t('result.imageMetadata.title')}>
@@ -332,7 +345,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </div>
             </div>
 
-            {showResult && result.linkInfo && <section className="result-link-info" aria-label={t('linkInfo.title')}>
+            {showResult && result.linkInfo && !result.linkInfo.resolvedHost && <section className="result-link-info" aria-label={t('linkInfo.title')}>
               <span>{t(`linkInfo.type.${result.linkInfo.type}`)}</span>
               <p>{linkDescription(result.linkInfo, t)}</p>
               {result.linkInfo.embeddedHosts.length > 0 && <p className="link-info-forward">{t('linkInfo.embedded', { host: result.linkInfo.embeddedHosts.join(', ') })}</p>}
@@ -378,6 +391,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </div>
             )}
             {showResult && result.unsupportedQr && <p className="image-origin-status">{t('result.qrUnsupported')}</p>}
+            {showResult && result.linkPayloads?.length > 0 && <LinkDestinationReport key={result.checkedText}
+              result={result} isOnline={isOnline} onResolved={onDestinationResolved} t={t} />}
             {showResult && result.semanticConflict && <p className="image-origin-status">{t('result.conflictingReviews')}</p>}
             {showResult && result.onlineUnavailable && <p className="image-origin-status">{t('result.reputationIncomplete')}</p>}
             {showResult && result.matchedUrls?.map(url => <p className="image-origin-status" key={url}>{t('ask.addressMatch', { url })}</p>)}
@@ -506,6 +521,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
             )}
           </div>
 
+          {showResult && onRecovery && <div className="recovery-result-entry"><button type="button" className="recovery-result-button" onClick={onRecovery}><LifeBuoy size={18} aria-hidden="true" />{t('recovery.resultAction')}</button></div>}
           <footer className="result-footer">
             <span className="result-team"><ShieldCheck aria-hidden="true" />{t('result.team')}</span>
             {showResult && <div className="report-control" ref={reportPopoverRef}>

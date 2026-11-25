@@ -2,11 +2,13 @@ import { parse } from 'tldts';
 import { normalizeEvidence, evidenceMatches } from './text-evidence.js';
 import { safetySignals } from './safety-signals.js';
 import { scamSignals } from './scam-signals.js';
+import { withoutLoginQrPayloads } from './qr-payload.js';
 import { classifySms } from './sms-model.js';
 import { assessDatasetModels } from './dataset-models.js';
 
 import { normalizeUrl, redirectDestinations, urlCandidates } from './url-input.js';
 import { SOCIAL_PLATFORM_DOMAINS } from './known-platform-domains.js';
+import { hostSkeleton, decodeUrlComponent } from './url-identity.js';
 export { normalizeUrl, extractUrls } from './url-input.js';
 const brands = {
   gcash: ['gcash.com'],
@@ -76,7 +78,8 @@ export function analyzeUrl(raw, context = '') {
     indicators.push({ id, title, message, weight, category: 'link', evidence: [] });
   const domainInSubdomain = Object.values(brands).flat().find((official) =>
     ('.' + (p.subdomain || '') + '.').includes('.' + official + '.'));
-  const signInPath = /\/(?:log-?in|sign-?in|verify|verification|kyc|password|authenticate|account-recovery)(?:[/.\-]|$)/i.test(u.pathname);
+  const decodedPath = decodeUrlComponent(u.pathname);
+  const signInPath = /\/(?:log-?in|sign-?in|verify|verification|kyc|password|authenticate|account-recovery)(?:[/.\-]|$)/i.test(decodedPath);
   if (u.username || u.password)
     add(
       'userinfo',
@@ -125,8 +128,10 @@ export function analyzeUrl(raw, context = '') {
     );
   for (const [brand, valid] of Object.entries(brands)) {
     const mentioned = new RegExp('\\b' + brand + '\\b', 'i').test(context);
+    const brandToken = host.split(/[.-]/).some(token => token === brand ||
+      new RegExp('^(?:(?:secure|security|login|signin|verify|verification|account|support|help|wallet|online|update|service|ph|bank|banking|pay|payment|refund)' + brand + '|' + brand + '(?:secure|security|login|signin|verify|verification|account|support|help|wallet|online|update|service|ph|bank|banking|pay|payment|refund))$').test(token));
     const claimed =
-      host.includes(brand) ||
+      brandToken ||
       (mentioned &&
         /\b(?:verify|login|log in|update|confirm|suspend|deactivat|cancel|password|otp|kyc)\w*/i.test(
           context,
@@ -140,10 +145,10 @@ export function analyzeUrl(raw, context = '') {
           ' but the registered domain is ' +
           domain +
           ', outside its known domains. A third-party reference is also possible.',
-        valid.includes(domainInSubdomain) || (host.includes(brand) && signInPath) ? 4 : 2,
+        valid.includes(domainInSubdomain) || (brandToken && signInPath) ? 4 : 2,
       );
     const label = p.domainWithoutSuffix || '',
-      skeleton = label.replace(/0/g, 'o').replace(/1/g, 'l');
+      skeleton = hostSkeleton(label).replace(/0/g, 'o').replace(/1/g, 'l');
     if (
       brand.length >= 4 &&
       !valid.includes(domain) &&
@@ -175,7 +180,7 @@ export function analyzeUrl(raw, context = '') {
       'The hostname uses account or security language. Verify its registered domain independently.',
       1,
     );
-  if (/\.(?:apk|exe|scr|msi|bat|cmd)$/i.test(u.pathname))
+  if (/\.(?:apk|exe|scr|msi|bat|cmd)$/i.test(decodedPath))
     add(
       'download',
       'Executable download',
@@ -186,6 +191,8 @@ export function analyzeUrl(raw, context = '') {
 }
 
 export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators) {
+  text = withoutLoginQrPayloads(text);
+  explicitUrls = explicitUrls.filter(value => withoutLoginQrPayloads(value).trim());
   const source = normalizeEvidence(text),
     indicators = [...safetySignals(text), ...scamSignals(text)];
   const find = (re, activeOnly = true) => evidenceMatches(source, re, { activeOnly });
@@ -223,7 +230,7 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     /\b(?:urgent|immediately|now|today|within \d+|suspend(?:ed)?|blocked|deactivat\w*|expire\w*|final warning|agad|ngayon|mawawala|iba-block|maba-block|isususpinde)\b/i,
   );
   const payment = find(
-    /\b(?:pay|payment|fee|deposit|transfer|bayad|magbayad|magdeposit|padala|processing|shipping fee|release fee)\b/i,
+    /\b(?:pay|payment|fee|deposit|transfer|send money|bayad|magbayad|magdeposit|magpadala|padala|processing|shipping fee|release fee)\b/i,
   );
   const reward = find(
     /\b(?:won|winner|prize|reward|lottery|panalo|nanalo|premyo|cash prize|giveaway|gift\s*card|congratulations|congrats)\b/i,
@@ -337,7 +344,7 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     );
   const delivery = find(/\b(?:parcel|package|delivery|shipment|pakete|padala)\b/i),
     deliveryIssue = find(
-      /\b(?:failed|held|on hold|incomplete|invalid|undeliverable|kulang|hindi maihatid|customs)\b/i,
+      /\b(?:failed|held|on hold|(?:naka|na)[ -]?hold|incomplete|invalid|undeliverable|kulang|hindi maihatid|customs)\b/i,
     );
   if (delivery.length && deliveryIssue.length && (payment.length || action.length))
     add(
@@ -348,7 +355,7 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
       [...deliveryIssue, ...payment, ...action],
     );
   const changedNumber = find(
-    /\b(?:new number|bagong number|nasira (?:ang )?(?:phone|cp)|lost my phone|ito (?:ang )?bago kong number)\b/i,
+    /\b(?:new (?:phone )?number|replacement number|bagong (?:number|numero)|bago kong (?:number|numero)|nasira (?:ang )?(?:phone|cp)|(?:i )?lost my (?:phone|mobile)|ito (?:ang )?bago kong number)\b/i,
   );
   if (changedNumber.length && payment.length)
     add(
@@ -386,6 +393,31 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     }
     urls.push(a);
   }
+  // A delivery update or wallet alert becomes reviewable when it directs the
+  // recipient away from the service's own site. Ordinary delivery notices,
+  // received-payment alerts and official tracking links do not qualify alone.
+  const courierDomains = ['phlpost.gov.ph', 'jtexpress.ph', 'shopee.ph', 'lazada.com.ph', 'ninjavan.co', 'fedex.com', 'dhl.com', 'ups.com', 'lbc.com.ph', 'lbcexpress.com'];
+  const outside = (domains) => urls.filter(u => !domains.some(domain => u.host === domain || u.host.endsWith('.' + domain)));
+  const parcel = find(/\b(?:parcel|package|delivery|shipment|domestic mail|phlpost|ph postal)\b/i);
+  const parcelUpdate = find(/\b(?:reschedule|re-delivery|redelivery|unverified recipient|verify (?:the )?(?:recipient['’]?s? )?identity|confirm (?:your )?(?:shipping details|address)|update (?:your )?(?:shipping details|address)|paki-update|complete the verification)\b/i);
+  const parcelUrls = outside(courierDomains);
+  if (parcel.length && parcelUpdate.length && parcelUrls.length)
+    add('parcel-update-link', 'Delivery update through an unfamiliar site',
+      'A parcel message asks for verification or changed delivery details through a site outside the listed courier and shopping domains. Check your order in the usual app before acting.',
+      3, [...parcel, ...parcelUpdate, ...parcelUrls.flatMap(u => u.evidence)], 'scam');
+  const wallet = find(/\b(?:g\s*cash|maya|bdo|banco de oro|bpi)\b/i);
+  const accountAlert = find(/\b(?:suspended|locked|restricted|unrecognized login|account security|redeem|claim your cash)\b/i);
+  const walletUrls = outside(Object.values(brands).flat());
+  if (wallet.length && accountAlert.length && walletUrls.length)
+    add('account-alert-link', 'Account alert through an unfamiliar site',
+      'A banking or wallet alert directs you outside the listed official service domains. Open your usual app and check there instead.',
+      3, [...wallet, ...accountAlert, ...walletUrls.flatMap(u => u.evidence)], 'scam');
+  const selectedWork = find(/\b(?:you (?:have been|are) selected|napili ka|selected ka)\b/i);
+  const dailyPay = find(/\b(?:daily salary|daily pay|per day|bawat araw)\b/i);
+  if (selectedWork.length && job.length && dailyPay.length && urls.length)
+    add('unsolicited-work-offer', 'Paid-work selection through an unverified link',
+      'The message says you were selected for paid work and directs you to a link. Verify that you applied and confirm the employer through its own contact before responding.',
+      2, [...selectedWork, ...job, ...dailyPay, ...urls.flatMap(u => u.evidence)], 'scam');
   const reviewedBenign = addReferenceIndicators?.(text, urls, add);
   const datasetModels = assessDatasetModels(text, urls.map((u) => u.url));
   if (datasetModels.text?.flagged && !reviewedBenign)

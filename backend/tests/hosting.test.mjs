@@ -19,55 +19,28 @@ async function vercel(req) {
   await handler({ headers: { host: 'surfare.example' }, url: '/api/verify', ...req }, res);
   return { status, headers, data: JSON.parse(data) };
 }
-test('Vercel GET exposes only configuration status', async () => {
-  const old = process.env.GOOGLE_SAFE_BROWSING_API_KEY;
-  delete process.env.GOOGLE_SAFE_BROWSING_API_KEY;
+test('Vercel URL lookup endpoint is retired for all request types', async () => {
+  const fetcher = globalThis.fetch;
+  let calls = 0;
+  globalThis.fetch = async () => { calls++; throw Error('must not contact providers'); };
   try {
-    const r = await vercel({ method: 'GET' });
-    assert.equal(r.status, 200);
-    assert.deepEqual(r.data, { configured: false });
-  } finally {
-    if (old) process.env.GOOGLE_SAFE_BROWSING_API_KEY = old;
-  }
+    for (const method of ['GET', 'POST']) {
+      const r = await vercel({ method, body: method === 'POST' ? { urls: ['https://example.com/'] } : undefined });
+      assert.equal(r.status, 410);
+      assert.equal(r.data.configured, false);
+      assert.equal(r.data.status, 'unavailable');
+    }
+    assert.equal(calls, 0);
+  } finally { globalThis.fetch = fetcher; }
 });
-test('Vercel POST parses JSON and preserves validation', async () => {
-  const r = await vercel({ method: 'POST', body: { urls: ['javascript:alert(1)'] } });
-  assert.equal(r.status, 400);
-});
-test('Vercel accepts same-origin and blocks cross-origin', async () => {
-  const r = await vercel({
-    method: 'POST',
-    headers: { host: 'surfare.example', origin: 'https://evil.example' },
-    body: { urls: ['https://example.com'] },
-  });
-  assert.equal(r.status, 403);
-});
-test('Vercel returns a mocked provider match without exposing key', async () => {
-  const old = process.env.GOOGLE_SAFE_BROWSING_API_KEY,
-    fetcher = globalThis.fetch;
-  process.env.GOOGLE_SAFE_BROWSING_API_KEY = 'test-only';
-  globalThis.fetch = async () =>
-    Response.json({
-      matches: [{ threat: { url: 'https://example.com/' }, threatType: 'SOCIAL_ENGINEERING' }],
-    });
-  try {
-    const r = await vercel({ method: 'POST', body: { urls: ['https://example.com/'] } });
-    assert.equal(r.status, 200);
-    assert.deepEqual(r.data.results[0].threats, ['SOCIAL_ENGINEERING']);
-    assert(!JSON.stringify(r.data).includes('test-only'));
-  } finally {
-    globalThis.fetch = fetcher;
-    if (old) process.env.GOOGLE_SAFE_BROWSING_API_KEY = old;
-    else delete process.env.GOOGLE_SAFE_BROWSING_API_KEY;
-  }
-});
-test('Cloudflare routes verification and assets independently', async () => {
+
+test('Cloudflare retires verification while retaining asset routing', async () => {
   const api = await worker.fetch(new Request('https://surfare.example/api/verify'), {});
-  assert.deepEqual(await api.json(), { configured: false });
+  assert.equal(api.status, 410);
+  assert.equal((await api.json()).configured, false);
   const asset = await worker.fetch(new Request('https://surfare.example/'), {
     ASSETS: { fetch: async () => new Response('app shell') },
   });
   assert.equal(await asset.text(), 'app shell');
-  const missing = await worker.fetch(new Request('https://surfare.example/api/missing'), {});
-  assert.equal(missing.status, 404);
+  assert.equal((await worker.fetch(new Request('https://surfare.example/api/missing'), {})).status, 404);
 });

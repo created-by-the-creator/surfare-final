@@ -36,6 +36,9 @@ const FILE_AI_LABELS = new Set(['result.imageMetadata.label.declaration', 'resul
 const VISUAL_AI_LABELS = new Set(['result.imageOrigin.strong', 'result.imageOrigin.possible', 'result.imageOrigin.likely', 'result.sightengine.high']);
 
 const NOTE_BY_REASON = {
+  network: 'result.imageMetadata.visualNetwork',
+  service_missing: 'result.imageMetadata.visualRequest',
+  access_denied: 'result.imageMetadata.visualRequest',
   not_configured: 'result.imageMetadata.visualNotConfigured',
   busy: 'result.imageMetadata.visualBusy',
   timeout: 'result.imageMetadata.visualTimeout',
@@ -60,12 +63,22 @@ export function hasImageAiClues(result) {
 
 export async function getImageAiConfig(fetcher = apiFetch) {
   const response = await fetcher(AI_ENDPOINT, { signal: AbortSignal.timeout(8000) });
-  if (!response.ok) return { configured: false, providerId: '' };
+  if (!response.ok) return { configured: false, providerId: '', reason: imageApiFailure(response.status) };
   const data = await response.json();
   return {
     configured: data.configured === true && data.providerId === 'sightengine',
     providerId: data.providerId === 'sightengine' ? data.providerId : '',
   };
+}
+
+function imageApiFailure(status) {
+  if (status === 404) return 'service_missing';
+  if ([401, 403].includes(status)) return 'access_denied';
+  if (status === 413) return 'too_large';
+  if (status === 429) return 'quota';
+  if ([408, 504].includes(status)) return 'timeout';
+  if (status === 409) return 'provider';
+  return 'provider_error';
 }
 
 function bytesToDataUrl(bytes) {
@@ -110,13 +123,15 @@ async function reviewImage(
 ) {
   try {
     const config = await getImageAiConfig(fetcher);
-    if (!config.configured)
+    if (!config.configured) {
+      const reason = config.reason || 'not_configured';
       return {
         status: 'unavailable',
-        reason: 'not_configured',
-        noteKey: NOTE_BY_REASON.not_configured,
+        reason,
+        noteKey: NOTE_BY_REASON[reason] || NOTE_BY_REASON.provider_error,
         errorKey: 'error.image_ai_unavailable',
       };
+    }
     const image = await prepare(file);
     const response = await fetcher(AI_ENDPOINT, {
       method: 'POST',
@@ -139,9 +154,7 @@ async function reviewImage(
       const reason =
         typeof data.reason === 'string' && data.reason
           ? data.reason
-          : response.status === 409
-            ? 'provider'
-            : '';
+          : imageApiFailure(response.status);
       return {
         status: 'unavailable',
         reason,
@@ -153,9 +166,9 @@ async function reviewImage(
     classifyAiGeneratedScore(data.detection?.aiGeneratedScore);
     return { status: 'completed', review: data };
   } catch (error) {
-    if (error?.name === 'TimeoutError')
+    if (['TimeoutError', 'AbortError'].includes(error?.name))
       return { status: 'unavailable', reason: 'timeout', noteKey: NOTE_BY_REASON.timeout, errorKey: ERROR_BY_REASON.timeout };
-    if (error?.message === 'canvas_unavailable')
+    if (['canvas_unavailable', 'capture_failed', 'image_too_large'].includes(error?.message))
       return {
         status: 'unavailable',
         reason: 'canvas',
@@ -164,8 +177,8 @@ async function reviewImage(
       };
     return {
       status: 'unavailable',
-      reason: 'client',
-      noteKey: 'result.imageMetadata.visualUnavailable',
+      reason: error instanceof TypeError ? 'network' : 'client',
+      noteKey: error instanceof TypeError ? NOTE_BY_REASON.network : 'result.imageMetadata.visualUnavailable',
       errorKey: 'error.image_ai_unavailable',
     };
   }
@@ -245,6 +258,7 @@ export function buildImageOriginResult(
     imageOrigin,
     imageMetadata,
     imageVisualStatus: visual.status || (imageOrigin ? 'completed' : 'skipped'),
+    imageVisualReason: visual.reason || '',
     imageVisualNoteKey: visual.noteKey || '',
     aiImageOnly: true,
     mediaInfo,

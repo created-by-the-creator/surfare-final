@@ -1,7 +1,5 @@
-import { inspectImage } from './media.js';
 import { validateImageFile } from './fileValidation.js';
 import { buildImageOriginResult, reviewImageOrigin } from './image-ai.js';
-import { inspectImageMetadata } from './image-metadata.js';
 const VISUAL_NOTE_KEYS = {
   not_configured: 'result.imageMetadata.visualNotConfigured',
   busy: 'result.imageMetadata.visualBusy',
@@ -33,6 +31,7 @@ export async function analyzeInput(
   } else if (tab === 'image' || tab === 'qr') {
     const file = tab === 'image' ? inputs.image : inputs.qr;
     if (tab === 'image' && imageMode === 'origin') {
+      const { inspectImageMetadata } = await import('./image-metadata.js');
       const checked = await validateImageFile(file);
       const imageMetadata = await inspectImageMetadata(file);
       const mediaInfo = { width: checked.width, height: checked.height };
@@ -50,6 +49,7 @@ export async function analyzeInput(
       if (review.status !== 'completed') {
         return buildImageOriginResult(null, mediaInfo, imageMetadata, {
           status: 'unavailable',
+          reason: review.reason,
           noteKey: review.noteKey || VISUAL_NOTE_KEYS[review.reason] || 'result.imageMetadata.visualUnavailable',
         });
       }
@@ -59,11 +59,12 @@ export async function analyzeInput(
       mediaInfo = { text: '', qrValue: inputs.qrValue };
     } else {
       await validateImageFile(file);
+      const { inspectImage } = await import('./media.js');
       mediaInfo = await inspectImage(file, { includeOcr: tab === 'image' });
     }
     const decoded = mediaInfo.qrValues || (mediaInfo.qrValue ? [mediaInfo.qrValue] : []);
     content = [...new Set([...decoded, mediaInfo.text].filter(Boolean))].join('\n');
-    if (tab === 'qr' && !mediaInfo.qrValue) {
+    if (tab === 'qr' && !decoded.length) {
       return {
         level: 'unknown',
         score: 0,

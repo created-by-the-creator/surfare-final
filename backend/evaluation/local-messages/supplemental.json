@@ -1,0 +1,30 @@
+{
+  "scope": "Project-authored synthetic regression cases. These are not real received messages and are reported separately from the 100 corpus examples.",
+  "sourcesForPatterns": [
+    "https://www.bpi.com.ph/about-bpi/news/bpi-reminds-customers-how-to-spot-scams-this-holiday-season",
+    "https://itms.pnp.gov.ph/wp-content/uploads/2020/12/Shipping-Notification-Scam.pdf",
+    "https://www.sec.gov.ph/wp-content/uploads/2024/01/2023ADVISORY_Goshopph-Final.pdf"
+  ],
+  "cases": [
+    { "id": "X001", "label": "scam", "category": "family-new-number", "text": "Ma, bagong number ko ito. Send money now sa GCash para sa emergency ko. Huwag ka nang tumawag." },
+    { "id": "X002", "label": "scam", "category": "family-new-number", "text": "Hi Mum, this is my new number. Please send money now for my hospital bill. I cannot take calls." },
+    { "id": "X003", "label": "scam", "category": "family-new-number", "text": "Pa, nasira ang phone ko. Magpadala ka ng pera ngayon sa wallet ng kaibigan ko, emergency ito." },
+    { "id": "X004", "label": "scam", "category": "family-new-number", "text": "Ate, new number ko. Transfer money to this account now, may kailangan akong bayaran. Text lang muna." },
+    { "id": "X005", "label": "scam", "category": "loan-fee", "text": "Approved na ang loan mo na P20000. Magbayad muna ng processing fee na P500 sa personal GCash ko para ma-release." },
+    { "id": "X006", "label": "scam", "category": "loan-fee", "text": "Your loan is approved. Pay a release fee of P800 before we transfer your money. Send payment to our agent today." },
+    { "id": "X007", "label": "scam", "category": "loan-fee", "text": "Qualified ka sa pautang. Kailangan ng security deposit na P1000 bago ilabas ang cash. Magdeposito sa wallet ng agent." },
+    { "id": "X008", "label": "scam", "category": "loan-fee", "text": "Your P50000 cash loan is ready. Recharge P1500 to activate withdrawals and unlock your approved funds." },
+    { "id": "X009", "label": "scam", "category": "parcel-cod-fee", "text": "PHLPOST: Your parcel is on hold. Pay a P35 redelivery fee at https://parcel-fee.example/claim to avoid return to sender." },
+    { "id": "X010", "label": "scam", "category": "parcel-cod-fee", "text": "Naka-hold ang parcel mo. Magbayad ng P50 handling fee sa personal wallet ko bago ma-deliver ang COD order." },
+    { "id": "X011", "label": "scam", "category": "parcel-cod-fee", "text": "Delivery failed due to an incomplete address. Pay P20 now and enter your bank card details at https://redelivery.example/verify." },
+    { "id": "X012", "label": "scam", "category": "parcel-cod-fee", "text": "Your COD package is held at customs. Send money to our personal GCash account now to release the shipment." },
+    { "id": "X013", "label": "legitimate", "category": "school-announcement", "text": "School announcement: Classes are suspended tomorrow because of heavy rain. Check the official class group for updates. Stay safe." },
+    { "id": "X014", "label": "legitimate", "category": "school-announcement", "text": "Magandang umaga. Ang pagsusulit sa Math ay sa Biyernes, alas nuwebe ng umaga. Dalhin ang lapis at papel." },
+    { "id": "X015", "label": "legitimate", "category": "school-announcement", "text": "Reminder to parents: Our school meeting is on Saturday at 9 AM in Room 3. Please confirm attendance with the class adviser." },
+    { "id": "X016", "label": "legitimate", "category": "school-announcement", "text": "Good afternoon, class. Please submit your science project through the usual school portal before Friday. Ask your teacher if you need help." },
+    { "id": "X017", "label": "legitimate", "category": "family-new-number-control", "text": "Ma, bagong number ko ito. Tawagan mo muna ako sa dati kong number para makumpirma. Walang kailangang ipadala." },
+    { "id": "X018", "label": "legitimate", "category": "delivery-control", "text": "Your Lazada order is out for delivery today. Prepare the exact COD amount shown in your Lazada app. No advance payment is required." },
+    { "id": "X019", "label": "legitimate", "category": "bank-otp-control", "text": "Your bank OTP is 000000 for the login you requested. Never share this code with anyone, including bank staff. This is a synthetic test code." },
+    { "id": "X020", "label": "legitimate", "category": "loan-control", "text": "Your monthly loan statement is available in your usual banking app. Check your payment schedule there. Never send money to a personal account claiming to be our staff." }
+  ]
+}

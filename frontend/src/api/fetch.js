@@ -1,6 +1,6 @@
 import { SURFARE_ORIGIN } from '../../../extension/identity.js';
 
-const SERVICES = new Set(['/api/detect', '/api/check-url', '/api/image-detect', '/api/surfy']);
+const SERVICES = new Set(['/api/detect', '/api/image-detect', '/api/surfy', '/api/recovery-guide', '/api/qr-resolve']);
 export function extensionApiOrigin(value) {
   return [SURFARE_ORIGIN, 'http://127.0.0.1:8790', 'http://localhost:8790'].includes(value) ? value : SURFARE_ORIGIN;
 }

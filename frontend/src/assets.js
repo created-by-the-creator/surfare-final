@@ -7,6 +7,7 @@ export const ASSETS = Object.freeze({
   waveCap: asset('orange-cap.png'),
   appIcon: asset('4.png'),
   surfyPoint: asset('5.png'),
+  surfyLifeguard: asset('surfy-lifeguard.webp'),
   surfyCheer: asset('6.png'),
   surfyTablet: asset('7.png'),
   surfyAlarm: asset('8.png'),

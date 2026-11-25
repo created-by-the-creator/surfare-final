@@ -20,9 +20,23 @@
 .check-section .guide-bubble { width: 100%; max-width: 165px; height: auto; min-height: 44px; margin: 0; padding: 12px; border-radius: 12px; font-size: .875rem; font-weight: 600; line-height: 1.45; white-space: normal; }
 .check-section .guide-bubble::after { top: auto; bottom: -4px; left: calc(50% - 4px); }
 .check-section .guide-mascot { order: 0; width: 180px; max-width: 115%; height: 200px; flex: none; object-fit: contain; object-position: center; }
-.check-section .check-ai-choice { margin: 18px 0 12px; padding: 14px; background: #ffffff80; }
+.check-section .check-ai-control { display: flex; align-items: center; gap: 4px; margin: 18px 0 12px; padding: 0 4px 0 14px; border: 1px solid #0b2a6f20; border-radius: 12px; background: #ffffff80; }
+.check-section .check-ai-control .check-ai-choice { flex: 1; align-items: center; min-width: 0; margin: 0; padding: 10px 0; border: 0; border-radius: 0; background: transparent; }
+.check-section .check-ai-choice input { margin-top: 0; }
 .check-section .check-ai-choice strong { font-size: .875rem; }
-.check-section .check-ai-choice small { font-size: .875rem; line-height: 1.55; color: #52647c; }
+.check-section .check-ai-online { margin-left: auto; padding: 3px 8px; border: 1px solid #d4e2f2; border-radius: 6px; background: #edf3fb; color: #41658d; font-size: .6875rem; font-weight: 500; line-height: 1.4; }
+.check-section .check-ai-details { display: grid; flex: 0 0 auto; width: 40px; height: 44px; place-items: center; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #5d7490; cursor: pointer; }
+.check-section .check-ai-details:hover { color: #244f8d; background: #e8eff8; }
+.check-section .check-ai-details:focus-visible { outline: 2px solid #315f9f; outline-offset: 1px; }
+.check-section .check-ai-explainer { margin: -4px 0 14px; padding: 14px 16px 15px; border: 1px solid #d4e1f0; border-radius: 12px; background: #f3f7fc; color: #425976; }
+.check-section .check-ai-explainer-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 5px; }
+.check-section .check-ai-explainer-heading h3 { margin: 0; color: #28496e; font-family: inherit; font-size: .875rem; font-weight: 600; }
+.check-section .check-ai-explainer-close { display: grid; width: 36px; height: 36px; place-items: center; margin: -6px -6px -4px 0; padding: 0; border: 0; border-radius: 8px; background: transparent; color: #657c96; cursor: pointer; }
+.check-section .check-ai-explainer-close:hover { background: #e3edf8; color: #244f8d; }
+.check-section .check-ai-explainer > p { margin: 0 0 9px; font-size: .8125rem; line-height: 1.65; }
+.check-section .check-ai-explainer > .check-ai-explainer-choice { color: #3b618c; font-size: .75rem; }
+.check-section .check-ai-policy-link { display: inline-flex; align-items: center; gap: 5px; padding: 2px 0; border: 0; background: transparent; color: #315f9f; font-size: .75rem; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.check-section .check-ai-explainer :is(button):focus-visible { outline: 2px solid #315f9f; outline-offset: 3px; }
 .check-section .check-button { min-height: 52px; margin-top: 0; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 600; }
 .check-section .check-title { margin-bottom: 28px; gap: 20px; }
 .check-section .check-title h2 { font-size: clamp(1.75rem, 2.5vw, 2.25rem); }
@@ -101,7 +115,7 @@
   .check-section .check-title .golden-rules > p { flex-basis: 100px; max-width: 100px; font-size: .75rem; }
   .check-section .check-tab { flex-direction: column; gap: 5px; padding: 8px 2px; font-size: .875rem; }
   .check-section .field-group textarea { height: 180px; min-height: 160px; }
-  .check-section .check-ai-choice { padding: 12px; }
+  .check-section .check-ai-control { padding-left: 12px; }
   .check-section .result-panel .result-state-title { font-size: 1.75rem; }
 }
 .check-section .result-content > .result-surfy-help { margin: 0; padding: 18px 24px 24px; border-top: 1px solid #b5d1ef30; }

@@ -1,0 +1,454 @@
+{
+  "provenance": "Hand-authored synthetic scenarios created during development. Not independently collected or human-verified production messages.",
+  "limitations": [
+    "Synthetic development challenge, not independent real-world validation.",
+    "This checks text after extraction; it does not measure OCR accuracy or AI-image provenance.",
+    "No external AI or reputation calls are made. Insufficient evidence remains an abstention, not a safe verdict.",
+    "Candidate model flags are component signals, not predictions of full-app behavior."
+  ],
+  "overall": {
+    "count": 30,
+    "scamCount": 9,
+    "legitimateCount": 18,
+    "spamCount": 3,
+    "tp": 9,
+    "fp": 0,
+    "missedScams": 0,
+    "precision": 1,
+    "recall": 1,
+    "falsePositiveRate": 0,
+    "abstained": 21,
+    "commercialSpamHighRisk": 0
+  },
+  "byLanguage": {
+    "English": {
+      "count": 10,
+      "scamCount": 3,
+      "legitimateCount": 6,
+      "spamCount": 1,
+      "tp": 3,
+      "fp": 0,
+      "missedScams": 0,
+      "precision": 1,
+      "recall": 1,
+      "falsePositiveRate": 0,
+      "abstained": 7,
+      "commercialSpamHighRisk": 0
+    },
+    "Filipino": {
+      "count": 10,
+      "scamCount": 3,
+      "legitimateCount": 6,
+      "spamCount": 1,
+      "tp": 3,
+      "fp": 0,
+      "missedScams": 0,
+      "precision": 1,
+      "recall": 1,
+      "falsePositiveRate": 0,
+      "abstained": 7,
+      "commercialSpamHighRisk": 0
+    },
+    "Taglish": {
+      "count": 10,
+      "scamCount": 3,
+      "legitimateCount": 6,
+      "spamCount": 1,
+      "tp": 3,
+      "fp": 0,
+      "missedScams": 0,
+      "precision": 1,
+      "recall": 1,
+      "falsePositiveRate": 0,
+      "abstained": 7,
+      "commercialSpamHighRisk": 0
+    }
+  },
+  "modelComponents": {
+    "current": {
+      "count": 30,
+      "scamCount": 9,
+      "legitimateCount": 18,
+      "spamCount": 3,
+      "tp": 7,
+      "fp": 7,
+      "missedScams": 2,
+      "precision": 0.5,
+      "recall": 0.7777777777777778,
+      "falsePositiveRate": 0.3888888888888889,
+      "abstained": 8,
+      "commercialSpamHighRisk": 0
+    }
+  },
+  "rows": [
+    {
+      "id": "message-challenge-001",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-002",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-003",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-004",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-005",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-006",
+      "label": "legitimate",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-007",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-008",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-009",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-010",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-011",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-012",
+      "label": "legitimate",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-013",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-014",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-015",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-016",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-017",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-018",
+      "label": "legitimate",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-019",
+      "label": "scam",
+      "language": "English",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "secret",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-020",
+      "label": "scam",
+      "language": "English",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "advance-fee",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-021",
+      "label": "scam",
+      "language": "English",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "investment",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-022",
+      "label": "scam",
+      "language": "Filipino",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "secret",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-023",
+      "label": "scam",
+      "language": "Filipino",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "advance-fee",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-024",
+      "label": "scam",
+      "language": "Filipino",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "investment"
+      ],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-025",
+      "label": "scam",
+      "language": "Taglish",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "secret",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-026",
+      "label": "scam",
+      "language": "Taglish",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "advance-fee",
+        "dataset-text-model"
+      ],
+      "currentModelFlagged": true,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-027",
+      "label": "scam",
+      "language": "Taglish",
+      "level": "Suspicious",
+      "alert": true,
+      "abstained": false,
+      "indicators": [
+        "investment"
+      ],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-028",
+      "label": "spam",
+      "language": "English",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    },
+    {
+      "id": "message-challenge-029",
+      "label": "spam",
+      "language": "Filipino",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": true
+    },
+    {
+      "id": "message-challenge-030",
+      "label": "spam",
+      "language": "Taglish",
+      "level": "Insufficient evidence",
+      "alert": false,
+      "abstained": true,
+      "indicators": [],
+      "currentModelFlagged": false,
+      "currentModelAbstained": false
+    }
+  ]
+}

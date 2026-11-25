@@ -87,7 +87,7 @@ test('default and offline checks require no network or provider keys', async () 
   const offline = await checkContent({ text: normal }, {
     ai: true, reputation: true, provider: 'openrouter', online: false, fetcher: noFetch,
   });
-  assert.equal(offline.assessment.level, 'Insufficient evidence');
+  assert.equal(offline.assessment.level, 'Low risk');
   assert.equal(offline.semantic.status, 'not_checked');
 });
 
@@ -114,60 +114,31 @@ test('explicit AI selection forwards the disclosed provider and validates merged
   assert.equal(result.assessment.level, 'Low risk');
 });
 
-test('invalid provider output and network failure cannot certify benign meaning', async () => {
+test('invalid provider output and network failure preserve the local no-warning verdict', async () => {
   for (const fetcher of [async () => { throw Error('Offline'); }, async () => Response.json({ status: 'completed', analysis: {} })]) {
     const result = await checkContent({ text: normal }, { ai: true, provider: 'openrouter', fetcher });
-    assert.equal(result.assessment.level, 'Insufficient evidence');
+    assert.equal(result.assessment.level, 'Low risk');
     assert.equal(result.assessment.semanticStatus, 'unavailable');
   }
 });
 
-test('selected URL reputation preserves a reported threat and URL query', async () => {
-  const url = 'https://example.com/check?token=test';
-  const result = await checkContent({ text: url, kind: 'link' }, {
-    reputation: true, fetcher: async (endpoint, options) => {
-      assert.equal(endpoint, '/api/verify');
-      assert.deepEqual(JSON.parse(options.body), { urls: [url] });
-      return Response.json({ status: 'completed', results: [{ url, threats: ['SOCIAL_ENGINEERING'] }] });
-    },
+test('legacy reputation option makes no request and preserves local findings', async () => {
+  const result = await checkContent({ text: 'https://example.com/', kind: 'link' }, {
+    reputation: true, fetcher: async () => { throw Error('must not request'); },
   });
-  assert.equal(result.assessment.level, 'High risk');
+  assert.equal(result.verification, null);
+  assert.equal(result.assessment.level, 'Insufficient evidence');
 });
 
-test('reputation helper can report a completed check with no known threat', async () => {
-  const response = await verifyUrls(
-    ['https://paypa1.com'],
-    { GOOGLE_SAFE_BROWSING_API_KEY: 'test-key' },
-    async () => Response.json({ matches: [] }),
-  );
-  const data = await response.json();
-  assert.equal(data.status, 'completed');
-  assert.deepEqual(data.results[0].threats, []);
-});
-
-test('local URL check maps reputation results to the frontend contract', async () => {
-  const request = (body, headers = {}) => new Request('http://127.0.0.1:8790/api/check-url', {
-    method: 'POST', headers: { 'Content-Type': 'application/json', ...headers }, body: JSON.stringify(body),
-  });
-  const unconfigured = await checkUrl(request({ url: 'https://example.com/' }));
-  assert.deepEqual(await unconfigured.json(), { matched: false, unavailable: true });
-  assert.equal((await checkUrl(request({ url: 'javascript:alert(1)' }))).status, 400);
-  assert.equal((await checkUrl(request({ url: 'https://example.com/' }, { origin: 'https://evil.example' }))).status, 403);
-
+test('retired URL lookup helpers never invoke a fetcher', async () => {
+  let calls = 0;
+  const fetcher = async () => { calls++; throw Error(); };
   const env = { GOOGLE_SAFE_BROWSING_API_KEY: 'test-key' };
-  const fetcher = async (url, options) => {
-    assert.match(String(url), /safebrowsing\.googleapis\.com/);
-    assert(!JSON.stringify(options).includes('test-key'));
-    return Response.json({
-      matches: [{ threat: { url: 'https://example.com/' }, threatType: 'SOCIAL_ENGINEERING' }],
-    });
-  };
-  const matched = await checkUrl(request({ url: 'https://example.com/' }), env, fetcher);
-  assert.deepEqual(await matched.json(), { matched: true, unavailable: false });
-
-  const clean = await checkUrl(request({ url: 'https://example.com/' }), env, async () =>
-    Response.json({ matches: [] }));
-  assert.deepEqual(await clean.json(), { matched: false, unavailable: false });
+  const report = await verifyUrls(['https://example.com/'], env, fetcher);
+  assert.equal(report.status, 410);
+  const response = await checkUrl(new Request('http://localhost/api/check-url', { method: 'POST', body: JSON.stringify({ url: 'https://example.com/' }) }), env, fetcher);
+  assert.equal(response.status, 410);
+  assert.equal(calls, 0);
 });
 
 test('image upload helper requires explicit consent before accessing canvas or network', async () => {
@@ -198,22 +169,23 @@ test('standalone HTTP server validates local input and keeps provider services s
     assert.equal(response.status, 200);
     assert.equal((await response.json()).level, 'High risk');
     const forged = await post({ text: normal, verification: { status: 'completed', results: [{ threats: ['MALWARE'] }] } });
-    assert.equal((await forged.json()).level, 'Insufficient evidence');
+    assert.equal((await forged.json()).level, 'Low risk');
     const unverified = await (await post({ text: 'Open https://paypa1.com/login now', online: true }, { origin: base })).json();
-    assert.equal(unverified.onlineVerification.status, 'unavailable');
+    assert.equal(unverified.onlineVerification, undefined);
     assert.ok(unverified.indicators.some((indicator) => /^lookalike[-_]/.test(indicator.id)));
     assert.equal((await post({ text: threat }, { origin: 'https://other.example' })).status, 403);
     assert.equal((await post({ text: '' })).status, 400);
     assert.equal((await post({ text: 'x'.repeat(12001) })).status, 400);
     assert.equal((await post({ text: threat, uncertain: 'false' })).status, 400);
     assert.equal((await post({ text: threat, urls: ['x'.repeat(61000)] })).status, 413);
-    assert.equal((await fetch(base + '/api/verify')).status, 200);
-    assert.deepEqual(await (await fetch(base + '/api/verify')).json(), { configured: false });
+    assert.equal((await fetch(base + '/api/verify')).status, 410);
+    assert.equal((await (await fetch(base + '/api/verify')).json()).configured, false);
     const urlCheck = await fetch(base + '/api/check-url', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: 'https://example.com/' }),
     });
-    assert.deepEqual(await urlCheck.json(), { matched: false, unavailable: true });
+    assert.equal(urlCheck.status, 410);
+    assert.equal((await urlCheck.json()).unavailable, true);
     const ai = await fetch(base + '/api/assess', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: normal, kind: 'message', consent: true, provider: 'openrouter' }),

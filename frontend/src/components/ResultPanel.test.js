@@ -27,7 +27,17 @@ it('puts message review before advice and Ask Surfy after every other result act
   expect(html).not.toContain(t('ask.review.completed'));
 });
 
-it('reports a completed no-match local check without calling the message unsafe or low risk', () => {
+it('shows low risk and a verification reminder for a completed no-warning message', () => {
+  const t = (key, values) => translate('en', key, values);
+  const result = { level: 'low', checkedText: 'Our meeting is tomorrow at four.', signals: [], aiReview: { status: 'not_checked' } };
+  const html = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t }));
+  expect(html).toContain(t('result.low'));
+  expect(html).toContain(t('result.nextPointLow1'));
+  expect(html).not.toContain('treat it as unsafe');
+  expect(html).toContain('meter-position-low');
+});
+
+it('preserves a legacy no-warning result description without calling the message unsafe', () => {
   const t = (key, values) => translate('en', key, values);
   const result = { level: 'unknown', checkedText: 'Our meeting is tomorrow at four.', signals: [], aiReview: { status: 'not_checked' } };
   const html = renderToStaticMarkup(createElement(ResultPanel, { status: 'result', result, t }));

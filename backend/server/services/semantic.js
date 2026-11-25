@@ -1,4 +1,5 @@
 import { generateStructured } from '../providers/structured.js';
+import { isPrivateQrPayload } from '../../lib/qr-payload.js';
 import {
   semanticKinds,
   semanticLevels,
@@ -13,6 +14,7 @@ Classify the danger represented by the message as received. Direct or credibly i
 Assess the requested action and its context, not just topic words. Commercial promotions, loan offers, gambling mentions, delivery notices, genuine OTP notifications and ordinary money conversations are not automatically scams. Distinguish an instruction never to share an OTP from a request to disclose it. A notification containing a code is different from someone asking for the code. Treat quoted scam examples in clear safety advice as advice, unless the sender also asks the recipient to act on the scam.
 Look for advance fees to release a loan or prize; deposits or recharges to unlock task-job earnings; fake automatic renewals directing the user to cancel through an unverified link; government-benefit claims through unrelated contacts; prepaid-load dial codes presented as rewards; and promises to control gambling winnings. A benign-sounding first payment or easy-income recruitment can be a lure, but do not invent a later deposit demand that is not in the message. Understand obfuscated Taglish spellings without changing the exact evidence quotes.
 Do not claim that a domain is malicious from a name, HTTPS, a top-level domain, or a brand mention alone. Links, sender identity, licenses and eligibility are unverified. If suspicious intent is ambiguous, explain what must be independently checked rather than asserting fraud. Avoid flagging a legitimate reminder merely because it mentions a bank, deadline, payment or delivery.
+A shortening service or an unresolved destination is not, by itself, evidence of fraud. Never return Suspicious or High risk solely because a link is shortened.
 For a link, report only exact, contiguous URL substrings that support a warning: a brand name in the wrong host or subdomain, misspellings or look-alike letters, an unrelated brand combined with account, login or payment words, prize or gambling promises, bonus or cash-in demands, requests for OTP, password or card details, and shortened or redirected links paired with urgency. Use the impersonation or gambling finding kinds when those cues are actually present. Never call a link legitimate, official, verified, or safe; say what must be checked independently. Do not infer ownership, licences, PAGCOR registration, or gambling legality from the domain name alone.
 Use Low risk only when you can understand the text as an ordinary benign message and find no concerning meaning. Use Insufficient evidence when context, language or text quality prevents assessment. Low risk is not a safety guarantee. Threats reported or quoted by a recipient may still represent a real dangerous situation; do not dismiss them just because they are quoted.
 Return JSON following the schema. Choose the level and the smallest set of findings needed. Findings must quote exact, contiguous text from the original submission, preserving its spelling and case. Limit findings to four distinct issues. The app rebuilds all user-facing wording from the selected kind and the exact quote, so do not use summary, recommendation or explanation to add claims that are not present in the quoted text. Keep those fields short and generic. Do not output numeric probabilities. A High risk or Suspicious verdict requires at least one grounded finding; Low risk requires no findings. Do not invent sender identity, a specific method of harm absent from the wording, website reputation, or real-world verification. Do not output telephone or hotline numbers; recommend local emergency services without a number.`;
@@ -99,6 +101,8 @@ export async function semanticCheck(request, env, fetcher = fetch) {
       },
       400,
     );
+  if (isPrivateQrPayload(body.text))
+    return json({ status: 'not_checked', message: 'Private QR data is checked locally only.' });
   if (!config.configured)
     return json(
       {

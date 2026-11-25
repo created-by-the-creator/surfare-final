@@ -77,8 +77,13 @@ export default defineConfig({
         // Receipt IDs select local data, not a different app shell.
         ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^shared$/, /^shareError$/],
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json,gz,wasm}'],
-        globIgnores: ['tesseract/**', 'tessdata/**'],
+        // The 9 MB Content Credentials runtime is downloaded on first image use.
+        globIgnores: ['tesseract/**', 'tessdata/**', '**/*.wasm'],
         runtimeCaching: [{
+          urlPattern: ({ url, sameOrigin }) => sameOrigin && url.pathname.startsWith('/assets/') && url.pathname.endsWith('.wasm'),
+          handler: 'CacheFirst',
+          options: { cacheName: 'surfare-image-tools-v1', cacheableResponse: { statuses: [200] } },
+        }, {
           urlPattern: ({ url, sameOrigin }) => sameOrigin && /^\/(?:tesseract|tessdata)\//.test(url.pathname),
           handler: 'CacheFirst',
           options: { cacheName: OFFLINE_CACHE_NAME, cacheableResponse: { statuses: [200] } },

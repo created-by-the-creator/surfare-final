@@ -1,10 +1,12 @@
 import { analyzePatterns } from '../../../backend/lib/pattern-detection.js';
-import { normalizeUrl } from '../../../backend/lib/url-input.js';
-import { isPrivateQrPayload, isUnsupportedQrPayload } from '../../../backend/lib/qr-payload.js';
+import { isPrivateQrPayload, isUnsupportedQrPayload, isLoginQrPayload } from '../../../backend/lib/qr-payload.js';
 import { groundSignals } from './signal-display.js';
 import { apiFetch } from '../api/fetch.js';
 import { addBrowserReferenceIndicators } from './reference-indicators.js';
 import { describeLink } from './link-description.js';
+import { qrPayloads as describeQrPayloads, describeQrPayload } from '../../../backend/lib/qr-links.js';
+import { extractUrls } from '../../../backend/lib/url-input.js';
+import { automaticallyResolveLinks, mergeLinkResolution } from './link-destination.js';
 
 const LEVELS = { 'High risk': 'high', Suspicious: 'suspicious', 'Low risk': 'low', 'Insufficient evidence': 'unknown' };
 const ADVISORY = new Set(['dataset-text-model', 'dataset-url-model']);
@@ -45,43 +47,30 @@ async function fetchDetector(input) {
   return null;
 }
 
-async function lookupUrl(url) {
-  const endpoints = ['/api/check-url'];
-  if (import.meta.env.VITE_WORKER_URL) endpoints.push(import.meta.env.VITE_WORKER_URL.replace(/\/$/, '') + '/check-url');
-  for (const endpoint of endpoints) {
-    try {
-      const response = await (endpoint.startsWith('/') ? apiFetch : fetch)(endpoint, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url }), signal: AbortSignal.timeout(3000),
-      });
-      if (!response.ok) continue;
-      const data = await response.json();
-      if (!data.unavailable && typeof data.matched === 'boolean') return { url, matched: data.matched };
-    } catch { /* Try the configured backup, if available. */ }
-  }
-  return { url, unavailable: true };
-}
-
-function normalized(raw) {
-  try { return normalizeUrl(raw).href; } catch { return ''; }
-}
-
 export async function checkExtractedContent(tab, content, mediaInfo, { onlineLookup, ai, onLocalResult }) {
   if (content.length > 12000) return { level: 'unknown', errorKey: 'result.tooLong', checkedText: content, mediaInfo, signals: [] };
   const kind = { links: 'link', text: 'message', image: 'image', qr: 'qr' }[tab];
   const qrValues = mediaInfo?.qrValues || (mediaInfo?.qrValue ? [mediaInfo.qrValue] : []);
-  const privateQr = isPrivateQrPayload(content) || qrValues.some(isPrivateQrPayload);
-  const unsupportedQr = isUnsupportedQrPayload(content) || qrValues.some(isUnsupportedQrPayload);
+  const payloads = describeQrPayloads(qrValues);
+  const loginQr = isLoginQrPayload(content) || qrValues.some(isLoginQrPayload);
+  const privateQr = isPrivateQrPayload(content) || qrValues.some(isPrivateQrPayload) || payloads.some(item => item.type === 'url' && item.blocked);
+  const unsupportedQr = isUnsupportedQrPayload(content) || qrValues.some(isUnsupportedQrPayload) || payloads.some(item => item.type === 'unsupported');
   const local = analyzePatterns(
     content,
     tab === 'links' ? [content] : [],
     addBrowserReferenceIndicators,
   );
   const urls = local.urls.map(item => item.url).filter(url => url.length <= 2048);
+  const detectedLinks = !qrValues.length && ['links', 'text', 'image'].includes(tab)
+    ? [...new Set(tab === 'links' ? [content] : extractUrls(content))].map(describeQrPayload)
+      .filter(item => item.type === 'url' && (tab === 'links' || item.urlType === 'shortened')) : payloads;
   const base = {
+    ...(detectedLinks.length ? { linkPayloads: detectedLinks, destinationContext: qrValues.length ? 'qr' : tab } : {}),
     ...(tab === 'links' ? { linkInfo: describeLink(content) } : {}),
-    checkedText: content, mediaInfo, privateQr, unsupportedQr, score: local.score,
-    level: local.level === 'Low risk' ? 'unknown' : LEVELS[local.level],
+    checkedText: content, mediaInfo, privateQr, unsupportedQr, loginQr, score: local.score,
+    level: local.level === 'Low risk' && (tab === 'links' || privateQr || unsupportedQr || mediaInfo?.uncertainExtraction ||
+      (urls.length > 0 && content.trim().split(/\s+/).length < 4))
+      ? 'unknown' : LEVELS[local.level],
     signals: displayIndicators(local.indicators, content), summaryKey: 'summary_local',
     usedOnline: false, onlineNoKnownThreat: false, onlineUnavailable: false,
     aiReview: { status: 'not_checked' },
@@ -93,35 +82,27 @@ export async function checkExtractedContent(tab, content, mediaInfo, { onlineLoo
     ], content) };
   }
   if (!onlineLookup || privateQr) return base;
-  if (ai) onLocalResult?.({ ...base, aiReview: { status: 'pending' } });
+  const needsDestinations = detectedLinks.some(item => item.type === 'url' && !item.blocked && (item.urlType === 'shortened' || tab === 'links'));
+  let withDestinations = base;
+  if (needsDestinations) {
+    onLocalResult?.({ ...base, destinationPending: true });
+    withDestinations = await automaticallyResolveLinks(base);
+  }
+  if (!ai) return withDestinations;
+  onLocalResult?.({ ...withDestinations, destinationPending: false, aiReview: { status: 'pending' } });
+  // Only the explicit AI choice sends text to OpenRouter/Gemini.
   const detector = await fetchDetector({
-    kind, text: content, urls, online: true, uncertain: Boolean(mediaInfo?.uncertainExtraction),
-    ...(ai ? { ai: true, consent: true } : {}),
+    kind, text: content, urls, uncertain: Boolean(mediaInfo?.uncertainExtraction),
+    ai: true, consent: true,
   });
-  const report = detector?.onlineVerification;
-  const checks = (report?.status === 'completed' && Array.isArray(report.results) ? report.results : [])
-    .filter(row => typeof row?.url === 'string' && Array.isArray(row.threats))
-    .map(row => ({ url: row.url, matched: row.threats.length > 0 }));
-  const checked = new Set(checks.map(row => normalized(row.url)));
-  const missing = urls.filter(url => !checked.has(url));
-  checks.push(...await Promise.all(missing.map(lookupUrl)));
-  const matches = checks.filter(row => row.matched);
-  const reputationSignals = matches.map(row => ({
-    id: 'online_match', weight: 8, severity: 3,
-    evidenceItems: local.urls.find(item => item.url === normalized(row.url))?.evidence || [{ text: row.url }],
-  }));
-  const onlineUnavailable = checks.some(row => row.unavailable);
-  const result = detector ? {
-    ...base, level: LEVELS[detector.level], score: Number(detector.score) || 0,
+  if (!detector) return { ...withDestinations, aiReview: { status: 'unavailable' } };
+  const reviewed = {
+    ...base, level: detector.level === 'Low risk' && base.linkPayloads?.some(item => item.type === 'url')
+      ? 'unknown' : LEVELS[detector.level], score: Number(detector.score) || 0,
     signals: displayIndicators(detector.indicators, content),
     semanticConflict: Boolean(detector.semanticConflict), unsupportedQr: unsupportedQr || Boolean(detector.unsupportedQr),
     detectorSummary: detector.summary, detectorRecommendation: detector.recommendation,
-  } : base;
-  return {
-    ...result, ...(matches.length ? { level: 'high', summaryKey: 'summary_online', score: Math.max(8, result.score) } : {}),
-    signals: [...result.signals, ...groundSignals(reputationSignals, content)],
-    matchedUrls: matches.map(row => row.url), usedOnline: matches.length > 0, onlineUnavailable,
-    onlineNoKnownThreat: checks.length > 0 && !onlineUnavailable && !matches.length,
-    aiReview: detector?.aiReview || { status: ai ? 'unavailable' : 'not_checked' },
+    aiReview: detector.aiReview || { status: 'unavailable' },
   };
+  return Object.values(withDestinations.linkDestinations || {}).reduce(mergeLinkResolution, reviewed);
 }

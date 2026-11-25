@@ -219,3 +219,31 @@ describe('image AI review', () => {
     expect(result.errorKey).toBe('error.image_ai_busy');
   });
 });
+
+
+it.each([[404, 'service_missing'], [403, 'access_denied'], [429, 'quota'], [504, 'timeout'], [503, 'provider_error']])('preserves configuration failure HTTP %s without uploading an image', async (http, reason) => {
+  const fetcher = vi.fn(async () => new Response('service unavailable', { status: http }));
+  const prepare = vi.fn();
+  const result = await reviewImageOrigin('file', { fetcher, prepare });
+  expect(result.status).toBe('unavailable');
+  expect(result.reason).toBe(reason);
+  expect(prepare).not.toHaveBeenCalled();
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});
+
+it('distinguishes a lost connection from missing provider configuration', async () => {
+  const result = await reviewImageOrigin('file', { fetcher: async () => { throw new TypeError('Failed to fetch'); } });
+  expect(result.reason).toBe('network');
+  expect(result.noteKey).toBe('result.imageMetadata.visualNetwork');
+  const stored = buildImageOriginResult(null, null, { labelKey: 'result.imageMetadata.label.none' }, result);
+  expect(stored.imageVisualReason).toBe('network');
+});
+
+it('uses the HTTP status when an image upload failure has no JSON error body', async () => {
+  const result = await reviewImageOrigin('file', {
+    fetcher: async (_url, options = {}) => options.method === 'POST' ? new Response('upstream timeout', { status: 504 }) : Response.json({ configured: true, providerId: 'sightengine' }),
+    prepare: async () => 'data:image/jpeg;base64,/9j/AA==',
+  });
+  expect(result.reason).toBe('timeout');
+  expect(result.noteKey).toBe('result.imageMetadata.visualTimeout');
+});

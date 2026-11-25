@@ -1,0 +1,1080 @@
+{
+  "datasetSha256": "b876a1856adee8251d8572fb2b19d14a337ad6d37859086312ab9c3a243d0e35",
+  "scope": "Development regression set: 50 corpus-labeled scams and 50 corpus-labeled legitimate messages. Not an independent accuracy benchmark; source corpora overlap training/reference data. Text is redacted; source labels can be noisy.",
+  "total": 100,
+  "scams": {
+    "total": 50,
+    "caught": 29,
+    "missed": 21,
+    "calledLowRisk": 0
+  },
+  "legitimate": {
+    "total": 50,
+    "falseAlarms": 0,
+    "lowRisk": 0,
+    "uncertain": 50
+  },
+  "results": [
+    {
+      "id": "S001",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S002",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S003",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S004",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S005",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S006",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S007",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "shortener"
+      ]
+    },
+    {
+      "id": "S008",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "delivery",
+        "http"
+      ]
+    },
+    {
+      "id": "S009",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S010",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S011",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S012",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S013",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "delivery",
+        "http",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S014",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": [
+        "http"
+      ]
+    },
+    {
+      "id": "S015",
+      "label": "scam",
+      "category": "parcel-delivery",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "shortener",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S016",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "pressure",
+        "brand-gcash",
+        "lure"
+      ]
+    },
+    {
+      "id": "S017",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S018",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "pressure",
+        "brand-bdo",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S019",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "high",
+      "warned": true,
+      "signals": [
+        "otp_request",
+        "brand-bdo",
+        "lure"
+      ]
+    },
+    {
+      "id": "S020",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "shortener",
+        "brand-bdo",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S021",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S022",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-bdo"
+      ]
+    },
+    {
+      "id": "S023",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-bdo"
+      ]
+    },
+    {
+      "id": "S024",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-bdo"
+      ]
+    },
+    {
+      "id": "S025",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S026",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S027",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S028",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S029",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "pressure",
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S030",
+      "label": "scam",
+      "category": "account-lock-phishing",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "S031",
+      "label": "scam",
+      "category": "task-job",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "task-recruitment",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S032",
+      "label": "scam",
+      "category": "task-job",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S033",
+      "label": "scam",
+      "category": "task-job",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S034",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": [
+        "http"
+      ]
+    },
+    {
+      "id": "S035",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S036",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S037",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S038",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S039",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S040",
+      "label": "scam",
+      "category": "task-job",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S041",
+      "label": "scam",
+      "category": "prize",
+      "level": "high",
+      "warned": true,
+      "signals": [
+        "pressure",
+        "advance-fee",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S042",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S043",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "gambling-signup-offer",
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S044",
+      "label": "scam",
+      "category": "prize",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "S045",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S046",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S047",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S048",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S049",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "S050",
+      "label": "scam",
+      "category": "prize",
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "L001",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L002",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L003",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L004",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L005",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L006",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L007",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L008",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L009",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L010",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L011",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L012",
+      "label": "legitimate",
+      "category": "otp-security",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L013",
+      "label": "legitimate",
+      "category": "shopping-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L014",
+      "label": "legitimate",
+      "category": "shopping-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L015",
+      "label": "legitimate",
+      "category": "shopping-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L016",
+      "label": "legitimate",
+      "category": "shopping-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L017",
+      "label": "legitimate",
+      "category": "shopping-delivery",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L018",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L019",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L020",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L021",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L022",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L023",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L024",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L025",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L026",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L027",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L028",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L029",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L030",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L031",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L032",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L033",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L034",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L035",
+      "label": "legitimate",
+      "category": "ordinary-notice",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L036",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L037",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L038",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L039",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L040",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L041",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L042",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L043",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L044",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L045",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L046",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L047",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L048",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L049",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    },
+    {
+      "id": "L050",
+      "label": "legitimate",
+      "category": "school-family-work",
+      "level": "unknown",
+      "warned": false,
+      "signals": []
+    }
+  ],
+  "supplemental": {
+    "scope": "Project-authored synthetic regression cases. These are not real received messages and are reported separately from the 100 corpus examples.",
+    "results": [
+      {
+        "id": "X001",
+        "label": "scam",
+        "category": "family-new-number",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X002",
+        "label": "scam",
+        "category": "family-new-number",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X003",
+        "label": "scam",
+        "category": "family-new-number",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X004",
+        "label": "scam",
+        "category": "family-new-number",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "new-number"
+        ]
+      },
+      {
+        "id": "X005",
+        "label": "scam",
+        "category": "loan-fee",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "loan-fee"
+        ]
+      },
+      {
+        "id": "X006",
+        "label": "scam",
+        "category": "loan-fee",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "loan-fee"
+        ]
+      },
+      {
+        "id": "X007",
+        "label": "scam",
+        "category": "loan-fee",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "loan-fee",
+          "sms-pattern"
+        ]
+      },
+      {
+        "id": "X008",
+        "label": "scam",
+        "category": "loan-fee",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "loan-fee"
+        ]
+      },
+      {
+        "id": "X009",
+        "label": "scam",
+        "category": "parcel-cod-fee",
+        "level": "suspicious",
+        "warned": true,
+        "signals": [
+          "delivery"
+        ]
+      },
+      {
+        "id": "X010",
+        "label": "scam",
+        "category": "parcel-cod-fee",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X011",
+        "label": "scam",
+        "category": "parcel-cod-fee",
+        "level": "high",
+        "warned": true,
+        "signals": [
+          "pressure",
+          "delivery",
+          "sms-pattern"
+        ]
+      },
+      {
+        "id": "X012",
+        "label": "scam",
+        "category": "parcel-cod-fee",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X013",
+        "label": "legitimate",
+        "category": "school-announcement",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X014",
+        "label": "legitimate",
+        "category": "school-announcement",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X015",
+        "label": "legitimate",
+        "category": "school-announcement",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X016",
+        "label": "legitimate",
+        "category": "school-announcement",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X017",
+        "label": "legitimate",
+        "category": "family-new-number-control",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X018",
+        "label": "legitimate",
+        "category": "delivery-control",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X019",
+        "label": "legitimate",
+        "category": "bank-otp-control",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      },
+      {
+        "id": "X020",
+        "label": "legitimate",
+        "category": "loan-control",
+        "level": "unknown",
+        "warned": false,
+        "signals": []
+      }
+    ]
+  }
+}

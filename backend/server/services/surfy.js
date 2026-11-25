@@ -41,7 +41,7 @@ export async function surfyChat(request, env = {}, fetcher = fetch) {
     || !bounded(result.explanation, 4000))) return json({ status: 'unavailable' }, 400);
   if (!aiProviders(env).length) return json({ status: 'unavailable' }, 503);
   const generated = await generateWithBackup({
-    env, instruction: surfyInstruction, schema, name: 'surfy_reply', maxTokens: 1400, timeoutMs: 12000, fetcher,
+    env, instruction: surfyInstruction, schema, name: 'surfy_reply', maxTokens: 1400, timeoutMs: 25000, fetcher,
     input: JSON.stringify({ language: body.language, question: body.question, history: body.history.map(({ role, content }) => ({ role, content })),
       result: result ? { level: result.level, checkedText: result.checkedText, findings: result.findings.map(({ reason, evidence }) => ({ reason, evidence })), explanation: result.explanation } : null }),
     validate: (value) => { if (!bounded(value?.answer, 3000) || !value.answer.trim()) throw Error('Invalid reply'); },

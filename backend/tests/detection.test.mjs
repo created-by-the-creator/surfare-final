@@ -119,28 +119,14 @@ const req = (body) =>
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-test('no key is unavailable, never safe', async () =>
-  assert.equal((await verify(req({ urls: ['https://example.com'] }), {})).status, 503));
-test('malicious scheme refused', async () =>
-  assert.equal((await verify(req({ urls: ['file:///etc/passwd'] }), {})).status, 400));
-test('provider threat mapped', async () => {
-  const r = await verify(
-    req({ urls: ['https://example.com/'] }),
-    { GOOGLE_SAFE_BROWSING_API_KEY: 'test' },
-    async () =>
-      Response.json({
-        matches: [{ threat: { url: 'https://example.com/' }, threatType: 'SOCIAL_ENGINEERING' }],
-      }),
-  );
-  assert.deepEqual((await r.json()).results[0].threats, ['SOCIAL_ENGINEERING']);
-});
-test('provider failure does not claim safety', async () => {
-  const r = await verify(
-    req({ urls: ['https://example.com/'] }),
-    { GOOGLE_SAFE_BROWSING_API_KEY: 'test' },
-    async () => new Response('', { status: 429 }),
-  );
-  assert.equal((await r.json()).status, 'unavailable');
+test('retired URL verification never contacts a provider, even with a key', async () => {
+  let calls = 0;
+  for (const urls of [['https://example.com/'], ['file:///private']]) {
+    const r = await verify(req({ urls }), { GOOGLE_SAFE_BROWSING_API_KEY: 'test' }, async () => { calls++; throw Error(); });
+    assert.equal(r.status, 410);
+    assert.equal((await r.json()).status, 'unavailable');
+  }
+  assert.equal(calls, 0);
 });
 
 // Regression: text actually recovered by OCR from the reported gift-card image.
@@ -288,8 +274,8 @@ test('evaluation counts false positives and missed scams transparently', () => {
   assert.equal(r.overall.tp, 1);
   assert.equal(r.overall.fp, 1);
   assert.equal(r.overall.fn, 1);
-  assert.equal(r.overall.tn, 0);
-  assert.equal(r.overall.abstain, 2);
+  assert.equal(r.overall.tn, 1);
+  assert.equal(r.overall.abstain, 1);
   assert.equal(r.overall.precision, 0.5);
   assert.equal(r.overall.recall, 0.5);
 });

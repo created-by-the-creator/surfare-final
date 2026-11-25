@@ -1,0 +1,17 @@
+{
+  "status": "resolved",
+  "original": "https://www.github.com/openai",
+  "finalDestination": "https://github.com/openai",
+  "redirectCount": 1,
+  "riskLevel": "Insufficient evidence",
+  "chain": [
+    {
+      "url": "https://www.github.com/openai",
+      "httpStatus": 301
+    },
+    {
+      "url": "https://github.com/openai",
+      "httpStatus": 200
+    }
+  ]
+}

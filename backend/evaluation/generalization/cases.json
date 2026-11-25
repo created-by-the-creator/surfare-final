@@ -1,0 +1,938 @@
+{
+  "version": 1,
+  "provenance": "Synthetic development challenge authored before this round of rule changes. Includes the existing authored message challenge. Not independently collected data, not model accuracy, and not an unseen external holdout. URL labels describe reviewable structure, not verified malicious sites. No URL is visited.",
+  "messages": [
+    {
+      "id": "message-challenge-001",
+      "label": "legitimate",
+      "language": "English",
+      "text": "A sign-in was requested on your device. Use code 735162 in that sign-in screen. Our staff will never ask you for this code.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-002",
+      "label": "legitimate",
+      "language": "English",
+      "text": "The courier has your prepaid package. No additional transfer is needed. Track it using your existing order history.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-003",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Your card payment of 219 pesos was received. This is a receipt, and no reply or action is required.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-004",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Please send your share of the dinner bill after checking the receipt we already discussed.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-005",
+      "label": "legitimate",
+      "language": "English",
+      "text": "The school scholarship committee will interview shortlisted students on Friday. There is no application fee.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-006",
+      "label": "legitimate",
+      "language": "English",
+      "text": "Do not follow messages saying you won a prize and must pay a fee. Report them through the official support channel.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-007",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "May humiling na mag-sign in sa app mo. Ang code ay 735162 at hindi ito dapat sabihin sa tumatawag.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-008",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Natanggap na ang bayad mong 219 piso. Resibo lamang ito at wala kang kailangang sagutin.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-009",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Handa na ang dokumento mo sa opisina. Dalhin ang resibo ng dati mong binayaran sa pagkuha nito.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-010",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Sa Biyernes ang panayam para sa scholarship. Walang sinisingil na aplikasyon ang paaralan.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-011",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "May mga manlolokong nagsasabing may premyo ka. Huwag magbayad ng hinihingi nilang release fee.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-012",
+      "label": "legitimate",
+      "language": "Filipino",
+      "text": "Huwag ibahagi ang PIN mo kahit magpakilalang taga bangko ang kausap. Tumawag sa numerong nasa card mo.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-013",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Your payment went through, salamat. Receipt lang ito at no action needed from you.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-014",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Prepaid na yung parcel mo. Walang extra fee, check mo sa existing order page if needed.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-015",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Confirmed ang scholarship interview sa Friday. No application payment is required.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-016",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "May alert ako about prize scams. If someone asks for a release fee, huwag mong bayaran.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-017",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Keep your PIN private kahit bank staff daw sila. Use the number printed on your card to verify.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-018",
+      "label": "legitimate",
+      "language": "Taglish",
+      "text": "Paki-settle ang share mo sa groceries once na-check mo yung resibo sa group natin.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-019",
+      "label": "scam",
+      "language": "English",
+      "text": "Your bank access will be frozen in an hour. Reply to me with your password and the verification code we just sent.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-020",
+      "label": "scam",
+      "language": "English",
+      "text": "An unclaimed reward has been assigned to you. Pay a clearance charge into this personal account before you can receive it.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-021",
+      "label": "scam",
+      "language": "English",
+      "text": "Earn a guaranteed four times your money with absolutely no risk. Send an initial deposit to reserve the return.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-022",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Masasara ang bank account mo sa loob ng isang oras. Ibigay mo sa akin ang password at verification code mo.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-023",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "May nakalaang premyo para sa iyo. Magpadala muna ng clearance fee sa personal na account bago ito ibigay.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-024",
+      "label": "scam",
+      "language": "Filipino",
+      "text": "Siguradong apat na beses ang balik ng pera mo at walang panganib. Ipadala ang paunang deposito.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-025",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Ma-freeze ang bank access mo in one hour. Reply with your password at verification code para ma-save ko ito.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-026",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "May unclaimed reward ka. Pay a clearance fee muna sa personal account ko before release.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-027",
+      "label": "scam",
+      "language": "Taglish",
+      "text": "Guaranteed four times ang pera mo, absolutely no risk. Deposit now para ma-reserve ang return.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-028",
+      "label": "spam",
+      "language": "English",
+      "text": "Our clothing store is holding a clearance sale during normal business hours this Saturday.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-029",
+      "label": "spam",
+      "language": "Filipino",
+      "text": "May bagong paninda sa tindahan namin. Maaari kang bumisita kung interesado ka.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "message-challenge-030",
+      "label": "spam",
+      "language": "Taglish",
+      "text": "New arrivals sa shop namin. Drop by during store hours if you want to browse.",
+      "source": "existing authored message challenge"
+    },
+    {
+      "id": "general-message-1",
+      "label": "scam",
+      "text": "Your domestic mail cannot be re-delivered until you verify the recipient identity at https://postal-id.example/confirm",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-2",
+      "label": "scam",
+      "text": "You have been selected for a part-time job with a daily salary of PHP2500. Contact our tutor at https://recruitment-offer.example/start",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-3",
+      "label": "scam",
+      "text": "Hi Ma, bago kong numero ito. Magpadala ng pera ngayon para sa emergency. Hindi ako makatawag.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-4",
+      "label": "scam",
+      "text": "Papa, I lost my mobile. This is my replacement number. Please transfer cash to my friend now.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-5",
+      "label": "scam",
+      "text": "Approved ang pautang mo. Bayaran muna ang release fee bago makuha ang pera.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-6",
+      "label": "scam",
+      "text": "To withdraw your task commission, recharge your work account first.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-7",
+      "label": "scam",
+      "text": "GCash: Your wallet has been restricted. Restore access at https://wallet-restore.example/verify",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-8",
+      "label": "scam",
+      "text": "You won a cash prize. Buy a gift card and send its code before we release your winnings.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-9",
+      "label": "scam",
+      "text": "S.e.n.d your p.a.s.s.w.o.r.d now to prevent your account being disabled.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-10",
+      "label": "scam",
+      "text": "Na-hold ang pakete mo. Magbayad ng release fee sa personal wallet para maihatid.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-11",
+      "label": "legitimate",
+      "text": "You have been selected for a part-time interview at the school library. Please bring a copy of your resume.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-12",
+      "label": "legitimate",
+      "text": "We are hiring German speakers in Taguig. The position requires SAP billing experience. Send your resume to the HR contact in our company directory.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-13",
+      "label": "legitimate",
+      "text": "This is my new number. Call the old contact you already have before saving it. No payment is needed.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-14",
+      "label": "legitimate",
+      "text": "Your package has arrived. Prepare the exact COD amount shown in the order you placed.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-15",
+      "label": "legitimate",
+      "text": "Your loan payment was received. No release fee or additional payment is required.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-16",
+      "label": "legitimate",
+      "text": "Never recharge an account to withdraw task commissions. Report this demand to the platform.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-17",
+      "label": "legitimate",
+      "text": "GCash security reminder: open the usual app to review your account. Never send passwords to another person.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-18",
+      "label": "legitimate",
+      "text": "The school raffle prize will be given to the winner at assembly. There is no payment to claim it.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-19",
+      "label": "legitimate",
+      "text": "Never s.e.n.d your p.a.s.s.w.o.r.d to a caller. Our support staff will not ask for it.",
+      "source": "new authored robustness challenge"
+    },
+    {
+      "id": "general-message-20",
+      "label": "legitimate",
+      "text": "Your returned package is at our branch. Check the order history in your shopping app for collection details.",
+      "source": "new authored robustness challenge"
+    }
+  ],
+  "links": [
+    {
+      "id": "homograph-1",
+      "label": "review",
+      "category": "homograph",
+      "text": "https://раураl.example/login"
+    },
+    {
+      "id": "homograph-2",
+      "label": "review",
+      "category": "homograph",
+      "text": "https://gсash.example/login"
+    },
+    {
+      "id": "homograph-3",
+      "label": "review",
+      "category": "homograph",
+      "text": "https://fасеbооk.example/login"
+    },
+    {
+      "id": "homograph-4",
+      "label": "review",
+      "category": "homograph",
+      "text": "https://mаyа.example/login"
+    },
+    {
+      "id": "homograph-5",
+      "label": "review",
+      "category": "homograph",
+      "text": "https://gооgle.example/login"
+    },
+    {
+      "id": "userinfo-1",
+      "label": "review",
+      "category": "userinfo",
+      "text": "https://gcash.com@receiver.example/login"
+    },
+    {
+      "id": "userinfo-2",
+      "label": "review",
+      "category": "userinfo",
+      "text": "https://bpi.com.ph@receiver.example/login"
+    },
+    {
+      "id": "userinfo-3",
+      "label": "review",
+      "category": "userinfo",
+      "text": "https://paypal.com@receiver.example/login"
+    },
+    {
+      "id": "userinfo-4",
+      "label": "review",
+      "category": "userinfo",
+      "text": "https://shopee.ph@receiver.example/login"
+    },
+    {
+      "id": "userinfo-5",
+      "label": "review",
+      "category": "userinfo",
+      "text": "https://facebook.com@receiver.example/login"
+    },
+    {
+      "id": "fake-subdomain-1",
+      "label": "review",
+      "category": "fake-subdomain",
+      "text": "https://gcash.com.receiver.example/verify"
+    },
+    {
+      "id": "fake-subdomain-2",
+      "label": "review",
+      "category": "fake-subdomain",
+      "text": "https://bpi.com.ph.receiver.example/verify"
+    },
+    {
+      "id": "fake-subdomain-3",
+      "label": "review",
+      "category": "fake-subdomain",
+      "text": "https://paypal.com.receiver.example/verify"
+    },
+    {
+      "id": "fake-subdomain-4",
+      "label": "review",
+      "category": "fake-subdomain",
+      "text": "https://shopee.ph.receiver.example/verify"
+    },
+    {
+      "id": "fake-subdomain-5",
+      "label": "review",
+      "category": "fake-subdomain",
+      "text": "https://facebook.com.receiver.example/verify"
+    },
+    {
+      "id": "brand-affix-1",
+      "label": "review",
+      "category": "brand-affix",
+      "text": "https://gcash-support.example/login"
+    },
+    {
+      "id": "brand-affix-2",
+      "label": "review",
+      "category": "brand-affix",
+      "text": "https://bdo-secure.example/login"
+    },
+    {
+      "id": "brand-affix-3",
+      "label": "review",
+      "category": "brand-affix",
+      "text": "https://bpi-online.example/login"
+    },
+    {
+      "id": "brand-affix-4",
+      "label": "review",
+      "category": "brand-affix",
+      "text": "https://shopee-refund.example/login"
+    },
+    {
+      "id": "brand-affix-5",
+      "label": "review",
+      "category": "brand-affix",
+      "text": "https://facebook-login.example/login"
+    },
+    {
+      "id": "nested-destination-1",
+      "label": "review",
+      "category": "nested-destination",
+      "text": "https://www.google.com/url?url=https%253A%252F%252Fgcash-login.example%252Fverify"
+    },
+    {
+      "id": "nested-destination-2",
+      "label": "review",
+      "category": "nested-destination",
+      "text": "https://www.google.com/url?url=%2F%2Fpaypal-login.example%2Fverify"
+    },
+    {
+      "id": "nested-destination-3",
+      "label": "review",
+      "category": "nested-destination",
+      "text": "https://www.google.com/url?next=https%3A%2F%2Freceiver.example%2F%3Furl%3Dhttps%253A%252F%252Fbpi-online.example%252Flogin"
+    },
+    {
+      "id": "nested-destination-4",
+      "label": "review",
+      "category": "nested-destination",
+      "text": "https://www.google.com/url?url=https%3A%2F%2Fgcash.com.receiver.example%2Flogin"
+    },
+    {
+      "id": "nested-destination-5",
+      "label": "review",
+      "category": "nested-destination",
+      "text": "https://www.google.com/url?continue=https%253A%252F%252Fpaypal.com.receiver.example%252Fverify"
+    },
+    {
+      "id": "encoded-download-1",
+      "label": "review",
+      "category": "encoded-download",
+      "text": "https://download.example/bank-update.%65xe"
+    },
+    {
+      "id": "encoded-download-2",
+      "label": "review",
+      "category": "encoded-download",
+      "text": "https://download.example/bank-update.%61pk"
+    },
+    {
+      "id": "encoded-download-3",
+      "label": "review",
+      "category": "encoded-download",
+      "text": "https://download.example/bank-update.%73cr"
+    },
+    {
+      "id": "encoded-download-4",
+      "label": "review",
+      "category": "encoded-download",
+      "text": "https://download.example/bank-update.%6dsi"
+    },
+    {
+      "id": "encoded-download-5",
+      "label": "review",
+      "category": "encoded-download",
+      "text": "https://download.example/bank-update.%62at"
+    },
+    {
+      "id": "shortener-1",
+      "label": "review",
+      "category": "shortener",
+      "text": "https://bit.ly/authored-test"
+    },
+    {
+      "id": "shortener-2",
+      "label": "review",
+      "category": "shortener",
+      "text": "https://tinyurl.com/authored-test"
+    },
+    {
+      "id": "shortener-3",
+      "label": "review",
+      "category": "shortener",
+      "text": "https://t.co/authored-test"
+    },
+    {
+      "id": "shortener-4",
+      "label": "review",
+      "category": "shortener",
+      "text": "https://rb.gy/authored-test"
+    },
+    {
+      "id": "shortener-5",
+      "label": "review",
+      "category": "shortener",
+      "text": "https://cutt.ly/authored-test"
+    },
+    {
+      "id": "numeric-credential-host-1",
+      "label": "review",
+      "category": "numeric-credential-host",
+      "text": "http://2130706433/login"
+    },
+    {
+      "id": "numeric-credential-host-2",
+      "label": "review",
+      "category": "numeric-credential-host",
+      "text": "http://0x7f000001/login"
+    },
+    {
+      "id": "numeric-credential-host-3",
+      "label": "review",
+      "category": "numeric-credential-host",
+      "text": "http://127.1/login"
+    },
+    {
+      "id": "numeric-credential-host-4",
+      "label": "review",
+      "category": "numeric-credential-host",
+      "text": "http://192.0.2.15/login"
+    },
+    {
+      "id": "numeric-credential-host-5",
+      "label": "review",
+      "category": "numeric-credential-host",
+      "text": "http://[::ffff:127.0.0.1]/login"
+    },
+    {
+      "id": "executable-1",
+      "label": "review",
+      "category": "executable",
+      "text": "https://download.example/bank-update.exe"
+    },
+    {
+      "id": "executable-2",
+      "label": "review",
+      "category": "executable",
+      "text": "https://download.example/bank-update.apk"
+    },
+    {
+      "id": "executable-3",
+      "label": "review",
+      "category": "executable",
+      "text": "https://download.example/bank-update.scr"
+    },
+    {
+      "id": "executable-4",
+      "label": "review",
+      "category": "executable",
+      "text": "https://download.example/bank-update.msi"
+    },
+    {
+      "id": "executable-5",
+      "label": "review",
+      "category": "executable",
+      "text": "https://download.example/bank-update.bat"
+    },
+    {
+      "id": "dangerous-scheme-1",
+      "label": "review",
+      "category": "dangerous-scheme",
+      "text": "javascript:alert(1)"
+    },
+    {
+      "id": "dangerous-scheme-2",
+      "label": "review",
+      "category": "dangerous-scheme",
+      "text": "JaVaScRiPt:alert(1)"
+    },
+    {
+      "id": "dangerous-scheme-3",
+      "label": "review",
+      "category": "dangerous-scheme",
+      "text": "data:text/html,authored-test"
+    },
+    {
+      "id": "dangerous-scheme-4",
+      "label": "review",
+      "category": "dangerous-scheme",
+      "text": "vbscript:msgbox(1)"
+    },
+    {
+      "id": "dangerous-scheme-5",
+      "label": "review",
+      "category": "dangerous-scheme",
+      "text": "  javascript:alert(1)  "
+    },
+    {
+      "id": "official-1",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://gcash.com/login"
+    },
+    {
+      "id": "official-2",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://bpi.com.ph/login"
+    },
+    {
+      "id": "official-3",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://bdo.com.ph/login"
+    },
+    {
+      "id": "official-4",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://paypal.com/login"
+    },
+    {
+      "id": "official-5",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://maya.ph/login"
+    },
+    {
+      "id": "official-6",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://shopee.ph/login"
+    },
+    {
+      "id": "official-7",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://lazada.com.ph/login"
+    },
+    {
+      "id": "official-8",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://facebook.com/login"
+    },
+    {
+      "id": "official-9",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://google.com/login"
+    },
+    {
+      "id": "official-10",
+      "label": "no_warning",
+      "category": "official",
+      "text": "https://microsoft.com/login"
+    },
+    {
+      "id": "canonical-official-1",
+      "label": "no_warning",
+      "category": "canonical-official",
+      "text": "https://GCASH.COM./login"
+    },
+    {
+      "id": "canonical-official-2",
+      "label": "no_warning",
+      "category": "canonical-official",
+      "text": "https://www.bpi.com.ph./login"
+    },
+    {
+      "id": "canonical-official-3",
+      "label": "no_warning",
+      "category": "canonical-official",
+      "text": "https://www.paypal.com./login"
+    },
+    {
+      "id": "canonical-official-4",
+      "label": "no_warning",
+      "category": "canonical-official",
+      "text": "https://www.google.com./account"
+    },
+    {
+      "id": "canonical-official-5",
+      "label": "no_warning",
+      "category": "canonical-official",
+      "text": "https://www.shopee.ph./orders"
+    },
+    {
+      "id": "international-name-1",
+      "label": "no_warning",
+      "category": "international-name",
+      "text": "https://bücher.example/about"
+    },
+    {
+      "id": "international-name-2",
+      "label": "no_warning",
+      "category": "international-name",
+      "text": "https://例子.example/about"
+    },
+    {
+      "id": "international-name-3",
+      "label": "no_warning",
+      "category": "international-name",
+      "text": "https://mañana.example/about"
+    },
+    {
+      "id": "international-name-4",
+      "label": "no_warning",
+      "category": "international-name",
+      "text": "https://κόσμος.example/about"
+    },
+    {
+      "id": "international-name-5",
+      "label": "no_warning",
+      "category": "international-name",
+      "text": "https://日本語.example/about"
+    },
+    {
+      "id": "ordinary-name-1",
+      "label": "no_warning",
+      "category": "ordinary-name",
+      "text": "https://mayasflowers.example/about"
+    },
+    {
+      "id": "ordinary-name-2",
+      "label": "no_warning",
+      "category": "ordinary-name",
+      "text": "https://mayaclinic.example/about"
+    },
+    {
+      "id": "ordinary-name-3",
+      "label": "no_warning",
+      "category": "ordinary-name",
+      "text": "https://bpicnic.example/about"
+    },
+    {
+      "id": "ordinary-name-4",
+      "label": "no_warning",
+      "category": "ordinary-name",
+      "text": "https://shopeerless.example/about"
+    },
+    {
+      "id": "ordinary-name-5",
+      "label": "no_warning",
+      "category": "ordinary-name",
+      "text": "https://goggles.example/about"
+    },
+    {
+      "id": "article-reference-1",
+      "label": "no_warning",
+      "category": "article-reference",
+      "text": "https://news.example/articles/about-gcash"
+    },
+    {
+      "id": "article-reference-2",
+      "label": "no_warning",
+      "category": "article-reference",
+      "text": "https://news.example/articles/about-paypal"
+    },
+    {
+      "id": "article-reference-3",
+      "label": "no_warning",
+      "category": "article-reference",
+      "text": "https://news.example/articles/about-bpi"
+    },
+    {
+      "id": "article-reference-4",
+      "label": "no_warning",
+      "category": "article-reference",
+      "text": "https://news.example/articles/about-facebook"
+    },
+    {
+      "id": "article-reference-5",
+      "label": "no_warning",
+      "category": "article-reference",
+      "text": "https://news.example/articles/about-maya"
+    },
+    {
+      "id": "ordinary-path-1",
+      "label": "no_warning",
+      "category": "ordinary-path",
+      "text": "https://school.example/accounting-class"
+    },
+    {
+      "id": "ordinary-path-2",
+      "label": "no_warning",
+      "category": "ordinary-path",
+      "text": "https://school.example/login-design-article"
+    },
+    {
+      "id": "ordinary-path-3",
+      "label": "no_warning",
+      "category": "ordinary-path",
+      "text": "https://school.example/wallet-review"
+    },
+    {
+      "id": "ordinary-path-4",
+      "label": "no_warning",
+      "category": "ordinary-path",
+      "text": "https://school.example/download-exe-guide.html"
+    },
+    {
+      "id": "ordinary-path-5",
+      "label": "no_warning",
+      "category": "ordinary-path",
+      "text": "https://school.example/claim-procedure"
+    },
+    {
+      "id": "same-origin-destination-1",
+      "label": "no_warning",
+      "category": "same-origin-destination",
+      "text": "https://www.google.com/account?url=%2Fhelp"
+    },
+    {
+      "id": "same-origin-destination-2",
+      "label": "no_warning",
+      "category": "same-origin-destination",
+      "text": "https://www.google.com/account?redirect=%2Fhelp"
+    },
+    {
+      "id": "same-origin-destination-3",
+      "label": "no_warning",
+      "category": "same-origin-destination",
+      "text": "https://www.google.com/account?next=%2Fhelp"
+    },
+    {
+      "id": "same-origin-destination-4",
+      "label": "no_warning",
+      "category": "same-origin-destination",
+      "text": "https://www.google.com/account?continue=%2Fhelp"
+    },
+    {
+      "id": "same-origin-destination-5",
+      "label": "no_warning",
+      "category": "same-origin-destination",
+      "text": "https://www.google.com/account?target=%2Fhelp"
+    },
+    {
+      "id": "ordinary-query-1",
+      "label": "no_warning",
+      "category": "ordinary-query",
+      "text": "https://school.example/notes?name=gcash"
+    },
+    {
+      "id": "ordinary-query-2",
+      "label": "no_warning",
+      "category": "ordinary-query",
+      "text": "https://school.example/notes?topic=paypal"
+    },
+    {
+      "id": "ordinary-query-3",
+      "label": "no_warning",
+      "category": "ordinary-query",
+      "text": "https://school.example/notes?course=banking"
+    },
+    {
+      "id": "ordinary-query-4",
+      "label": "no_warning",
+      "category": "ordinary-query",
+      "text": "https://school.example/notes?filename=example.exe.txt"
+    },
+    {
+      "id": "ordinary-query-5",
+      "label": "no_warning",
+      "category": "ordinary-query",
+      "text": "https://school.example/notes?email=someone%40example.com"
+    },
+    {
+      "id": "ordinary-order-1",
+      "label": "no_warning",
+      "category": "ordinary-order",
+      "text": "https://www.lazada.com.ph/orders/42"
+    },
+    {
+      "id": "ordinary-order-2",
+      "label": "no_warning",
+      "category": "ordinary-order",
+      "text": "https://shopee.ph/orders/81"
+    },
+    {
+      "id": "ordinary-order-3",
+      "label": "no_warning",
+      "category": "ordinary-order",
+      "text": "https://www.fedex.com/tracking"
+    },
+    {
+      "id": "ordinary-order-4",
+      "label": "no_warning",
+      "category": "ordinary-order",
+      "text": "https://www.phlpost.gov.ph/"
+    },
+    {
+      "id": "ordinary-order-5",
+      "label": "no_warning",
+      "category": "ordinary-order",
+      "text": "https://www.jtexpress.ph/"
+    }
+  ]
+}

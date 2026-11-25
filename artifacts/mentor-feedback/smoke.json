@@ -1,0 +1,11 @@
+{
+  "productionOfflineReload": true,
+  "automaticOcrDownloads": 0,
+  "initialWasmDownloads": 0,
+  "ordinaryMessage": "low risk",
+  "shortMessage": "not enough info",
+  "parcelUpdate": "flagged",
+  "offlineSurfy": "local reply without API",
+  "offlineImage": "local metadata without upload",
+  "pageErrors": []
+}

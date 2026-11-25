@@ -66,9 +66,9 @@ export function combineAssessment(local, verification = null) {
   if (verified.urls?.length && verified.level === 'Low risk') {
     let message = verified.sourceText || '';
     for (const raw of extractUrls(message)) message = message.replaceAll(raw, ' ');
-    if (verified.inputKind !== 'link' && verified.semanticLevel === 'Low risk' &&
+    if (verified.inputKind !== 'link' &&
         !verified.unsupportedQr && !verified.uncertainExtraction &&
-        (message.match(/\p{L}+/gu) || []).length >= 6)
+        (message.match(/\p{L}+/gu) || []).length >= 4)
       return {
         ...base,
         summary: verified.summary + ' The link’s safety is still unconfirmed.',

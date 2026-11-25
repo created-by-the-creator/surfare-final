@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { ExternalLink, Globe, Image, Link2, MessageSquareText, ShieldCheck, Upload, Wifi, WifiOff } from 'lucide-react';
 import { ASSETS } from '../../frontend/src/assets.js';
 import ResultPanel from '../../frontend/src/components/ResultPanel.jsx';
+import { mergeLinkResolution } from '../../frontend/src/engine/link-destination.js';
 import AskSurfy from '../../frontend/src/components/AskSurfy.jsx';
+import RecoveryHelp from '../../frontend/src/components/RecoveryHelp.jsx';
 import PrivacyNotice from '../../frontend/src/components/PrivacyNotice.jsx';
 import { usePrivacyNotice } from '../../frontend/src/privacy/PrivacyContext.jsx';
 import { analyzeInput } from '../../frontend/src/engine/analyze.js';
@@ -17,6 +19,7 @@ const tabs = [['text', MessageSquareText], ['links', Link2], ['image', Image]];
 export default function ExtensionPanel() {
   const { hasAcknowledged, notice, requestAcknowledgment, reviewNotice } = usePrivacyNotice();
   const [lang, setLang] = useState(() => localStorage.getItem('surfare-language') || 'en');
+  const [recoveryOpen, setRecoveryOpen] = useState(false);
   const t = useCallback((key, values) => translate(lang, key, values), [lang]);
   const [tab, setTab] = useState('text');
   const [text, setText] = useState('');
@@ -201,7 +204,9 @@ export default function ExtensionPanel() {
         <button className="extension-check" disabled={busy || (tab === 'image' ? !file : !text.trim())} type="button" onClick={() => { void check({ useOnline: onlineHelp && online }); }}><ShieldCheck size={19} />{t(busy ? 'result.loading' : onlineHelp ? 'extension.checkOnline' : 'check.button')}</button>
       </section>
       </div>
-      <ResultPanel status={status} result={result} errorKey={errorKey} isOnline={online} t={t} onReset={reset} isAskOpen={askOpen}
+      <RecoveryHelp compact t={t} lang={lang} isOnline={online} isOpen={recoveryOpen} onOpen={() => setRecoveryOpen(true)} onClose={() => setRecoveryOpen(false)} />
+      <ResultPanel status={status} result={result} errorKey={errorKey} isOnline={online} t={t} onReset={reset} isAskOpen={askOpen} onRecovery={() => setRecoveryOpen(true)}
+        onDestinationResolved={resolution => setResult(current => current ? mergeLinkResolution(current, resolution) : current)}
         onReviewText={() => { const value = result.checkedText; reset(); setTab('text'); setText(value); }}
         onAskAboutResult={() => { setAskOpen(true); setOpenRequest(value => value + 1); requestAnimationFrame(() => { document.querySelector('.ask-dialog h2')?.focus({ preventScroll: true }); document.querySelector('.ask-dialog')?.scrollIntoView({ block: 'start' }); }); }} />
       {status === 'result' && <button className="extension-reset" type="button" onClick={reset}>{t('check.new')}</button>}

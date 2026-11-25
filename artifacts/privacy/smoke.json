@@ -1,0 +1,78 @@
+{
+  "records": [
+    {
+      "lang": "en",
+      "width": 1440,
+      "height": 1000,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "height": 844,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    },
+    {
+      "lang": "tl",
+      "width": 390,
+      "height": 844,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    },
+    {
+      "lang": "taglish",
+      "width": 390,
+      "height": 844,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "height": 568,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    },
+    {
+      "lang": "en",
+      "width": 844,
+      "height": 390,
+      "insideViewport": true,
+      "noHorizontalOverflow": true,
+      "footerVisible": true,
+      "acknowledgments": 1,
+      "scrollGate": true,
+      "savingDoesNotEnableAi": true,
+      "keyboardTrapAndDismiss": true
+    }
+  ],
+  "decliningDoesNotSave": true,
+  "errors": []
+}

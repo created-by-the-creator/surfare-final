@@ -1,6 +1,8 @@
 # Surfare
 
-Surfare is an offline-first web app for checking suspicious messages, links, images, and QR codes. Detection runs locally; online URL lookup is optional and sends only a detected URL to the configured Worker. Offline checks include browser-safe copies of the reviewed platform, phishing-index, gambling-reference and lender-name lists in `src/engine/generated/url-reference-data.js`; regenerate that file with `npm run build:browser-references` after backend reference data changes. Reference matches are review clues and never certify a destination.
+Surfare is an offline-first web app for checking suspicious messages, links, images, and QR codes. Detection runs locally. Links use local patterns and bundled reference lists. URL lookup services are not used. Full message text is shared only with the AI help choice. Online image checks have a separate choice to share a resized JPEG with Sightengine; Surfy shares text and recent chat with the configured AI providers and fallbacks. The privacy notice lists these recipients. The compact AI help control identifies the feature as online and opens a short explanation with a link to that notice; it stays off until the user enables it. Offline checks include browser-safe copies of the reviewed platform, phishing-index, gambling-reference and lender-name lists in `src/engine/generated/url-reference-data.js`; regenerate that file with `npm run build:browser-references` after backend reference data changes. Reference matches are review clues and never certify a destination.
+
+The 19.3 MB OCR pack is an optional download, not a first-visit background task. The Content Credentials WASM runtime is loaded when needed and excluded from initial precaching. See the root README for offline preparation and the saved local-message evaluation set.
 
 ## Run locally
 
@@ -12,10 +14,6 @@ npm run build
 ```
 
 Copy `.env.example` to `.env.local` and fill in the EmailJS values only when feedback delivery is configured. The app works without those values; it displays a setup error rather than saving feedback.
-
-## Optional Safe Browsing Worker
-
-Deploy `worker/` as a Cloudflare Worker. Set `SAFE_BROWSING_API_KEY` as a Worker secret (`wrangler secret put SAFE_BROWSING_API_KEY`) and set `ALLOWED_ORIGIN` to the exact app origin. Configure `VITE_WORKER_URL` in the frontend environment to the deployed Worker URL. The Worker accepts only `POST /check-url` with a URL string, validates it, applies an isolate-local rate limit, and never logs submitted URLs.
 
 ## EmailJS feedback template
 

@@ -2,6 +2,7 @@ import { assessContent } from '../lib/content-assessment.js';
 import { needsAiBackup } from '../lib/assessment-policy.js';
 import { applySemanticAssessment } from '../lib/semantic-assessment.js';
 import { combineAssessment } from '../lib/assessment.js';
+import { isPrivateQrPayload } from '../lib/qr-payload.js';
 
 /** Run local checks, then only the online services explicitly enabled by the caller.
  * Consent and service configuration belong to the calling application's UI.
@@ -9,7 +10,7 @@ import { combineAssessment } from '../lib/assessment.js';
  */
 export async function checkContent(
   input,
-  { ai = false, reputation = false, provider, online = true, baseUrl = '/api', fetcher = globalThis.fetch } = {},
+  { ai = false, provider, online = true, baseUrl = '/api', fetcher = globalThis.fetch } = {},
 ) {
   const local = assessContent(input);
   let semantic = { status: 'not_checked' }, verification = null;
@@ -27,14 +28,10 @@ export async function checkContent(
     }
   }
   const tasks = [];
-  if (needsAiBackup(local, { enabled: ai === true, configured: !!provider, online })) {
+  if (!isPrivateQrPayload(input.text) && needsAiBackup(local, { enabled: ai === true, configured: !!provider, online })) {
     tasks.push(post('assess', {
       text: input.text, kind: input.kind || 'message', consent: true, provider,
     }, 28000).then(data => { semantic = data; }));
-  }
-  if (reputation === true && online && local.urls.length) {
-    tasks.push(post('verify', { urls: local.urls.map(u => u.url) }, 10000)
-      .then(data => { verification = data; }));
   }
   await Promise.all(tasks);
   return {

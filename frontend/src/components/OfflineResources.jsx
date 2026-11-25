@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CheckCircle2, Download, Loader2, Smartphone } from 'lucide-react';
 import { downloadOfflinePack, inspectOfflinePack, OFFLINE_PACK_BYTES, OFFLINE_STORAGE_BYTES } from '../offline/resources.js';
-import {
-  markAutoCacheAttempt,
-  markAutoCacheDone,
-  markAutoCacheSkipped,
-  shouldAutoCache,
-  waitForAppShell,
-} from '../offline/autocache.js';
 import useInstallPrompt from '../pwa/useInstallPrompt.js';
 import './OfflineResources.css';
 
@@ -15,9 +8,7 @@ export default function OfflineResources({ t, isOnline }) {
   const [status, setStatus] = useState('checking');
   const [loaded, setLoaded] = useState(0);
   const [error, setError] = useState('');
-  const [automatic, setAutomatic] = useState(false);
   const controllerRef = useRef(null);
-  const autoStartingRef = useRef(false);
   const mountedRef = useRef(false);
   const { canInstall, installed, install } = useInstallPrompt();
 
@@ -26,17 +17,15 @@ export default function OfflineResources({ t, isOnline }) {
     inspectOfflinePack().then((pack) => {
       if (!mountedRef.current) return;
       setLoaded(pack.bytes);
-      if (pack.ready) markAutoCacheDone();
       setStatus(!pack.supported ? 'unsupported' : pack.ready ? 'ready' : 'idle');
     }).catch(() => { if (mountedRef.current) setStatus('unsupported'); });
     return () => { mountedRef.current = false; controllerRef.current?.abort(); };
   }, []);
 
-  const download = useCallback(async ({ background = false } = {}) => {
+  const download = useCallback(async () => {
     if (controllerRef.current) return;
     const controller = new AbortController();
     controllerRef.current = controller;
-    setAutomatic(background);
     setError('');
     setStatus('downloading');
     try {
@@ -46,7 +35,6 @@ export default function OfflineResources({ t, isOnline }) {
       if (mountedRef.current) {
         setStatus(pack.ready ? 'ready' : 'idle');
         setLoaded(pack.bytes);
-        if (pack.ready) markAutoCacheDone();
       }
     } catch (error) {
       if (!mountedRef.current) return;
@@ -58,27 +46,7 @@ export default function OfflineResources({ t, isOnline }) {
     }
   }, [loaded]);
 
-  // The first online visit caches the OCR pack after the app shell, so image
-  // checks work offline without asking the user to find this section first.
-  useEffect(() => {
-    if (autoStartingRef.current || !isOnline || status !== 'idle') return undefined;
-    autoStartingRef.current = true;
-    let cancelled = false;
-    (async () => {
-      try {
-        await waitForAppShell();
-        if (cancelled || !mountedRef.current || !isOnline || !shouldAutoCache()) return;
-        markAutoCacheAttempt();
-        await download({ background: true });
-      } finally {
-        autoStartingRef.current = false;
-      }
-    })();
-    return () => { cancelled = true; };
-  }, [download, isOnline, status]);
-
   const cancelDownload = () => {
-    markAutoCacheSkipped();
     controllerRef.current?.abort();
   };
 
@@ -89,9 +57,7 @@ export default function OfflineResources({ t, isOnline }) {
     ? 'offline.readyBody'
     : status === 'unsupported'
       ? 'offline.unsupportedBody'
-      : downloading && automatic
-        ? 'offline.caching'
-        : 'offline.body';
+      : 'offline.body';
 
   return (
     <section className="offline-resources" id="offline-resources" aria-labelledby="offline-title">
@@ -100,7 +66,7 @@ export default function OfflineResources({ t, isOnline }) {
         <h3 id="offline-title">{t(ready ? 'offline.readyTitle' : 'offline.title')}</h3>
         <p>{t(description)}</p>
         <p className="offline-share-tip">{t('share.installTip')}</p>
-        {downloading && <div className="offline-download-progress"><progress max={100} value={percent} aria-label={t(automatic ? 'offline.caching' : 'offline.downloading')} /><span aria-live="polite">{percent}%</span></div>}
+        {downloading && <div className="offline-download-progress"><progress max={100} value={percent} aria-label={t('offline.downloading')} /><span aria-live="polite">{percent}%</span></div>}
         {error && <p className="offline-resource-error" role="alert">{t(error)}</p>}
       </div>
       <div className="offline-resource-action">

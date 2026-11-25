@@ -6,6 +6,7 @@ import worker from '../worker/index.js';
 import { semanticConfiguration, DEFAULT_OPENROUTER_MODEL } from '../server/services/semantic.js';
 
 const env = { OPENROUTER_API_KEY: 'test-openrouter-key-only' };
+const chatEnv = { ...env };
 const post = (path, body, origin) => new Request(`https://surfare.test/api/${path}`, {
   method: 'POST', headers: { 'Content-Type': 'application/json', ...(origin ? { origin } : {}) }, body: JSON.stringify(body),
 });
@@ -19,9 +20,11 @@ test('random routing migrates to the pinned model and unapproved models stay dis
   assert.equal(semanticConfiguration({ ...env, OPENROUTER_MODEL: 'paid/model' }).configured, false);
 });
 
-test('Surfy sends bounded conversation and actual check context to free OpenRouter', async () => {
+test('Surfy sends bounded conversation and actual check context to OpenRouter first', async () => {
   let payload;
-  const response = await surfyChat(post('surfy', { ...chat, result: { level: 'high', checkedText: 'Send your OTP', findings: [{ reason: 'Asks for a code', evidence: 'OTP' }], explanation: 'High risk: do not share codes.' } }), env, async (_url, options) => {
+  const requests = [];
+  const response = await surfyChat(post('surfy', { ...chat, result: { level: 'high', checkedText: 'Send your OTP', findings: [{ reason: 'Asks for a code', evidence: 'OTP' }], explanation: 'High risk: do not share codes.' } }), chatEnv, async (url, options) => {
+    requests.push(url);
     payload = JSON.parse(options.body);
     return generated({ answer: 'Never share your OTP. Open the official app to review account security.' });
   });
@@ -29,35 +32,41 @@ test('Surfy sends bounded conversation and actual check context to free OpenRout
   const body = await response.json();
   assert.match(body.answer, /Never share/);
   assert.equal(body.provider, 'openrouter');
-  assert.equal(payload.provider.max_price.completion, 0);
+  assert.deepEqual(requests, ['https://openrouter.ai/api/v1/chat/completions']);
+  assert.equal(payload.provider.require_parameters, true);
+  assert.equal(payload.response_format.json_schema.strict, true);
+  assert.equal(payload.reasoning, undefined);
   assert.match(payload.messages[1].content, /"level":"high"/);
-  assert.ok(!JSON.stringify(body).includes(env.OPENROUTER_API_KEY));
+  assert.ok(!JSON.stringify(body).includes(chatEnv.OPENROUTER_API_KEY));
 });
 
-test('Gemini handles text-only chat when OpenRouter is unavailable', async () => {
+test('Surfy falls back from OpenRouter to Gemini', async () => {
   const requests = [];
-  const response = await surfyChat(post('surfy', chat), { ...env, GEMINI_API_KEY: 'test-gemini-key-only' }, async (url, options) => {
+  const response = await surfyChat(post('surfy', chat), { ...chatEnv, GEMINI_API_KEY: 'test-gemini-key-only' }, async url => {
     requests.push(url);
-    if (url.includes('openrouter')) return new Response('', { status: 429 });
-    const body = JSON.parse(options.body);
-    assert.ok(body.contents[0].parts.every((part) => !part.inlineData));
-    return Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text: JSON.stringify({ answer: 'Keep your PIN private.' }) }] } }] });
-  });
-  assert.equal((await response.json()).provider, 'gemini');
-  assert.equal(requests.length, 2);
-});
-
-test('Gemini retries a temporary server failure once without extending the timeout', async () => {
-  const signals = [];
-  let calls = 0;
-  const response = await surfyChat(post('surfy', chat), { GEMINI_API_KEY: 'test-gemini-key-only', GEMINI_IMAGE_MODEL: 'gemini-3.5-flash-lite' }, async (_url, options) => {
-    signals.push(options.signal);
-    calls++;
-    return calls === 1 ? Response.json({ error: { status: 'UNAVAILABLE' } }, { status: 503 })
-      : Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text: JSON.stringify({ answer: 'Keep your code private.' }) }] } }] });
+    return requests.length === 1 ? new Response('', { status: 429 })
+      : Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text: JSON.stringify({ answer: 'Use the usual app to confirm.' }) }] } }] });
   });
   assert.equal(response.status, 200);
   assert.equal((await response.json()).provider, 'gemini');
+  assert.equal(requests.length, 2);
+  assert.equal(requests[0], 'https://openrouter.ai/api/v1/chat/completions');
+  assert.match(requests[1], /^https:\/\/generativelanguage.googleapis.com\//);
+});
+
+test('Gemini retries a temporary server failure once during the AI double-check', async () => {
+  const signals = [];
+  let calls = 0;
+  const response = await detect(post('detect', { text: 'Send your OTP now', kind: 'message', ai: true, consent: true }), { GEMINI_API_KEY: 'test-gemini-key-only', GEMINI_IMAGE_MODEL: 'gemini-3.5-flash-lite' }, async (_url, options) => {
+    signals.push(options.signal);
+    calls++;
+    return calls === 1 ? Response.json({ error: { status: 'UNAVAILABLE' } }, { status: 503 })
+      : Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text: JSON.stringify(semantic) }] } }] });
+  });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.aiReview.status, 'completed');
+  assert.equal(body.aiReview.provider, 'gemini');
   assert.equal(calls, 2);
   assert.equal(signals[0], signals[1]);
 });
@@ -81,7 +90,7 @@ test('local Vite proxy can send Surfy questions across local development ports',
   const request = new Request('http://127.0.0.1:8790/api/surfy', {
     method: 'POST', headers: { origin: 'http://127.0.0.1:5173' }, body: JSON.stringify(chat),
   });
-  const response = await surfyChat(request, env, async () => generated({ answer: 'Keep your PIN private.' }));
+  const response = await surfyChat(request, chatEnv, async () => generated({ answer: 'Keep your PIN private.' }));
   assert.equal(response.status, 200);
 });
 
@@ -112,7 +121,55 @@ test('fabricated AI evidence and provider failure preserve local warnings', asyn
   }
 });
 
-test('Cloudflare exposes Surfy without leaking configuration secrets', async () => {
-  const response = await worker.fetch(new Request('https://surfare.test/api/surfy'), env);
+test('Cloudflare configures Surfy only when an AI provider is configured', async () => {
+  const response = await worker.fetch(new Request('https://surfare.test/api/surfy'), chatEnv);
   assert.deepEqual(await response.json(), { configured: true });
+  const withoutChatProvider = await worker.fetch(new Request('https://surfare.test/api/surfy'), {});
+  assert.deepEqual(await withoutChatProvider.json(), { configured: false });
+});
+
+
+test('legacy online flags cannot trigger lookups; double-check stays OpenRouter first', async () => {
+  const keys = { ...env, GEMINI_API_KEY: 'test-gemini-key-only', GOOGLE_SAFE_BROWSING_API_KEY: 'must-not-use' };
+  const urls = [];
+  const fetcher = async (url, options) => {
+    urls.push(url);
+    const payload = JSON.parse(options.body);
+    assert.equal(payload.tools, undefined);
+    assert.equal(payload.plugins, undefined);
+    assert.equal(payload.reasoning, undefined);
+    return generated(semantic);
+  };
+  const input = { text: 'Send your OTP now https://example.com', kind: 'message', online: true };
+  const local = await detect(post('detect', input), keys, fetcher);
+  assert.equal((await local.json()).aiReview.status, 'not_checked');
+  assert.deepEqual(urls, []);
+  const reviewed = await (await detect(post('detect', { ...input, ai: true, consent: true }), keys, fetcher)).json();
+  assert.equal(reviewed.aiReview.provider, 'openrouter');
+  assert.equal(reviewed.onlineVerification, undefined);
+  assert.deepEqual(urls, ['https://openrouter.ai/api/v1/chat/completions']);
+});
+
+test('transient OpenRouter relay rejection retries the primary before Gemini', async () => {
+  const signals = [], urls = [];
+  const response = await detect(post('detect', { text: 'Send your OTP now', ai: true, consent: true }), { ...env, GEMINI_API_KEY: 'test-gemini-key-only' }, async (url, options) => {
+    urls.push(url); signals.push(options.signal);
+    return urls.length === 1 ? Response.json({ error: { message: 'Request path cannot be relayed' } }, { status: 400 }) : generated(semantic);
+  });
+  assert.equal((await response.json()).aiReview.provider, 'openrouter');
+  assert.equal(urls.length, 2);
+  assert.ok(urls.every(url => url === 'https://openrouter.ai/api/v1/chat/completions'));
+  assert.equal(signals[0], signals[1]);
+});
+
+test('OpenRouter quota errors go straight to Gemini without retry or lookup', async () => {
+  const urls = [];
+  const response = await detect(post('detect', { text: 'Send your OTP now', ai: true, consent: true, online: true }), { ...env, GEMINI_API_KEY: 'test-gemini-key-only' }, async url => {
+    urls.push(url);
+    return urls.length === 1 ? new Response('', { status: 429 }) : Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text: JSON.stringify(semantic) }] } }] });
+  });
+  assert.equal((await response.json()).aiReview.provider, 'gemini');
+  assert.equal(urls.length, 2);
+  assert.match(urls[0], /^https:\/\/openrouter.ai\//);
+  assert.match(urls[1], /^https:\/\/generativelanguage.googleapis.com\//);
 });

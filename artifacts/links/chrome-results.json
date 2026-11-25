@@ -1,0 +1,50 @@
+[
+  {
+    "tab": "links",
+    "scenario": "benign",
+    "lang": "en",
+    "width": 1440,
+    "requests": 1,
+    "browserErrors": []
+  },
+  {
+    "tab": "text",
+    "scenario": "benign",
+    "lang": "en",
+    "width": 390,
+    "requests": 1,
+    "browserErrors": []
+  },
+  {
+    "tab": "text",
+    "scenario": "harmful",
+    "lang": "tl",
+    "width": 390,
+    "requests": 1,
+    "browserErrors": []
+  },
+  {
+    "tab": "text",
+    "scenario": "message-warning",
+    "lang": "taglish",
+    "width": 390,
+    "requests": 1,
+    "browserErrors": []
+  },
+  {
+    "tab": "links",
+    "scenario": "unresolved",
+    "lang": "en",
+    "width": 390,
+    "requests": 1,
+    "browserErrors": []
+  },
+  {
+    "tab": "text",
+    "scenario": "multiple",
+    "lang": "en",
+    "width": 390,
+    "requests": 2,
+    "browserErrors": []
+  }
+]

@@ -11,6 +11,7 @@ import {
 } from './host-reference.js';
 import { hasGamblingContext } from './gambling-context.js';
 import { matchStoppedLenders, prepareLenderNames } from './lender-reference.js';
+import { isShortLinkHost } from './short-links.js';
 
 const backendRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const externalDir = path.join(backendRoot, 'datasets', 'external');
@@ -100,7 +101,7 @@ export function matchKnownPhishingHosts(urls) {
   for (const info of Array.isArray(urls) ? urls : []) {
     for (const candidate of hostCandidates(info?.host)) {
       for (const suffix of hostSuffixes(candidate)) {
-        if (verified.has(suffix)) continue;
+        if (verified.has(suffix) || isShortLinkHost(suffix)) continue;
         if (!index.has(fingerprint(suffix))) continue;
         const key = `${info.url}:${suffix}`;
         if (seen.has(key)) continue;

@@ -1,4 +1,3 @@
-import wasmSrc from '@contentauth/c2pa-web/resources/c2pa.wasm?url';
 import { credentialChecks } from './credential-checks.js';
 
 const SUPPORTED_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
@@ -6,6 +5,7 @@ const clients = new WeakMap();
 
 async function loadRuntime() {
   const sdk = await import('@contentauth/c2pa-web');
+  const { default: wasmSrc } = await import('@contentauth/c2pa-web/resources/c2pa.wasm?url');
   return {
     createC2pa: sdk.createC2pa,
     Reader: sdk.Reader,

@@ -1,0 +1,75 @@
+{
+  "scope": "Source-label review notes, not relabeling or proof of legitimacy. No detector exceptions are added for these IDs.",
+  "cases": [
+    {
+      "id": "S011",
+      "source": "asea",
+      "sourceRecord": 1212,
+      "sourceLabel": "Delivery Scam",
+      "text": "THE PACKAGE HAS BEEN DELIVERED, IF YOU REALLY RECEIVED IT,LET ME KNOW IN <EMAIL>",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "A delivery confirmation requesting an email reply can be legitimate. The redacted text does not establish whether the sender, order or requested contact was fraudulent."
+    },
+    {
+      "id": "S035",
+      "source": "asea",
+      "sourceRecord": 905,
+      "sourceLabel": "Job Scam",
+      "text": "Hiring for German Sheperds in Taguig - Document Analyst w/ related exp, shifting, 75-85K; & Billing Analyst w/ knowledge in SAP Billing Suite is a plus, Midshift, 60-75K;Â WrittenÂ &Â spoken proficiency in the GermanÂ &Â English. <EMAIL>",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "A German-language recruitment advert lists job roles, skills, salary and a contact. No credential demand, advance payment, guaranteed profit or other clear fraud evidence remains in the redacted text."
+    },
+    {
+      "id": "S036",
+      "source": "asea",
+      "sourceRecord": 906,
+      "sourceLabel": "Job Scam",
+      "text": "Hiring for German Speakers in Taguig - Document Analyst w/ related exp, shifting, 75-85K; & Billing Analyst w/ knowledge in SAP Billing Suite is a plus, Midshift, 60-75K;Â WrittenÂ &Â spoken proficiency in the GermanÂ &Â English. <EMAIL>",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "A recruitment advert lists job roles, skills, salary and a contact. Employer identity and whether the recipient applied are unavailable."
+    },
+    {
+      "id": "S037",
+      "source": "asea",
+      "sourceRecord": 1150,
+      "sourceLabel": "Job Scam",
+      "text": "It's really Important that you should contact my email as soon as possible about your work (<EMAIL>)",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "A request to contact an email about work could be a real work message. The sender identity and employment context are missing."
+    },
+    {
+      "id": "S038",
+      "source": "asea",
+      "sourceRecord": 1160,
+      "sourceLabel": "Job Scam",
+      "text": "DO YOU RECEIVED MY SMS about your application,LET ME KNOW IN <EMAIL> IT'S URGENT.",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "An urgent application follow-up alone does not establish fraud. Application history and sender authenticity are unavailable."
+    },
+    {
+      "id": "S039",
+      "source": "asea",
+      "sourceRecord": 1164,
+      "sourceLabel": "Job Scam",
+      "text": "Hey! Respond me now please if you are looking for work[ <EMAIL>]",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "An invitation to reply about work is not enough to establish a scam without sender or application context."
+    },
+    {
+      "id": "S040",
+      "source": "asea",
+      "sourceRecord": 1180,
+      "sourceLabel": "Job Scam",
+      "text": "Write to me if youre still interested in the position: <EMAIL> (3x nag text)",
+      "verdict": "low",
+      "status": "requires human source/context review; original label retained",
+      "reason": "A follow-up about interest in a position can be a legitimate recruiter message. The contact identity and prior conversation were removed or were not provided."
+    }
+  ]
+}

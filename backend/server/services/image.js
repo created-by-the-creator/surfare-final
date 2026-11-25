@@ -1,7 +1,6 @@
 import { semanticConfiguration, semanticSchema, semanticInstruction, DEFAULT_OPENROUTER_IMAGE_MODEL } from './semantic.js';
 import { generateStructured } from '../providers/structured.js';
 import { generateGeminiStructured, geminiImageConfigurations } from '../providers/gemini.js';
-import { agentRouterConfiguration, generateAgentRouterStructured } from '../providers/agent-router.js';
 import {
   imageOriginLabels,
   imageOriginLikelihoods,
@@ -110,18 +109,12 @@ export async function imageCheck(request, env, fetcher = fetch) {
   });
   openrouterConfig.configured = openrouterConfig.configured && openrouterConfig.model === DEFAULT_OPENROUTER_IMAGE_MODEL;
   const geminiConfigs = geminiImageConfigurations(env);
-  const agentRouterImageModel = env.AGENT_ROUTER_IMAGE_MODEL || env.AGENTROUTER_IMAGE_MODEL;
-  const agentRouterConfig = agentRouterImageModel
-    ? agentRouterConfiguration({ ...env, AGENT_ROUTER_MODEL: agentRouterImageModel })
-    : agentRouterConfiguration({});
-  const providers = [agentRouterConfig, openrouterConfig, ...geminiConfigs].filter((item) => item.configured);
+  const providers = [openrouterConfig, ...geminiConfigs].filter((item) => item.configured);
   const primary = providers[0] || openrouterConfig;
   const config = {
     ...primary,
-    freeOnly: primary.providerId !== 'agentrouter',
-    backupConfigured:
-      (agentRouterConfig.configured && (openrouterConfig.configured || geminiConfigs.length > 0)) ||
-      (openrouterConfig.configured && geminiConfigs.length > 0),
+    freeOnly: true,
+    backupConfigured: openrouterConfig.configured && geminiConfigs.length > 0,
   };
   if (request.method === 'GET') return json(config);
   if (request.method !== 'POST')
@@ -223,18 +216,6 @@ export async function imageCheck(request, env, fetcher = fetch) {
             instruction,
             input,
             schema,
-            image: body.image,
-            maxTokens,
-            fetcher,
-          });
-        } else if (provider.providerId === 'agentrouter') {
-          generated = await generateAgentRouterStructured({
-            config: provider,
-            env,
-            instruction,
-            input,
-            schema,
-            name: isOrigin ? 'image_visual_clues' : 'image_review',
             image: body.image,
             maxTokens,
             fetcher,

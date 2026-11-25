@@ -1,0 +1,606 @@
+{
+  "datasetSha256": "b876a1856adee8251d8572fb2b19d14a337ad6d37859086312ab9c3a243d0e35",
+  "scope": "Accepted development regression floor after generalization improvements; preserve the original baseline.",
+  "results": [
+    {
+      "id": "S001",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S002",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S003",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S004",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S005",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S006",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S007",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S008",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S009",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S010",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S011",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S012",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S013",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S014",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S015",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S016",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S017",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S018",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S019",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S020",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S021",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S022",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S023",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S024",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S025",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S026",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S027",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S028",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S029",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S030",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S031",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S032",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S033",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S034",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S035",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S036",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S037",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S038",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S039",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S040",
+      "label": "scam",
+      "warned": false
+    },
+    {
+      "id": "S041",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S042",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S043",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S044",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S045",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S046",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S047",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S048",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S049",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "S050",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "L001",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L002",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L003",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L004",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L005",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L006",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L007",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L008",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L009",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L010",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L011",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L012",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L013",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L014",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L015",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L016",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L017",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L018",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L019",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L020",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L021",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L022",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L023",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L024",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L025",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L026",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L027",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L028",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L029",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L030",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L031",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L032",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L033",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L034",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L035",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L036",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L037",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L038",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L039",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L040",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L041",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L042",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L043",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L044",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L045",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L046",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L047",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L048",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L049",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "L050",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X001",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X002",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X003",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X004",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X005",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X006",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X007",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X008",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X009",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X010",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X011",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X012",
+      "label": "scam",
+      "warned": true
+    },
+    {
+      "id": "X013",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X014",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X015",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X016",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X017",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X018",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X019",
+      "label": "legitimate",
+      "warned": false
+    },
+    {
+      "id": "X020",
+      "label": "legitimate",
+      "warned": false
+    }
+  ]
+}

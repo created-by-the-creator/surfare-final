@@ -14,7 +14,10 @@ function allowedOrigin(request, env) {
 
 export async function imageDetect(request, env = {}, fetcher = fetch) {
   const json = (body, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
-  const unavailable = (reason, status) => json({ status: 'unavailable', reason }, status);
+  const unavailable = (reason, status) => {
+    console.warn('Image AI request unavailable', { reason, httpStatus: status });
+    return json({ status: 'unavailable', reason }, status);
+  };
   const config = sightengineConfiguration(env);
   if (request.method === 'GET') return json(config);
   if (request.method !== 'POST') return unavailable('method', 405);

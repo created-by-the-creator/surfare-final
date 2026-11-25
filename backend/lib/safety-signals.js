@@ -25,6 +25,7 @@ export function safetySignals(text) {
   const english =
     /\b(?:(?:i|we)\s*(?:(?:will|'ll|am going to|are going to|gonna)\s*)?)?(?:kill|hurt|shoot|stab|rape|kidnap|beat\s+up)\s+(?:you|u|your\s+(?:family|children|child|kids|wife|husband|parents?|sister|brother|mother|father|mom|dad))\b|\byou(?:'re| are)\s+(?:dead|going to die)\b/i;
   let violence = [...hits(filipino), ...hits(english)];
+  violence.push(...hits(/\b(?:wag|huwag)\s+kang\s+(?:magpakita|magpapakita|lumapit)\b[^.!?\n]{0,55}\bkung\s+ayaw\s+mong\s+(?:masaktan|mamatay)\b/i, false));
   violence.push(...hits(/\b(?:i|we)(?:'ll| will| am going to| are going to)\s+(?:make sure|see to it that)\s+(?:your (?:family|parents|children|kids|siblings) (?:will )?never see(?:s)? you|you (?:will )?never see your (?:family|parents|children|kids|siblings)) again\b/i));
   // Offline coverage for indirect forms; contextual AI handles meaning beyond these patterns.
   violence.push(
@@ -108,6 +109,7 @@ export function safetySignals(text) {
   const exposure = hits(
     /\b(?:(?:ikakalat|ipapakalat|ikalat|ipapaskil|ipopost|i-post|ipost|ilalabas|ia-upload)\b[^.!?\n]{0,65}\b(?:larawan|pictures?|photos?|video|nudes?|scandal|sikreto|secrets?)|(?:leak|release|publish|post|share|expose)\b[^.!?\n]{0,55}\b(?:your|ur)\b[^.!?\n]{0,30}\b(?:nudes?|photos?|pictures?|videos?|secrets?))\b/i,
   );
+  exposure.push(...hits(/\b(?:pay|send money|transfer money)\b[^.!?\n]{0,50}\bor\s+your\s+(?:private|intimate)\s+(?:video|photos?|pictures?)\s+(?:goes?|gets? sent)\s+to\s+(?:everyone|your (?:family|friends))\b/i));
   if (
     familyLeverage.length ||
     (demand.length && (violence.length || stalking.length || exposure.length))

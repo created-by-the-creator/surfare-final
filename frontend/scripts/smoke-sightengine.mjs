@@ -71,7 +71,9 @@ try {
     await page.locator('#ask-surfy').waitFor();
     assert.equal(await page.locator('.result-ask-button').getAttribute('aria-expanded'), 'true');
     await page.getByRole('button', { name: copy['ask.imageMeaning'], exact: true }).click();
-    await page.waitForFunction(text => [...document.querySelectorAll('.chat-surfy')].at(-1)?.textContent.includes(text), copy[`result.sightengine.summary.${score >= 0.8 ? 'high' : score <= 0.2 ? 'low' : 'uncertain'}`]);
+    // Sentences render as separate list items; compare readable text with normalized spacing.
+    await page.waitForFunction(text => [...document.querySelectorAll('.chat-surfy')].at(-1)?.innerText.replace(/\s+/g, ' ').includes(text.replace(/\s+/g, ' ')), copy[`result.sightengine.summary.${score >= 0.8 ? 'high' : score <= 0.2 ? 'low' : 'uncertain'}`]);
+    await page.locator('.ask-more-questions').click();
     await page.getByRole('button', { name: copy['ask.imageScore'], exact: true }).click();
     await page.waitForFunction(text => [...document.querySelectorAll('.chat-surfy')].at(-1)?.textContent.includes(text), score.toFixed(3));
     if (lang === 'en') {

@@ -11,14 +11,18 @@ This is a local acknowledgment preference, not a server-side consent audit log.
 Changing NOTICE_VERSION prompts visitors to acknowledge the updated notice.
 Blocked storage falls back to acknowledgment for the current page session.
 
-Online URL checks remain off by default. Acknowledgment does not enable them.
-The included lookup worker uses Cloudflare and Google Safe Browsing; messages
-and images stay local for that lookup. URLs and signal excerpts can contain
-personal data, so minimization must not be described as guaranteed anonymity.
+Link checks use local patterns and bundled reference lists. URL reputation
+services are not used. Pressing Check follows recognized short links in messages,
+image text and QR payloads automatically while connected, and checks addresses
+entered in the Links detector. A notice explains that linked sites may record
+the visit. Only each address is sent to those sites; the full message or QR image
+is not. Other QR web links have a separate destination button. Recognized private
+QR data and credential/access-token links are not followed. AI sharing remains a
+separate optional choice (OpenRouter, then Gemini).
 Feedback is submitted through EmailJS only when the user sends the form.
 
-AI help is optional and uses the AI providers configured by the deployment,
-which may include Agent Router, OpenRouter or Gemini. The notice describes the
+AI help is optional. AI double-checks use OpenRouter with Gemini backup; Ask Surfy
+chat uses OpenRouter with Gemini backup; the online image detector uses Sightengine. The notice describes the
 separate choices these features require rather than claiming provider privacy
 controls have been verified here. Before enabling a provider, present the exact
 signal payload, selected model and provider, retention/training rules, and
@@ -30,7 +34,7 @@ authorization for these optional purposes.
 
 - Identify the personal information controller and its contact channel. Set
   VITE_PRIVACY_OPERATOR and VITE_PRIVACY_EMAIL to display verified details.
-- Confirm the actual hosting, model, URL-checking, and feedback recipients,
+- Confirm the actual hosting, model and feedback recipients,
   including destinations and any international transfers.
 - Establish retention/deletion periods for provider logs, recipient mailboxes,
   any feedback dataset, and any future server-side consent records.
@@ -43,5 +47,4 @@ perfect detection, or perfect security is made by this interface.
 References: [NPC notice guidance](https://privacy.gov.ph/the-right-to-be-informed/),
 [RA 10173](https://privacy.gov.ph/data-privacy-act/),
 [data-subject rights](https://privacy.gov.ph/data-subject-rights/), and
-[Agent Router privacy notice](https://agentrouter.org/privacy) and
 [OpenRouter privacy policy](https://openrouter.ai/privacy).

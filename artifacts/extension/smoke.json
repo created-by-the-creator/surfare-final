@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-11-24T08:10:45.642Z",
+  "records": [
+    {
+      "check": "selected text",
+      "localHighRisk": true,
+      "automaticApiCalls": 0
+    },
+    {
+      "check": "unsafe link",
+      "opened": false,
+      "localWarning": true
+    },
+    {
+      "check": "image and Ask Surfy",
+      "consentRequired": true,
+      "scoreInChatContext": true
+    },
+    {
+      "check": "new selection during old online check",
+      "oldResultCannotOverwrite": true
+    },
+    {
+      "check": "packaged QR worker",
+      "worksOffline": true
+    },
+    {
+      "check": "packaged OCR runtime",
+      "extractedText": true
+    }
+  ]
+}

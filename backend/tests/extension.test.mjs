@@ -48,9 +48,9 @@ test('Sightengine configuration and scores use the existing validated image serv
   assert.equal(data.detection.aiGeneratedScore, 0.94);
   assert(!JSON.stringify(data).includes('must-not-leave'));
 });
-test('invalid methods, oversized inputs and malformed reputation URLs fail without providers', async () => {
+test('invalid methods, oversized inputs and retired URL lookups fail without providers', async () => {
   assert.equal((await extensionApi(request('/api/detect', null, { method: 'GET' }))).status, 405);
-  assert.equal((await extensionApi(request('/api/check-url', { url: 'file:///private' }))).status, 400);
+  assert.equal((await extensionApi(request('/api/check-url', { url: 'file:///private' }))).status, 404);
   assert.equal((await extensionApi(request('/api/detect', { text: 'x'.repeat(1050001) }))).status, 413);
   assert.equal((await extensionApi(new Request('https://surfare.test/api/extension', { method: 'POST', body: '{' }))).status, 400);
 });

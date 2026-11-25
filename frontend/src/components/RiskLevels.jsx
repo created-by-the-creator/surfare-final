@@ -1,6 +1,7 @@
-import { useId, useState } from 'react';
-import { ChevronDown, Link2, Lock, MessageSquareText, ScanLine } from 'lucide-react';
+import { useId } from 'react';
+import { ArrowUpRight, Lock } from 'lucide-react';
 import { ASSETS } from '../assets.js';
+import { usePrivacyNotice } from '../privacy/PrivacyContext.jsx';
 import './PrivacyCard.css';
 
 const LEVELS = [
@@ -11,7 +12,7 @@ const LEVELS = [
 ];
 
 export default function RiskLevels({ t }) {
-  const [isPrivacyOpen, setIsPrivacyOpen] = useState(true);
+  const { reviewNotice } = usePrivacyNotice();
   const privacyPanelId = useId();
 
   return (
@@ -56,18 +57,12 @@ export default function RiskLevels({ t }) {
           <button
             className="privacy-toggle"
             type="button"
-            aria-expanded={isPrivacyOpen}
-            aria-controls={privacyPanelId}
-            onClick={() => setIsPrivacyOpen((open) => !open)}
+            aria-haspopup="dialog"
+            onClick={reviewNotice}
           >
-            <span>{t('privacy.question')}</span>
-            <ChevronDown aria-hidden="true" size={18} strokeWidth={1.8} />
+            <span>{t('notice.readPolicy')}</span>
+            <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
           </button>
-          <div className="privacy-details" id={privacyPanelId} hidden={!isPrivacyOpen}>
-            <div className="privacy-detail"><Link2 aria-hidden="true" size={21} /><p>{t('privacy.links')}</p></div>
-            <div className="privacy-detail"><MessageSquareText aria-hidden="true" size={21} /><p>{t('privacy.text')}</p></div>
-            <div className="privacy-detail"><ScanLine aria-hidden="true" size={21} /><p>{t('privacy.image')}</p></div>
-          </div>
         </article>
       </div>
     </section>

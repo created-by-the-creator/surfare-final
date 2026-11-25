@@ -1,0 +1,155 @@
+{
+  "checkedAt": "2026-11-25T05:03:35.475Z",
+  "scope": "Live local integration checks with authored synthetic fixtures. These are not an accuracy benchmark.",
+  "results": [
+    {
+      "id": "text-ai",
+      "elapsedMs": 4301,
+      "level": "low",
+      "errorKey": null,
+      "aiReview": {
+        "status": "completed",
+        "provider": "openrouter",
+        "model": "baidu/ernie-5.5-flash-preview:free"
+      },
+      "imageVisualStatus": null,
+      "visualLabel": null,
+      "imageProvider": null,
+      "imageDetectionScore": null,
+      "signals": [],
+      "extractedCharacters": 87,
+      "decodedQr": false,
+      "ocrConfidence": null,
+      "onlineUnavailable": false
+    },
+    {
+      "id": "link-ai",
+      "elapsedMs": 16704,
+      "level": "high",
+      "errorKey": null,
+      "aiReview": {
+        "status": "completed",
+        "provider": "openrouter",
+        "model": "baidu/ernie-5.5-flash-preview:free"
+      },
+      "imageVisualStatus": null,
+      "visualLabel": null,
+      "imageProvider": null,
+      "imageDetectionScore": null,
+      "signals": [
+        "impersonation",
+        "brand-gcash",
+        "lure"
+      ],
+      "extractedCharacters": 38,
+      "decodedQr": false,
+      "ocrConfidence": null,
+      "onlineUnavailable": false
+    },
+    {
+      "id": "image-text-ai",
+      "elapsedMs": 5346,
+      "level": "high",
+      "errorKey": null,
+      "aiReview": {
+        "status": "completed",
+        "provider": "openrouter",
+        "model": "baidu/ernie-5.5-flash-preview:free"
+      },
+      "imageVisualStatus": null,
+      "visualLabel": null,
+      "imageProvider": null,
+      "imageDetectionScore": null,
+      "signals": [
+        "extortion",
+        "violence"
+      ],
+      "extractedCharacters": 44,
+      "decodedQr": false,
+      "ocrConfidence": 94,
+      "onlineUnavailable": false
+    },
+    {
+      "id": "qr-content-ai",
+      "elapsedMs": 2676,
+      "level": "high",
+      "errorKey": null,
+      "aiReview": {
+        "status": "completed",
+        "provider": "openrouter",
+        "model": "baidu/ernie-5.5-flash-preview:free"
+      },
+      "imageVisualStatus": null,
+      "visualLabel": null,
+      "imageProvider": null,
+      "imageDetectionScore": null,
+      "signals": [
+        "violence",
+        "extortion"
+      ],
+      "extractedCharacters": 43,
+      "decodedQr": true,
+      "ocrConfidence": null,
+      "onlineUnavailable": false
+    },
+    {
+      "id": "image-origin-ai",
+      "elapsedMs": 2754,
+      "level": "unknown",
+      "errorKey": null,
+      "aiReview": null,
+      "imageVisualStatus": "completed",
+      "visualLabel": "result.sightengine.low",
+      "imageProvider": "sightengine",
+      "imageDetectionScore": 0.001,
+      "signals": [],
+      "extractedCharacters": 0,
+      "decodedQr": false,
+      "ocrConfidence": null,
+      "onlineUnavailable": false
+    }
+  ],
+  "existingInternalComponentMetrics": {
+    "source": "backend/reports/dataset-training.json",
+    "text": {
+      "count": 3239,
+      "positive": 2708,
+      "negative": 531,
+      "tp": 2551,
+      "fp": 17,
+      "tn": 514,
+      "fn": 157,
+      "abstained": 117,
+      "precision": 0.993380062305296,
+      "recall": 0.9420236336779911,
+      "falsePositiveRate": 0.032015065913371,
+      "f1": 0.9670204700530706
+    },
+    "url": {
+      "count": 22163,
+      "positive": 8794,
+      "negative": 13369,
+      "tp": 5131,
+      "fp": 255,
+      "tn": 13114,
+      "fn": 3663,
+      "abstained": 477,
+      "precision": 0.9526550315633123,
+      "recall": 0.5834659995451444,
+      "falsePositiveRate": 0.019073977111227467,
+      "f1": 0.7236953455571228
+    },
+    "limitations": [
+      "No external API calls or private feedback used.",
+      "Synthetic curated cases are development data, not independent validation.",
+      "Test metrics assess model components; exact-lookup indexes and full-app rules are not evaluated here."
+    ]
+  },
+  "conclusions": [
+    "Text, links, OCR-extracted text and decoded QR content share the opt-in AI assessment.",
+    "Image-origin review uses local metadata and, with its own sharing choice, the Sightengine genai API; OCR and QR extraction run on the device.",
+    "Private QR payloads are excluded from AI and reputation requests.",
+    "Component precision and recall do not measure the complete app or live AI accuracy.",
+    "Independent, representative labels are still needed for OCR, QR safety, vision provenance and end-to-end AI accuracy."
+  ]
+}

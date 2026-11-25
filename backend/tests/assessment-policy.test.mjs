@@ -33,7 +33,7 @@ for (const text of [
 
 test('strong warnings skip AI while Suspicious findings may receive contextual review', () => {
   assert.equal(needsAiBackup({ level: 'Suspicious', sourceText: 'test message' }, available), true);
-  for (const level of ['High risk', 'Low risk']) {
+  for (const level of ['High risk']) {
     assert.equal(needsAiBackup({ level, sourceText: 'test message' }, available), false);
   }
 });
@@ -44,7 +44,7 @@ test('unmatched nonempty content uses available AI backup, including ordinary la
     'May dala akong payong para mamaya.',
   ]) {
     const local = assessContent({ text });
-    assert.equal(local.level, 'Insufficient evidence');
+    assert.equal(local.level, 'Low risk');
     assert.equal(needsAiBackup(local, available), true);
   }
 });

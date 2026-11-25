@@ -1,4 +1,5 @@
 import { parse } from 'tldts';
+import { decodeUrlComponent } from './url-identity.js';
 
 export function normalizeUrl(value) {
   let s = value
@@ -8,6 +9,7 @@ export function normalizeUrl(value) {
     .replace(/^hxxp/i, 'http');
   if (!/^[a-z][a-z\d+.-]*:/i.test(s) || /^[^/:]+\.\w+:\d{1,5}(?:[/?#]|$)/u.test(s)) s = 'https://' + s;
   const u = new URL(s);
+  u.hostname = u.hostname.replace(/\.$/, '');
   if (
     !['http:', 'https:'].includes(u.protocol) ||
     (!u.hostname.includes('.') && !u.hostname.includes(':'))
@@ -40,9 +42,10 @@ const redirectKey = /^(?:url|redirect|redirect_uri|redirect_url|next|continue|ta
 export function redirectDestinations(u) {
   const destinations = new Set();
   for (const [key, value] of u.searchParams) {
-    if (!redirectKey.test(key) || !/^(?:https?:)?\/\//i.test(value)) continue;
+    const decoded = decodeUrlComponent(value);
+    if (!redirectKey.test(key) || !/^(?:https?:)?\/\//i.test(decoded)) continue;
     try {
-      const target = new URL(value, u);
+      const target = normalizeUrl(new URL(decoded, u).href);
       if (target.hostname !== u.hostname && target.href.length <= 2048) destinations.add(target.href);
     } catch {}
     if (destinations.size >= 4) break;
@@ -62,7 +65,18 @@ export function urlCandidates(text, explicitUrls = []) {
       const start = text.indexOf(raw);
       const evidence = start < 0 ? [] : [{ start, end: start + raw.length, text: raw }];
       add(parsed.href, evidence);
-      for (const target of redirectDestinations(parsed)) add(target, evidence);
+      const queue = [{ url: parsed, depth: 0 }];
+      const visited = new Set([parsed.href]);
+      while (queue.length && candidates.size < 10) {
+        const current = queue.shift();
+        if (current.depth >= 3) continue;
+        for (const target of redirectDestinations(current.url)) {
+          if (visited.has(target)) continue;
+          visited.add(target);
+          add(target, evidence);
+          queue.push({ url: new URL(target), depth: current.depth + 1 });
+        }
+      }
     } catch {}
   }
   return [...candidates.values()];

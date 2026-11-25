@@ -1,33 +1,47 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { Check, ChevronDown, Fingerprint, LockKeyhole, Minus, ShieldCheck, X } from 'lucide-react';
-import { ASSETS } from '../assets.js';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { ArrowDown, ArrowRight, Check, X } from 'lucide-react';
 import { usePrivacyNotice } from '../privacy/PrivacyContext.jsx';
 import './PrivacyNotice.css';
 
-const ACKNOWLEDGMENTS = ['minimize', 'process', 'sharing', 'providers', 'security', 'sensitive', 'rights'];
 const SECTIONS = ['purpose', 'sharing', 'ai', 'retention', 'security', 'rights', 'terms'];
 const REFERENCES = [
   ['Republic Act No. 10173', 'https://privacy.gov.ph/data-privacy-act/'],
   ['National Privacy Commission', 'https://privacy.gov.ph/data-subject-rights/'],
-  ['Agent Router', 'https://agentrouter.org/privacy'],
   ['OpenRouter', 'https://openrouter.ai/privacy'],
   ['Sightengine', 'https://sightengine.com/policies/privacy'],
   ['Google', 'https://policies.google.com/privacy'],
-  ['Cloudflare', 'https://www.cloudflare.com/privacypolicy/'],
   ['EmailJS', 'https://www.emailjs.com/legal/privacy-policy/'],
 ];
 
 export default function PrivacyNotice({ t, reduced }) {
   const { hasAcknowledged, finishNotice, resetAcknowledgment } = usePrivacyNotice();
-  const [checked, setChecked] = useState(() => ACKNOWLEDGMENTS.map(() => hasAcknowledged));
+  const [checked, setChecked] = useState(false);
+  const [hasReachedEnd, setHasReachedEnd] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [closing, setClosing] = useState(null);
   const dialogRef = useRef(null);
-  const selectAllRef = useRef(null);
+  const scrollRef = useRef(null);
+  const contentRef = useRef(null);
   const id = useId();
-  const count = checked.filter(Boolean).length;
-  const allChecked = count === ACKNOWLEDGMENTS.length;
+  const canContinue = hasReachedEnd && checked && !closing;
   const operator = import.meta.env.VITE_PRIVACY_OPERATOR?.trim();
   const email = import.meta.env.VITE_PRIVACY_EMAIL?.trim();
+
+  const updateScroll = useCallback(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+    const distance = Math.max(0, element.scrollHeight - element.clientHeight);
+    setProgress(distance <= 1 ? 100 : Math.min(100, element.scrollTop / distance * 100));
+    if (distance <= 1 || element.scrollTop >= distance - 3) setHasReachedEnd(true);
+  }, []);
+
+  useEffect(() => {
+    updateScroll();
+    const observer = new ResizeObserver(updateScroll);
+    observer.observe(scrollRef.current);
+    observer.observe(contentRef.current);
+    return () => observer.disconnect();
+  }, [updateScroll]);
 
   useLayoutEffect(() => {
     const dialog = dialogRef.current;
@@ -44,15 +58,11 @@ export default function PrivacyNotice({ t, reduced }) {
   }, []);
 
   useEffect(() => {
-    selectAllRef.current.indeterminate = count > 0 && !allChecked;
-  }, [count, allChecked]);
-
-  useEffect(() => {
     if (!closing) return undefined;
     const timer = window.setTimeout(() => {
       if (closing === 'reset') resetAcknowledgment();
       else finishNotice(closing === 'accept');
-    }, reduced ? 0 : 300);
+    }, reduced ? 0 : 180);
     return () => window.clearTimeout(timer);
   }, [closing, reduced, finishNotice, resetAcknowledgment]);
 
@@ -61,42 +71,34 @@ export default function PrivacyNotice({ t, reduced }) {
   return (
     <dialog className={`privacy-notice${closing ? ' is-closing' : ''}`} ref={dialogRef}
       aria-labelledby={`${id}-title`} aria-describedby={`${id}-description`}
+      onKeyDown={(event) => {
+        if (event.key !== 'Tab') return;
+        const controls = [...event.currentTarget.querySelectorAll('button:not([disabled]), input:not([disabled]), [tabindex="0"], a[href]')]
+          .filter(element => element.getClientRects().length > 0);
+        const first = controls[0], last = controls.at(-1);
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }}
       onCancel={(event) => { event.preventDefault(); dismiss(); }}>
-      <div className="notice-layout">
-        <aside className="notice-brand-panel">
-          <a className="notice-brand" href="#top" onClick={(event) => event.preventDefault()} tabIndex={-1} aria-label="Surfare">
-            <img src={ASSETS.appIcon} alt="" width="40" height="40" /><span>Surfare</span>
-          </a>
-          <div className="notice-illustration" aria-hidden="true">
-            <span className="notice-orbit orbit-outer" /><span className="notice-orbit orbit-inner" />
-            <span className="notice-shield"><Fingerprint size={54} strokeWidth={1.3} /></span>
-            <span className="notice-lock"><LockKeyhole size={19} /></span>
-          </div>
-          <div className="notice-brand-copy">
-            <p className="notice-eyebrow">{t('notice.brandEyebrow')}</p>
-            <p className="notice-brand-title">{t('notice.brandTitle')}</p>
-            <p>{t('notice.brandBody')}</p>
-          </div>
-          <div className="notice-local-badge"><ShieldCheck size={17} aria-hidden="true" /><span>{t('notice.localBadge')}</span></div>
-        </aside>
-
         <form className="notice-main" onSubmit={(event) => {
           event.preventDefault();
-          if (allChecked && !closing) setClosing('accept');
+          if (canContinue) setClosing('accept');
         }}>
           <header className="notice-header">
-            <div><p className="notice-eyebrow">{t('notice.eyebrow')}</p>
-              <h2 id={`${id}-title`} tabIndex={-1}>{t('notice.title')}</h2>
+            <div className="notice-topline">
+              <span className="notice-wordmark">Surfare<span aria-hidden="true">.</span></span>
+              <button className="notice-close" type="button" onClick={dismiss} aria-label={t('notice.notNow')} disabled={Boolean(closing)}><X size={19} /></button>
             </div>
-            <button className="notice-close" type="button" onClick={dismiss} aria-label={t('notice.notNow')} disabled={Boolean(closing)}><X size={20} /></button>
-          </header>
-
-          <div className="notice-scroll">
+            <p className="notice-eyebrow">{t('notice.eyebrow')}</p>
+            <h2 id={`${id}-title`} tabIndex={-1}>{t('notice.title')}</h2>
             <p className="notice-description" id={`${id}-description`}>{t('notice.description')}</p>
-            <div className="notice-choice-callout"><LockKeyhole size={17} aria-hidden="true" /><p>{t('notice.separateChoices')}</p></div>
+          </header>
+          <div className="notice-reading-track" aria-hidden="true"><span style={{ transform: `scaleX(${progress / 100})` }} /></div>
 
-            <details className="notice-policy">
-              <summary><span>{t('notice.readPolicy')}</span><ChevronDown size={18} aria-hidden="true" /></summary>
+          <div className="notice-scroll" ref={scrollRef} onScroll={updateScroll} tabIndex={0} role="region" aria-label={t('notice.readPolicy')}>
+            <div ref={contentRef} className="notice-content">
+            <p className="notice-choice-callout">{t('notice.separateChoices')}</p>
+
               <div className="notice-policy-body">
                 <p className="notice-updated">{t('notice.updated')}</p>
                 {SECTIONS.map((section) => (
@@ -112,42 +114,31 @@ export default function PrivacyNotice({ t, reduced }) {
                 </nav>
                 {hasAcknowledged && <button className="notice-reset" type="button" onClick={() => setClosing('reset')} disabled={Boolean(closing)}>{t('notice.reset')}</button>}
               </div>
-            </details>
-
-            <fieldset className="notice-acknowledgments" disabled={Boolean(closing)}>
-              <legend className="visually-hidden">{t('notice.acknowledgments')}</legend>
-              <label className="notice-select-all">
-                <span className="notice-checkbox"><input type="checkbox" ref={selectAllRef} checked={allChecked} aria-label={t('notice.selectAll')}
-                  onChange={(event) => setChecked(ACKNOWLEDGMENTS.map(() => event.target.checked))} />
-                  {count > 0 && !allChecked ? <Minus size={14} aria-hidden="true" /> : <Check size={14} aria-hidden="true" />}</span>
-                <strong>{t('notice.selectAll')}</strong>
-                <span className="notice-selected-count" aria-live="polite">{t('notice.selectedCount', { count, total: ACKNOWLEDGMENTS.length })}</span>
-              </label>
-              <div className="notice-checklist">
-                {ACKNOWLEDGMENTS.map((key, index) => (
-                  <label className={`notice-acknowledgment${checked[index] ? ' is-selected' : ''}`} key={key}>
-                    <span className="notice-checkbox"><input type="checkbox" checked={checked[index]}
-                      onChange={(event) => setChecked((previous) => previous.map((value, i) => i === index ? event.target.checked : value))} />
-                      <Check size={14} aria-hidden="true" /></span>
-                    <span>{t(`notice.ack.${key}`)}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
+              <p className="notice-end-marker">{t('notice.endOfNotice')}</p>
+            </div>
           </div>
 
           <footer className="notice-actions">
-            <p>{t('notice.agreement')}</p>
+            <p className={`notice-scroll-hint${hasReachedEnd ? ' is-complete' : ''}`} id={`${id}-scroll-hint`} aria-live="polite">
+              {hasReachedEnd ? <Check size={14} aria-hidden="true" /> : <ArrowDown size={14} aria-hidden="true" />}
+              {t(hasReachedEnd ? 'notice.reachedEnd' : 'notice.scrollToContinue')}
+            </p>
+            <label className={`notice-final-ack${!hasReachedEnd ? ' is-locked' : ''}`}>
+              <span className="notice-checkbox"><input type="checkbox" checked={checked} required
+                disabled={!hasReachedEnd || Boolean(closing)} aria-describedby={`${id}-scroll-hint`}
+                onChange={(event) => { if (hasReachedEnd) setChecked(event.target.checked); }} />
+                <Check size={13} aria-hidden="true" /></span>
+              <span>{t('notice.singleAcknowledgment')}</span>
+            </label>
             <div className="notice-action-row">
               <button className="notice-decline" type="button" onClick={dismiss} disabled={Boolean(closing)}>{t('notice.notNow')}</button>
-              <button className="notice-accept" type="submit" disabled={!allChecked || Boolean(closing)} aria-describedby={`${id}-hint`}>
-                <ShieldCheck size={18} aria-hidden="true" />{t('notice.agree')}
+              <button className="notice-accept" type="submit" disabled={!canContinue} aria-describedby={`${id}-hint`}>
+                {t('notice.agree')}<ArrowRight size={17} aria-hidden="true" />
               </button>
             </div>
-            <p className="notice-action-hint" id={`${id}-hint`}>{t(allChecked ? 'notice.ready' : 'notice.required')}</p>
+            <p className="notice-action-hint" id={`${id}-hint`} aria-live="polite">{t(checked && hasReachedEnd ? 'notice.ready' : 'notice.required')}</p>
           </footer>
         </form>
-      </div>
     </dialog>
   );
 }

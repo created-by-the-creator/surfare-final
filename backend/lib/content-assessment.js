@@ -1,6 +1,7 @@
 import { analyze } from './detection.js';
 import { combineAssessment } from './assessment.js';
-import { isUnsupportedQrPayload } from './qr-payload.js';
+import { isUnsupportedQrPayload, isLoginQrPayload } from './qr-payload.js';
+import { describeQrPayload } from './qr-links.js';
 
 // One assessment path for typed messages, addresses, OCR output and QR payloads.
 /** @param {{text?:string,urls?:string[],kind?:string,uncertain?:boolean,verification?:any}} options */
@@ -15,8 +16,9 @@ export function assessContent({
   local.inputKind = kind;
   local.localPatternLevel = local.level;
   local.uncertainExtraction = uncertain;
-  const unsupportedQr = (kind === 'qr' || kind === 'image') && isUnsupportedQrPayload(text);
-  const poorEvidence = uncertain || unsupportedQr;
+  local.loginQr = isLoginQrPayload(text);
+  const unsupportedQr = (kind === 'qr' || kind === 'image') && (isUnsupportedQrPayload(text) || describeQrPayload(text).type === 'unsupported');
+  const poorEvidence = uncertain || unsupportedQr || local.loginQr;
   local.unsupportedQr = unsupportedQr;
   if (poorEvidence && local.level === 'Low risk') {
     local.level = 'Insufficient evidence';
@@ -32,13 +34,13 @@ export function assessContent({
     local.limitations.unshift(
       'Payment, Wi-Fi, location and contact QR payloads are not authenticated by this checker.',
     );
-  if (local.level === 'Low risk') {
+  if (local.level === 'Low risk' && kind === 'link') {
     local.level = 'Insufficient evidence';
     local.summary = 'The meaning and intent were not assessed. No strong local pattern matched.';
     local.recommendation = 'Use AI backup or ask someone you trust to review it before acting.';
   }
   local.limitations.unshift(
-    'The local SMS model recognizes spam-like wording; it is not a semantic threat classifier. A non-match is not evidence of low risk.',
+    'Low risk means no strong warning signs matched the local checks; it does not verify the sender, intent, or safety.',
   );
   return combineAssessment(local, verification);
 }

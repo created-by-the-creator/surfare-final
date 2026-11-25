@@ -3,7 +3,7 @@ export function needsAiBackup(local, { enabled, configured, online }) {
     enabled &&
     configured &&
     online &&
-    (local?.level === 'Insufficient evidence' || local?.level === 'Suspicious') &&
+    ['Insufficient evidence', 'Suspicious', 'Low risk'].includes(local?.level) &&
     local.sourceText?.trim()
   );
 }

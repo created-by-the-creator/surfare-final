@@ -1,4 +1,5 @@
 import { parse as parseDomain } from 'tldts';
+import { isShortLinkHost } from './short-links.js';
 
 // Browser-safe hostname helpers shared by the Node detector and the bundled
 // offline reference checks. A match is a clue for review, never an approval.
@@ -40,7 +41,7 @@ export function matchesHostSet(urls, set) {
   for (const info of Array.isArray(urls) ? urls : []) {
     for (const candidate of hostCandidates(info?.host)) {
       for (const suffix of hostSuffixes(candidate)) {
-        if (!set.has(suffix)) continue;
+        if (!set.has(suffix) || isShortLinkHost(suffix)) continue;
         const key = `${info.url}:${suffix}`;
         if (seen.has(key)) continue;
         seen.add(key);

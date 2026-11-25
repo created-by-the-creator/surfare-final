@@ -1,15 +1,9 @@
 # Copy this file to .dev.vars for local development.
 # Leave optional keys blank to run without the corresponding online service.
-# Agent Router is tried first when both the key and model are set.
-# The AgentRouter-documented AGENTROUTER_API_KEY/BASE_URL/MODEL names also work.
-AGENT_ROUTER_API_KEY=
-AGENT_ROUTER_BASE_URL=https://agentrouter.org/v1
-AGENT_ROUTER_MODEL=gpt-6.1-sol
-AGENT_ROUTER_IMAGE_MODEL=
+# Chat and AI double-checks use OpenRouter first, then Gemini; image detection uses Sightengine.
 OPENROUTER_API_KEY=
 GEMINI_API_KEY=
 GEMINI_IMAGE_MODEL=gemini-3.5-flash-lite
-GOOGLE_SAFE_BROWSING_API_KEY=
 
 # Online AI image detection. Get both values from the Sightengine API keys page.
 SIGHTENGINE_API_USER=

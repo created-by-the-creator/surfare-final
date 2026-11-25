@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-11-24T18:59:10.533Z",
+  "records": [
+    {
+      "scenario": "simple result; expandable details; Surfy follows current result",
+      "lang": "en",
+      "width": 1440,
+      "score": 0.94,
+      "uploads": 1
+    },
+    {
+      "scenario": "simple result; expandable details; Surfy follows current result",
+      "lang": "tl",
+      "width": 390,
+      "score": 0.51,
+      "uploads": 1
+    },
+    {
+      "scenario": "simple result; expandable details; Surfy follows current result",
+      "lang": "taglish",
+      "width": 390,
+      "score": 0,
+      "uploads": 1
+    },
+    {
+      "scenario": "quota preserves local findings; explicit retry succeeds",
+      "uploads": 2
+    },
+    {
+      "scenario": "offline metadata; reconnect requires sharing choice",
+      "uploads": 1
+    }
+  ]
+}

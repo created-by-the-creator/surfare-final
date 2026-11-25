@@ -9,9 +9,11 @@ import ImageModeModal from './components/ImageModeModal.jsx';
 import Navbar from './components/Navbar.jsx';
 import ResultPanel from './components/ResultPanel.jsx';
 import RiskLevels from './components/RiskLevels.jsx';
+import { RecoveryDialog } from './components/RecoveryHelp.jsx';
 import ScamPractice from './components/ScamPractice.jsx';
 import OfflineResources from './components/OfflineResources.jsx';
 import { analyzeInput } from './engine/analyze.js';
+import { mergeLinkResolution } from './engine/link-destination.js';
 import { getSuggestedQuestionKeys, getSuggestedSignalQuestions, getSurfyAnswer, getSurfyResultMessage } from './surfy/templates.js';
 import { requestSurfyReply } from './surfy/client.js';
 import { htmlLanguage, translate } from './i18n/useI18n.js';
@@ -149,7 +151,7 @@ function demoResult(scenario, checkedText) {
 export default function App({ shareLaunch = null }) {
   useScrollReveal();
   useFluidMotion();
-  const { hasAcknowledged, requestAcknowledgment } = usePrivacyNotice();
+  const { hasAcknowledged, requestAcknowledgment, reviewNotice } = usePrivacyNotice();
   const [lang, setLang] = useState(useInitialLanguage);
   const t = useCallback((key, values) => translate(lang, key, values), [lang]);
   const isOnline = useConnectionStatus();
@@ -168,6 +170,7 @@ export default function App({ shareLaunch = null }) {
   const [result, setResult] = useState(null);
   const [errorKey, setErrorKey] = useState('');
   const [isAskOpen, setIsAskOpen] = useState(false);
+  const [isRecoveryOpen, setIsRecoveryOpen] = useState(false);
   const [surfyOpenRequest, setSurfyOpenRequest] = useState(0);
   const [isAskClosing, setIsAskClosing] = useState(false);
   const [isAskThinking, setIsAskThinking] = useState(false);
@@ -452,7 +455,7 @@ export default function App({ shareLaunch = null }) {
     askRequestRef.current = controller;
     setIsAskThinking(true);
     let answer = item.fallback;
-    if (item.ai) {
+    if (item.ai && navigator.onLine !== false) {
       try { answer = await requestSurfyReply({ ...item, signal: controller.signal }); }
       catch { answer = `${item.t('ask.aiUnavailable')} ${item.fallback}`; }
     }
@@ -505,10 +508,13 @@ export default function App({ shareLaunch = null }) {
     [cameraTarget, t],
   );
 
+  const destinationDisplayRunId = checkRunId.current;
   return (
     <WelcomeExperience t={t} skipIntro={Boolean(shareLaunch)}>
     <div className="app-bg">
       <Navbar
+        onOpenGuide={() => setIsRecoveryOpen(true)}
+        isGuideOpen={isRecoveryOpen}
         lang={lang}
         onLanguageChange={setLang}
         isOnline={isOnline}
@@ -519,7 +525,9 @@ export default function App({ shareLaunch = null }) {
         <CheckCard
           shareNotice={shareNotice}
           aiEnabled={aiEnabled}
-          onAiChange={(enabled) => {
+          onReviewPrivacy={reviewNotice}
+          onAiChange={async (enabled) => {
+            if (enabled && !await requestAcknowledgment()) return;
             setAiEnabled(enabled);
             try { sessionStorage.setItem('surfare-ai-opt-in', String(enabled)); } catch { /* This page still remembers the choice. */ }
             if (!enabled) {
@@ -565,6 +573,11 @@ export default function App({ shareLaunch = null }) {
           t={t}
         >
           <ResultPanel
+            onDestinationResolved={resolution => {
+              if (destinationDisplayRunId !== checkRunId.current) return;
+              setResult(current => current && current.checkedText === result?.checkedText ? mergeLinkResolution(current, resolution) : current);
+            }}
+            onRecovery={() => setIsRecoveryOpen(true)}
             isAskOpen={isAskOpen}
             onAskAboutResult={() => {
               setIsAskOpen(true);
@@ -588,6 +601,7 @@ export default function App({ shareLaunch = null }) {
             }}
           />
         </CheckCard>
+        {isRecoveryOpen && <RecoveryDialog t={t} lang={lang} isOnline={isOnline} onClose={() => setIsRecoveryOpen(false)} />}
         <HowItWorks t={t} />
         <ScamPractice lang={lang} />
         <RiskLevels t={t} />

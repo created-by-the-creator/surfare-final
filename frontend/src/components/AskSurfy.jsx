@@ -21,6 +21,11 @@ export default function AskSurfy({
   onSend,
   openRequest,
   questionKeys = SURFY_QUESTION_KEYS,
+  mascot = ASSETS.surfyWink,
+  idPrefix = 'ask',
+  welcome,
+  controls,
+  hideToggle = false,
   t,
 }) {
   const [draft, setDraft] = useState('');
@@ -70,7 +75,7 @@ export default function AskSurfy({
 
   return (
     <section
-      id="ask-surfy"
+      id={`${idPrefix}-surfy`}
       className={`ask-dialog${isClosing ? ' is-closing' : ''}${isCollapsed ? ' is-collapsed' : ''}`}
       role="complementary"
       aria-label={t('ask.title')}
@@ -87,16 +92,17 @@ export default function AskSurfy({
           <p className="ask-eyebrow">{t('ask.eyebrow')}</p>
           <h2 tabIndex={-1}>{t('ask.title')}</h2>
         </div>
-        <button className="ask-toggle" type="button"
+        {!hideToggle && <button className="ask-toggle" type="button"
           aria-label={t(isCollapsed ? 'ask.expand' : 'ask.collapse')}
-          aria-expanded={!isCollapsed} aria-controls="ask-conversation"
+          aria-expanded={!isCollapsed} aria-controls={`${idPrefix}-conversation`}
           onClick={() => setIsCollapsed((collapsed) => !collapsed)}>
           {isCollapsed ? <ChevronDown size={20} aria-hidden="true" /> : <ChevronUp size={20} aria-hidden="true" />}
-        </button>
+        </button>}
       </header>
 
-      <div className="ask-layout" id="ask-conversation">
-        <div className="ask-mascot-stage" aria-hidden="true"><span /><img src={ASSETS.surfyWink} alt="" width="1000" height="1000" decoding="async" /></div>
+      {controls}
+      <div className="ask-layout" id={`${idPrefix}-conversation`}>
+        <div className="ask-mascot-stage" aria-hidden="true"><span /><img src={mascot} alt="" width="1000" height="1000" decoding="async" /></div>
       <div className="ask-content">
         <div className="ask-messages" ref={messagesRef} aria-live="polite" aria-relevant="additions text"
           onScroll={(event) => {
@@ -104,7 +110,7 @@ export default function AskSurfy({
             element.dataset.scrolled = element.scrollTop > 4 ? 'true' : 'false';
             followLatestRef.current = element.scrollHeight - element.clientHeight - element.scrollTop < 48;
           }}>
-          {!messages.length && !isThinking && <p className="ask-welcome">{t('ask.welcome')}</p>}
+          {!messages.length && !isThinking && <p className="ask-welcome">{welcome || t('ask.welcome')}</p>}
           {messages.map((message, index) => {
             if (message.role === 'divider') {
               return (
@@ -146,11 +152,11 @@ export default function AskSurfy({
             submit(draft);
           }}
         >
-          <label className="sr-only" htmlFor="ask-input">
+          <label className="sr-only" htmlFor={`${idPrefix}-input`}>
             {t('ask.input')}
           </label>
           <textarea
-            id="ask-input"
+            id={`${idPrefix}-input`}
             ref={inputRef}
             rows="1"
             maxLength={2000}

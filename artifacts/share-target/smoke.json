@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-11-24T07:40:09.021Z",
+  "records": [
+    {
+      "share": "multipart navigation: message",
+      "prefilled": true,
+      "automaticApiCalls": 0
+    },
+    {
+      "share": "Android text-field URL",
+      "correctDetector": "links",
+      "singleUse": true
+    },
+    {
+      "share": "offline image",
+      "originalBytesPreserved": true,
+      "automaticApiCalls": 0
+    },
+    {
+      "share": "invalid, empty, multiple and oversized items",
+      "result": "clear error; no check started"
+    },
+    {
+      "share": "expired and queued receipts",
+      "expiredRejected": true,
+      "queueBounded": true
+    }
+  ]
+}

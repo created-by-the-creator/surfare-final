@@ -96,7 +96,7 @@ const benign = [
 for (const text of benign)
   test('benign context is not flagged or certified safe: ' + text, () => {
     const r = assessContent({ text });
-    assert.equal(r.level, 'Insufficient evidence');
+    assert.equal(r.level, 'Low risk');
     assert(!r.indicators.some((i) => i.category === 'personal safety'));
   });
 test('negated advice cannot cancel an independent secret request', () => {
@@ -172,8 +172,8 @@ test('evaluation includes harmful labels and counts uncertainty as a miss', () =
     { text: 'Patayin mo ang ilaw bago matulog.', label: 'legitimate', language: 'Filipino' },
     { text: 'https://example.com', label: 'legitimate', language: 'English' },
   ]);
-  assert.equal(r.overall.accuracy, 1 / 3);
-  assert.equal(r.overall.abstain, 2);
-  assert.equal(r.overall.balancedAccuracy, 0.5);
-  assert.equal(r.macroLanguageAccuracy, 0.25);
+  assert.equal(r.overall.accuracy, 2 / 3);
+  assert.equal(r.overall.abstain, 1);
+  assert.equal(r.overall.balancedAccuracy, 0.75);
+  assert.equal(r.macroLanguageAccuracy, 0.5);
 });

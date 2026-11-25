@@ -1,7 +1,9 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { Camera, Image, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, Share2, ShieldCheck, Sparkles, Upload } from 'lucide-react';
+import { ArrowUpRight, Camera, Image, Info, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, Share2, ShieldCheck, Sparkles, Upload, X } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import AskSurfy from './AskSurfy.jsx';
+import { extractUrls } from '../../../backend/lib/url-input.js';
+import { describeLink } from '../engine/link-description.js';
 
 const TABS = [
   { id: 'text', Icon: MessageSquareText },
@@ -56,6 +58,7 @@ export default function CheckCard({
   offlineResources,
   aiEnabled,
   onAiChange,
+  onReviewPrivacy,
   isOnline,
   t,
   children,
@@ -63,8 +66,14 @@ export default function CheckCard({
   const tabRefs = useRef([]);
   const id = useId();
   const panelId = `${id}-panel`;
+  const [isAiHelpOpen, setIsAiHelpOpen] = useState(false);
+  const aiInfoRef = useRef(null);
+  const closeAiHelp = () => { setIsAiHelpOpen(false); aiInfoRef.current?.focus(); };
   const selectedTab = TABS.find((tab) => tab.id === activeTab) ?? TABS[0];
   const currentFile = activeTab === 'image' ? inputs.image : inputs.qr;
+  const followsShortLinks = activeTab === 'links' ? Boolean(describeLink(inputs.url))
+    : activeTab === 'text' ? extractUrls(inputs.message).some(url => describeLink(url)?.shortened)
+      : Boolean(currentFile) && (activeTab === 'qr' || inputs.imageMode === 'ocr');
   const isReceivingShare = shareNotice === 'share.loading';
   const isLocked = isCheckUsed || isAnalyzing || isReceivingShare || status === 'result';
   const canCheck =
@@ -308,10 +317,35 @@ export default function CheckCard({
                     )}
                   </div>
 
-                  <label className="check-ai-choice">
-                    <input type="checkbox" checked={aiEnabled} onChange={(event) => onAiChange(event.target.checked)} disabled={!isOnline || isAnalyzing} />
-                    <span><strong>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.aiChatHelp' : 'ask.aiHelp')}</strong><small>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.aiChatConsent' : 'ask.aiConsent')}</small></span>
-                  </label>
+                  {followsShortLinks && <p className="field-help automatic-link-notice">{t(activeTab === 'links' ? 'destination.linkBeforeCheck' : 'destination.beforeCheck')}</p>}
+                  <div className="check-ai-control">
+                    <label className="check-ai-choice" title={t('ask.onlineProcessing')}>
+                      <input type="checkbox" checked={aiEnabled} onChange={(event) => onAiChange(event.target.checked)} disabled={!isOnline || isAnalyzing} aria-describedby={`${id}-ai-processing`} />
+                      <strong>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.aiChatHelp' : 'ask.aiHelp')}</strong>
+                      <span className="check-ai-online">{t('ask.onlineBadge')}</span>
+                    </label>
+                    <span className="visually-hidden" id={`${id}-ai-processing`}>{t('ask.onlineProcessing')}</span>
+                    <button className="check-ai-details" type="button" ref={aiInfoRef}
+                      onClick={() => setIsAiHelpOpen(open => !open)}
+                      onKeyDown={(event) => { if (event.key === 'Escape' && isAiHelpOpen) { event.stopPropagation(); closeAiHelp(); } }}
+                      aria-expanded={isAiHelpOpen} aria-controls={isAiHelpOpen ? `${id}-ai-help` : undefined}
+                      aria-label={t('ask.onlinePrivacy')} title={t('ask.helpInfo.title')}>
+                      <Info size={16} aria-hidden="true" />
+                    </button>
+                  </div>
+                  {isAiHelpOpen && <section className="check-ai-explainer" id={`${id}-ai-help`} aria-labelledby={`${id}-ai-help-title`}
+                    onKeyDown={(event) => { if (event.key === 'Escape') { event.stopPropagation(); closeAiHelp(); } }}>
+                    <div className="check-ai-explainer-heading">
+                      <h3 id={`${id}-ai-help-title`}>{t('ask.helpInfo.title')}</h3>
+                      <button className="check-ai-explainer-close" type="button" onClick={closeAiHelp} aria-label={t('ask.helpInfo.close')}><X size={16} aria-hidden="true" /></button>
+                    </div>
+                    <p>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.helpInfo.chatWhat' : 'ask.helpInfo.what')}</p>
+                    <p>{t(activeTab === 'image' && inputs.imageMode === 'origin' ? 'ask.helpInfo.chatPrivacy' : 'ask.helpInfo.privacy')}</p>
+                    <p className="check-ai-explainer-choice">{t('ask.helpInfo.choice')}</p>
+                    <button className="check-ai-policy-link" type="button" onClick={onReviewPrivacy}>
+                      {t('ask.helpInfo.policy')}<ArrowUpRight size={14} aria-hidden="true" />
+                    </button>
+                  </section>}
                   <button
                     className="check-button"
                     type="button"
@@ -320,7 +354,7 @@ export default function CheckCard({
                     onClick={isNewCheck ? onReset : canReviewAgain ? onReviewAgain : onCheck}
                   >
                     {isNewCheck ? <RotateCcw aria-hidden="true" /> : <ShieldCheck aria-hidden="true" />}
-                    {isAnalyzing ? t(status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(isNewCheck ? 'check.new' : canReviewAgain ? result?.aiImageOnly ? 'result.sightengine.retry' : 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
+                    {isAnalyzing ? t(result?.destinationPending ? 'destination.checking' : status === 'reviewing' ? 'check.progress.ai' : 'result.loading') : t(isNewCheck ? 'check.new' : canReviewAgain ? result?.aiImageOnly ? 'result.sightengine.retry' : 'check.reviewAgain' : status === 'edited' ? 'check.editedButton' : 'check.button')}
                   </button>
                 </div>
               </div>

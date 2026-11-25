@@ -1,11 +1,10 @@
 import { assessContent } from '../../lib/content-assessment.js';
-import { urlCandidates } from '../../lib/url-input.js';
-import { verifyUrls } from './reputation.js';
 import { applySemanticAssessment, validateSemanticResult } from '../../lib/semantic-assessment.js';
 import { combineAssessment } from '../../lib/assessment.js';
 import { semanticInstruction, semanticSchema } from './semantic.js';
 import { generateWithBackup } from './ai-generation.js';
 import { isPrivateQrPayload } from '../../lib/qr-payload.js';
+import { describeQrPayload } from '../../lib/qr-links.js';
 
 export async function detect(request, env = {}, fetcher = fetch) {
   const json = (body, status = 200) => Response.json(body, {
@@ -42,29 +41,16 @@ export async function detect(request, env = {}, fetcher = fetch) {
         input.urls.some(url => typeof url !== 'string' || url.length > 2048))))
       return json({ error: 'Provide text up to 12,000 characters and a supported input type.' }, 400);
 
-    // Ignore user-supplied verification/provider results. Any online check is
-    // performed here with server configuration, never accepted from the client.
-    const privateQr = isPrivateQrPayload(input.text) || input.urls?.some(isPrivateQrPayload);
+    // Ignore legacy online flags and client-supplied verification results.
+    // Double-checks use only OpenRouter/Gemini; URLs are never looked up.
+    const privateQr = isPrivateQrPayload(input.text) || input.urls?.some(isPrivateQrPayload) ||
+      ['qr', 'image'].includes(input.kind) && [input.text, ...(input.urls || [])].some(value => describeQrPayload(value).blocked);
     const aiPromise = input.ai === true && !privateQr ? generateWithBackup({
       env, instruction: semanticInstruction, schema: semanticSchema, fetcher,
       input: JSON.stringify({ inputType: input.kind || 'message', submittedText: input.text }),
-      timeoutMs: 20000,
+      timeoutMs: 40000,
       validate: (value) => validateSemanticResult(value, input.text),
     }) : Promise.resolve({ status: 'not_checked' });
-    let verification = null;
-    if (input.online === true && !privateQr) {
-      const urls = urlCandidates(input.text, input.urls).map(item => item.url).filter(url => url.length <= 2048);
-      if (urls.length) {
-        try {
-          verification = await (await verifyUrls(urls, env, fetcher)).json();
-        } catch {
-          verification = {
-            status: 'unavailable',
-            message: 'Online verification timed out or could not connect.',
-          };
-        }
-      }
-    }
     const ai = await aiPromise;
     const local = assessContent({
         text: input.text,
@@ -74,8 +60,7 @@ export async function detect(request, env = {}, fetcher = fetch) {
       });
     const contextual = applySemanticAssessment(local, { status: ai.status, analysis: ai.value });
     return json({
-      ...combineAssessment(contextual, verification),
-      onlineVerification: verification,
+      ...combineAssessment(contextual),
       aiReview: { status: contextual.semanticStatus, ...(ai.provider ? { provider: ai.provider, model: ai.model } : {}) },
     });
   } catch {

@@ -1,0 +1,1377 @@
+{
+  "provenance": "Synthetic development challenge authored before this round of rule changes. Includes the existing authored message challenge. Not independently collected data, not model accuracy, and not an unseen external holdout. URL labels describe reviewable structure, not verified malicious sites. No URL is visited.",
+  "caseHash": "009085c097efbaa9987879ef55bcd0b62925cec738a3c9d3db2b3275ea9b0dbb",
+  "messages": {
+    "positive": 19,
+    "caught": 14,
+    "negative": 28,
+    "falseAlarms": 3
+  },
+  "links": {
+    "positive": 50,
+    "caught": 38,
+    "negative": 50,
+    "falseAlarms": 4
+  },
+  "rows": [
+    {
+      "id": "message-challenge-001",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-002",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-003",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-004",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-005",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-006",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-007",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-008",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-009",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-010",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-011",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-012",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-013",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-014",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-015",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-016",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-017",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-018",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-019",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "otp_request"
+      ]
+    },
+    {
+      "id": "message-challenge-020",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "advance-fee"
+      ]
+    },
+    {
+      "id": "message-challenge-021",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "investment"
+      ]
+    },
+    {
+      "id": "message-challenge-022",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "otp_request"
+      ]
+    },
+    {
+      "id": "message-challenge-023",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "advance-fee"
+      ]
+    },
+    {
+      "id": "message-challenge-024",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "investment"
+      ]
+    },
+    {
+      "id": "message-challenge-025",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "otp_request"
+      ]
+    },
+    {
+      "id": "message-challenge-026",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "advance-fee"
+      ]
+    },
+    {
+      "id": "message-challenge-027",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "investment"
+      ]
+    },
+    {
+      "id": "message-challenge-028",
+      "kind": "text",
+      "label": "spam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-029",
+      "kind": "text",
+      "label": "spam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "message-challenge-030",
+      "kind": "text",
+      "label": "spam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-1",
+      "kind": "text",
+      "label": "scam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-2",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "sms-pattern"
+      ]
+    },
+    {
+      "id": "general-message-3",
+      "kind": "text",
+      "label": "scam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-4",
+      "kind": "text",
+      "label": "scam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-5",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "loan-fee"
+      ]
+    },
+    {
+      "id": "general-message-6",
+      "kind": "text",
+      "label": "scam",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "job-fee"
+      ]
+    },
+    {
+      "id": "general-message-7",
+      "kind": "text",
+      "label": "scam",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "brand-gcash",
+        "lure",
+        "account-alert-link"
+      ]
+    },
+    {
+      "id": "general-message-8",
+      "kind": "text",
+      "label": "scam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-9",
+      "kind": "text",
+      "label": "scam",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "credential_request",
+        "pressure"
+      ]
+    },
+    {
+      "id": "general-message-10",
+      "kind": "text",
+      "label": "scam",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-11",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-12",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-13",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "new-number"
+      ]
+    },
+    {
+      "id": "general-message-14",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-15",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "loan-fee"
+      ]
+    },
+    {
+      "id": "general-message-16",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-17",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-18",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "advance-fee"
+      ]
+    },
+    {
+      "id": "general-message-19",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "general-message-20",
+      "kind": "text",
+      "label": "legitimate",
+      "level": "low",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "homograph-1",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "homograph-2",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "homograph-3",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "homograph-4",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "homograph-5",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "userinfo-1",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "userinfo",
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "userinfo-2",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "userinfo",
+        "brand-bpi"
+      ]
+    },
+    {
+      "id": "userinfo-3",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "userinfo",
+        "brand-paypal"
+      ]
+    },
+    {
+      "id": "userinfo-4",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "userinfo",
+        "brand-shopee"
+      ]
+    },
+    {
+      "id": "userinfo-5",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "userinfo",
+        "brand-facebook"
+      ]
+    },
+    {
+      "id": "fake-subdomain-1",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "fake-subdomain-2",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "subdomains",
+        "brand-bpi"
+      ]
+    },
+    {
+      "id": "fake-subdomain-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-paypal"
+      ]
+    },
+    {
+      "id": "fake-subdomain-4",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-shopee"
+      ]
+    },
+    {
+      "id": "fake-subdomain-5",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-facebook"
+      ]
+    },
+    {
+      "id": "brand-affix-1",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "brand-affix-2",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "brand-bdo",
+        "lure"
+      ]
+    },
+    {
+      "id": "brand-affix-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-bpi"
+      ]
+    },
+    {
+      "id": "brand-affix-4",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-shopee"
+      ]
+    },
+    {
+      "id": "brand-affix-5",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "brand-facebook",
+        "lure"
+      ]
+    },
+    {
+      "id": "nested-destination-1",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "nested-destination-2",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "redirect",
+        "brand-paypal",
+        "brand-google",
+        "lure"
+      ]
+    },
+    {
+      "id": "nested-destination-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "redirect"
+      ]
+    },
+    {
+      "id": "nested-destination-4",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "redirect",
+        "brand-gcash"
+      ]
+    },
+    {
+      "id": "nested-destination-5",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "encoded-download-1",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "encoded-download-2",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "encoded-download-3",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "encoded-download-4",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "encoded-download-5",
+      "kind": "links",
+      "label": "review",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "shortener-1",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "shortener",
+        "reported-gambling-link"
+      ]
+    },
+    {
+      "id": "shortener-2",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "shortener"
+      ]
+    },
+    {
+      "id": "shortener-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "shortener"
+      ]
+    },
+    {
+      "id": "shortener-4",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "shortener"
+      ]
+    },
+    {
+      "id": "shortener-5",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "shortener"
+      ]
+    },
+    {
+      "id": "numeric-credential-host-1",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "http",
+        "ip"
+      ]
+    },
+    {
+      "id": "numeric-credential-host-2",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "http",
+        "ip"
+      ]
+    },
+    {
+      "id": "numeric-credential-host-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "http",
+        "ip"
+      ]
+    },
+    {
+      "id": "numeric-credential-host-4",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "http",
+        "ip"
+      ]
+    },
+    {
+      "id": "numeric-credential-host-5",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "http",
+        "ip"
+      ]
+    },
+    {
+      "id": "executable-1",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "download"
+      ]
+    },
+    {
+      "id": "executable-2",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "download"
+      ]
+    },
+    {
+      "id": "executable-3",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "download"
+      ]
+    },
+    {
+      "id": "executable-4",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "download"
+      ]
+    },
+    {
+      "id": "executable-5",
+      "kind": "links",
+      "label": "review",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "download"
+      ]
+    },
+    {
+      "id": "dangerous-scheme-1",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "data_or_javascript_scheme"
+      ]
+    },
+    {
+      "id": "dangerous-scheme-2",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "data_or_javascript_scheme"
+      ]
+    },
+    {
+      "id": "dangerous-scheme-3",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "data_or_javascript_scheme"
+      ]
+    },
+    {
+      "id": "dangerous-scheme-4",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "data_or_javascript_scheme"
+      ]
+    },
+    {
+      "id": "dangerous-scheme-5",
+      "kind": "links",
+      "label": "review",
+      "level": "high",
+      "flagged": true,
+      "signals": [
+        "data_or_javascript_scheme"
+      ]
+    },
+    {
+      "id": "official-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-6",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-7",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-8",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-9",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "official-10",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "canonical-official-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "canonical-official-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "canonical-official-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "canonical-official-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "canonical-official-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "international-name-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "international-name-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "international-name-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "international-name-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "international-name-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": [
+        "idn"
+      ]
+    },
+    {
+      "id": "ordinary-name-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-maya"
+      ]
+    },
+    {
+      "id": "ordinary-name-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-maya"
+      ]
+    },
+    {
+      "id": "ordinary-name-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-bpi"
+      ]
+    },
+    {
+      "id": "ordinary-name-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "suspicious",
+      "flagged": true,
+      "signals": [
+        "brand-shopee"
+      ]
+    },
+    {
+      "id": "ordinary-name-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "article-reference-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "article-reference-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "article-reference-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "article-reference-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "article-reference-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-path-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-path-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-path-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-path-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-path-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "same-origin-destination-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "same-origin-destination-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "same-origin-destination-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "same-origin-destination-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "same-origin-destination-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-query-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-query-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-query-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-query-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-query-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-order-1",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-order-2",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-order-3",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-order-4",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    },
+    {
+      "id": "ordinary-order-5",
+      "kind": "links",
+      "label": "no_warning",
+      "level": "unknown",
+      "flagged": false,
+      "signals": []
+    }
+  ]
+}

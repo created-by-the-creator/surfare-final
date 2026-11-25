@@ -3,6 +3,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "frontend/dist",
   "functions": {
+    "api/qr-resolve.js": {
+      "includeFiles": "backend/datasets/**"
+    },
     "api/extension.js": {
       "includeFiles": "backend/datasets/**"
     },

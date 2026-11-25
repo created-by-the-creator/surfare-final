@@ -1,5 +1,5 @@
 ﻿import { useEffect, useId, useRef, useState } from 'react';
-import { Check, ChevronDown, Gamepad2, Globe, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
+import { Check, ChevronDown, Gamepad2, Globe, LifeBuoy, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import './Navbar.css';
 
@@ -9,7 +9,7 @@ const LANGUAGES = [
   { value: 'taglish', name: 'Taglish', detail: 'Filipino + English', short: 'TAG' },
 ];
 
-export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
+export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuide, isGuideOpen }) {
   const [open, setOpen] = useState(null);
   const id = useId();
   const controls = useRef(null);
@@ -58,7 +58,7 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
           <img src={ASSETS.appIcon} alt="" width="38" height="38" decoding="async" />
           <span>Surfare</span>
         </a>
-        <a className="nav-practice-link" href="#practice"><Gamepad2 size={18} aria-hidden="true" />{t('nav.practice')}</a>
+        <nav className="nav-quick-links" aria-label={t('nav.explore')}><a className="nav-practice-link" href="#practice"><Gamepad2 size={18} aria-hidden="true" />{t('nav.practice')}</a><button className="nav-guide-link" type="button" onClick={onOpenGuide} aria-haspopup="dialog" aria-expanded={isGuideOpen}><LifeBuoy size={18} aria-hidden="true" />{t('nav.guide')}</button></nav>
         <div className="nav-controls" ref={controls} onBlur={(event) => {
           if (!event.currentTarget.contains(event.relatedTarget)) setOpen(null);
         }}>
@@ -109,7 +109,7 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t }) {
                 <div className="connection-capability"><ShieldCheck size={19} aria-hidden="true" /><p>{t('nav.localCapability')}</p></div>
                 <div className={`connection-capability ${!isOnline ? 'is-limited' : ''}`}>
                   {isOnline ? <Wifi size={19} aria-hidden="true" /> : <WifiOff size={19} aria-hidden="true" />}
-                  <p>{t(!isOnline ? 'nav.offlineLimit' : import.meta.env.VITE_WORKER_URL ? 'nav.onlineCapability' : 'nav.lookupUnavailable')}</p>
+                  <p>{t(!isOnline ? 'nav.offlineLimit' : 'nav.onlineCapability')}</p>
                 </div>
                 <a className="offline-resources-link" href="#offline-resources" onClick={() => setOpen(null)}>{t('offline.connectionLink')}</a>
               </div>

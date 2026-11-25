@@ -40,6 +40,12 @@ export function scamSignals(text) {
   const fee = hits(
     /\b(?:advance fee|upfront|processing fee|release fee|activation fee|security deposit|registration fee|magdeposito|mag-deposito|magbayad muna|bayad muna|recharge|top[ -]?up)\b/i,
   );
+  add('gift-card-prize-fee', 'Gift-card payment for a prize',
+    'A prize offer asks you to buy a gift card or send its code before receiving winnings. Verify independently and do not send the code.',
+    4,
+    hits(/\b(?:prize|winnings|premyo|nanalo)\b/i),
+    hits(/\b(?:gift[ -]?card|voucher code)\b/i),
+    hits(/\b(?:buy|purchase|bumili|send (?:its|the|your) code|ipadala (?:ang )?code)\b/i));
   add(
     'loan-fee',
     'Payment before a loan is released',

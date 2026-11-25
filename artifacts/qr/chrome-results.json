@@ -1,0 +1,42 @@
+[
+  {
+    "scenario": "warning",
+    "lang": "en",
+    "width": 1440,
+    "requests": 1,
+    "simpleView": true,
+    "browserErrors": []
+  },
+  {
+    "scenario": "unresolved",
+    "lang": "tl",
+    "width": 390,
+    "requests": 1,
+    "simpleView": true,
+    "browserErrors": []
+  },
+  {
+    "scenario": "benign",
+    "lang": "taglish",
+    "width": 390,
+    "requests": 1,
+    "simpleView": true,
+    "browserErrors": []
+  },
+  {
+    "scenario": "private",
+    "lang": "en",
+    "width": 390,
+    "requests": 0,
+    "simpleView": true,
+    "browserErrors": []
+  },
+  {
+    "scenario": "unsupported",
+    "lang": "en",
+    "width": 390,
+    "requests": 0,
+    "simpleView": true,
+    "browserErrors": []
+  }
+]

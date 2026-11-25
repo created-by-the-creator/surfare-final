@@ -90,6 +90,6 @@
   .site-header .header-control, .site-header .header-chevron, .site-header .connection-preference input::after { transition: none; }
 }
 
-.nav-practice-link { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 24px; padding: 10px; border-radius: 10px; color: #315987; font-size: .875rem; font-weight: 650; text-decoration: none; }
-.nav-practice-link:hover { background: #f0f5fc; }
-@media (max-width: 760px) { .nav-practice-link { display: none; } }
+.site-header .nav-quick-links{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:18px}.site-header .nav-practice-link,.site-header .nav-guide-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;margin:0;padding:10px 12px;border:0;border-radius:10px;color:#315987;background:transparent;font:600 .875rem 'Outfit Variable',sans-serif;text-decoration:none;cursor:pointer}.site-header .nav-guide-link:hover,.site-header .nav-guide-link[aria-expanded=true],.site-header .nav-practice-link:hover{background:#eaf2fb}.site-header .nav-controls{margin-left:0}
+@media(max-width:900px){.site-header{height:auto;min-height:56px}}
+@media(max-width:900px){.site-header .nav-inner{display:grid;grid-template-columns:auto 1fr;gap:8px;height:auto;min-height:56px;padding-top:10px;padding-bottom:8px}.site-header .nav-controls{grid-column:2;grid-row:1;justify-self:end}.site-header .nav-quick-links{grid-column:1 / -1;grid-row:2;justify-content:center;margin:0;border-top:1px solid #dce4ed;padding-top:5px}.site-header .nav-practice-link,.site-header .nav-guide-link{flex:1;font-size:.8125rem;padding:8px;gap:6px}.site-header .nav-quick-links svg{flex:none}}

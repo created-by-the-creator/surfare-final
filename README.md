@@ -107,30 +107,35 @@ and Surfy conversation with the configured AI services. Local findings appear
 first while the additional assessment runs. Completed, pending, and unavailable
 AI checks are shown separately. For links, the AI review is advisory only: it
 can flag impersonation, gambling, credential/payment and scam cues from the
-submitted text, but it never calls a link legitimate, verified, or safe. Safe
-Browsing and the local reviewed lists remain authoritative. New chat questions
+submitted text, but it never calls a link legitimate, verified, or safe. The local reviewed lists remain authoritative. New chat questions
 include recent conversation and the actual check context; chat answers never
 change a verdict. Without this choice, or without internet, Surfy uses local
 explanations.
 
-When `AGENT_ROUTER_API_KEY` and `AGENT_ROUTER_MODEL` are set on the server,
-Agent Router is tried first for text and Surfy chat. Copy the model ID exactly
-from the Agent Router console or pricing page; an unavailable model returns an
-error instead of silently routing to another one. The Agent Router names
-`AGENTROUTER_API_KEY`, `AGENTROUTER_BASE_URL`, and `AGENTROUTER_MODEL` are also
-accepted. Set `AGENT_ROUTER_BASE_URL` if your gateway is not
-`https://agentrouter.org/v1`. It is followed by the reviewed free OpenRouter
-model and the configured Gemini backup. Existing `OPENROUTER_API_KEY`,
-`OPENROUTER_MODEL`, `GEMINI_API_KEY`, and `GEMINI_IMAGE_MODEL` settings still
-apply. `AGENT_ROUTER_IMAGE_MODEL` enables an Agent Router vision model for image
-review; without it, image review stays on the existing providers. Keys never
-enter the frontend. `/api/surfy` serves chat; `/api/detect` runs the extra
-assessment only when `ai: true` and `consent: true` are supplied. Provider errors
-preserve local findings; AI findings require exact quotes from the submitted
-text. Agent Router may be a paid service, so review your gateway billing and
-data policy before enabling it.
+Each feature has its own fixed provider route; keys never enter the frontend:
 
-The OpenRouter text/chat fallback is pinned to
+| Feature | Endpoint | Provider order |
+| --- | --- | --- |
+| Text AI double-check | `/api/detect` | OpenRouter, then Gemini |
+| Surfy Lifeguard AI double-check | `/api/recovery-guide` | OpenRouter, then Gemini |
+| Ask Surfy chat | `/api/surfy` | OpenRouter, then Gemini |
+| Online AI image detector | `/api/image-detect` | Sightengine only |
+| Legacy visual review | `/api/image-assess` | OpenRouter, then Gemini |
+
+URL lookups have been removed. Link checks use local patterns and bundled lists; the optional AI double-check analyzes submitted text without browsing.
+
+The text AI double-check runs only when `ai: true` and `consent: true` are
+supplied; provider errors preserve local findings and AI findings require exact
+quotes from the submitted text. Set `OPENROUTER_API_KEY` for the primary
+double-check provider and `GEMINI_API_KEY` for its backups. `OPENROUTER_MODEL`
+and `GEMINI_IMAGE_MODEL` are allowlisted; the old `openrouter/free` setting
+migrates to the pinned model.
+
+Ask Surfy uses the same OpenRouter-first, Gemini-backup route as detector and
+Lifeguard double-checks. Set `OPENROUTER_API_KEY` and optionally `GEMINI_API_KEY`
+on the server.
+
+The OpenRouter text/double-check model is pinned to
 `baidu/ernie-5.5-flash-preview:free`; image review is pinned to
 `nvidia/nemotron-3.5-super-vl:free`. Only these reviewed OpenRouter models are
 accepted. The old `openrouter/free` setting migrates to the relevant pinned
@@ -138,9 +143,10 @@ model. No random model or unreviewed OpenRouter fallback is used. Availability
 and quality can change, so maintain this allowlist against local regression checks.
 
 The local Gemini backup is configured with
-`GEMINI_IMAGE_MODEL=gemini-3.5-flash-lite`. The same configured Gemini model is
-used as backup for text detection and chat. Temporary server errors get one retry within
-the existing request timeout; invalid keys and quota errors are not retried.
+`GEMINI_IMAGE_MODEL=gemini-3.5-flash-lite`, or tries both allowlisted free models
+when unset. Gemini backs up the text and guide double-checks, and Surfy chat.
+Temporary OpenRouter relay/server errors and Gemini server errors get one retry within the shared request timeout;
+invalid keys and quota errors are not retried.
 
 AI image checks inspect metadata in the original file on the device first. The
 metadata result stays visible while the optional online check runs. When online
@@ -160,10 +166,57 @@ providers are used by this flow. Sightengine account usage applies: `genai`
 currently consumes five operations per image. The result and Surfy include the
 provider score and limitations without inventing visual observations.
 
-Surfy chat and text detection follow the configured server provider order.
 Restart the local backend after changing `backend/.dev.vars`; redeploy Vercel
 after changing its runtime environment. Provider failures and exhausted quotas
-preserve Surfy's local explanations.
+preserve Surfy's local explanations. The Surfy Lifeguard AI double-check uses
+the same OpenRouter-to-Gemini route as text detection; Surfy chat uses the same provider order.
+
+## QR links and redirects
+
+QR scanning decodes on the device. Text payloads use message checks; recognized
+private payloads (Wi-Fi, contacts, payments, login tokens and sensitive URL
+parameters) stay local. Unsupported actions are shown without opening them.
+When you press **Check**, recognized short links in messages, image text and QR
+codes are expanded automatically while connected. The Links detector also
+checks its submitted web address automatically. A short link is not marked
+suspicious solely for being shortened after this check; a failed expansion stays
+unverified. Other QR web links can still use **Check where it goes** separately.
+A notice before Check explains that linked sites may record the requests.
+Only each selected address is sent through `/api/qr-resolve`, never the full
+message or QR image. AI help is a separate choice.
+
+The report retains the original decoded address, each observed HTTP hop and its
+domain, the redirect count, final destination when resolved, local warning
+indicators/evidence, and resolution status. Local rules and bundled reference
+lists check every recorded URL, including the original. Stronger findings in a
+redirect chain raise the displayed risk. Message warnings remain even when the
+destination has no local warning signs. Shared shortening-service domains do
+not produce domain-wide phishing or gambling matches; individual destinations
+and the full chain are still checked. A missing destination, timeout, HTTP
+error, loop or redirect limit remains **Unable to verify**. Completed resolution
+never certifies safety. JavaScript, HTML refresh, browser-specific redirects and
+page contents are not inspected. AI double-checks still use only the submitted
+text; optional Surfy chat can explain the recorded chain when AI help is enabled.
+
+The Node/Vercel resolver checks every DNS answer against non-public address
+ranges, pins each socket to a validated address, checks each new redirect target,
+uses no cookies or authorization headers, discards response bodies, and caps
+redirects, time, concurrency and request rate. HEAD requests use a bounded GET
+fallback only for HTTP 405/501. Custom ports and embedded credentials are
+blocked. Cloudflare Worker-only deployments return unavailable because they do
+not have this DNS-pinned Node transport; they never fall back to unrestricted
+fetch. Include URL content when exporting a report to save chain addresses.
+
+The resolver follows the [OWASP SSRF prevention guidance](https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html)
+and conservatively excludes [IANA special-purpose IPv6 ranges](https://www.iana.org/assignments/iana-ipv6-special-registry).
+These limits reduce exposure and are not a guarantee that an external site is safe.
+
+Run `node frontend/scripts/smoke-qr-destinations.mjs` with the local app running
+to test real QR decoding, automatic short-link expansion, warning escalation,
+resolution failure, direct links, private payloads and unsupported actions.
+It uses the authored PNGs in `backend/tests/fixtures/qr/` and mocks the resolver,
+so no QR target is contacted. Backend tests cover DNS pinning, reserved address
+ranges, redirect loops and limits, consent, request throttling and error states.
 
 ## Scam-awareness practice
 
@@ -197,25 +250,52 @@ Its authored scenarios are separate from detector training and evaluation data.
 
 ## Offline resources
 
-On the first online visit, the installed app caches its page and then saves the
-files needed for local image text checks in English and Filipino (about 19.3 MB)
-in the background. **Download resources** below the checker still shows
-progress, cancellation, and retry, and resumes from completed files. Completed
-downloads stay on the device until browser storage is cleared. Surfare can be
-installed from the browser menu or the **Install Surfare** button where the
-browser offers it. After the first online visit, message, link, image, and QR
-detection run locally offline; online reputation lookups, AI help, and feedback
-are unavailable until you reconnect, and results say so.
+The installed app caches its page for local message, link and QR checks.
+The English and Filipino image text pack is a separate **19.3 MB** download;
+it no longer downloads in the background on the first visit. Choose
+**Download image text pack** below the checker before going offline, or load
+the tools when first using image text recognition. The download offers
+progress, cancellation, retry and resume from completed files. Completed
+downloads stay on the device until browser storage is cleared.
+
+The roughly **9.2 MB** Content Credentials WASM runtime loads only when an
+image has credentials to inspect; it is excluded from the initial precache
+and cached after use. If unavailable offline, the app retains the available
+metadata findings and reports that credentials could not be checked.
+Surfare can be installed from the browser menu or **Install Surfare** where
+offered. AI help and feedback need a connection.
+
+The production precache changed from approximately 20.6 MB to 11.4 MB
+(uncompressed build sizes, not measured mobile data usage). Actual transfer
+depends on hosting compression; decoded OCR files use more storage than
+their 19.3 MB download size.
 
 The welcome tour includes the download option and the scam-awareness game.
 
 ## Validation commands
+
+The saved [local message test set](backend/evaluation/local-messages/README.md)
+includes CSV and JSON copies of 50 corpus-labeled scams and 50 legitimate
+messages, separate synthetic gap cases, a frozen baseline and current results.
+Run `npm run test:local-messages` after detector changes; it also runs in
+`npm test`. Read its provenance and overlap limits before quoting the numbers.
+
+Run `npm run test:local-generalization` for the separate
+[synthetic message and URL challenge](backend/evaluation/generalization/README.md),
+including common Unicode lookalikes, encoded paths and nested redirect parameters.
+It also runs in `npm test`; its results are development checks, not real-world
+accuracy estimates.
 
 ```sh
 npm run backend:test
 npm test
 npm run build
 ```
+
+After building, start `npm run preview --workspace frontend -- --host 127.0.0.1 --port 4173`
+and run `node frontend/scripts/smoke-mentor-feedback.mjs` for Chrome checks of
+offline reload, verdicts, local Surfy replies, metadata without uploads, and
+the absence of automatic OCR/WASM downloads.
 
 With the local frontend running at `http://127.0.0.1:5173`, run
 `node frontend/scripts/smoke-surf-school.mjs` to check the game at phone,
@@ -227,3 +307,8 @@ Text, Links, image text, QR content, and image-origin AI using authored fixtures
 It saves `artifacts/detector-audit.json`. Successful requests confirm integration;
 they do not measure real-world accuracy. The existing dataset reports measure
 individual offline model components, not the full application or live AI.
+
+Run `node frontend/scripts/smoke-link-destinations.mjs` with the local app running
+to check automatic short-link handling in messages and typed links, including a
+fictional short link to Surfare, harmful destinations, message threats and
+failed resolution. All destinations are mocked in this Chrome test.

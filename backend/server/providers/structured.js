@@ -8,7 +8,7 @@ export async function generateStructured({
   image,
   maxTokens = 3072,
   timeoutMs = 25000,
-  reasoning = { effort: 'minimal', exclude: true },
+  retryTransient = false,
   fetcher = fetch,
 }) {
   const payload = {
@@ -27,14 +27,13 @@ export async function generateStructured({
     ],
     response_format: { type: 'json_schema', json_schema: { name, strict: true, schema } },
     max_tokens: maxTokens,
-    reasoning,
     provider: {
       require_parameters: true,
       sort: 'latency',
       max_price: { prompt: 0, completion: 0, request: 0, image: 0 },
     },
   };
-  const response = await fetcher('https://openrouter.ai/api/v1/chat/completions', {
+  const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -42,7 +41,20 @@ export async function generateStructured({
     },
     body: JSON.stringify(payload),
     signal: AbortSignal.timeout(timeoutMs),
-  });
+  };
+  const endpoint = 'https://openrouter.ai/api/v1/chat/completions';
+  let response = await fetcher(endpoint, options);
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    // An intermittent upstream relay rejection can arrive as HTTP 400.
+    // Retry that exact error once, not other invalid requests or quota errors.
+    const relayFailure = response.status === 400 && error.error?.message === 'Request path cannot be relayed';
+    if (retryTransient && (relayFailure || [408, 502, 503, 504].includes(response.status))) {
+      await new Promise(resolve => setTimeout(resolve, 250));
+      options.signal.throwIfAborted();
+      response = await fetcher(endpoint, options);
+    }
+  }
   if (!response.ok) return { ok: false, http: response.status };
   const data = await response.json();
   const candidate = data.choices?.[0];

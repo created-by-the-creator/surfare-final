@@ -2,17 +2,30 @@ import { describe, expect, it, vi } from 'vitest';
 import { analyzeInput } from './analyze.js';
 
 describe('analyzeInput', () => {
+  it('keeps a device login QR local and avoids scam claims with AI enabled', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch');
+    const qrValue = `2@${'a'.repeat(80)},${'A'.repeat(43)}=,${'B'.repeat(43)}=,${'C'.repeat(43)}=,1`;
+    try {
+      const result = await analyzeInput('qr', { qrValue }, { ai: true });
+      expect(result.loginQr).toBe(true);
+      expect(result.privateQr).toBe(true);
+      expect(result.level).toBe('unknown');
+      expect(result.signals).toEqual([]);
+      expect(result.linkPayloads).toEqual([{ type: 'private' }]);
+      expect(fetcher).not.toHaveBeenCalled();
+    } finally { fetcher.mockRestore(); }
+  });
   it.each([
     'Never send your OTP or password to another person. Contact official support if a stranger asks.',
     'Huwag ibigay ang OTP o password mo sa ibang tao.',
     'Do not send anyone your password or OTP. Use your bank’s official app instead.',
-  ])('clears stale warnings after review and abstains offline for protective wording: %s', async message => {
+  ])('clears stale warnings and shows low risk offline for protective wording: %s', async message => {
     const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({
       level: 'Low risk', indicators: [], score: 0, aiReview: { status: 'completed' },
     }));
     try {
       const local = await analyzeInput('text', { message }, { onlineLookup: false });
-      expect(local.level).toBe('unknown');
+      expect(local.level).toBe('low');
       expect(local.signals).toEqual([]);
       expect(fetcher).not.toHaveBeenCalled();
       const reviewed = await analyzeInput('text', { message }, { ai: true });
@@ -21,19 +34,14 @@ describe('analyzeInput', () => {
     } finally { fetcher.mockRestore(); }
   });
 
-  it('shows the matched second URL even when the first URL has no report', async () => {
-    const first = 'https://example.com/', second = 'https://example.org/';
-    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({
-      level: 'High risk', indicators: [], onlineVerification: { status: 'completed',
-        results: [{ url: first, threats: [] }, { url: second, threats: ['SOCIAL_ENGINEERING'] }] },
-    }));
+  it('never looks up QR links when AI help is off', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch');
     try {
-      const result = await analyzeInput('qr', { qrValue: first + '\n' + second });
-      expect(result.level).toBe('high');
-      expect(result.matchedUrls).toEqual([second]);
-      expect(result.signals.find(s => s.id === 'online_match').evidence).toBe(second);
+      await analyzeInput('qr', { qrValue: 'https://example.com/\nhttps://example.org/' });
+      expect(fetcher).not.toHaveBeenCalled();
     } finally { fetcher.mockRestore(); }
   });
+
 
   it('keeps an authenticator QR local even with online AI enabled', async () => {
     const fetcher = vi.spyOn(globalThis, 'fetch');
@@ -55,14 +63,14 @@ describe('analyzeInput', () => {
     expect(result.signals.map((signal) => signal.id)).toContain('otp_request');
   });
 
-  it('keeps ordinary text unconfirmed when the detector is unavailable', async () => {
+  it('shows ordinary no-warning text as low risk offline', async () => {
     const result = await analyzeInput(
       'text',
       { message: 'The school meeting has moved to Thursday afternoon at two.' },
       { onlineLookup: false },
     );
 
-    expect(result.level).toBe('unknown');
+    expect(result.level).toBe('low');
     expect(result.signals).toHaveLength(0);
   });
 
@@ -71,7 +79,7 @@ describe('analyzeInput', () => {
       level: 'Insufficient evidence', score: 0, indicators: [],
     }));
     try {
-      const result = await analyzeInput('text', { message: 'The meeting is on Thursday afternoon.' }, { onlineLookup: true });
+      const result = await analyzeInput('text', { message: 'The meeting is on Thursday afternoon.' }, { onlineLookup: true, ai: true });
       expect(result.level).toBe('unknown');
     } finally { fetch.mockRestore(); }
   });
@@ -115,30 +123,17 @@ describe('analyzeInput', () => {
     }
   });
 
-  it('uses the same-origin Safe Browsing check for an online URL check', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockImplementation(async (url) => {
-      if (String(url).includes('/api/check-url')) {
-        return new Response(JSON.stringify({ matched: false, unavailable: false }), {
-          status: 200,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-      return new Response('{}', { status: 404 });
-    });
-
+  it('automatically resolves a typed link without requesting AI when AI help is off', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockResolvedValue(Response.json({ originalUrl: 'https://example.com/help', status: 'resolved',
+      finalDestination: 'https://example.com/help', redirectCount: 0, riskLevel: 'Insufficient evidence',
+      chain: [{ url: 'https://example.com/help', domain: 'example.com', level: 'Insufficient evidence', indicators: [], visited: true, httpStatus: 200 }] }));
     try {
-      const result = await analyzeInput(
-        'links',
-        { url: 'example.com/help' },
-        { onlineLookup: true },
-      );
-
-      expect(result.onlineNoKnownThreat).toBe(true);
-      expect(result.onlineUnavailable).toBe(false);
-      expect(fetch).toHaveBeenCalledWith('/api/check-url', expect.anything());
-    } finally {
-      fetch.mockRestore();
-    }
+      const result = await analyzeInput('links', { url: 'example.com/help' }, { onlineLookup: true });
+      expect(result.aiReview.status).toBe('not_checked');
+      expect(result.linkDestinations['https://example.com/help'].status).toBe('resolved');
+      expect(fetcher).toHaveBeenCalledTimes(1);
+      expect(fetcher.mock.calls[0][0]).toBe('/api/qr-resolve');
+    } finally { fetcher.mockRestore(); }
   });
 
   it('returns an insufficient-information result for short text', async () => {
@@ -177,7 +172,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Please claim now.' },
-        { onlineLookup: true },
+        { onlineLookup: true, ai: true },
       );
       const signal = result.signals.find((item) => item.id === 'dataset-text-match');
       expect(signal?.evidence).toBe('claim now');
@@ -224,7 +219,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Open https://apintoto.com now. CashAB loan' },
-        { onlineLookup: true },
+        { onlineLookup: true, ai: true },
       );
       const gambling = result.signals.find((item) => item.id === 'reported-gambling-link');
       const lender = result.signals.find((item) => item.id === 'stopped-lender');
@@ -241,35 +236,24 @@ describe('analyzeInput', () => {
     }
   });
 
-  it('suppresses a weak lookalike warning after a clean online check', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        level: 'Low risk',
-        score: 0,
-        summary: 'No reported threat.',
-        indicators: [],
-        onlineNoKnownThreat: true,
-        onlineVerification: {
-          status: 'completed',
-          results: [{ url: 'https://gcas1.com/login', threats: [] }],
-        },
-      }),
-    });
-
+  it('resolves the destination before the opted-in AI request without reputation lookups', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockImplementation(async () => Response.json({
+      level: 'Insufficient evidence', score: 0, indicators: [], aiReview: { status: 'completed', provider: 'openrouter' },
+    }));
     try {
-      const result = await analyzeInput('links', { url: 'https://gcas1.com/login' });
-      expect(fetch).toHaveBeenCalledTimes(1);
-      expect(JSON.parse(fetch.mock.calls[0][1].body).online).toBe(true);
-      expect(result.onlineNoKnownThreat).toBe(true);
-      expect(result.signals.some((signal) => /^(?:brand[-_]|lookalike[-_]|dataset-url-model$)/.test(signal.id))).toBe(false);
-      expect(result.level).not.toBe('suspicious');
-    } finally {
-      fetch.mockRestore();
-    }
+      const result = await analyzeInput('links', { url: 'https://example.com/login' }, { ai: true });
+      expect(fetcher).toHaveBeenCalledTimes(2);
+      expect(fetcher.mock.calls.map(call => call[0])).toEqual(['/api/qr-resolve', '/api/detect']);
+      const input = JSON.parse(fetcher.mock.calls[1][1].body);
+      expect(input).toMatchObject({ ai: true, consent: true });
+      expect(input.online).toBeUndefined();
+      expect(result.aiReview.provider).toBe('openrouter');
+      expect(result.onlineNoKnownThreat).toBe(false);
+    } finally { fetcher.mockRestore(); }
   });
 
-  it('keeps an unlisted gambling warning after a clean online check', async () => {
+
+  it('keeps an unlisted gambling warning with an AI double-check', async () => {
     const url = 'https://yyphs8i.com/#/cashwheel?a=0twbf7dc';
     const message = `Play at ${url} now`;
     const start = message.indexOf(url);
@@ -297,8 +281,8 @@ describe('analyzeInput', () => {
     });
 
     try {
-      const result = await analyzeInput('text', { message });
-      expect(result.onlineNoKnownThreat).toBe(true);
+      const result = await analyzeInput('text', { message }, { ai: true });
+      expect(result.onlineNoKnownThreat).toBe(false);
       expect(result.signals.some((signal) => signal.id === 'unlisted-gambling-link')).toBe(true);
       expect(result.level).toBe('suspicious');
     } finally {
@@ -306,7 +290,7 @@ describe('analyzeInput', () => {
     }
   });
 
-  it('keeps a locally reviewed gambling warning after a clean online check', async () => {
+  it('keeps a locally reviewed gambling warning with an AI double-check', async () => {
     const url = 'https://www.mpjl.run/register?affiliateCode=agmtrqv86z15287b6001';
     const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
       ok: true,
@@ -332,8 +316,8 @@ describe('analyzeInput', () => {
     });
 
     try {
-      const result = await analyzeInput('links', { url });
-      expect(result.onlineNoKnownThreat).toBe(true);
+      const result = await analyzeInput('links', { url }, { ai: true });
+      expect(result.onlineNoKnownThreat).toBe(false);
       expect(result.signals.some((signal) => signal.id === 'watchlisted-gambling-link')).toBe(true);
       expect(result.level).toBe('suspicious');
     } finally {
@@ -352,30 +336,17 @@ describe('analyzeInput', () => {
     }
   });
 
-  it('adds an online warning when the API reports a known threat', async () => {
-    const fetch = vi.spyOn(globalThis, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        level: 'High risk',
-        score: 0,
-        summary: 'Reported unsafe URL.',
-        indicators: [],
-        onlineVerification: {
-          status: 'completed',
-          results: [{ url: 'https://gcas1.com/login', threats: ['SOCIAL_ENGINEERING'] }],
-        },
-      }),
-    });
-
+  it('keeps local warnings when both destination and AI requests fail', async () => {
+    const fetcher = vi.spyOn(globalThis, 'fetch').mockRejectedValue(Error('unavailable'));
     try {
-      const result = await analyzeInput('links', { url: 'https://gcas1.com/login' });
-      expect(result.usedOnline).toBe(true);
-      expect(result.level).toBe('high');
-      expect(result.signals.some((signal) => signal.id === 'online_match')).toBe(true);
-    } finally {
-      fetch.mockRestore();
-    }
+      const result = await analyzeInput('links', { url: 'https://gcas1.com/login' }, { ai: true });
+      expect(result.aiReview.status).toBe('unavailable');
+      expect(result.signals.some(signal => /^lookalike[-_]/.test(signal.id))).toBe(true);
+      expect(fetcher).toHaveBeenCalledTimes(2);
+      expect(fetcher.mock.calls.map(call => call[0])).toEqual(['/api/qr-resolve', '/api/detect']);
+    } finally { fetcher.mockRestore(); }
   });
+
 
   it('does not flag a brand name inside an official web address', async () => {
     for (const message of ['https://www.bdo.com.ph', 'www.bpi.com.ph', 'https://www.gcash.com']) {
@@ -407,7 +378,7 @@ describe('analyzeInput', () => {
       const result = await analyzeInput(
         'text',
         { message: 'Please claim your reward.' },
-        { onlineLookup: true },
+        { onlineLookup: true, ai: true },
       );
       const ids = result.signals.map((signal) => signal.id);
       expect(ids).not.toContain('dataset-text-model');

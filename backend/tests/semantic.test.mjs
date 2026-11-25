@@ -21,12 +21,10 @@ for (const text of reported)
 for (const text of [
   'Wag kang magpapakita sakin kung ayaw mong masaktan.',
   'Pay me tonight or your private video goes to everyone you know.',
-  'Our meeting is tomorrow afternoon.',
 ])
-  test('local non-match never claims to understand: ' + text, () => {
+  test('indirect coercion has an offline warning before contextual review: ' + text, () => {
     const r = assessContent({ text });
-    assert.equal(r.level, 'Insufficient evidence');
-    assert.match(r.summary, /meaning and intent/);
+    assert(['Suspicious', 'High risk'].includes(r.level));
   });
 const ordinary = {
   level: 'Low risk',
@@ -91,6 +89,7 @@ test('OpenRouter enforces free models, zero-price routing and grounded structure
         image: 0,
       });
       assert.equal(payload.provider.require_parameters, true);
+      assert.equal(payload.reasoning, undefined); // The pinned provider rejects the forced reasoning option.
       assert(!payload.models);
       assert(!payload.tools);
       assert(!payload.plugins);
