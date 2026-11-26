@@ -1,0 +1,10 @@
+SURFARE LOCAL-CHECK IMPROVEMENTS
+26 November 2026, 18:42 SGT
+
+Before / same 200 cases: accuracy 62.50%; false-positive rate 2.00%; false-negative rate 73.00%; N=200.
+After / same 200 cases: accuracy 95.50%; false-positive rate 2.00%; false-negative rate 7.00%; N=200.
+400 additional confirmation cases: accuracy 92.25%; false-positive rate 7.50%; false-negative rate 8.00%; N=400.
+
+Case labels and inputs unchanged. Online backend/providers unchanged.
+Known-address lookup coverage contributes to these results. All source corpora overlap training/reference data; not independent population accuracy.
+The 200 cases and first 400-case audit were used for development. The 400 confirmation groups are disjoint from both.

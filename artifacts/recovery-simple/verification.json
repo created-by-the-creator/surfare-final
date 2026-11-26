@@ -1,0 +1,53 @@
+{
+  "records": [
+    {
+      "lang": "en",
+      "width": 1440,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    },
+    {
+      "lang": "en",
+      "width": 320,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    },
+    {
+      "lang": "tl",
+      "width": 390,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    },
+    {
+      "lang": "taglish",
+      "width": 390,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    },
+    {
+      "lang": "en",
+      "width": 844,
+      "result": "passed",
+      "singleAction": true,
+      "skippedStepsUnfinished": true,
+      "localUploads": 0
+    }
+  ],
+  "privacyConsent": "passed"
+}

@@ -1,0 +1,5 @@
+Built-in image_gen used with the four existing Surfy cutouts as character references.
+Prompt: precise 6-column by 4-row transparent sprite sheet, 1536x1024. Row 1 pleased thumbs-up and head nod; row 2 friendly hand gesture; row 3 gentle stop hands and concerned head tilt; row 4 curious head tilt and magnifying glass. Preserve orange skin, red collared shirt, black shorts, barefoot character identity and illustration style. Small smooth movement; no labels or scenery.
+Source: surfy-risk-sprite.png.
+Encoding: equal 256px cells, common GIF palette, ten-frame forward/back loop, 2.3 seconds per loop, transparent GIF background. PNG first-frame fallback for reduced motion.
+Runtime files: frontend/public/assets/risk/surfy-{calm,caution,alert,curious}.gif and -still.png.

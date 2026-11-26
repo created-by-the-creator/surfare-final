@@ -1,10 +1,16 @@
 # Surfy Lifeguard
 
-The website opens Surfy Lifeguard beside Play & learn and from check results. The navy popup shares the main page's palette, type, pale-blue chat bubbles and red actions. Ask Surfy starts closed and opens into its own view using the actual `AskSurfy.jsx` component. Returning to the checklist preserves both the conversation and selections. Official support cards are in a disclosure after the checklist; immediate emergency help remains visible. The extension retains its compact entry.
+The website opens Surfy Lifeguard beside Play & learn and from check results. The compact navy popup starts with three choices: money sent, account/details at risk, or unsure. Other situations are in a disclosure. Selecting a situation immediately opens one prioritized action, without requiring provider, country, loss amount or account details. Payment reporting comes first for money incidents; physical safety overrides other steps.
+
+The guide displays one action at a time. Marking an action done advances; choosing to return later advances without marking it complete. Users can go back, add other exposures, revisit unfinished steps and download the complete checklist at the end. Region and provider context remain optional. Philippine numbers are hidden for other countries; unspecified online services are not directed to a Philippine bank directory.
+
+The pale-blue **Talk to Surfy Lifeguard** card explains that users can chat about the incident or their next step. It opens the reusable `AskSurfy.jsx` component in a dedicated single-column conversation. The header, back control and composer remain visible; only the message history scrolls. Long replies open at their beginning instead of cutting off the first instruction. Optional conversation/privacy details are available in a disclosure. Returning preserves the conversation and current step. Curated support cards appear only when requested within the relevant action. Immediate-danger help has a direct entry from the guide footer. The extension retains its compact entry.
 
 `RecoveryHelp.jsx` owns the temporary checklist; `RecoveryChat.jsx` owns the conversation. Closing the popup clears both. Neither writes these details to browser storage. Downloading the checklist is an explicit local action.
 
-The guide suggests possible next steps without promising a fix or refund. Free-text provider and country fields support any service. Non-Philippine selections hide Philippine contacts. Offline chat uses translated local guidance.
+The guide suggests possible next steps without promising a fix or refund. It offers a short prompt to ask a trusted person for support when overwhelmed. Free-text provider and country fields support any service. Non-Philippine selections hide Philippine contacts. Offline chat uses translated local guidance. English, Filipino and Taglish have the same simplified flow.
+
+The short payment guidance was checked on 26 November 2026 against [GCash scam reporting](https://help.gcash.com/hc/en-us/articles/4413295284377-Report-a-scam), [Maya scam support](https://support.maya.ph/s/article/I-believe-I-was-scammed-What-should-I-do) and [BSP's complaint procedure](https://www.bsp.gov.ph/Inclusive%20Finance/English_How-To%20file%20a%20complaint_CAM_Apr2025%20%28Annex%20A%29.pdf). This copy review does not change the separate contact-directory review date.
 
 ## Optional AI help
 

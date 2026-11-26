@@ -83,7 +83,7 @@ try {
     assert.equal(await page.locator('.privacy-notice').count(), 0);
     assert.equal(await infoButton.getAttribute('aria-expanded'), 'true');
     assert.match(await help.innerText(), /Surfy/);
-    assert.equal(await page.locator('.check-ai-choice input').isChecked(), false);
+    assert.equal(await page.locator('.check-ai-choice input').isChecked(), true);
     const helpFits = await help.evaluate(element => {
       const bounds = element.getBoundingClientRect();
       return bounds.left >= 0 && bounds.right <= innerWidth + 1 && element.scrollWidth <= element.clientWidth + 1;
@@ -101,12 +101,15 @@ try {
     await page.keyboard.press('Escape');
     await dialog.waitFor({ state: 'detached' });
     assert.equal(await page.locator('.footer-privacy-link').evaluate(element => element === document.activeElement), true);
-    records.push({ lang, width, height, ...layout, acknowledgments: 1, scrollGate: true, savingDoesNotEnableAi: true, keyboardTrapAndDismiss: true });
+    records.push({ lang, width, height, ...layout, acknowledgments: 1, scrollGate: true, defaultAiDoesNotSubmit: true, keyboardTrapAndDismiss: true });
     await page.close();
   }
   // Declining must not create an acknowledgment or enable AI sharing.
   const page = await browser.newPage({ reducedMotion: 'reduce' });
-  await page.addInitScript(() => localStorage.setItem('surfare-welcome-seen', 'true'));
+  await page.addInitScript(() => {
+    localStorage.setItem('surfare-welcome-seen', 'true');
+    sessionStorage.setItem('surfare-ai-opt-in', 'false');
+  });
   await page.goto(process.env.SURFARE_BASE_URL || 'http://localhost:5173', { waitUntil: 'domcontentloaded' });
   await page.locator('.privacy-notice .notice-decline').click();
   await page.locator('.privacy-notice').waitFor({ state: 'detached' });

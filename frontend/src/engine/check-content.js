@@ -1,8 +1,7 @@
-import { analyzePatterns } from '../../../backend/lib/pattern-detection.js';
+import { analyzeOfflineContent } from './offline-assessment.js';
 import { isPrivateQrPayload, isUnsupportedQrPayload, isLoginQrPayload } from '../../../backend/lib/qr-payload.js';
 import { groundSignals } from './signal-display.js';
 import { apiFetch } from '../api/fetch.js';
-import { addBrowserReferenceIndicators } from './reference-indicators.js';
 import { describeLink } from './link-description.js';
 import { qrPayloads as describeQrPayloads, describeQrPayload } from '../../../backend/lib/qr-links.js';
 import { extractUrls } from '../../../backend/lib/url-input.js';
@@ -65,10 +64,10 @@ export async function checkExtractedContent(tab, content, mediaInfo, { onlineLoo
   const loginQr = isLoginQrPayload(content) || qrValues.some(isLoginQrPayload);
   const privateQr = isPrivateQrPayload(content) || qrValues.some(isPrivateQrPayload) || payloads.some(item => item.type === 'url' && item.blocked);
   const unsupportedQr = isUnsupportedQrPayload(content) || qrValues.some(isUnsupportedQrPayload) || payloads.some(item => item.type === 'unsupported');
-  const local = analyzePatterns(
+  const local = analyzeOfflineContent(
     content,
     tab === 'links' ? [content] : [],
-    addBrowserReferenceIndicators,
+    { ocr: tab === 'image' && Boolean(mediaInfo?.text) },
   );
   const urls = local.urls.map(item => item.url).filter(url => url.length <= 2048);
   const detectedLinks = !qrValues.length && ['links', 'text', 'image'].includes(tab)

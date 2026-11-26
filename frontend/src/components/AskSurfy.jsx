@@ -25,6 +25,7 @@ export default function AskSurfy({
   idPrefix = 'ask',
   welcome,
   controls,
+  showReplyStart = false,
   t,
 }) {
   const [draft, setDraft] = useState('');
@@ -38,12 +39,17 @@ export default function AskSurfy({
   useEffect(() => {
     const messagesElement = messagesRef.current;
     if (messagesElement && followLatestRef.current) {
+      const latest = messagesElement.lastElementChild;
+      const longReply = showReplyStart && !isThinking && messages.at(-1)?.role === 'assistant'
+        && latest?.getBoundingClientRect().height > messagesElement.clientHeight - 24;
+      const replyTop = latest ? messagesElement.scrollTop + latest.getBoundingClientRect().top
+        - messagesElement.getBoundingClientRect().top - 16 : 0;
       messagesElement.scrollTo({
-        top: messagesElement.scrollHeight,
+        top: longReply ? replyTop : messagesElement.scrollHeight,
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
       });
     }
-  }, [messages, isThinking]);
+  }, [messages, isThinking, showReplyStart]);
 
   if (!isOpen) return null;
 

@@ -9,7 +9,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     },
     {
@@ -21,7 +21,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     },
     {
@@ -33,7 +33,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     },
     {
@@ -45,7 +45,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     },
     {
@@ -57,7 +57,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     },
     {
@@ -69,7 +69,7 @@
       "footerVisible": true,
       "acknowledgments": 1,
       "scrollGate": true,
-      "savingDoesNotEnableAi": true,
+      "defaultAiDoesNotSubmit": true,
       "keyboardTrapAndDismiss": true
     }
   ],

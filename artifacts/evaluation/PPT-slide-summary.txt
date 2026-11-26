@@ -1,0 +1,31 @@
+SURFARE - SLIDE-READY RESULTS
+26 November 2026 (Asia/Singapore)
+
+Slide: Local paired development checks (12 cases each; 6 positive / 6 negative)
+Messages: accuracy 100.00%; FPR 0.00%; FNR 0.00%; TP/FP/TN/FN=6/0/6/0; uncertain=0.
+Links: accuracy 100.00%; FPR 0.00%; FNR 0.00%; TP/FP/TN/FN=6/0/6/0; uncertain=6.
+QR codes: accuracy 100.00%; FPR 0.00%; FNR 0.00%; TP/FP/TN/FN=6/0/6/0; uncertain=6.
+Screenshot text: accuracy 75.00%; FPR 0.00%; FNR 50.00%; TP/FP/TN/FN=3/0/6/3; uncertain=0.
+
+Slide: Live online paired checks
+External reviews completed 40/48; six QR policy skips and two HTTP-429-related unavailable reviews; completed-only metrics:
+Messages: n=12 (6 positive / 6 negative); accuracy 100.00%; FPR 0.00%; FNR 0.00%.
+Links: n=12 (6 positive / 6 negative); accuracy 100.00%; FPR 0.00%; FNR 0.00%.
+QR codes: n=4 (0 positive / 4 negative); accuracy 100.00%; FPR 0.00%; FNR N/A.
+Screenshot text: n=12 (6 positive / 6 negative); accuracy 100.00%; FPR 0.00%; FNR 0.00%.
+
+Slide: Larger existing message regression
+100 corpus-labeled messages: accuracy 93.00%, FPR 0.00%, FNR 14.00%. Training/reference overlap and noisy labels; not independent real-world accuracy.
+
+Slide: How Surfare was trained
+Surfare is a hybrid of trained compact classifiers, contextual rules, exact reference matching, OCR/QR extraction, and optional external AI.
+Imported SMS model: UCI SMS Spam Collection + Filipino Spam SMS.
+Current text model: A.S.E.A; legitimate samples from Filipino original/merged, SMS Spam Collection and Hinglish; IMC25 scam samples; authored augmentation.
+URL model: PhiUSIIL raw URLs. dataset_phishing.csv is not used to train the runtime models.
+Dataset text/URL models are advisory; rule/reference evidence determines risk alongside the SMS signal.
+URL training reproduces exactly; current text preprocessing does not reproduce the saved text model. No runtime models changed.
+
+Limitations to include
+Small reused synthetic development sets; warning accuracy does not verify website or sender safety.
+Image means screenshot text safety. AI-image-origin accuracy, FPR and FNR: N/A without a suitable labeled image set.
+316 frontend and 347 backend tests passed; test pass rate is not detector accuracy.

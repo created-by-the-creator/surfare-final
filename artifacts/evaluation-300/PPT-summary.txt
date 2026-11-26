@@ -1,0 +1,14 @@
+SURFARE: 300 LOCAL + 300 ONLINE CHECKS
+26 November 2026, 15:05 SGT
+75 per modality; each 38 warning / 37 no-warning examples.
+All cases synthetic; 150 distinct contents reused across formats. Not independent real-world validation.
+
+Messages | local accuracy/FPR/FNR: 100.00% / 0.00% / 0.00%; online mode including fallback: 100.00% / 0.00% / 0.00%; completed AI: 50/75.
+Links | local accuracy/FPR/FNR: 100.00% / 0.00% / 0.00%; online mode including fallback: 93.33% / 2.70% / 10.53%; completed AI: 46/75.
+QR codes | local accuracy/FPR/FNR: 100.00% / 0.00% / 0.00%; online mode including fallback: 96.00% / 2.70% / 5.26%; completed AI: 31/75.
+Screenshot text | local accuracy/FPR/FNR: 90.67% / 2.70% / 15.79%; online mode including fallback: 92.00% / 2.70% / 13.16%; completed AI: 39/75.
+
+Online statuses: {"completed": 166, "unavailable": 102, "not_checked": 32}
+Online-mode percentages include local fallback/policy skips; completed-AI-only scores are in metrics.csv and PDF page 2.
+Screenshot text safety is measured. AI-image-origin accuracy is not measured.
+All sample texts, labels, source IDs and results are included in the PDF appendix and results.csv.

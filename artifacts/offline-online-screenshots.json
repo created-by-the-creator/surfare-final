@@ -1,0 +1,21 @@
+[
+  {
+    "file": "mobile-offline-high-risk.png",
+    "online": false,
+    "review": null,
+    "verdict": "High risk",
+    "mocked": false
+  },
+  {
+    "file": "mobile-online-high-risk.png",
+    "online": true,
+    "review": {
+      "level": "High risk",
+      "status": "completed",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdict": "High risk",
+    "mocked": false
+  }
+]

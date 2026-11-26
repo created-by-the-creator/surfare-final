@@ -30,13 +30,13 @@ export default function RecoveryChat({ isOpen, onClose, t, lang, isOnline, situa
   if (!isOpen) return null;
   return <div className="recovery-chat-view">
     <button type="button" className="recovery-back" onClick={onClose}><ArrowLeft size={17} aria-hidden="true" />{t('recovery.chat.back')}</button>
-    <div className="recovery-chat ask-panel-position"><AskSurfy isOpen messages={messages} isThinking={busy} onSend={submit} openRequest={isOpen} idPrefix="lifeguard" mascot={ASSETS.surfyLifeguard} welcome={t('recovery.chat.greeting')} t={t} hideToggle
+    <div className="recovery-chat ask-panel-position"><AskSurfy isOpen messages={messages} isThinking={busy} onSend={submit} openRequest={isOpen} idPrefix="lifeguard" mascot={ASSETS.surfyLifeguard} welcome={t('recovery.chat.greeting')} t={t} showReplyStart
       questionKeys={['first', 'contact'].map(key => ({ text: t(`recovery.chat.prompt.${key}`) }))}
       controls={<label className="recovery-online"><input type="checkbox" checked={online} disabled={!isOnline || busy} onChange={async event => {
         if (!event.target.checked) { setOnline(false); controller.current?.abort(); return; }
         if (await privacy?.requestAcknowledgment()) { if (mounted.current && connected.current) setOnline(true); }
-      }} /><span>{t('recovery.chat.online')}<small>{t(isOnline ? 'recovery.chat.onlineInfo' : 'recovery.chat.offline')}</small></span></label>}
+      }} /><span>{t('recovery.chat.online')}<small>{t(isOnline ? 'recovery.chat.onlineBrief' : 'recovery.chat.offline')}</small></span></label>}
     /></div>
-    <p className="recovery-chat-note">{t('recovery.chat.privacy')}</p>
+    <details className="recovery-chat-privacy"><summary>{t('recovery.chat.privacyLabel')}</summary><p className="recovery-chat-note">{t('recovery.chat.privacy')}</p></details>
   </div>;
 }

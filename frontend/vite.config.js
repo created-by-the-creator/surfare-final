@@ -76,7 +76,7 @@ export default defineConfig({
         importScripts: ['/share-target.js'],
         // Receipt IDs select local data, not a different app shell.
         ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^shared$/, /^shareError$/],
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2,json,gz,wasm}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,gif,svg,woff2,json,gz,wasm}'],
         // The 9 MB Content Credentials runtime is downloaded on first image use.
         globIgnores: ['tesseract/**', 'tessdata/**', '**/*.wasm'],
         runtimeCaching: [{

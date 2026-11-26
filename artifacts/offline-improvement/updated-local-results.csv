@@ -1,0 +1,817 @@
+﻿set,id,kind,source,sourceRecord,originalLabel,label,expectedText,actualExtractedText,beforeLevel,beforeWarning,afterLevel,afterWarning,signals
+development-200,image-001,image,asea,2822,Raffle Scam,True,Great News! You are chosen to be the lucky winner of our Netflix T-shirt and Mug. To continue the process reply YES. Thank you for choosing Globe Postpaid.,"Great News! You are chosen to be the lucky winner of our
+Netflix T-shirt and Mug. To continue the process reply YES.
+Thank you for choosing Globe Postpaid.",low,False,suspicious,True,offline-text-model
+development-200,image-002,image,filipino-merged,494,ham,False,sir goodafternoon I'm <REAL NAME> from converge baka may irereffer kayo na gusto magpakabit ng internet salamat po,"sir goodafternoon I'm <REAL NAME> from converge baka may
+irereffer kayo na gusto magpakabit ng internet salamat po",low,False,low,False,
+development-200,image-003,image,asea,1479,Investment Scam,True,Makakuha ng 200% bonus sa araw-araw na deposito g4b67jh.bid,Makakuha ng 200% bonus sa araw-araw na deposito g4b67jh.bid,suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,image-004,image,filipino-merged,407,ham,False,2/2 I-REPORT SA HTTPS://NTC.GOV.PH o TUMAWAG SA NTC HOTLINE 1682.,"2/2 I-REPORT SA HTTPS://NTC.GOV.PH o TUMAWAG SA NTC HOTLINE
+1682.",low,False,low,False,
+development-200,image-005,image,imc25,15685,public smishing report / banking,True,"Dear SBI Customer, You recently added a nominee. If you did not make this change please <NAMED_ENTITY> to your online banking and follow the instructions.","Dear SBI Customer, You recently added a nominee. If you did
+not make this change please <NAMED_ENTITY> to your online
+banking and follow the instructions.",low,False,suspicious,True,offline-text-model
+development-200,image-006,image,filipino-merged,413,ham,False,"35xxxxxx86, Your contribution payment for <NUMBER> amounting to 560 has been posted","35xxxxxx86, Your contribution payment for <NUMBER> amounting
+to 560 has been posted",low,False,low,False,
+development-200,image-007,image,asea,2041,Job Scam,True,"Good day! May opening kami for online encoder, P1,800/day, walang exam. Reply sa email: <EMAIL>","Good day! May opening kami for online encoder, P1,800/day,
+walang exam. Reply sa email: <EMAIL>",low,False,low,False,
+development-200,image-008,image,hinglish,2632,0,False,o turns out i had stereo love on mi phone under the unknown album.,"o turns out i had stereo love on mi phone under the unknown
+album.",low,False,low,False,
+development-200,image-009,image,imc25,25447,public smishing report / government,True,Your training balance (DIF) will expire! Check your account and claim your fully state-funded training!,"Your training balance (DIF) will expire! Check your account
+and claim your fully state-funded training!",low,False,suspicious,True,offline-text-model
+development-200,image-010,image,uci-sms,172,ham,False,"Hmmm.. Thk sure got time to hop ard... Ya, can go 4 free abt... Muz call u to discuss liao...","Hmmm.. Thk sure got time to hop ard... Ya, can go 4 free
+abt... Muz call u to discuss liao...",low,False,low,False,
+development-200,image-011,image,asea,4714,Gambling Scam,True,"Kamusta, bagong free money bonus 1999 - walang deposit condition, paki-login kmjb.eu/0015 Para makakuha ng libreng pera 1999 hindi","Kamusta, bagong free money bonus 1999 - walang deposit
+condition, paki-login kmjb.eu/0015 Para makakuha ng libreng
+pera 1999 hindi",suspicious,True,suspicious,True,sms-pattern
+development-200,image-012,image,asea,1098,HAM,False,Happy Birthday Leo! God bless you.,Happy Birthday Leo! God bless you.,low,False,low,False,
+development-200,image-013,image,asea,4563,Gambling Scam,True,"TGIF Bash! Participate in the Bet Tournament, secure a 6,888p bonus & win a Xiaomi 14! Hurry, slots are filling up rapidly gojackpotph3.de","TGIF Bash! Participate in the Bet Tournament, secure a 6,888p
+bonus & win a Xiaomi 14! Hurry, slots are filling up rapidly
+gojackpotph3.de",suspicious,True,suspicious,True,unlisted-gambling-link; sms-pattern; offline-text-model
+development-200,image-014,image,hinglish,3503,0,False,Oi. Ami parchi na re. Kicchu kaaj korte iccha korche na. Phone ta tul na. Plz. Plz.,"Oi. Ami parchi na re. Kicchu kaaj korte iccha korche na. Phone
+ta tul na. Plz. Plz.",low,False,low,False,
+development-200,image-015,image,imc25,23917,public smishing report / delivery,True,[CzechPost] Failed attempt to deliver package 1042380141CZ. Go to <URL> and confirm your address for further delivery!,"[CzechPost] Failed attempt to deliver package 1042380141CZ. Go
+to <URL> and confirm your address for further delivery!",low,False,suspicious,True,offline-text-model
+development-200,image-016,image,filipino-original,182,ham,False,"DILG: Tara! Tumakbo kontra-droga at mag-register ng SIM sa BIDA Fun Run at Serbisyo Caravan ng DILG sa PEBRERO 26, 4:00AM sa Block 16, SM MOA Complex, Pasay!","DILG: Tara! Tumakbo kontra-droga at mag-register ng SIM sa
+BIDA Fun Run at Serbisyo Caravan ng DILG sa PEBRERO 26, 4:00AM
+sa Block 16, SM MOA Complex, Pasay!",low,False,low,False,
+development-200,image-017,image,imc25,13785,public smishing report / banking,True,PAYTM WE WILL HOLD YOUR PAYTM AMOUNT AFTER SOMETIME COMPLETE YOUR PAYTM KYC PAYTM OFFICE PH <UK_NHS>,"PAYTM WE WILL HOLD YOUR PAYTM AMOUNT AFTER SOMETIME COMPL
+YOUR PAYTM KYC PAYTM OFFICE PH <UK_NHS>",low,False,suspicious,True,offline-text-model
+development-200,image-018,image,filipino-original,306,ham,False,Chat ka pag malapit ka na sto domingo,Chat ka pag malapit ka na sto domingo,low,False,low,False,
+development-200,image-019,image,asea,4670,Investment Scam,True,"Provides you with 77p for free, and you will receive a 100% bonus on your first deposit. Get it here: hjdenmz.site","Provides you with 77p for free, and you will receive a 100%
+bonus on your first deposit. Get it here: hjdenmz.site",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,image-020,image,hinglish,1631,0,False,Still work going on:)it is very small house.,Still work going on:)it is very small house.,low,False,low,False,
+development-200,image-021,image,imc25,31491,public smishing report / telecom,True,Best Offer for you! Recharge with Rs 399 and get Unlimited Local and STD calls + 84 <LOCATION> data(1 <LOCATION>/day) for <DATE_TIME>. Dial *121*1# for best offers.,"Best Offer for you! Recharge with Rs 399 and get Unlimited
+Local and STD calls + 84 <LOCATION> data(1 <LOCATION>/day) for
+<DATE_TIME>. Dial *121*1# for best offers.",low,False,suspicious,True,offline-text-model
+development-200,image-022,image,hinglish,3090,0,False,Good morning. At the repair shop--the ONLY reason i'm up at this hour.,"Good morning. At the repair shop--the ONLY reason i'm up at
+this hour.",low,False,low,False,
+development-200,image-023,image,asea,1519,Prize Scam,True,Makakakuha ang mga bagong user ng 100% na bonus sa kanilang unang deposito g3b61jh.bid,"Makakakuha ang mga bagong user ng 100% na bonus sa kanilang
+unang deposito g3b61jh.bid",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,image-024,image,filipino-merged,596,ham,False,Mag open ka dw day sabi ng mama mo,Mag open ka dw day sabi ng mama mo,low,False,low,False,
+development-200,image-025,image,asea,4560,Bank Scam,True,"Your My-SSS member is not enrolled in a payment method, please complete the enrollment: sss-my.in/?ifn=vtQEun to receive your monthly benefits and stipend","Your My-SSS member is not enrolled in a payment method, please
+complete the enrollment: sss-my.in/?ifn=vtQEun to receive your
+monthly benefits and stipend",low,False,suspicious,True,offline-text-model
+development-200,image-026,image,uci-sms,2433,ham,False,Package all your programs well,Package all your programs well,low,False,low,False,
+development-200,image-027,image,imc25,23790,public smishing report / delivery,True,Your order is being held at our distribution center. Please follow the instructions here:,"Your order is being held at our distribution center. Please
+follow the instructions here:",low,False,suspicious,True,offline-text-model
+development-200,image-028,image,filipino-merged,733,ham,False,You have paid P215.00 of GCash to Dunkin Shell Roosevelt on 06-13-23 09:16:13 PM. Ref. No. <NUMBER>.,"You have paid P215.00 of GCash to Dunkin Shell Roosevelt on
+06-13-23 09:16:13 PM. Ref. No. <NUMBER>.",low,False,low,False,
+development-200,image-029,image,asea,773,Gambling Scam,True,Nakarehistro sa 8888 https://gamebet.li/j48,Nakarehistro sa 8888 https://gamebet.li/j48,low,False,low,False,
+development-200,image-030,image,filipino-original,624,ham,False,The package 8255-1673-EKXG is out for delivery today. Please prepare cash payment of P180. You can reach your ka-GGX rider at <PHONE>.,"The package 8255-1673-EKXG is out for delivery today. Please
+prepare cash payment of P180. You can reach your ka-GGX rider
+at <PHONE>.",low,False,suspicious,True,offline-text-model
+development-200,image-031,image,imc25,13427,public smishing report / banking,True,Your Rabobank payment card expires on <DATE_TIME>. Request your new payment card for free and prevent your bank account from being blocked via the website: <URL>,"Your Rabobank payment card expires on <DATE_TIME>. Request
+your new payment card for free and prevent your bank account
+from being blocked via the website: <URL>",low,False,suspicious,True,offline-text-model
+development-200,image-032,image,filipino-original,579,ham,False,"Hi! Your free 300MB from downloading the GlobeOne app has expired. No worries though! You can use the app anytime, anywhere to get more data, track your balance and more!","Hi! Your free 300MB from downloading the GlobeOne app has
+expired. No worries though! You can use the app anytime,
+anywhere to get more data, track your balance and more!",low,False,low,False,
+development-200,image-033,image,imc25,11341,public smishing report / banking,True,Message 1/1 from <NAMED_ENTITY> CaixaBank: An unauthorized mobile device has accessed your online account if you do not recognize this access complete the process: <URL>,"Message 1/1 from <NAMED_ENTITY> CaixaBank: An unauthorized
+mobile device has accessed your online account if you do not
+recognize this access complete the process: <URL>",low,False,suspicious,True,offline-text-model
+development-200,image-034,image,uci-sms,702,ham,False,"Save yourself the stress. If the person has a dorm account, just send your account details and the money will be sent to you.","Save yourself the stress. If the person has a dorm account,
+just send your account details and the money will be sent to
+you.",low,False,suspicious,True,offline-text-model
+development-200,image-035,image,asea,2351,Government Spoofing,True,"You are a qualified beneficiary for the P20,000 4Ps cash assistance. Register at the official portal: https://bit.ly/3ECDV3u","You are a qualified beneficiary for the P20,000 4Ps cash
+assistance. Register at the official portal:
+https://bit.ly/3ECDV3u",suspicious,True,suspicious,True,benefit-claim; shortener; sms-pattern; offline-text-model
+development-200,image-036,image,filipino-original,505,ham,False,"Sir, confirm ko lang po kung tuloy 4pm na meeting natin sa Gilmore Heights satellite office para sa unit viewing?..","Sir, confirm ko lang po kung tuloy 4pm na meeting natin sa
+Gilmore Heights satellite office para sa unit viewing?..",low,False,low,False,
+development-200,image-037,image,imc25,2072,public smishing report / banking,True,USB: URGENT - Suspicious behavior has been observed on your debit-card call us at <DATE_TIME> to authenticate.,"USB: URGENT - Suspicious behavior has been observed on your
+debit-card call us at <DATE_TIME> to authenticate.",low,False,suspicious,True,offline-text-model
+development-200,image-038,image,hinglish,3644,0,False,In fact when do you leave? I think addie goes back to school tues or wed,"In fact when do you leave? | think addie goes back to school
+tues or wed",low,False,low,False,
+development-200,image-039,image,imc25,21200,public smishing report / banking,True,"SANTANDER: As of <DATE_TIME>, you cannot use your account. You have to activate the new security system","SANTANDER: As of <DATE_TIME>, you cannot use your account. You
+have to activate the new security system",low,False,suspicious,True,offline-text-model
+development-200,image-040,image,filipino-merged,408,ham,False,2/2 ITO AY ISANG SCAM.I-REPORT SA HTTPS://NTC.GOV.PH O ITAWAG SA NTC HOTLINE 1682,"2/2 ITO AY ISANG SCAM.I-REPORT SA HTTPS://INTC.GOV.PH O ITAWAG
+SA NTC HOTLINE 1682",low,False,low,False,
+development-200,image-041,image,asea,432,Gambling Scam,True,anepiaparada.la/iidtw2au Libreng pera sa pag-sign up? Dito lang yan! Simulan na ang iyong panalo.,"anepiaparada.la/iidtw2au Libreng pera sa pag-sign up? Dito
+lang yan! Simulan na ang iyong panalo.",low,False,suspicious,True,offline-text-model
+development-200,image-042,image,filipino-merged,527,ham,False,Mg10 n ho knina kpa tnwagan n papa m .San n c Jalen,Mg10 n ho knina kpa tnwagan n papa m .San n c Jalen,low,False,low,False,
+development-200,image-043,image,imc25,25553,public smishing report / government,True,"Dear, The Federal Public Service has decided that you will receive a refund of € 175.14. You can visit our website to receive this amount.","Dear, The Federal Public Service has decided that you will
+receive a refund of € 175.14. You can visit our website to
+receive this amount.",low,False,suspicious,True,offline-text-model
+development-200,image-044,image,filipino-merged,445,ham,False,Hi <REAL NAME>. Your One-Time PIN (OTP) for Virtual Pag-IBIG is 2618. This is valid for 10 minutes. Reference Code: EXOKCC,"Hi <REAL NAME>. Your One-Time PIN (OTP) for Virtual Pag-IBIG
+is 2618. This is valid for 10 minutes. Reference Code: EXOKCC",low,False,low,False,
+development-200,image-045,image,imc25,14880,public smishing report / banking,True,"Dear Absa Customer,Your Absa account has been disabled for security reason's. Tap: <URL> To Restore your <NAMED_ENTITY> account now. Thank You, <NAMED_ENTITY>.","Dear Absa Customer,Your Absa account has been disabled for
+security reason's. Tap: <URL> To Restore your <NAMED_ENTITY>
+account now. Thank You, SNAMED ENTITY>.",suspicious,True,suspicious,True,pressure; offline-text-model
+development-200,image-046,image,uci-sms,4834,ham,False,She.s fine. I have had difficulties with her phone. It works with mine. Can you pls send her another friend request.,"She.s fine. | have had difficulties with her phone. It works
+with mine. Can you pls send her another friend request.",low,False,low,False,
+development-200,image-047,image,imc25,28483,public smishing report / others,True,"<NAMED_ENTITY>: You have been overcharged 12.25€, please fill out the form:","<NAMED_ENTITY>: You have been overcharged 12.25€, please fill
+out the form:",low,False,suspicious,True,offline-text-model
+development-200,image-048,image,filipino-original,619,ham,False,"It's almost Valentine's Day, Ka-TM! Mas matagal ang pag-chat online with your loved one kasi pwede kang humiram ng 15MB, valid for 1 day for P6. I-text lang ang MBSOS sa 3733. Sa susunod mong reload, magdagdag ng P6 (P5 at P1 service fee) para bayaran ito.","It's almost Valentine's Day, Ka-TM! Mas matagal ang pag-chat
+online with your loved one kasi pwede kang humiram ng 15MB,
+valid for 1 day for PG. I-text lang ang MBSOS sa 3733. Sa
+susunod mong reload, magdagdag ng P6 (P5 at P1 service fee)
+para bayaran ito.",low,False,low,False,
+development-200,image-049,image,imc25,4285,public smishing report / banking,True,"BANCOLOMBIA: Withdrawal for $499,000 in PUNTOCLAVE_1. Time <DATE_TIME>. If you want to cancel this request validate your data:","BANCOLOMBIA: Withdrawal for $499,000 in PUNTOCLAVE_1. Time
+<DATE_TIME>. If you want to cancel this request validate your
+data:",unknown,False,suspicious,True,offline-text-model
+development-200,image-050,image,filipino-original,201,ham,False,HUWAG MANIWALA SA TEXT TUNGKOL SA PERA O BANK VERIFICATION. ITO AY ISANG SCAM. I-REPORT SA HTTPS://NTC.GOV.PH o TUMAWAG SA NTC HOTLINE 1682,"HUWAG MANIWALA SA TEXT TUNGKOL SA PERA O BANK VERIFICATION.
+ITO AY ISANG SCAM. I-REPORT SA HTTPS://INTC.GOV.PH o TUMAWAG SA
+NTC HOTLINE 1682",low,False,low,False,
+development-200,links-001,links,phiusiil,124472,0,True,https://81652f61-9b92-4d68-b72e-209dd16937ba.id.repl.co/,https://81652f61-9b92-4d68-b72e-209dd16937ba.id.repl.co/,unknown,False,high,True,dataset-url-match
+development-200,links-002,links,phiusiil,21921,1,False,https://www.sanmolsoftware.com,https://www.sanmolsoftware.com,unknown,False,unknown,False,
+development-200,links-003,links,phiusiil,13113,0,True,http://www.iran-eblgh.ml,http://www.iran-eblgh.ml,unknown,False,high,True,http; dataset-url-match
+development-200,links-004,links,phiusiil,76381,1,False,https://www.boulia.qld.gov.au,https://www.boulia.qld.gov.au,unknown,False,unknown,False,
+development-200,links-005,links,phiusiil,40743,0,True,https://newbiz-108969.square.site/,https://newbiz-108969.square.site/,unknown,False,high,True,dataset-url-match
+development-200,links-006,links,phiusiil,29649,1,False,https://www.verifone.com,https://www.verifone.com,unknown,False,unknown,False,
+development-200,links-007,links,phiusiil,7133,0,True,http://www.jeannew.ga,http://www.jeannew.ga,unknown,False,high,True,http; dataset-url-match
+development-200,links-008,links,phiusiil,41979,1,False,https://www.promoterk.com.br,https://www.promoterk.com.br,unknown,False,unknown,False,
+development-200,links-009,links,phiusiil,38547,0,True,http://www.online.gp,http://www.online.gp,unknown,False,high,True,http; dataset-url-match
+development-200,links-010,links,phiusiil,174290,1,False,https://www.averagesocialite.com,https://www.averagesocialite.com,unknown,False,unknown,False,
+development-200,links-011,links,phiusiil,118270,0,True,http://www.vinafruit.com,http://www.vinafruit.com,unknown,False,high,True,http; dataset-url-match
+development-200,links-012,links,phiusiil,110540,1,False,https://www.czestochowa.simis.pl,https://www.czestochowa.simis.pl,unknown,False,unknown,False,
+development-200,links-013,links,phiusiil,117358,0,True,https://att-mail-101776.square.site/,https://att-mail-101776.square.site/,unknown,False,high,True,dataset-url-match
+development-200,links-014,links,phiusiil,132849,1,False,https://www.southbysea.com,https://www.southbysea.com,unknown,False,unknown,False,
+development-200,links-015,links,phiusiil,144931,0,True,https://biancalnte-rnetaprobad0.sodajeans.top/,https://biancalnte-rnetaprobad0.sodajeans.top/,unknown,False,high,True,dataset-url-match
+development-200,links-016,links,phiusiil,137063,1,False,https://www.salliemae.com,https://www.salliemae.com,unknown,False,unknown,False,
+development-200,links-017,links,phiusiil,161645,0,True,http://www.f0679086.xsph.ru,http://www.f0679086.xsph.ru,unknown,False,high,True,http; dataset-url-match
+development-200,links-018,links,phiusiil,148150,1,False,https://www.iiea.com,https://www.iiea.com,unknown,False,unknown,False,
+development-200,links-019,links,phiusiil,179831,0,True,http://www.shopclicksave.net,http://www.shopclicksave.net,unknown,False,high,True,http; dataset-url-match
+development-200,links-020,links,phiusiil,172524,1,False,https://www.afar.com,https://www.afar.com,unknown,False,unknown,False,
+development-200,links-021,links,phiusiil,194251,0,True,https://my-business-109401-106192.square.site/,https://my-business-109401-106192.square.site/,unknown,False,high,True,dataset-url-match
+development-200,links-022,links,phiusiil,50349,1,False,https://www.wolframscience.com,https://www.wolframscience.com,unknown,False,unknown,False,
+development-200,links-023,links,phiusiil,128605,0,True,https://es.lng-web-soporte.com,https://es.lng-web-soporte.com,unknown,False,high,True,dataset-url-match
+development-200,links-024,links,phiusiil,76531,1,False,https://www.crazydogtshirts.com,https://www.crazydogtshirts.com,unknown,False,unknown,False,
+development-200,links-025,links,phiusiil,60973,0,True,http://organisasi.bulungan.go.id/public/7hymazqgx6dno7b8wg6s1ud1sm8fh7kk,http://organisasi.bulungan.go.id/public/7hymazqgx6dno7b8wg6s1ud1sm8fh7kk,unknown,False,high,True,http; dataset-url-match
+development-200,links-026,links,phiusiil,12625,1,False,https://www.papadoo.com,https://www.papadoo.com,unknown,False,unknown,False,
+development-200,links-027,links,phiusiil,21326,0,True,https://tinu.be/3tuoj7gs7,https://tinu.be/3tuoj7gs7,high,True,high,True,dataset-url-match
+development-200,links-028,links,phiusiil,25619,1,False,https://www.paint-by-threads.com,https://www.paint-by-threads.com,unknown,False,unknown,False,
+development-200,links-029,links,phiusiil,121125,0,True,https://my-business-104747-103109.square.site/,https://my-business-104747-103109.square.site/,unknown,False,high,True,dataset-url-match
+development-200,links-030,links,phiusiil,34937,1,False,https://www.initiative-kurdistan.org,https://www.initiative-kurdistan.org,unknown,False,unknown,False,
+development-200,links-031,links,phiusiil,160722,0,True,https://maildinshaakckjnw186.firebaseapp.com/,https://maildinshaakckjnw186.firebaseapp.com/,unknown,False,high,True,dataset-url-match
+development-200,links-032,links,phiusiil,234020,1,False,https://www.futuro.cl,https://www.futuro.cl,unknown,False,unknown,False,
+development-200,links-033,links,phiusiil,186812,0,True,https://www.hanse.dental/wp-content/themes/hansen/swisscomspx/swisscomspx/swisscom/,https://www.hanse.dental/wp-content/themes/hansen/swisscomspx/swisscomspx/swisscom/,unknown,False,high,True,dataset-url-match
+development-200,links-034,links,phiusiil,161656,1,False,https://www.steadydemand.com,https://www.steadydemand.com,unknown,False,unknown,False,
+development-200,links-035,links,phiusiil,66518,0,True,https://mail.pemulihan18299.3gp.work.gd/,https://mail.pemulihan18299.3gp.work.gd/,unknown,False,high,True,subdomains; dataset-url-match
+development-200,links-036,links,phiusiil,44671,1,False,https://www.johnstonsunrise.net,https://www.johnstonsunrise.net,unknown,False,unknown,False,
+development-200,links-037,links,phiusiil,204980,0,True,https://opencart-113952-0.cloudclusters.net/zasilkovna1/pagamento/fatturazione/,https://opencart-113952-0.cloudclusters.net/zasilkovna1/pagamento/fatturazione/,unknown,False,high,True,dataset-url-match
+development-200,links-038,links,phiusiil,195474,1,False,https://www.proimagenescolombia.com,https://www.proimagenescolombia.com,unknown,False,unknown,False,
+development-200,links-039,links,phiusiil,39972,0,True,https://hpb6ocmck.firebaseapp.com/,https://hpb6ocmck.firebaseapp.com/,unknown,False,high,True,dataset-url-match
+development-200,links-040,links,phiusiil,57372,1,False,https://www.autoinfluence.com,https://www.autoinfluence.com,unknown,False,unknown,False,
+development-200,links-041,links,phiusiil,10379,0,True,http://www.saisoaoard.co.jp.hicayt.top/ai/sign.php,http://www.saisoaoard.co.jp.hicayt.top/ai/sign.php,suspicious,True,high,True,http; subdomains; dataset-url-match
+development-200,links-042,links,phiusiil,214650,1,False,https://www.thefanatics.com,https://www.thefanatics.com,unknown,False,unknown,False,
+development-200,links-043,links,phiusiil,111017,0,True,http://gafik79181.temp.swtest.ru/login/ologin.php,http://gafik79181.temp.swtest.ru/login/ologin.php,unknown,False,high,True,http; dataset-url-match
+development-200,links-044,links,phiusiil,91795,1,False,https://www.fox-gallery.com,https://www.fox-gallery.com,unknown,False,unknown,False,
+development-200,links-045,links,phiusiil,164258,0,True,https://ibeawuchi.com/mufg/addressm.php?t=57500de1311e5ac5f32a234fe1cb18e65405ea542f7b87c52934f839aae68c6a,https://ibeawuchi.com/mufg/addressm.php?t=57500de1311e5ac5f32a234fe1cb18e65405ea542f7b87c52934f839aae68c6a,unknown,False,high,True,dataset-url-match
+development-200,links-046,links,phiusiil,88090,1,False,https://www.babelnet.org,https://www.babelnet.org,unknown,False,unknown,False,
+development-200,links-047,links,phiusiil,112925,0,True,https://rooooooaaaadddddbbbbbbnnnn0001.godaddysites.com/,https://rooooooaaaadddddbbbbbbnnnn0001.godaddysites.com/,unknown,False,high,True,dataset-url-match
+development-200,links-048,links,phiusiil,102739,1,False,https://www.bookishelf.com,https://www.bookishelf.com,unknown,False,unknown,False,
+development-200,links-049,links,phiusiil,103244,0,True,https://dsexsdefevvpvr11.z20.web.core.windows.net/,https://dsexsdefevvpvr11.z20.web.core.windows.net/,unknown,False,high,True,dataset-url-match
+development-200,links-050,links,phiusiil,71079,1,False,https://www.oncotarget.com,https://www.oncotarget.com,unknown,False,unknown,False,
+development-200,qr-001,qr,imc25,15480,public smishing report / banking,True,"Dear Customer, Reference: <US_BANK_NUMBER> ING: We have placed your account in the 'quarantine zone'. You need to confirm your Mobile Home Banking on your device before 12-05-20 to prevent blocking: <URL> Thanks in advance for your cooperation. ING Customer Service","Dear Customer, Reference: <US_BANK_NUMBER> ING: We have placed your account in the 'quarantine zone'. You need to confirm your Mobile Home Banking on your device before 12-05-20 to prevent blocking: <URL> Thanks in advance for your cooperation. ING Customer Service",low,False,suspicious,True,offline-text-model
+development-200,qr-002,qr,uci-sms,4101,ham,False,Thanks honey but still haven't heard anything I will leave it a bit longer so not 2 crowd him and will try later - great advice thanks hope cardiff is still there!,Thanks honey but still haven't heard anything I will leave it a bit longer so not 2 crowd him and will try later - great advice thanks hope cardiff is still there!,low,False,low,False,
+development-200,qr-003,qr,asea,1463,Investment Scam,True,"Magdeposito sa BW777 at makakuha ng 5% na bonus, at maaari ka ring makakuha ng isang iphone15 77ph7.tv/27MS04","Magdeposito sa BW777 at makakuha ng 5% na bonus, at maaari ka ring makakuha ng isang iphone15 77ph7.tv/27MS04",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,qr-004,qr,asea,4805,HAM,False,"Maaari na ninyong makita ang inyong PhilHealth membership, contributions at konsulta provider sa eGovPH app. I-download na ang eGovPH sa AppStore at GooglePlay!","Maaari na ninyong makita ang inyong PhilHealth membership, contributions at konsulta provider sa eGovPH app. I-download na ang eGovPH sa AppStore at GooglePlay!",low,False,low,False,
+development-200,qr-005,qr,imc25,11972,public smishing report / banking,True,Beware! Your account has been restricted for security reasons. Restore your account via,Beware! Your account has been restricted for security reasons. Restore your account via,low,False,suspicious,True,offline-text-model
+development-200,qr-006,qr,filipino-merged,745,ham,False,1/2 06-Jul 14:22: P10 loaded to <PHONE>from XXXXXXXX7428 for 1 year. Ref:AG66KKP77M.,1/2 06-Jul 14:22: P10 loaded to <PHONE>from XXXXXXXX7428 for 1 year. Ref:AG66KKP77M.,low,False,low,False,
+development-200,qr-007,qr,asea,2274,Gambling Scam,True,Try this easy g@me! W.l.N 100M J@CKP0T PRIZE AND STILL GROWING... http://pbgaming.beauty/Sy7,Try this easy g@me! W.l.N 100M J@CKP0T PRIZE AND STILL GROWING... http://pbgaming.beauty/Sy7,low,False,low,False,http
+development-200,qr-008,qr,uci-sms,2395,ham,False,Yup i've finished c ü there...,Yup i've finished c ü there...,low,False,low,False,
+development-200,qr-009,qr,imc25,20744,public smishing report / banking,True,Dear Customer Your SBI ACCOUNT will be blocked <DATE_TIME> Please Update Your PAN CARD NUMBER Thank you SBI BANK Click here <URL> JLNCLN,Dear Customer Your SBI ACCOUNT will be blocked <DATE_TIME> Please Update Your PAN CARD NUMBER Thank you SBI BANK Click here <URL> JLNCLN,suspicious,True,suspicious,True,pressure; offline-text-model
+development-200,qr-010,qr,uci-sms,3548,ham,False,Does uncle timi help in clearing cars,Does uncle timi help in clearing cars,low,False,low,False,
+development-200,qr-011,qr,imc25,2332,public smishing report / banking,True,Dear user your SBI YONO Account will be close <DATE_TIME> click here on the link update your PAN CARD Number <URL> SBI TEAM.,Dear user your SBI YONO Account will be close <DATE_TIME> click here on the link update your PAN CARD Number <URL> SBI TEAM.,low,False,suspicious,True,offline-text-model
+development-200,qr-012,qr,hinglish,2983,0,False,Dear we got &lt;#&gt; dollars hi hi,Dear we got &lt;#&gt; dollars hi hi,low,False,low,False,
+development-200,qr-013,qr,imc25,11086,public smishing report / banking,True,Dear Customer your HDFC Netbanking Account will be Suspended by <DATE_TIME>. please Update your PANCARD now visit the <URL>,Dear Customer your HDFC Netbanking Account will be Suspended by <DATE_TIME>. please Update your PANCARD now visit the <URL>,suspicious,True,suspicious,True,pressure; offline-text-model
+development-200,qr-014,qr,filipino-original,200,ham,False,"HUWAG MANIWALA SA TEXT NA MAY PANGALAN NINYO AT ALOK NA TRABAHO, PABUYA O PERA. ITO AY ISANG SCAM. I-REPORT SA HTTPS://NTC.GOV.PH o TUMAWAG SA NTC HOTLINE 1682","HUWAG MANIWALA SA TEXT NA MAY PANGALAN NINYO AT ALOK NA TRABAHO, PABUYA O PERA. ITO AY ISANG SCAM. I-REPORT SA HTTPS://NTC.GOV.PH o TUMAWAG SA NTC HOTLINE 1682",low,False,low,False,
+development-200,qr-015,qr,imc25,19881,public smishing report / banking,True,Dear Customer your SBI BANK Account will be blocked <DATE_TIME> please update your PAN CARD click here,Dear Customer your SBI BANK Account will be blocked <DATE_TIME> please update your PAN CARD click here,suspicious,True,suspicious,True,pressure; offline-text-model
+development-200,qr-016,qr,hinglish,1799,0,False,Did you show him and wot did he say or could u not c him 4 dust?,Did you show him and wot did he say or could u not c him 4 dust?,low,False,low,False,
+development-200,qr-017,qr,asea,1290,Gambling Scam,True,NO.1 Legal na online game sa Pilipinas! http://fdsv08.site,NO.1 Legal na online game sa Pilipinas! http://fdsv08.site,low,False,low,False,http
+development-200,qr-018,qr,filipino-original,599,ham,False,<REAL NAME> pasuyo punta ka muna d2,<REAL NAME> pasuyo punta ka muna d2,low,False,low,False,
+development-200,qr-019,qr,imc25,14875,public smishing report / banking,True,REVOLUT: Please verify your identification to unblock your account. Please click the secure link: <URL> REFERENCE:DS74019D,REVOLUT: Please verify your identification to unblock your account. Please click the secure link: <URL> REFERENCE:DS74019D,low,False,suspicious,True,offline-text-model
+development-200,qr-020,qr,asea,1112,HAM,False,Thanks for the gift! Super cute.,Thanks for the gift! Super cute.,low,False,low,False,
+development-200,qr-021,qr,imc25,19421,public smishing report / banking,True,"Dear Customer, Your HDFC Credit Card Points Worth Rs.8655 Will Expired By <DATE_TIME>. Kindly Redeem Points In Cashback By Clicking <URL> -SLAXMI","Dear Customer, Your HDFC Credit Card Points Worth Rs.8655 Will Expired By <DATE_TIME>. Kindly Redeem Points In Cashback By Clicking <URL> -SLAXMI",low,False,suspicious,True,offline-text-model
+development-200,qr-022,qr,filipino-merged,518,ham,False,Your UNLI DATA will expire in 60 minutes.,Your UNLI DATA will expire in 60 minutes.,low,False,low,False,
+development-200,qr-023,qr,imc25,7395,public smishing report / banking,True,Dear SBI Customer Your SBI YONO Account has been Suspended <DATE_TIME> please Update Your PAN Card number Click here link https://rb.gv/uuZkw7 THANK YOU SBI,Dear SBI Customer Your SBI YONO Account has been Suspended <DATE_TIME> please Update Your PAN Card number Click here link https://rb.gv/uuZkw7 THANK YOU SBI,suspicious,True,suspicious,True,pressure; sms-pattern; offline-text-model
+development-200,qr-024,qr,hinglish,2241,0,False,"That's very rude, you on campus?","That's very rude, you on campus?",low,False,low,False,
+development-200,qr-025,qr,imc25,26287,public smishing report / others,True,"Hey, This will be done from your side kindly block it if you don't want SMS","Hey, This will be done from your side kindly block it if you don't want SMS",low,False,suspicious,True,offline-text-model
+development-200,qr-026,qr,phiusiil,180593,1,False,https://www.thepolarisproject.org,https://www.thepolarisproject.org,unknown,False,unknown,False,
+development-200,qr-027,qr,phiusiil,191901,0,True,http://www.carbonquotes.com,http://www.carbonquotes.com,unknown,False,high,True,http; dataset-url-match
+development-200,qr-028,qr,phiusiil,789,1,False,https://www.software3d.com,https://www.software3d.com,unknown,False,unknown,False,
+development-200,qr-029,qr,phiusiil,94170,0,True,http://www.balsamsalama.com,http://www.balsamsalama.com,unknown,False,high,True,http; dataset-url-match
+development-200,qr-030,qr,phiusiil,94872,1,False,https://www.igfgolf.org,https://www.igfgolf.org,unknown,False,unknown,False,
+development-200,qr-031,qr,phiusiil,114846,0,True,https://file-shared-clouds.data-shared.workers.dev/,https://file-shared-clouds.data-shared.workers.dev/,unknown,False,high,True,dataset-url-match
+development-200,qr-032,qr,phiusiil,59611,1,False,https://www.tiesncuffs.com.au,https://www.tiesncuffs.com.au,unknown,False,unknown,False,
+development-200,qr-033,qr,phiusiil,219333,0,True,https://indhoa.decimenstsnems.repl.co/,https://indhoa.decimenstsnems.repl.co/,unknown,False,high,True,dataset-url-match
+development-200,qr-034,qr,phiusiil,234820,1,False,https://www.japanesepod101.com,https://www.japanesepod101.com,unknown,False,unknown,False,
+development-200,qr-035,qr,phiusiil,108151,0,True,http://gg.gg/13lslf,http://gg.gg/13lslf,unknown,False,high,True,http; dataset-url-match
+development-200,qr-036,qr,phiusiil,191631,1,False,https://www.camdencountync.gov,https://www.camdencountync.gov,unknown,False,unknown,False,
+development-200,qr-037,qr,phiusiil,11607,0,True,http://www.turkishnewexperience.com,http://www.turkishnewexperience.com,unknown,False,high,True,http; dataset-url-match
+development-200,qr-038,qr,phiusiil,28958,1,False,https://www.croatiaforchrist.com,https://www.croatiaforchrist.com,unknown,False,unknown,False,
+development-200,qr-039,qr,phiusiil,103057,0,True,http://www.is-very-nice.org,http://www.is-very-nice.org,unknown,False,high,True,http; dataset-url-match
+development-200,qr-040,qr,phiusiil,114961,1,False,https://www.greenfieldsavings.com,https://www.greenfieldsavings.com,unknown,False,unknown,False,
+development-200,qr-041,qr,phiusiil,160844,0,True,https://storageapi.fleek.co/f1e747e4-2191-4882-bc0f-5f96e3778913-bucket/configresolve3/index.html#info@mup.cz,https://storageapi.fleek.co/f1e747e4-2191-4882-bc0f-5f96e3778913-bucket/configresolve3/index.html#info@mup.cz,unknown,False,high,True,dataset-url-match
+development-200,qr-042,qr,phiusiil,46228,1,False,https://www.fatestaynightusa.com,https://www.fatestaynightusa.com,unknown,False,unknown,False,
+development-200,qr-043,qr,phiusiil,206648,0,True,http://fhhw1u.webwave.dev/,http://fhhw1u.webwave.dev/,unknown,False,high,True,http; dataset-url-match
+development-200,qr-044,qr,phiusiil,25345,1,False,https://www.fighterpilotpodcast.com,https://www.fighterpilotpodcast.com,unknown,False,unknown,False,
+development-200,qr-045,qr,phiusiil,174439,0,True,https://aol-102749.weeblysite.com/,https://aol-102749.weeblysite.com/,unknown,False,high,True,dataset-url-match
+development-200,qr-046,qr,phiusiil,130452,1,False,https://www.rozemarijnleiden.nl,https://www.rozemarijnleiden.nl,unknown,False,unknown,False,
+development-200,qr-047,qr,phiusiil,171094,0,True,https://etc-dgg5r.itemdb.com/,https://etc-dgg5r.itemdb.com/,unknown,False,high,True,dataset-url-match
+development-200,qr-048,qr,phiusiil,19654,1,False,https://www.thelodownny.com,https://www.thelodownny.com,unknown,False,unknown,False,
+development-200,qr-049,qr,phiusiil,67861,0,True,https://attcom-104182.square.site/,https://attcom-104182.square.site/,unknown,False,high,True,dataset-url-match
+development-200,qr-050,qr,phiusiil,225409,1,False,https://www.yzerfashion.be,https://www.yzerfashion.be,unknown,False,unknown,False,
+development-200,text-001,text,asea,4358,Investment Scam,True,"Get 3000 P for free, click; https://www.bd55365.com/?a=<NUMBER>","Get 3000 P for free, click; https://www.bd55365.com/?a=<NUMBER>",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-002,text,filipino-merged,429,ham,False,"Did you request to do BANK TRANSFER to East West Banking Corporation account no. ending in 4852 with amount of <AMOUNT>? If not, DON'T ENTER YOUR OTP ON ANY SITE OR SEND IT TO ANYONE because IT'S A SCAM! If you requested, your OTP is <NUMBER>.","Did you request to do BANK TRANSFER to East West Banking Corporation account no. ending in 4852 with amount of <AMOUNT>? If not, DON'T ENTER YOUR OTP ON ANY SITE OR SEND IT TO ANYONE because IT'S A SCAM! If you requested, your OTP is <NUMBER>.",low,False,low,False,
+development-200,text-003,text,asea,2415,Investment Scam,True,"Inaantay kita sa Global Coin, bilisan at sumali https://t.co/6SrH0EExIp","Inaantay kita sa Global Coin, bilisan at sumali https://t.co/6SrH0EExIp",suspicious,True,suspicious,True,shortener
+development-200,text-004,text,filipino-original,300,ham,False,San ka na? Byahilo na ba? HAHAHAHA,San ka na? Byahilo na ba? HAHAHAHA,low,False,low,False,
+development-200,text-005,text,imc25,26279,public smishing report / others,True,"YOUR GSM NO IS SELECTED FOR <DATE_TIME> FROM <LOCATION> <URL> GET FUNDS SEND NAME,MOBILE NO,AGE,GENDER,OCCUPATION,ADDS TO:<EMAIL_ADDRESS>","YOUR GSM NO IS SELECTED FOR <DATE_TIME> FROM <LOCATION> <URL> GET FUNDS SEND NAME,MOBILE NO,AGE,GENDER,OCCUPATION,ADDS TO:<EMAIL_ADDRESS>",low,False,suspicious,True,offline-text-model
+development-200,text-006,text,hinglish,3285,0,False,Yo come over carlos will be here soon,Yo come over carlos will be here soon,low,False,low,False,
+development-200,text-007,text,imc25,14279,public smishing report / banking,True,"Dear SBI Credit Cardholder, please clear outstanding of Rs. 8169.55 on your card ending 8918 to improve your bureau credit scores. To make immediate payment, use any of our online payment methods. Please contact <NAMED_ENTITY> on <DATE_TIME> for payment assistance. T&C","Dear SBI Credit Cardholder, please clear outstanding of Rs. 8169.55 on your card ending 8918 to improve your bureau credit scores. To make immediate payment, use any of our online payment methods. Please contact <NAMED_ENTITY> on <DATE_TIME> for payment assistance. T&C",low,False,suspicious,True,offline-text-model
+development-200,text-008,text,filipino-merged,857,ham,False,Your OTP is <NUMBER>. Ref no: <NUMBER>. Code will expire in 1 minute.,Your OTP is <NUMBER>. Ref no: <NUMBER>. Code will expire in 1 minute.,low,False,low,False,
+development-200,text-009,text,asea,4010,Gambling Scam,True,[ Betso88 x Epicwin ]: Join us & FREE 50p today Auto FREE 50p when signup! Get extra 100p with any deposit Trusted website : https://EpicWin1.icu,[ Betso88 x Epicwin ]: Join us & FREE 50p today Auto FREE 50p when signup! Get extra 100p with any deposit Trusted website : https://EpicWin1.icu,suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-010,text,uci-sms,110,ham,False,I know! Grumpy old people. My mom was like you better not be lying. Then again I am always the one to play jokes...,I know! Grumpy old people. My mom was like you better not be lying. Then again I am always the one to play jokes...,low,False,low,False,
+development-200,text-011,text,imc25,25139,public smishing report / government,True,"[ CPAM HEALTH ] After the last check of your health insurance file, we have determined that you will receive a refund of 520.67 euros. Please fill out your refund form and confirm it via the link below:","[ CPAM HEALTH ] After the last check of your health insurance file, we have determined that you will receive a refund of 520.67 euros. Please fill out your refund form and confirm it via the link below:",low,False,suspicious,True,offline-text-model
+development-200,text-012,text,filipino-original,593,ham,False,Good day! I would like to inform you that ur eyeglasses is ready for collection now. Calaguas optical,Good day! I would like to inform you that ur eyeglasses is ready for collection now. Calaguas optical,low,False,low,False,
+development-200,text-013,text,imc25,29849,public smishing report / others,True,"Hello sir, I downloaded the app and gave it a 5 star rating. I have successful verified my account but have not received reward yet. MY UID: <NUMBER> Account Phone Number:","Hello sir, I downloaded the app and gave it a 5 star rating. I have successful verified my account but have not received reward yet. MY UID: <NUMBER> Account Phone Number:",low,False,suspicious,True,offline-text-model
+development-200,text-014,text,asea,1071,HAM,False,I'll buy the tickets online later.,I'll buy the tickets online later.,low,False,low,False,
+development-200,text-015,text,imc25,24049,public smishing report / delivery,True,AN POST: Your delivery has an outstanding payment of €1.99. To pay this visit <URL> or your parcel will be returned to sender.,AN POST: Your delivery has an outstanding payment of €1.99. To pay this visit <URL> or your parcel will be returned to sender.,low,False,suspicious,True,offline-text-model
+development-200,text-016,text,uci-sms,599,ham,False,what I meant to say is cant wait to see u again getting bored of this bridgwater banter,what I meant to say is cant wait to see u again getting bored of this bridgwater banter,low,False,low,False,
+development-200,text-017,text,asea,4580,Gambling Scam,True,"Payday Bonanza is here! Visit WinPnow.eu for fun and big wins Claim your 999p Bonus smash the Golden Egg for a chance to win up to 51,000p and get a Xiaomi 14","Payday Bonanza is here! Visit WinPnow.eu for fun and big wins Claim your 999p Bonus smash the Golden Egg for a chance to win up to 51,000p and get a Xiaomi 14",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-018,text,hinglish,2635,0,False,I was at bugis juz now wat... But now i'm walking home oredi... Ü so late then reply... I oso saw a top dat i like but din buy... Where r ü now?,I was at bugis juz now wat... But now i'm walking home oredi... Ü so late then reply... I oso saw a top dat i like but din buy... Where r ü now?,low,False,low,False,
+development-200,text-019,text,asea,4494,Gambling Scam,True,"Join Love Event & Win GLAMIRA Ring On GoJackpot. Spin NEW YEAR & FA CAI WHEEL to win SAMSUNG TV & MITSUBISHI Car, New Get Free 1000p & 177p at GoJackpotph11.icu","Join Love Event & Win GLAMIRA Ring On GoJackpot. Spin NEW YEAR & FA CAI WHEEL to win SAMSUNG TV & MITSUBISHI Car, New Get Free 1000p & 177p at GoJackpotph11.icu",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-020,text,filipino-merged,846,ham,False,Pki txt m kaya si oliver para malaman nya prblema. 4ward ko no nya.,Pki txt m kaya si oliver para malaman nya prblema. 4ward ko no nya.,low,False,low,False,
+development-200,text-021,text,asea,1954,Delivery Scam,True,"Ang inyong parcel na may Tracking No. JT-9102-PH ay kasalukuyang naka-hold sa aming hub dahil kulang ang House Number sa inyong delivery address. Upang maiwasan ang RTS (Return to Sender), paki-update ang inyong detalye rito ngayon: http://fdsv03.site","Ang inyong parcel na may Tracking No. JT-9102-PH ay kasalukuyang naka-hold sa aming hub dahil kulang ang House Number sa inyong delivery address. Upang maiwasan ang RTS (Return to Sender), paki-update ang inyong detalye rito ngayon: http://fdsv03.site",suspicious,True,high,True,http; parcel-update-link; offline-text-model
+development-200,text-022,text,asea,2156,HAM,False,"SMS PASS: <RECEIVER'S FULL NAME> PIDN: B04796 / A3(adults with co-morbidity) dalhin:ballpen, valid id at med. cert./clearance or reseta. sa iyong 1st dose covid-19 bakuna sa 9/7/2021 8am-2pm, pacita astrodome. reply confirm. rc: VEI07A","SMS PASS: <RECEIVER'S FULL NAME> PIDN: B04796 / A3(adults with co-morbidity) dalhin:ballpen, valid id at med. cert./clearance or reseta. sa iyong 1st dose covid-19 bakuna sa 9/7/2021 8am-2pm, pacita astrodome. reply confirm. rc: VEI07A",suspicious,True,low,False,
+development-200,text-023,text,imc25,28594,public smishing report / others,True,YOUR WHATS-APP NO HAS WON RS. 1 CRORE 85 LAKH IN THE WHATS-APP GLOBAL DRAW <DATE_TIME>. TO Receive SEND/NAME/AGE/MOBILE#/OCUPTN:TO <NAMED_ENTITY>:,YOUR WHATS-APP NO HAS WON RS. 1 CRORE 85 LAKH IN THE WHATS-APP GLOBAL DRAW <DATE_TIME>. TO Receive SEND/NAME/AGE/MOBILE#/OCUPTN:TO <NAMED_ENTITY>:,suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-024,text,filipino-original,325,ham,False,Mag gcash ka jan my tira pa gcash ko db,Mag gcash ka jan my tira pa gcash ko db,low,False,low,False,
+development-200,text-025,text,imc25,12544,public smishing report / banking,True,NAB Alert - We have detected a potential issue and blocked your Internet Banking. Please visit <URL> to confirm your device.,NAB Alert - We have detected a potential issue and blocked your Internet Banking. Please visit <URL> to confirm your device.,low,False,suspicious,True,offline-text-model
+development-200,text-026,text,filipino-merged,503,ham,False,Use verification code <NUMBER> for Technological Uni... authentication.,Use verification code <NUMBER> for Technological Uni... authentication.,low,False,low,False,
+development-200,text-027,text,asea,4599,Job Scam,True,"The best online business and money-making model at home in 2024, small investment, quick results, easy money making with digital currency cutt.ly/pw6KRxxD","The best online business and money-making model at home in 2024, small investment, quick results, easy money making with digital currency cutt.ly/pw6KRxxD",suspicious,True,suspicious,True,shortener
+development-200,text-028,text,uci-sms,1171,ham,False,Thanks for understanding. I've been trying to tell sura that.,Thanks for understanding. I've been trying to tell sura that.,low,False,low,False,
+development-200,text-029,text,asea,1805,Prize Scam,True,You are invited to be part of Panalobet! Over 5000 games here you can get 200% welcome bonus! Register now to get 99 signup bonus! Login: pb89ph.com/5a7,You are invited to be part of Panalobet! Over 5000 games here you can get 200% welcome bonus! Register now to get 99 signup bonus! Login: pb89ph.com/5a7,high,True,high,True,gambling-signup-offer; unlisted-gambling-link; sms-pattern; offline-text-model
+development-200,text-030,text,uci-sms,2703,ham,False,"Easy mate, * guess the quick drink was bit ambitious.","Easy mate, * guess the quick drink was bit ambitious.",low,False,low,False,
+development-200,text-031,text,asea,1914,Job Scam,True,Telegram code: <NUMBER> You can also tap on this link to log in: https://t.me/login/<NUMBER> oLeq9AcOZkT,Telegram code: <NUMBER> You can also tap on this link to log in: https://t.me/login/<NUMBER> oLeq9AcOZkT,low,False,suspicious,True,offline-text-model
+development-200,text-032,text,filipino-original,145,ham,False,[NCA888 LIV] <CODE> please remember this code for future access. thank you.,[NCA888 LIV] <CODE> please remember this code for future access. thank you.,low,False,low,False,
+development-200,text-033,text,imc25,1365,public smishing report / delivery,True,"<NAMED_ENTITY>: Your order was confirmed on <DATE_TIME>, <DATE_TIME>. View details <URL> Reply STOP to opt out. <NAMED_ENTITY>: Your order has been refunded. Refund details <URL> Reply STOP to opt out.","<NAMED_ENTITY>: Your order was confirmed on <DATE_TIME>, <DATE_TIME>. View details <URL> Reply STOP to opt out. <NAMED_ENTITY>: Your order has been refunded. Refund details <URL> Reply STOP to opt out.",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-034,text,hinglish,3734,0,False,And miss vday the parachute and double coins??? U must not know me very well...,And miss vday the parachute and double coins??? U must not know me very well...,low,False,low,False,
+development-200,text-035,text,imc25,26848,public smishing report / others,True,"Immediately check whether <US_BANK_NUMBER> is your number? If yes, immediately CONTACT *123*570*5*1# to take bonus prize Credit of Rp 50,000, CONTACT *123*570*5*<DATE_TIME>!","Immediately check whether <US_BANK_NUMBER> is your number? If yes, immediately CONTACT *123*570*5*1# to take bonus prize Credit of Rp 50,000, CONTACT *123*570*5*<DATE_TIME>!",suspicious,True,high,True,load-transfer; sms-pattern; offline-text-model
+development-200,text-036,text,hinglish,1805,0,False,"Sorry, I can't help you on this.","Sorry, I can't help you on this.",low,False,low,False,
+development-200,text-037,text,asea,4135,Gambling Scam,True,"188P libreng Bonus!!! I-enjoy ang iyong libreng oras sa JILI, PP, P''G... games. Kumuha ng 188P dito: http://8k812.com","188P libreng Bonus!!! I-enjoy ang iyong libreng oras sa JILI, PP, P''G... games. Kumuha ng 188P dito: http://8k812.com",suspicious,True,suspicious,True,http; sms-pattern; offline-text-model
+development-200,text-038,text,asea,3609,HAM,False,SEC: Bayad muna para ma-process ang loan? Advance Fee Scam 'yan! Hindi humihingi ng paunang bayad and lending companies bago magpautang,SEC: Bayad muna para ma-process ang loan? Advance Fee Scam 'yan! Hindi humihingi ng paunang bayad and lending companies bago magpautang,suspicious,True,low,False,
+development-200,text-039,text,imc25,8308,public smishing report / banking,True,Comm-BankTeam: Your confirmation code is <DATE_TIME> for a TRANSACTION of 700.00 AUD to AIRBNB LTD. If this was NOT you please call us on <PHONE_NUMBER> REF: COM3318,Comm-BankTeam: Your confirmation code is <DATE_TIME> for a TRANSACTION of 700.00 AUD to AIRBNB LTD. If this was NOT you please call us on <PHONE_NUMBER> REF: COM3318,low,False,suspicious,True,offline-text-model
+development-200,text-040,text,uci-sms,1288,ham,False,"Sorry, was in the bathroom, sup","Sorry, was in the bathroom, sup",low,False,low,False,
+development-200,text-041,text,imc25,28031,public smishing report / others,True,"SMS/SMS CHARGES MAY, <DATE_TIME>","SMS/SMS CHARGES MAY, <DATE_TIME>",low,False,low,False,
+development-200,text-042,text,hinglish,1583,0,False,Sounds like something that someone testing me would sayy,Sounds like something that someone testing me would sayy,low,False,low,False,
+development-200,text-043,text,imc25,17090,public smishing report / banking,True,"Dear Customer, Your one time password is <US_DRIVER_LICENSE>. Please do not share it with <NAMED_ENTITY>","Dear Customer, Your one time password is <US_DRIVER_LICENSE>. Please do not share it with <NAMED_ENTITY>",low,False,low,False,
+development-200,text-044,text,filipino-original,615,ham,False,"Hi Emedia! Thank you for registering to GInvest. We are happy to inform you that our partner fund providers have approved your registration, and you can now start investing in the products available on GInvest!","Hi Emedia! Thank you for registering to GInvest. We are happy to inform you that our partner fund providers have approved your registration, and you can now start investing in the products available on GInvest!",low,False,low,False,
+development-200,text-045,text,imc25,24797,public smishing report / government,True,"<NAMED_ENTITY>: After the last check of your health insurance file, we have determined that you will receive a refund of 503.99 euros. Please fill out your refund form and confirm it via the link below: <URL>","<NAMED_ENTITY>: After the last check of your health insurance file, we have determined that you will receive a refund of 503.99 euros. Please fill out your refund form and confirm it via the link below: <URL>",low,False,suspicious,True,offline-text-model
+development-200,text-046,text,uci-sms,2117,ham,False,"(And my man carlos is definitely coming by mu tonight, no excuses)","(And my man carlos is definitely coming by mu tonight, no excuses)",low,False,low,False,
+development-200,text-047,text,imc25,13479,public smishing report / banking,True,"Dear Customer, your UPI transaction dated 04SEP19 with RRN <US_BANK_NUMBER> is credited for amount 1000 to your a/c no ending XXXXXXXX4312 on date 05SEP19","Dear Customer, your UPI transaction dated 04SEP19 with RRN <US_BANK_NUMBER> is credited for amount 1000 to your a/c no ending XXXXXXXX4312 on date 05SEP19",low,False,low,False,
+development-200,text-048,text,hinglish,2084,0,False,Sindu got job in birla soft ..,Sindu got job in birla soft ..,low,False,low,False,
+development-200,text-049,text,asea,2836,Raffle Scam,True,"CONGRATULATIONS! PinasWell Weekly Raffle Winner ka, P88,000 grand prize plus iPhone 15 Pro. Claim within 24 hours: pinaswell.com","CONGRATULATIONS! PinasWell Weekly Raffle Winner ka, P88,000 grand prize plus iPhone 15 Pro. Claim within 24 hours: pinaswell.com",suspicious,True,suspicious,True,sms-pattern; offline-text-model
+development-200,text-050,text,uci-sms,1246,ham,False,"Ever green quote ever told by Jerry in cartoon ""A Person Who Irritates u Always Is the one Who Loves u Vry Much But Fails to Express It...!..!! :-) :-) gud nyt","Ever green quote ever told by Jerry in cartoon ""A Person Who Irritates u Always Is the one Who Loves u Vry Much But Fails to Express It...!..!! :-) :-) gud nyt",low,False,low,False,
+confirmation-400,image-001,image,asea,1602,Job Scam,True,"Kumita habang nanonood ng YouTube, kumita ng 500P bawat araw, makipag-ugnayan sa tutor para makatanggap ng 138P. gogt.bid","Kumita habang nanonood ng YouTube, kumita ng 500P bawat araw,
+makipag-ugnayan sa tutor para makatanggap ng 138P. gogt.bid",,,suspicious,True,task-recruitment; sms-pattern; offline-text-model
+confirmation-400,image-002,image,filipino-original,289,ham,False,Sto. Domingo love sa harap may nakalagay,Sto. Domingo love sa harap may nakalagay,,,low,False,
+confirmation-400,image-003,image,imc25,20429,public smishing report / banking,True,"Dear SBI user, your YONO ACCOUNT will be BLOCKED <DATE_TIME> due to incomplete KYC, click on the link to update your PAN CARD details","Dear SBI user, your YONO ACCOUNT will be BLOCKED <DATE_TIME>
+due to incomplete KYC, click on the link to update your PAN
+CARD details",,,suspicious,True,pressure; sms-pattern; offline-text-model
+confirmation-400,image-004,image,uci-sms,4961,ham,False,No sir. That's why i had an 8-hr trip on the bus last week. Have another audition next wednesday but i think i might drive this time.,"No sir. That's why i had an 8-hr trip on the bus last week.
+Have another audition next wednesday but i think i might drive
+this time.",,,low,False,
+confirmation-400,image-005,image,asea,543,Bank Scam,True,"[ BANCO DE ORO ] Your account has been restricted due to unrecognized attempts, Failure to take action will result in account termination within 24 hours. Update here shot.vin/ONLINEBDO","[ BANCO DE ORO ] Your account has been restricted due to
+unrecognized attempts, Failure to take action will result in
+account termination within 24 hours. Update here
+shot.vin/ONLINEBDO",,,high,True,account-alert-link; offline-text-model
+confirmation-400,image-006,image,asea,3608,HAM,False,"DICT: Maaari ng makita ang inyong PhilHealth membership, contributions at konsulta provider sa eGovPH app. I-dwnload na ang eGovPH sa AppStore at GooglePlay","DICT: Maaari ng makita ang inyong PhilHealth membership,
+contributions at konsulta provider sa eGovPH app. I-dwnload na
+ang eGovPH sa AppStore at GooglePlay",,,low,False,
+confirmation-400,image-007,image,imc25,9484,public smishing report / telecom,True,Hi! DND preferences have been updated for your Airtel number. Registration no. Commercial communication for <DATE_TIME> and timebands will be blocked for the below category/ies.: 1. Fully block all service & promotions To unblock categories & resume the commercial communication SMS UNBLOCK ALL to <DATE_TIME>.,"Hi! DND preferences have been updated for your Airtel number.
+Registration no. Commercial communication for <DATE_TIME> and
+timebands will be blocked for the below category/ies.: 1.
+
+Fully block all service & promotions To unblock categories 8
+resume the commercial communication SMS UNBLOCK ALL to
+<DATE_TIME>.",,,suspicious,True,offline-text-model
+confirmation-400,image-008,image,filipino-merged,870,ham,False,"Kulang pa ang load, Ka-TM? Humiram na ng extrang P20 load na may MAS MABABANG SERVICE FEES para maka-register sa promo! I-text na ang UTANG P2LOAD20 sa 3733 o i-dial ang *143# at piliin ang UTANG. Kokolektahin ang P22 (P20 at P2 service fee) sa susunod na pagbili ng load.","Kulang pa ang load, Ka-TM? Humiram na ng extrang P20 load na
+may MAS MABABANG SERVICE FEES para maka-register sa promo!
+I-text na ang UTANG P2LOAD20 sa 3733 o i-dial ang “143# at
+
+piliin ang UTANG. Kokolektahin ang P22 (P20 at P2 service fee)
+
+sa susunod na pagbili ng load.",,,low,False,
+confirmation-400,image-009,image,asea,2465,Gambling Scam,True,2022 Best On|ine CAS1N0 & S|ot Ranking: NO.1 Free B0NUS & Daily sa|ary http://pbplat.com,"2022 Best On|ine CAS1NO 8 S|ot Ranking: NO.1 Free BONUS 8
+Daily sa|ary http://pbplat.com",,,suspicious,True,http; sms-pattern; offline-text-model
+confirmation-400,image-010,image,filipino-original,577,ham,False,shoppee po sir jon.. san kau sa cordero ano kulay ng gate nyo po,"shoppee po sir jon.. san kau sa cordero ano kulay ng gate nyo
+po",,,low,False,
+confirmation-400,image-011,image,imc25,18403,public smishing report / banking,True,Your bank account has been blocked and all services have been withdrawn. Click on the following link BankSmish to reactivate your account now.,"Your bank account has been blocked and all services have been
+withdrawn. Click on the following link BankSmish to reactivate
+your account now.",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-012,image,filipino-original,617,ham,False,"Want even more data? Get the new Go+99, which has 8GB data for all sites and another 8GB for your choice of apps, all valid for 7 days. To register, access the GlobeOne app at https://glbe.co/globe-one, or dial *143# and choose Go+. No advisories? Text STOP to 2682 for free.","Want even more data? Get the new Go+99, which has 8GB data for
+all sites and another 8GB for your choice of apps, all valid
+
+for 7 days. To register, access the GlobeOne app at
+https://glbe.co/globe-one, or dial “143# and choose Got. No
+advisories? Text STOP to 2682 for free.",,,low,False,
+confirmation-400,image-013,image,asea,1460,Gambling Scam,True,"Limited bonus and Red envelope giveaway only at JILI747, Have 3 Chances to Win up to PHP 1,000 ! Today at 6 pm, 8 pm and 10 pm. Come get yours now! jili747e.tv","Limited bonus and Red envelope giveaway only at JILI747, Have
+3 Chances to Win up to PHP 1,000 ! Today at 6 pm, 8 pm and 10
+pm. Come get yours now! jili747e.tv",,,suspicious,True,unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,image-014,image,hinglish,878,0,False,"No, its true..k,Do u knw dis no. &lt;#&gt; ?","No, its true..k,Do u knw dis no. &lt;#&gt; ?",,,low,False,
+confirmation-400,image-015,image,asea,3048,Raffle Scam,True,CONGRATULATIONS! Get 2888 ? for free as our weekly raffle winner. Click to claim your cash prize: https://xt5746.com,"CONGRATULATIONS! Get 2888 ? for free as our weekly raffle
+winner. Click to claim your cash prize: https://xt5746.com",,,suspicious,True,reward-action; sms-pattern; offline-text-model
+confirmation-400,image-016,image,filipino-original,590,ham,False,dalhan mo nga ko facrshield dito hehehehehehhrhr,dalhan mo nga ko facrshield dito hehehehehehhrhr,,,low,False,
+confirmation-400,image-017,image,imc25,1421,public smishing report / banking,True,"CITIBANK: To finish linking AMANDA P to your account, reply <NAMED_ENTITY> authorized this? Visit <URL> to secure your account.","CITIBANK: To finish linking AMANDA P to your account, reply
+<NAMED_ENTITY> authorized this? Visit <URL> to secure your
+account.",,,suspicious,True,offline-text-model
+confirmation-400,image-018,image,filipino-original,586,ham,False,<REAL NAME> pwede agahan mo po bukas kahit 8am pls <REAL NAME> grabe anxiety and panic ko magkakaron na kase ko di ko mahihelp denise bukas ipapahinga ko lang katawan ko kahit till lunch kalang salamat,"<REAL NAME> pwede agahan mo po bukas kahit 8am pls <REAL NAME>
+grabe anxiety and panic ko magkakaron na kase ko di ko
+
+mahihelp denise bukas ipapahinga ko lang katawan ko kahit till
+
+lunch kalang salamat",,,low,False,
+confirmation-400,image-019,image,asea,665,Gambling Scam,True,Ready to become a champion? Join U B E T and claim P2000 + 100% Welcome Bonus. Play for victory at unibetbonu.com,"Ready to become a champion? Join U B E T and claim P2000 +
+100% Welcome Bonus. Play for victory at unibetbonu.com",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-020,image,hinglish,3133,0,False,En chikku nange bakra msg kalstiya..then had tea/coffee?,En chikku nange bakra msg kalstiya..then had tea/coffee?,,,low,False,
+confirmation-400,image-021,image,asea,2600,Gambling Scam,True,"All platform wildplay betting up to P180,000! 200 GET 100, 2000 GET 2000, <NUMBER> GET <NUMBER>, 24/7 Immediate Cash In/Out. MORE https://cutt.ly/wLtnGOJ","All platform wildplay betting up to P180,000! 200 GET 100,
+2000 GET 2000, <NUMBER> GET <NUMBER>, 24/7 Immediate Cash
+In/Out. MORE https://cutt.ly/wLtnGOJ",,,suspicious,True,shortener; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,image-022,image,filipino-merged,495,ham,False,Sir pa add po ako sa messenger,Sir pa add po ako sa messenger,,,low,False,
+confirmation-400,image-023,image,imc25,5012,public smishing report / banking,True,Dear Customer SBI CREDIT Card Rewards coins 5899 will expired <DATE_TIME> Please convert coins in cash here <URL> SSRP,"Dear Customer SBI CREDIT Card Rewards coins 5899 will expired
+sDATE TIME? Please convert coins in cash here <URL> SSRP",,,suspicious,True,offline-text-model
+confirmation-400,image-024,image,hinglish,765,0,False,But really quite funny lor wat... Then u shd haf run shorter distance wat...,"But really quite funny lor wat... Then u shd haf run shorter
+distance wat...",,,low,False,
+confirmation-400,image-025,image,imc25,3861,public smishing report / banking,True,S A N T A N D E R: Hi at <DATE_TIME> on 1/3 we received a request to add beneficiary <NAMED_ENTITY>. If this was not you please visit: <URL>,"SANTANDER: Hi at <DATE_TIME> on 1/3 we received a
+request to add beneficiary <NAMED_ENTITY>. If this was not you
+please visit: <URL>",,,suspicious,True,offline-text-model
+confirmation-400,image-026,image,filipino-merged,498,ham,False,Telegram code: <CODE> You can also tap on this link to log in: https://t.me/login/<NUMBER>,"Telegram code: <CODE> You can also tap on this link to log in:
+https://t.me/login/<NUMBER>",,,suspicious,True,offline-text-model
+confirmation-400,image-027,image,asea,459,Gambling Scam,True,"Para sa mga mobile user, P158 libre + hanggang P1188 bonus. Doblehin ang saya sa unang deposito mo. bonus.fm/RkjLKiteNuzk07De","Para sa mga mobile user, P158 libre + hanggang P1188 bonus.
+Doblehin ang saya sa unang deposito mo.
+bonus.fm/RkjLKiteNuzk07De",,,suspicious,True,unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,image-028,image,filipino-merged,768,ham,False,"<REAL NAME> just sent PHP2,000.00 to your GCash wallet using Sendwave.","<REAL NAME> just sent PHP2,000.00 to your GCash wallet using
+Sendwave.",,,suspicious,True,sms-pattern
+confirmation-400,image-029,image,asea,491,Prize Scam,True,Get P298 for free at with your m0bile phone 1OO % bonus on first dep0sit clickhere.cx/w2tv2d1gbbl069u,"Get P298 for free at with your mObile phone 100 % bonus on
+first depOsit clickhere.cx/w2tv2d1gbbl069u",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-030,image,hinglish,3475,0,False,"Gud gud..k, chikku tke care.. sleep well gud nyt","Gud gud..k, chikku tke care.. sleep well gud nyt",,,low,False,
+confirmation-400,image-031,image,imc25,31009,public smishing report / spam,True,Montblanc Official FLAT 60% Off Ends <DATE_TIME> ! Shop Your Loved Meisterstuck Pens Wallets Bags Belt Clips With <DATE_TIME> Store Exchange Warranty -,"Montblanc Official FLAT 60% Off Ends <DATE_TIME> ! Shop Your
+Loved Meisterstuck Pens Wallets Bags Belt Clips With
+<DATE_TIME> Store Exchange Warranty -",,,low,False,
+confirmation-400,image-032,image,asea,1084,HAM,False,"Pahingi naman ng link ng video, di ko mahanap.","Pahingi naman ng link ng video, di ko mahanap.",,,low,False,
+confirmation-400,image-033,image,asea,220,Prize Scam,True,"Ready Exciting Weekend at Sbet! Enjoy 200% Deposit Bonus With Free 3,000p! Sbetwin.eu Win Big Now from Weekend Special Prize Pool & Get Up to 22% Extra Bonus","Ready Exciting Weekend at Sbet! Enjoy 200% Deposit Bonus With
+Free 3,000p! Sbetwin.eu Win Big Now from Weekend Special Prize
+Pool & Get Up to 22% Extra Bonus",,,high,True,pressure; advance-fee; sms-pattern; offline-text-model
+confirmation-400,image-034,image,uci-sms,2911,ham,False,Ay wana meet on sat?ü wkg on sat?,Ay wana meet on sat? wkg on sat?,,,low,False,
+confirmation-400,image-035,image,imc25,13875,public smishing report / banking,True,Dear paytm customer your KYC has been <URL>ytm office ph <PHONE_NUMBER> call <URL>r account will blocked within <DATE_TIME><URL>ank you paytm team,"Dear paytm customer your KYC has been <URL>ytm office ph
+sPHONE NUMBER? call <URL>r account will blocked within
+<DATE_TIME><URL>ank you paytm team",,,suspicious,True,offline-text-model
+confirmation-400,image-036,image,uci-sms,5126,ham,False,"Hey chief, can you give me a bell when you get this. Need to talk to you about this royal visit on the 1st june.","Hey chief, can you give me a bell when you get this. Need to
+talk to you about this royal visit on the 1st june.",,,low,False,
+confirmation-400,image-037,image,asea,510,Bank Scam,True,"Banco De Oro You're having issues with account security. Please review them at tera.vin/OnlineBDO_Secured Sincerely, BANCO DE ORO","Banco De Oro You're having issues with account security.
+Please review them at tera.vin/OnlineBDO Secured Sincerely,
+BANCO DE ORO",,,high,True,account-alert-link; offline-text-model
+confirmation-400,image-038,image,uci-sms,1641,ham,False,Ü eatin later but i'm eatin wif my frens now lei... Ü going home first?,"U eatin later but i'm eatin wif my frens now lei... U going
+home first?",,,low,False,
+confirmation-400,image-039,image,imc25,1796,public smishing report / others,True,"Hey from SuperTravel, are you still interested in booking the Best Western McCarran Inn? Our deal of $135/night is going to save you a total of $235 compared to Expedia Deals this good won't last long. Book now before it disappears.","Hey from SuperTravel, are you still interested in booking the
+Best Western McCarran Inn? Our deal of $135/night is going to
+save you a total of $235 compared to Expedia Deals this good
+won't last long. Book now before it disappears.",,,low,False,
+confirmation-400,image-040,image,hinglish,97,0,False,I donno its in your genes or something,| donno its in your genes or something,,,low,False,
+confirmation-400,image-041,image,imc25,13415,public smishing report / banking,True,"[KNAB]: We have placed your account in the ""quarantine zone"". You need to confirm your device before <DATE_TIME> to avoid blockage:","[KNAB]: We have placed your account in the ""quarantine zone"".
+You need to confirm your device before <DATE_TIME> to avoid
+blockage:",,,suspicious,True,offline-text-model
+confirmation-400,image-042,image,filipino-merged,473,ham,False,"Never miss a payment deadline when you pay your Home Credit, Cashalo and other loan payments easily, and on time with Maya. Plus, be one of 50 lucky winners who can get up to PHP5k cashback! Tap to pay bills today http://mayaph.co/22JulyBills","Never miss a payment deadline when you pay your Home Credit,
+Cashalo and other loan payments easily, and on time with Maya.
+Plus, be one of 50 lucky winners who can get up to PHPS5k
+cashback! Tap to pay bills today http://mayaph.co/22JulyBills",,,suspicious,True,pressure; http; brand-maya; offline-text-model
+confirmation-400,image-043,image,asea,2187,Investment Scam,True,"Bitcoin Trading Platform: Invest P3,000, earn P30,000 in 5 days! Guaranteed profit, mag-register na: http://t6m681.com","Bitcoin Trading Platform: Invest P3,000, earn P30,000 in 5
+days! Guaranteed profit, mag-register na: http://16m681.com",,,high,True,investment; http; sms-pattern; offline-text-model
+confirmation-400,image-044,image,hinglish,2183,0,False,This message is from a great Doctor in India:-): 1) Do not drink APPY FIZZ. It contains Cancer causing age,"This message is from a great Doctor in India:-): 1) Do not
+drink APPY FIZZ. It contains Cancer causing age",,,low,False,
+confirmation-400,image-045,image,asea,1286,Gambling Scam,True,Limited Time Only! http://betting.pics/Apo 50% Daily UNLI Deposit Bonus. the upper limit of a single bonus is 10000PHP,"Limited Time Only! http://betting.pics/Apo 50% Daily UNLI
+Deposit Bonus. the upper limit of a single bonus is 10000PHP",,,suspicious,True,http; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,image-046,image,asea,4804,HAM,False,"Magandang balita! Ang National ID mo, nasa cellphone mo na! I-download lang ang eGovPH sa AppStore at GooglePlay! Bayang digital ang bagong Pilipinas!","Magandang balita! Ang National ID mo, nasa cellphone mo na!
+I-download lang ang eGovPH sa AppStore at GooglePlay! Bayang
+digital ang bagong Pilipinas!",,,suspicious,True,sms-pattern
+confirmation-400,image-047,image,asea,4405,Gambling Scam,True,"Happy Weekend! May time na para mag pahinga at tumambay kasama si innolearntop.com/Live dahil dito sulit ang oras mo, marami kapa makikilala. Kaya tara na!","Happy Weekend! May time na para mag pahinga at tumambay kasama
+si innolearntop.com/Live dahil dito sulit ang oras mo, marami
+kapa makikilala. Kaya tara na!",,,low,False,
+confirmation-400,image-048,image,filipino-merged,731,ham,False,You have received PHP 15.00 of GCash from JI***N O. <PHONE>w/ MSG: . Your new balance is PHP 192.10. Ref. No. <NUMBER>.,"You have received PHP 15.00 of GCash from JI***N O. <PHONE>w/
+MSG: . Your new balance is PHP 192.10. Ref. No. <NUMBER>.",,,suspicious,True,offline-text-model
+confirmation-400,image-049,image,asea,300,Gambling Scam,True,"Magparehistro para makakuha ng 7777, tumaya araw-araw:â€€luck4.auction/WIX","Magparehistro para makakuha ng 7777, tumaya araw-
+araw:a€€luck4.auction/WIX",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-050,image,uci-sms,4155,ham,False,You know my old Dom I told you about yesterday ? His name is Roger? He got in touch with me last night and wants me to meet him today at 2 pm,"You know my old Dom | told you about yesterday ? His name is
+Roger? He got in touch with me last night and wants me to meet
+him today at 2 pm",,,low,False,
+confirmation-400,image-051,image,asea,1318,Gambling Scam,True,"GJGames.de! This Sunday, spin the Daily Lucky Wheel and win a Samsung Galaxy S23+ 5G worth P42,999. New members get 200% bonus + P3000.","GJGames.de! This Sunday, spin the Daily Lucky Wheel and win a
+Samsung Galaxy S23+ 5G worth P42,999. New members get 200%
+bonus + P3000.",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-052,image,filipino-merged,509,ham,False,You have 50 MB left in your MAGIC DATA.!!Want DOUBLE GIGA? Use *123# or smrt.ph/GigaLifeApp!,"You have 50 MB left in your MAGIC DATA.!!Want DOUBLE GIGA? Use
+“123# or smrt.ph/GigaLifeApp!",,,low,False,
+confirmation-400,image-053,image,imc25,2918,public smishing report / banking,True,GCASH: Your account is temporarily on-hold due to security purposes. Kindly...,"GCASH: Your account is temporarily on-hold due to security
+purposes. Kindly...",,,suspicious,True,offline-text-model
+confirmation-400,image-054,image,hinglish,1101,0,False,Then wat r u doing now? Busy wif work?,Then wat r u doing now? Busy wif work?,,,low,False,
+confirmation-400,image-055,image,imc25,21893,public smishing report / banking,True,"Dear customer, we have detected several attempts to access your account if it was not you, verify your data here: <URL>","Dear customer, we have detected several attempts to access
+your account if it was not you, verify your data here: <URL>",,,suspicious,True,offline-text-model
+confirmation-400,image-056,image,filipino-original,231,ham,False,"PAALALA: ANG PAG-REHISTRO NG SIM AY LIBRE. MAG-INGAT DIN AT WAG MANIWALA SA MGA HINDI KILALA NA NAG-AALOK NG TULONG SA PAGPAPAREHISTRO, MAY BAYAD MAN O WALA.","PAALALA: ANG PAG-REHISTRO NG SIM AY LIBRE. MAG-INGAT DIN AT
+WAG MANIWALA SA MGA HINDI KILALA NA NAG-AALOK NG TULONG SA
+PAGPAPAREHISTRO, MAY BAYAD MAN O WALA.",,,low,False,
+confirmation-400,image-057,image,imc25,19293,public smishing report / banking,True,Dear user your HDFC Bank Account will be blocked! <DATE_TIME> please update your PAN CARD click here,"Dear user your HDFC Bank Account will be blocked! <DATE_TIME>
+please update your PAN CARD click here",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-058,image,filipino-original,578,ham,False,"Gud am po, c Fe po ito sa ofc ni Coun Lanz, may problema po sa Tupad entry nyo. Punta po kayo sa ofc today para maayos po agad. Salamat po. 5th level, caloocan city hall","Gud am po, c Fe po ito sa ofc ni Coun Lanz, may problema po sa
+Tupad entry nyo. Punta po kayo sa ofc today para maayos po
+agad. Salamat po. 5th level, caloocan city hall",,,low,False,
+confirmation-400,image-059,image,imc25,27644,public smishing report / others,True,"Good <DATE_TIME>, we as apologize for the error in the payment input. Therefore, the excess payment of IDR 25,000 please be returned to the <NAMED_ENTITY> number.","Good <DATE_TIME>, we as apologize for the error in the payment
+input. Therefore, the excess payment of IDR 25,000 please be
+returned to the <NAMED_ENTITY> number.",,,low,False,
+confirmation-400,image-060,image,filipino-merged,540,ham,False,Ok lang yon dadaan pa rin yan sabihin mo lang puregold qi,Ok lang yon dadaan pa rin yan sabihin mo lang puregold qi,,,low,False,
+confirmation-400,image-061,image,imc25,19806,public smishing report / banking,True,BNP Paribas: Security: More than 24h left to activate your new digital key. Proceed by clicking here :,"BNP Paribas: Security: More than 24h left to activate your new
+digital key. Proceed by clicking here :",,,suspicious,True,offline-text-model
+confirmation-400,image-062,image,filipino-original,172,ham,False,Awesome! You can now enjoy UNLI DATA FOR ALL SITES & APPS for 7 days with UNLI DATA 175.,"Awesome! You can now enjoy UNLI DATA FOR ALL SITES & APPS for
+7 days with UNLI DATA 175.",,,low,False,
+confirmation-400,image-063,image,asea,2917,Government Spoofing,True,Urgent briefing to you regarding your Entitlement.Email me now for your unclaimed Covid 19 cash allowance support <EMAIL>,"Urgent briefing to you regarding your Entitlement.Email me now
+for your unclaimed Covid 19 cash allowance support <EMAIL>",,,suspicious,True,offline-text-model
+confirmation-400,image-064,image,uci-sms,2380,ham,False,Only if you promise your getting out as SOON as you can. And you'll text me in the morning to let me know you made it in ok.,"Only if you promise your getting out as SOON as you can. And
+you'll text me in the morning to let me know you made it in
+ok.",,,low,False,
+confirmation-400,image-065,image,imc25,13446,public smishing report / banking,True,"Dear Customer, For security reasons, we have blocked your my ICS environment, immediately verify your account via: <URL>","Dear Customer, For security reasons, we have blocked your my
+ICS environment, immediately verify your account via: <URL>",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-066,image,uci-sms,2722,ham,False,I am not at all happy with what you saying or doing,I am not at all happy with what you saying or doing,,,low,False,
+confirmation-400,image-067,image,asea,2604,Job Scam,True,"Sir/Madam, congratulations on passing our interview, 3800P/day, time is limited, please contact me:https://0a.fit/NQmkO","Sir/Madam, congratulations on passing our interview,
+3800P/day, time is limited, please contact
+me:https://0a.fi/NQmkO",,,suspicious,True,offline-text-model
+confirmation-400,image-068,image,hinglish,176,0,False,I'm reading the text i just sent you. Its meant to be a joke. So read it in that light,"I'm reading the text i just sent you. Its meant to be a joke.
+So read it in that light",,,low,False,
+confirmation-400,image-069,image,imc25,19294,public smishing report / banking,True,"['Dear user your hdfc Bank Account will be blocked! <DATE_TIME> please update your PAN CARD click here to link and update <URL> Thank you.', 'Dear user your hdfc Bank Account will be blocked! <DATE_TIME> please update your PAN CARD click here to link and update <URL> Thank you.']","[Dear user your hdfc Bank Account will be blocked!
+
+sDATE TIME? please update your PAN CARD click here to link and
+update <URL> Thank you.', 'Dear user your hdfc Bank Account
+
+will be blocked! kDATE TIME? please update your PAN CARD click
+here to link and update <URL> Thank you.']",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-070,image,filipino-original,515,ham,False,Wait mam check ko po kung saan po dun 10am po kayo pwede po noh?,"Wait mam check ko po kung saan po dun 10am po kayo pwede po
+noh?",,,low,False,
+confirmation-400,image-071,image,imc25,27378,public smishing report / others,True,"<NAMED_ENTITY> invited you to her event ""My birthday party"". Tell her if you can make it:","sNAMED ENTITY? invited you to her event ""My birthday party"".
+Tell her if you can make it:",,,low,False,
+confirmation-400,image-072,image,filipino-merged,480,ham,False,Pakuha ako ng order ko nasa labas bayad na yun,Pakuha ako ng order ko nasa labas bayad na yun,,,low,False,
+confirmation-400,image-073,image,asea,1913,Prize Scam,True,"Mag-e-expire ang iyong cash reward sa 00:00, halika at kolektahin ito!http://pxpfs4zn.uk5g1m.com/d1e7l?c=1","Mag-e-expire ang iyong cash reward sa 00:00, halika at
+kolektahin ito!http://pxpfs4zn.ukS5g1m.com/d1e71?c-1",,,suspicious,True,http; sms-pattern; offline-text-model
+confirmation-400,image-074,image,hinglish,1114,0,False,Ok lor. I ned 2 go toa payoh 4 a while 2 return smth u wan 2 send me there or wat?,"Ok lor. | ned 2 go toa payoh 4 a while 2 return smth u wan 2
+send me there or wat?",,,low,False,
+confirmation-400,image-075,image,imc25,14200,public smishing report / banking,True,"AED 2,100.00 has been deducted from your account 101-XXX00XXX-01 towards payment of your Credit Card ending [CARDNO] through Online Banking.","AED 2,100.00 has been deducted from your account
+101-XXX00XXX-01 towards payment of your Credit Card ending
+[CARDNO] through Online Banking.",,,suspicious,True,offline-text-model
+confirmation-400,image-076,image,filipino-merged,858,ham,False,Your GSave is expiring soon! Upgrade your GSave via the CIMB Bank PH app or the GCash Mobile app on or before 07/25/2021 & get 5% p.a. interest on your savings this month! Learn how to upgrade your GSave here now: bit.ly/34j9rCB T&Cs apply. bit.ly/395aLvz No SMS? Text STOP<space><Last 4 digits of acct num> to <PHONE>,"Your GSave is expiring soon! Upgrade your GSave via the CIMB
+Bank PH app or the GCash Mobile app on or before 07/25/2021 &
+get 5% p.a. interest on your savings this month! Learn how to
+upgrade your GSave here now: bit.ly/34j9rCB T&Cs apply.
+bit.ly/395aLvz No SMS? Text STOP<space><Last 4 digits of acct
+num> to <PHONE>",,,suspicious,True,shortener; sms-pattern; offline-text-model
+confirmation-400,image-077,image,asea,1352,Raffle Scam,True,Don't wait! Join GJPblast.eu for your chance to win a Samsung Galaxy S23+ 5G and a 130% bonus up to P1000!,"Don't wait! Join GJPblast.eu for your chance to win a Samsung
+Galaxy S23+ 5G and a 130% bonus up to P1000!",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-078,image,uci-sms,3364,ham,False,Its ok..come to my home it vl nice to meet and v can chat..,Its ok..come to my home it vl nice to meet and v can chat..,,,low,False,
+confirmation-400,image-079,image,imc25,30269,public smishing report / others,True,Thanks for taking our survey! We have the following offer we can offer you for your participation: Choose from the below listed (1) only today:,"Thanks for taking our survey! We have the following offer we
+can offer you for your participation: Choose from the below
+listed (1) only today:",,,suspicious,True,offline-text-model
+confirmation-400,image-080,image,filipino-original,488,ham,False,"Watch the newest episode of Viu's most watched series, Unbreak My Heart starring Jodi Sta. Maria! Stream this 48 hours in advance and ad-free when you subscribe to Viu Premium for only P80/mo. at pldthome.info/viuj3.","Watch the newest episode of Viu's most watched series, Unbreak
+My Heart starring Jodi Sta. Maria! Stream this 48 hours in
+advance and ad-free when you subscribe to Viu Premium for only
+P80/mo. at pldthome.info/viuj3.",,,low,False,
+confirmation-400,image-081,image,asea,554,Gambling Scam,True,"Kumita habang nanonood ng YouTube, kumita ng 518P bawat araw, makipag-ugnayan sa tutor para makatanggap ng 138P. opkh.bid","Kumita habang nanonood ng YouTube, kumita ng 518P bawat araw,
+makipag-ugnayan sa tutor para makatanggap ng 138P. opkh.bid",,,suspicious,True,task-recruitment; sms-pattern; offline-text-model
+confirmation-400,image-082,image,filipino-original,179,ham,False,Converge repair team pasuyo nalang po sir paabang nalang po sa labas..salamat,"Converge repair team pasuyo nalang po sir paabang nalang po sa
+labas..salamat",,,low,False,
+confirmation-400,image-083,image,imc25,17262,public smishing report / banking,True,Dear SBI user your SBI YONO Account has been blocked please report your PAN CARD click here to login your PAN number: <NAMED_ENTITY>,"Dear SBI user your SBI YONO Account has been blocked please
+report your PAN CARD click here to login your PAN number:
+<NAMED_ENTITY>",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-084,image,asea,3606,HAM,False,DICT: Good news! Mayroon na tayong government services one stop app - narito na ang eGovPH App! I-download na ang eGovPH App mula sa App Store at Google Play.,"DICT: Good news! Mayroon na tayong government services one
+stop app - narito na ang eGovPH App! I-download na ang eGovPH
+App mula sa App Store at Google Play.",,,low,False,
+confirmation-400,image-085,image,asea,2056,Job Scam,True,"Good day! May part-time online job opportunity, P2,000/day, home-based, walang experience required. Email for details: <EMAIL>","Good day! May part-time online job opportunity, P2,000/day,
+home-based, walang experience required. Email for details:
+<EMAIL>",,,suspicious,True,offline-text-model
+confirmation-400,image-086,image,filipino-original,345,ham,False,Bukas pa nak kilangan ng maayos ung bahay bukas,Bukas pa nak kilangan ng maayos ung bahay bukas,,,low,False,
+confirmation-400,image-087,image,imc25,2842,public smishing report / telecom,True,"Hi! This is <NAMED_ENTITY> customer service from Globe. In accordance to sim registration act. to protect your account. We're here to ask if you are the one requesting the ""NETFLIX SUBSCRIPTION"" worth 549 pesos? If you want to proceed with the payment ignore this message. If not reply ""NO"" and we'll help you to cancel the request. Thank you","Hi! This is <NAMED_ENTITY> customer service from Globe. In
+accordance to sim registration act. to protect your account.
+
+We're here to ask if you are the one requesting the ""NETFLIX
+SUBSCRIPTION"" worth 549 pesos? If you want to proceed with the
+payment ignore this message. If not reply ""NO"" and we'll help
+
+you to cancel the request. Thank you",,,suspicious,True,offline-text-model
+confirmation-400,image-088,image,uci-sms,253,ham,False,"I'm back, lemme know when you're ready","I'm back, lemme know when you're ready",,,low,False,
+confirmation-400,image-089,image,imc25,2459,public smishing report / banking,True,Dear Customer Your SBI YONO account has been blocked ! <DATE_TIME> Please update your Pan Card <URL>,"Dear Customer Your SBI YONO account has been blocked !
+<DATE_TIME> Please update your Pan Card <URL>",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-090,image,asea,1033,HAM,False,Paki-abot naman ng bag ko. Thanks.,Paki-abot naman ng bag ko. Thanks.,,,low,False,
+confirmation-400,image-091,image,imc25,5762,public smishing report / banking,True,Dear sbi User Your yono account will be hold by <DATE_TIME> please update your pan card now visit the link <URL>,"Dear sbi User Your yono account will be hold by <DATE_TIME>
+please update your pan card now visit the link <URL>",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-092,image,filipino-original,504,ham,False,"Sir, mesaage lang po sila kung pwede na po ako tumawag. Thank you and God bless.","Sir, mesaage lang po sila kung pwede na po ako tumawag. Thank
+you and God bless.",,,low,False,
+confirmation-400,image-093,image,asea,3947,Investment Scam,True,Mag-recharge ng 100P at makakuha ng 166P phwin.tv,Mag-recharge ng 100P at makakuha ng 166P phwin.tv,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,image-094,image,hinglish,1859,0,False,"That's fine, I'll bitch at you about it later then","That's fine, I'll bitch at you about it later then",,,low,False,
+confirmation-400,image-095,image,asea,2859,Job Scam,True,Mayroon akong sekritong kasanayan para kumita ng pera sa Internet. Kontakin ako para turuan ka!/WhatsApp1 <PHONE>WhatsApp2 <PHONE>,"Mayroon akong sekritong kasanayan para kumita ng pera sa
+Internet. Kontakin ako para turuan ka!/WhatsApp1
+<PHONE>WhatsApp2 <PHONE>",,,low,False,
+confirmation-400,image-096,image,hinglish,577,0,False,I taught that Ranjith sir called me. So only i sms like that. Becaus hes verifying about project. Prabu told today so only pa dont mistake me..,"| taught that Ranjith sir called me. So only i sms like that.
+Becaus hes verifying about project. Prabu told today so only
+pa dont mistake me..",,,low,False,
+confirmation-400,image-097,image,imc25,28897,public smishing report / others,True,Clear your dues on Ola Your pending bill with <NAMED_ENTITY> has locked you out of using our services. Clear dues of Rs.824.0 to keep riding cashless. Pay here now:,"Clear your dues on Ola Your pending bill with <NAMED_ENTITY>
+has locked you out of using our services. Clear dues of
+Rs.824.0 to keep riding cashless. Pay here now:",,,suspicious,True,offline-text-model
+confirmation-400,image-098,image,filipino-merged,845,ham,False,Gud am gsing ka na ba? Yng pc ikot lang ng ikot ayaw bumukas. Ano kaya na naman ang prblema nito. Tnx,"Gud am gsing ka na ba? Yng pc ikot lang ng ikot ayaw bumukas.
+Ano kaya na naman ang prblema nito. Tnx",,,low,False,
+confirmation-400,image-099,image,imc25,5581,public smishing report / banking,True,DEAR SBI Y0N0 USER Your A/c- will be blocked <DATE_TIME> update PANCARD for KYC verify your-account with NetBanking login click,"DEAR SBI YONO USER Your A/c- will be blocked <DATE_TIME>
+update PANCARD for KYC verify your-account with NetBanking
+login click",,,suspicious,True,pressure; offline-text-model
+confirmation-400,image-100,image,filipino-original,486,ham,False,"<NUMBER> is your authentication code. For your protection, do not share this code with anyone. yyAfcYn/qSW","sNUMBER? is your authentication code. For your protection, do
+not share this code with anyone. yyAfcYn/qSW",,,low,False,
+confirmation-400,links-001,links,phiusiil,87023,0,True,https://hocoblogs-1316850103.cos.eu-frankfurt.myqcloud.com/hocoblogs.html?e,https://hocoblogs-1316850103.cos.eu-frankfurt.myqcloud.com/hocoblogs.html?e,,,high,True,subdomains; dataset-url-match
+confirmation-400,links-002,links,phiusiil,6328,1,False,https://www.freedomofinfo.org,https://www.freedomofinfo.org,,,unknown,False,
+confirmation-400,links-003,links,phiusiil,176671,0,True,https://loading-the-framework-52158.web.app/,https://loading-the-framework-52158.web.app/,,,high,True,dataset-url-match
+confirmation-400,links-004,links,phiusiil,9420,1,False,https://www.queq.me,https://www.queq.me,,,unknown,False,
+confirmation-400,links-005,links,phiusiil,163679,0,True,https://superiorprivatequote.waywaywattt.repl.co/,https://superiorprivatequote.waywaywattt.repl.co/,,,high,True,dataset-url-match
+confirmation-400,links-006,links,phiusiil,184441,1,False,https://www.thebanker.com,https://www.thebanker.com,,,unknown,False,
+confirmation-400,links-007,links,phiusiil,55758,0,True,https://fb-restriction-case-76777.web.app/,https://fb-restriction-case-76777.web.app/,,,high,True,dataset-url-match
+confirmation-400,links-008,links,phiusiil,209743,1,False,https://www.proggnosis.com,https://www.proggnosis.com,,,unknown,False,
+confirmation-400,links-009,links,phiusiil,177555,0,True,http://www.hxjmzc.com,http://www.hxjmzc.com,,,high,True,http; dataset-url-match
+confirmation-400,links-010,links,phiusiil,72507,1,False,https://www.bythedart.co.uk,https://www.bythedart.co.uk,,,unknown,False,
+confirmation-400,links-011,links,phiusiil,163702,0,True,https://0c30f897-7e8e-4260-901a-0b1259023495.id.repl.co/,https://0c30f897-7e8e-4260-901a-0b1259023495.id.repl.co/,,,high,True,dataset-url-match
+confirmation-400,links-012,links,phiusiil,169812,1,False,https://www.maldivesculture.com,https://www.maldivesculture.com,,,unknown,False,
+confirmation-400,links-013,links,phiusiil,33920,0,True,http://www.lawdvmercy.site,http://www.lawdvmercy.site,,,high,True,http; dataset-url-match
+confirmation-400,links-014,links,phiusiil,19843,1,False,https://www.beautifulperth.com,https://www.beautifulperth.com,,,unknown,False,
+confirmation-400,links-015,links,phiusiil,205550,0,True,http://www.bugeiz12.top,http://www.bugeiz12.top,,,high,True,http; dataset-url-match
+confirmation-400,links-016,links,phiusiil,68769,1,False,https://www.crclarke.co.uk,https://www.crclarke.co.uk,,,unknown,False,
+confirmation-400,links-017,links,phiusiil,105188,0,True,http://www.91yingcai.com,http://www.91yingcai.com,,,high,True,http; dataset-url-match
+confirmation-400,links-018,links,phiusiil,58037,1,False,https://www.dupageforest.org,https://www.dupageforest.org,,,unknown,False,
+confirmation-400,links-019,links,phiusiil,142133,0,True,https://favoritaecuador.com/,https://favoritaecuador.com/,,,high,True,dataset-url-match
+confirmation-400,links-020,links,phiusiil,154845,1,False,https://www.newstimes.com,https://www.newstimes.com,,,unknown,False,
+confirmation-400,links-021,links,phiusiil,32271,0,True,http://www.qov.info,http://www.qov.info,,,high,True,http; dataset-url-match
+confirmation-400,links-022,links,phiusiil,10991,1,False,https://www.cogocollect.com,https://www.cogocollect.com,,,unknown,False,
+confirmation-400,links-023,links,phiusiil,114068,0,True,https://hzzjt4rzj.web.app/,https://hzzjt4rzj.web.app/,,,high,True,dataset-url-match
+confirmation-400,links-024,links,phiusiil,8368,1,False,https://www.flower-concept.com,https://www.flower-concept.com,,,unknown,False,
+confirmation-400,links-025,links,phiusiil,206642,0,True,http://ayurvaidh.com/--/gni-de/gni-de/dee/ingde/929605ac569584266611/clients/,http://ayurvaidh.com/--/gni-de/gni-de/dee/ingde/929605ac569584266611/clients/,,,high,True,http; dataset-url-match
+confirmation-400,links-026,links,phiusiil,233856,1,False,https://www.fiveislands.uwi.edu,https://www.fiveislands.uwi.edu,,,unknown,False,
+confirmation-400,links-027,links,phiusiil,178802,0,True,http://www.oiyyio.com,http://www.oiyyio.com,,,high,True,http; dataset-url-match
+confirmation-400,links-028,links,phiusiil,3611,1,False,https://www.uncannymagazine.com,https://www.uncannymagazine.com,,,unknown,False,
+confirmation-400,links-029,links,phiusiil,40311,0,True,https://webtokens.eu.pythonanywhere.com/,https://webtokens.eu.pythonanywhere.com/,,,high,True,dataset-url-match
+confirmation-400,links-030,links,phiusiil,226005,1,False,https://www.zlongame.com,https://www.zlongame.com,,,unknown,False,
+confirmation-400,links-031,links,phiusiil,146446,0,True,https://digitizingdeck.com/orange.fr,https://digitizingdeck.com/orange.fr,,,high,True,dataset-url-match
+confirmation-400,links-032,links,phiusiil,146205,1,False,https://www.3museos.com,https://www.3museos.com,,,unknown,False,
+confirmation-400,links-033,links,phiusiil,170307,0,True,https://misjrf-sav.firebaseapp.com/,https://misjrf-sav.firebaseapp.com/,,,high,True,dataset-url-match
+confirmation-400,links-034,links,phiusiil,139992,1,False,https://www.znojmocity.cz,https://www.znojmocity.cz,,,unknown,False,
+confirmation-400,links-035,links,phiusiil,90774,0,True,https://attt.formaloo.net/bcu8c,https://attt.formaloo.net/bcu8c,,,high,True,dataset-url-match
+confirmation-400,links-036,links,phiusiil,171756,1,False,https://www.tampadispatch.com,https://www.tampadispatch.com,,,unknown,False,
+confirmation-400,links-037,links,phiusiil,188704,0,True,https://loginpersonas-america.signonv2screen.repl.co/,https://loginpersonas-america.signonv2screen.repl.co/,,,high,True,lure; dataset-url-match
+confirmation-400,links-038,links,phiusiil,189591,1,False,https://www.kitenet.net,https://www.kitenet.net,,,unknown,False,
+confirmation-400,links-039,links,phiusiil,139782,0,True,http://www.rakutan-card.nljlekf.cn/,http://www.rakutan-card.nljlekf.cn/,,,high,True,http; dataset-url-match
+confirmation-400,links-040,links,phiusiil,161325,1,False,https://www.indiacoffee.org,https://www.indiacoffee.org,,,unknown,False,
+confirmation-400,links-041,links,phiusiil,160345,0,True,http://is.gd/dispositivosecureinfo,http://is.gd/dispositivosecureinfo,,,high,True,http; shortener; dataset-url-match
+confirmation-400,links-042,links,phiusiil,196703,1,False,https://www.asmat.eu,https://www.asmat.eu,,,unknown,False,
+confirmation-400,links-043,links,phiusiil,186239,0,True,http://www.mediaweb.online/juani/personale/servixzio.php,http://www.mediaweb.online/juani/personale/servixzio.php,,,high,True,http; dataset-url-match
+confirmation-400,links-044,links,phiusiil,235372,1,False,https://www.cpra.jp,https://www.cpra.jp,,,unknown,False,
+confirmation-400,links-045,links,phiusiil,12172,0,True,http://www.kairod.com,http://www.kairod.com,,,high,True,http; dataset-url-match
+confirmation-400,links-046,links,phiusiil,175078,1,False,https://www.neongecko.com,https://www.neongecko.com,,,unknown,False,
+confirmation-400,links-047,links,phiusiil,202863,0,True,http://www.havefuns.rkntils.10dig.net,http://www.havefuns.rkntils.10dig.net,,,high,True,http; subdomains; dataset-url-match
+confirmation-400,links-048,links,phiusiil,98328,1,False,https://www.neonmona.org,https://www.neonmona.org,,,unknown,False,
+confirmation-400,links-049,links,phiusiil,85405,0,True,https://emergency-garages.ca/wp-content/plugins/8c0fc18ed31b452585cc767502fb966b//y/mm/mmd/highman/java/index.php?user,https://emergency-garages.ca/wp-content/plugins/8c0fc18ed31b452585cc767502fb966b//y/mm/mmd/highman/java/index.php?user,,,high,True,dataset-url-match
+confirmation-400,links-050,links,phiusiil,95924,1,False,https://www.honolulucookie.com,https://www.honolulucookie.com,,,unknown,False,
+confirmation-400,links-051,links,phiusiil,172511,0,True,http://www.cryptonoter.com,http://www.cryptonoter.com,,,high,True,http; dataset-url-match
+confirmation-400,links-052,links,phiusiil,156223,1,False,https://www.jsu.edu,https://www.jsu.edu,,,unknown,False,
+confirmation-400,links-053,links,phiusiil,152374,0,True,http://www.accountsgoog1e.com,http://www.accountsgoog1e.com,,,high,True,http; lure; dataset-url-match
+confirmation-400,links-054,links,phiusiil,29442,1,False,https://www.dwellbeautiful.com,https://www.dwellbeautiful.com,,,unknown,False,
+confirmation-400,links-055,links,phiusiil,134086,0,True,http://www.timecheck.ug,http://www.timecheck.ug,,,high,True,http; dataset-url-match
+confirmation-400,links-056,links,phiusiil,90377,1,False,https://www.therachat.io,https://www.therachat.io,,,unknown,False,
+confirmation-400,links-057,links,phiusiil,201825,0,True,https://tinyurl.com/bpersmartnet,https://tinyurl.com/bpersmartnet,,,high,True,shortener; dataset-url-match
+confirmation-400,links-058,links,phiusiil,121145,1,False,https://www.jgyoung.ca,https://www.jgyoung.ca,,,unknown,False,
+confirmation-400,links-059,links,phiusiil,126674,0,True,http://birdandhowes.co/st/,http://birdandhowes.co/st/,,,high,True,http; dataset-url-match
+confirmation-400,links-060,links,phiusiil,92958,1,False,https://www.cumberlandcounty.virginia.gov,https://www.cumberlandcounty.virginia.gov,,,unknown,False,
+confirmation-400,links-061,links,phiusiil,211936,0,True,http://www.juulslabel.nl,http://www.juulslabel.nl,,,high,True,http; dataset-url-match
+confirmation-400,links-062,links,phiusiil,29841,1,False,https://www.designkit.org,https://www.designkit.org,,,unknown,False,
+confirmation-400,links-063,links,phiusiil,61584,0,True,https://my-site-105469-109034.square.site/,https://my-site-105469-109034.square.site/,,,high,True,dataset-url-match
+confirmation-400,links-064,links,phiusiil,40781,1,False,https://www.mediamarkt.com.tr,https://www.mediamarkt.com.tr,,,unknown,False,
+confirmation-400,links-065,links,phiusiil,217842,0,True,https://onboardingfew.web.app/,https://onboardingfew.web.app/,,,high,True,dataset-url-match
+confirmation-400,links-066,links,phiusiil,199769,1,False,https://www.jiffyshirts.com,https://www.jiffyshirts.com,,,unknown,False,
+confirmation-400,links-067,links,phiusiil,123848,0,True,http://www.2f2640fb.dns.1433.eu.org,http://www.2f2640fb.dns.1433.eu.org,,,high,True,http; subdomains; dataset-url-match
+confirmation-400,links-068,links,phiusiil,97792,1,False,https://www.designmania.com.br,https://www.designmania.com.br,,,unknown,False,
+confirmation-400,links-069,links,phiusiil,134224,0,True,https://56435634563456--47563784753.repl.co,https://56435634563456--47563784753.repl.co,,,high,True,dataset-url-match
+confirmation-400,links-070,links,phiusiil,45638,1,False,https://www.royalnails.ch,https://www.royalnails.ch,,,unknown,False,
+confirmation-400,links-071,links,phiusiil,16109,0,True,https://36.bancolonbiaa.repl.co/,https://36.bancolonbiaa.repl.co/,,,high,True,dataset-url-match
+confirmation-400,links-072,links,phiusiil,37054,1,False,https://www.alldayhealthandfitness.com,https://www.alldayhealthandfitness.com,,,unknown,False,
+confirmation-400,links-073,links,phiusiil,195594,0,True,http://www.securemgvto.x24hr.com,http://www.securemgvto.x24hr.com,,,high,True,http; lure; dataset-url-match
+confirmation-400,links-074,links,phiusiil,144920,1,False,https://www.familyhandyman.com,https://www.familyhandyman.com,,,unknown,False,
+confirmation-400,links-075,links,phiusiil,6009,0,True,http://www.netease-163mail-com.gq,http://www.netease-163mail-com.gq,,,high,True,http; dataset-url-match
+confirmation-400,links-076,links,phiusiil,61268,1,False,https://www.hpsc.ie,https://www.hpsc.ie,,,unknown,False,
+confirmation-400,links-077,links,phiusiil,13358,0,True,https://www.mofcomx.com/jp,https://www.mofcomx.com/jp,,,high,True,dataset-url-match
+confirmation-400,links-078,links,phiusiil,204543,1,False,https://www.andrewmp.ca,https://www.andrewmp.ca,,,unknown,False,
+confirmation-400,links-079,links,phiusiil,24386,0,True,http://www.amazceom-co-jp.amazzeon.mitanren.top,http://www.amazceom-co-jp.amazzeon.mitanren.top,,,high,True,http; subdomains; dataset-url-match
+confirmation-400,links-080,links,phiusiil,68104,1,False,https://www.halvorsondesign.com,https://www.halvorsondesign.com,,,unknown,False,
+confirmation-400,links-081,links,phiusiil,130823,0,True,https://dev-reactivebip.pantheonsite.io/index3.html,https://dev-reactivebip.pantheonsite.io/index3.html,,,high,True,dataset-url-match
+confirmation-400,links-082,links,phiusiil,175173,1,False,https://www.fandm.edu,https://www.fandm.edu,,,unknown,False,
+confirmation-400,links-083,links,phiusiil,200689,0,True,http://www.cm51492.tmweb.ru,http://www.cm51492.tmweb.ru,,,high,True,http; dataset-url-match
+confirmation-400,links-084,links,phiusiil,102663,1,False,https://www.broadconnect.ca,https://www.broadconnect.ca,,,unknown,False,
+confirmation-400,links-085,links,phiusiil,39771,0,True,http://www.login.access-mail.com,http://www.login.access-mail.com,,,high,True,http; lure; dataset-url-match
+confirmation-400,links-086,links,phiusiil,89219,1,False,https://www.penandhive.com,https://www.penandhive.com,,,unknown,False,
+confirmation-400,links-087,links,phiusiil,177230,0,True,https://olenik-dot-firm-structure-344407.uk.r.appspot.com/,https://olenik-dot-firm-structure-344407.uk.r.appspot.com/,,,high,True,dataset-url-match
+confirmation-400,links-088,links,phiusiil,127310,1,False,https://www.eljamesauthor.com,https://www.eljamesauthor.com,,,unknown,False,
+confirmation-400,links-089,links,phiusiil,93904,0,True,https://shiba.swap.us.com/metamask.php,https://shiba.swap.us.com/metamask.php,,,high,True,dataset-url-match
+confirmation-400,links-090,links,phiusiil,17037,1,False,https://www.themailbox.com,https://www.themailbox.com,,,unknown,False,
+confirmation-400,links-091,links,phiusiil,171331,0,True,http://coop-viacredi-online.com/,http://coop-viacredi-online.com/,,,high,True,http; dataset-url-match
+confirmation-400,links-092,links,phiusiil,60298,1,False,https://www.imploded.com,https://www.imploded.com,,,unknown,False,
+confirmation-400,links-093,links,phiusiil,145559,0,True,http://www.emergencystreet.com,http://www.emergencystreet.com,,,high,True,http; dataset-url-match
+confirmation-400,links-094,links,phiusiil,71690,1,False,https://www.oled-info.com,https://www.oled-info.com,,,unknown,False,
+confirmation-400,links-095,links,phiusiil,152756,0,True,http://www.realproheros.com,http://www.realproheros.com,,,high,True,http; dataset-url-match
+confirmation-400,links-096,links,phiusiil,219342,1,False,https://www.tynvie.com,https://www.tynvie.com,,,unknown,False,
+confirmation-400,links-097,links,phiusiil,9150,0,True,http://www.kickassproxy.com,http://www.kickassproxy.com,,,high,True,http; dataset-url-match
+confirmation-400,links-098,links,phiusiil,2381,1,False,https://www.davidchevan.com,https://www.davidchevan.com,,,unknown,False,
+confirmation-400,links-099,links,phiusiil,151269,0,True,https://commb-nqjb8rs.web.app/,https://commb-nqjb8rs.web.app/,,,high,True,dataset-url-match
+confirmation-400,links-100,links,phiusiil,126148,1,False,https://www.espace-des-inventions.ch,https://www.espace-des-inventions.ch,,,unknown,False,
+confirmation-400,qr-001,qr,imc25,29278,public smishing report / others,True,Did you accept the last call from me:,Did you accept the last call from me:,,,low,False,
+confirmation-400,qr-002,qr,uci-sms,3581,ham,False,Mm you ask him to come its enough :-),Mm you ask him to come its enough :-),,,low,False,
+confirmation-400,qr-003,qr,asea,2357,Bank Scam,True,Your online banking access will be locked due to suspicious activity. Verify identity now to restore access: http://rogbo8.com,Your online banking access will be locked due to suspicious activity. Verify identity now to restore access: http://rogbo8.com,,,suspicious,True,http; offline-text-model
+confirmation-400,qr-004,qr,filipino-merged,442,ham,False,"Hi <REAL NAME>! Thank you for registering to GInvest. We are happy to inform you that our partner fund providers have approved your registration, and you can now start investing in the products available on GInvest!","Hi <REAL NAME>! Thank you for registering to GInvest. We are happy to inform you that our partner fund providers have approved your registration, and you can now start investing in the products available on GInvest!",,,low,False,
+confirmation-400,qr-005,qr,imc25,24657,public smishing report / government,True,[My DigiD] A suspicious registration in your My DigiD environment has been detected. Verify immediately to prevent uproar from your My DigiD via: <URL>,[My DigiD] A suspicious registration in your My DigiD environment has been detected. Verify immediately to prevent uproar from your My DigiD via: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,qr-006,qr,filipino-original,170,ham,False,"An ATM withdrawal of PHP 10,015.00 was made using your EW Visa Card ending in ************8230 on 28/08/2023. Call +<NUMBER> or your store of account for inquiries.","An ATM withdrawal of PHP 10,015.00 was made using your EW Visa Card ending in ************8230 on 28/08/2023. Call +<NUMBER> or your store of account for inquiries.",,,suspicious,True,offline-text-model
+confirmation-400,qr-007,qr,imc25,22602,public smishing report / delivery,True,[PostNL]: There is a registered letter on the way to your address. Follow your letter via the link below:,[PostNL]: There is a registered letter on the way to your address. Follow your letter via the link below:,,,suspicious,True,offline-text-model
+confirmation-400,qr-008,qr,filipino-merged,561,ham,False,Bkit dmo sinama ung salamin sa mata,Bkit dmo sinama ung salamin sa mata,,,low,False,
+confirmation-400,qr-009,qr,asea,2387,Raffle Scam,True,"LAZADA Anniversary Raffle Winner! Account mo napili para sa P120,000 cash plus iPhone 15 Pro. Claim now: https://ibb.co/gWvf0s2","LAZADA Anniversary Raffle Winner! Account mo napili para sa P120,000 cash plus iPhone 15 Pro. Claim now: https://ibb.co/gWvf0s2",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-010,qr,filipino-original,585,ham,False,Goodmorning <REAL NAME> pde dito ka muna kahit hangang 11 lang ng tanghali Kase sinusumpong ako di pako nakakatulog papa bantay ko lang sana saglit bray habang pahinga tulog pa si denise pnta ka dito ng 8am salamat and Godbless,Goodmorning <REAL NAME> pde dito ka muna kahit hangang 11 lang ng tanghali Kase sinusumpong ako di pako nakakatulog papa bantay ko lang sana saglit bray habang pahinga tulog pa si denise pnta ka dito ng 8am salamat and Godbless,,,low,False,
+confirmation-400,qr-011,qr,imc25,13862,public smishing report / banking,True,"""Bankia-ES"": User disabled for security reasons. <URL> activate now P","""Bankia-ES"": User disabled for security reasons. <URL> activate now P",,,suspicious,True,offline-text-model
+confirmation-400,qr-012,qr,uci-sms,3162,ham,False,Oh great. I.ll disturb him more so that we can talk.,Oh great. I.ll disturb him more so that we can talk.,,,low,False,
+confirmation-400,qr-013,qr,imc25,31032,public smishing report / spam,True,"CONGRATULATIONS, Fearghal! You have been CHOSEN to participate in an online survey of SuperValu! Participate in this short survey to grab YOUR €750 Local SuperValu Voucher!","CONGRATULATIONS, Fearghal! You have been CHOSEN to participate in an online survey of SuperValu! Participate in this short survey to grab YOUR €750 Local SuperValu Voucher!",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-014,qr,hinglish,2846,0,False,Ü predict wat time ü'll finish buying?,Ü predict wat time ü'll finish buying?,,,low,False,
+confirmation-400,qr-015,qr,asea,2466,Loan Scam,True,"Nauubusan ka ng pera? Lumapit sa akin, magrehistro at may 600p cash http://3lfue4.com","Nauubusan ka ng pera? Lumapit sa akin, magrehistro at may 600p cash http://3lfue4.com",,,suspicious,True,http; sms-pattern; offline-text-model
+confirmation-400,qr-016,qr,uci-sms,1318,ham,False,"Good afternoon loverboy ! How goes you day ? Any luck come your way? I think of you, sweetie and send my love across the sea to make you smile and happy","Good afternoon loverboy ! How goes you day ? Any luck come your way? I think of you, sweetie and send my love across the sea to make you smile and happy",,,low,False,
+confirmation-400,qr-017,qr,imc25,30619,public smishing report / others,True,This <DATE_TIME>'s winners of MediaMarkt: 1 - 2 - 3. Claim your prize here:,This <DATE_TIME>'s winners of MediaMarkt: 1 - 2 - 3. Claim your prize here:,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-018,qr,hinglish,775,0,False,Most of the tiime when i don't let you hug me it's so i don't break into tears.,Most of the tiime when i don't let you hug me it's so i don't break into tears.,,,low,False,
+confirmation-400,qr-019,qr,imc25,2232,public smishing report / banking,True,BDO ALERT Your online access is suspended momentarily. To reactivate register your device.,BDO ALERT Your online access is suspended momentarily. To reactivate register your device.,,,suspicious,True,pressure; offline-text-model
+confirmation-400,qr-020,qr,hinglish,128,0,False,Appt is at &lt;TIME&gt; am. Not my fault u don't listen. I told u twice,Appt is at &lt;TIME&gt; am. Not my fault u don't listen. I told u twice,,,low,False,
+confirmation-400,qr-021,qr,imc25,6016,public smishing report / banking,True,Bancolombia informs you on <DATE_TIME>. Your dynamic password was blocked due to security risk. Activate here: <URL>,Bancolombia informs you on <DATE_TIME>. Your dynamic password was blocked due to security risk. Activate here: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,qr-022,qr,asea,978,HAM,False,"Thanks for today, had a great time!","Thanks for today, had a great time!",,,low,False,
+confirmation-400,qr-023,qr,asea,4596,Gambling Scam,True,Be Prepared for Payday Bonanza Tomorrow! Claim Your 999p Bonus! WinPlusNa.eu Join the fun in Slots Tournament for a shot at Xiaomi 14! Get 588p + 388p Bonus!,Be Prepared for Payday Bonanza Tomorrow! Claim Your 999p Bonus! WinPlusNa.eu Join the fun in Slots Tournament for a shot at Xiaomi 14! Get 588p + 388p Bonus!,,,suspicious,True,unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,qr-024,qr,filipino-original,523,ham,False,J&T delivery dito na po ako sa labas salamat po,J&T delivery dito na po ako sa labas salamat po,,,low,False,
+confirmation-400,qr-025,qr,asea,1249,Prize Scam,True,"CONGRATS!YOU HAD WON!PHP350,000.00)2ND PRICE FROM:GMA7&(SHOPEE)DTI PERMIT#1205'SERIES OF 2021 TO CLAIM TEXT UR NAME: ADD: AGE: WORK:)CALL US ATTY.KYLE A. TORRES","CONGRATS!YOU HAD WON!PHP350,000.00)2ND PRICE FROM:GMA7&(SHOPEE)DTI PERMIT#1205'SERIES OF 2021 TO CLAIM TEXT UR NAME: ADD: AGE: WORK:)CALL US ATTY.KYLE A. TORRES",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-026,qr,filipino-merged,576,ham,False,Hiram ka muna kay jalen tapos punta kayo dito.,Hiram ka muna kay jalen tapos punta kayo dito.,,,low,False,
+confirmation-400,qr-027,qr,imc25,32871,public smishing report / telecom,True,Dear Sim User Your KYC Document Verification is Pending Please Call Our Customer Service at <DATE_TIME> Your Service Will Be Blocked Within <DATE_TIME> Thank you.,Dear Sim User Your KYC Document Verification is Pending Please Call Our Customer Service at <DATE_TIME> Your Service Will Be Blocked Within <DATE_TIME> Thank you.,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-028,qr,uci-sms,1761,ham,False,I'll probably be by tomorrow (or even later tonight if something's going on),I'll probably be by tomorrow (or even later tonight if something's going on),,,low,False,
+confirmation-400,qr-029,qr,imc25,11613,public smishing report / banking,True,Openbank informs: Security code: <US_BANK_NUMBER>. Purchase authorization at Ticket Yes 24 for <PHONE_NUMBER>.25 IDR.,Openbank informs: Security code: <US_BANK_NUMBER>. Purchase authorization at Ticket Yes 24 for <PHONE_NUMBER>.25 IDR.,,,low,False,
+confirmation-400,qr-030,qr,filipino-merged,770,ham,False,Hello Po Jollibee delivery Po otw n Po paabang n Po,Hello Po Jollibee delivery Po otw n Po paabang n Po,,,low,False,
+confirmation-400,qr-031,qr,imc25,7484,public smishing report / delivery,True,"Dear customer: Your package is ready for delivery, confirm the customs payment (179 EUR) at the following link: <URL>","Dear customer: Your package is ready for delivery, confirm the customs payment (179 EUR) at the following link: <URL>",,,high,True,delivery; offline-text-model
+confirmation-400,qr-032,qr,filipino-original,346,ham,False,Pautang nlng muna ako jan da pira mo uwe n kami bukas,Pautang nlng muna ako jan da pira mo uwe n kami bukas,,,low,False,
+confirmation-400,qr-033,qr,asea,273,Gambling Scam,True,1000% Luck bonus on â‚±1000 balance. Register: coin99.tw/7DfQd,1000% Luck bonus on â‚±1000 balance. Register: coin99.tw/7DfQd,,,high,True,gambling-signup-offer; offline-text-model
+confirmation-400,qr-034,qr,filipino-original,606,ham,False,"[Binance] Verification code: <NUMBER>. To prevent phishing, make sure that you're on our official website ""www.binance.com"" before proceeding.","[Binance] Verification code: <NUMBER>. To prevent phishing, make sure that you're on our official website ""www.binance.com"" before proceeding.",,,low,False,
+confirmation-400,qr-035,qr,imc25,11760,public smishing report / banking,True,"Update:Dear CommBank Customer, We recommend you verify and reconfirm accurately your login credentials and Personal Verification Questions and answers for an update. It's important that you complete both section 1 & 2 Click link below.","Update:Dear CommBank Customer, We recommend you verify and reconfirm accurately your login credentials and Personal Verification Questions and answers for an update. It's important that you complete both section 1 & 2 Click link below.",,,suspicious,True,offline-text-model
+confirmation-400,qr-036,qr,asea,1069,HAM,False,"Pabiling load please, bayaran ko mamaya.","Pabiling load please, bayaran ko mamaya.",,,low,False,
+confirmation-400,qr-037,qr,imc25,31525,public smishing report / telecom,True,Watch 230+ LIVE TV channels on IdeaMovies&TV & GET 512 MB FREE *T&C,Watch 230+ LIVE TV channels on IdeaMovies&TV & GET 512 MB FREE *T&C,,,low,False,
+confirmation-400,qr-038,qr,filipino-original,480,ham,False,"Try out Angkas Padala for your delivery needs! Use code AKS20 for P20 off 10x Padala deliveries until July 31, 2023","Try out Angkas Padala for your delivery needs! Use code AKS20 for P20 off 10x Padala deliveries until July 31, 2023",,,low,False,
+confirmation-400,qr-039,qr,asea,1505,Prize Scam,True,betmanila.tv/l6v Double your deposit and your chances of winning with us today. Enjoy our 100% bonus offer.,betmanila.tv/l6v Double your deposit and your chances of winning with us today. Enjoy our 100% bonus offer.,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-040,qr,filipino-original,519,ham,False,Your SLoan has an amount of due today. Please pay immediately to avoid late charge. Tap here to pay.,Your SLoan has an amount of due today. Please pay immediately to avoid late charge. Tap here to pay.,,,suspicious,True,offline-text-model
+confirmation-400,qr-041,qr,imc25,32716,public smishing report / telecom,True,"Dear customer your number has been suspend'ed for <DATE_TIME> please submit your Aadhar in your number kindly please call customer care: <PHONE_NUMBER>, im,mediately","Dear customer your number has been suspend'ed for <DATE_TIME> please submit your Aadhar in your number kindly please call customer care: <PHONE_NUMBER>, im,mediately",,,suspicious,True,offline-text-model
+confirmation-400,qr-042,qr,filipino-merged,441,ham,False,"Happy 10.10 Money Day! Dive into the ultimate savings and rewards from Maya for your bank, wallet, crypto, and beyond! Ready? Open your Missions in the app now.","Happy 10.10 Money Day! Dive into the ultimate savings and rewards from Maya for your bank, wallet, crypto, and beyond! Ready? Open your Missions in the app now.",,,suspicious,True,offline-text-model
+confirmation-400,qr-043,qr,imc25,5096,public smishing report / banking,True,Dear SBI user your Y0N0 NetBanking Account will be Blocked <DATE_TIME>. please update your Pan Card click here below the link <URL>,Dear SBI user your Y0N0 NetBanking Account will be Blocked <DATE_TIME>. please update your Pan Card click here below the link <URL>,,,suspicious,True,pressure; sms-pattern; offline-text-model
+confirmation-400,qr-044,qr,hinglish,1613,0,False,I.ll get there tomorrow and send it to you,I.ll get there tomorrow and send it to you,,,low,False,
+confirmation-400,qr-045,qr,imc25,29238,public smishing report / others,True,"Thank you for your participation. Unfortunately, the voting is already over.","Thank you for your participation. Unfortunately, the voting is already over.",,,low,False,
+confirmation-400,qr-046,qr,hinglish,1575,0,False,Dear i am not denying your words please,Dear i am not denying your words please,,,low,False,
+confirmation-400,qr-047,qr,asea,1161,Gambling Scam,True,ako daw po yung masuwerteng bituin ng T1BET,ako daw po yung masuwerteng bituin ng T1BET,,,low,False,
+confirmation-400,qr-048,qr,filipino-original,171,ham,False,Awesome! You can now enjoy 2 GB MAGIC DATA FOR ALL SITES (NO EXPIRY) with MAGIC DATA 99. Make sure to maintain at least P1 load to keep your SIM active.,Awesome! You can now enjoy 2 GB MAGIC DATA FOR ALL SITES (NO EXPIRY) with MAGIC DATA 99. Make sure to maintain at least P1 load to keep your SIM active.,,,low,False,
+confirmation-400,qr-049,qr,imc25,8251,public smishing report / government,True,INFO ANTAI: You have a fine to pay. To avoid any penalty please settle it via: <URL>,INFO ANTAI: You have a fine to pay. To avoid any penalty please settle it via: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,qr-050,qr,phiusiil,208361,1,False,https://www.ronskispeed.com,https://www.ronskispeed.com,,,unknown,False,
+confirmation-400,qr-051,qr,imc25,31606,public smishing report / telecom,True,"VODAFONE Dear customer, You have received a new message in your MyVodafone Click here to log in. mvg, Vodafone","VODAFONE Dear customer, You have received a new message in your MyVodafone Click here to log in. mvg, Vodafone",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,qr-052,qr,phiusiil,170689,1,False,https://www.baybuy.co.kr,https://www.baybuy.co.kr,,,unknown,False,
+confirmation-400,qr-053,qr,phiusiil,214786,0,True,http://www.sells-it.net,http://www.sells-it.net,,,high,True,http; dataset-url-match
+confirmation-400,qr-054,qr,phiusiil,178496,1,False,https://www.sangamo.com,https://www.sangamo.com,,,unknown,False,
+confirmation-400,qr-055,qr,phiusiil,68560,0,True,http://www.digitalkhulna.com,http://www.digitalkhulna.com,,,high,True,http; dataset-url-match
+confirmation-400,qr-056,qr,phiusiil,199892,1,False,https://www.afamilyfeast.com,https://www.afamilyfeast.com,,,unknown,False,
+confirmation-400,qr-057,qr,phiusiil,126173,0,True,http://mediafire-jd.my.id/,http://mediafire-jd.my.id/,,,high,True,http; dataset-url-match
+confirmation-400,qr-058,qr,phiusiil,203873,1,False,https://www.groundsguys.com,https://www.groundsguys.com,,,unknown,False,
+confirmation-400,qr-059,qr,phiusiil,96793,0,True,http://www.americaoecprecs.co.jp.epgajsk.cn/,http://www.americaoecprecs.co.jp.epgajsk.cn/,,,high,True,http; subdomains; dataset-url-match
+confirmation-400,qr-060,qr,phiusiil,109589,1,False,https://www.parkinglotstripingplano.com,https://www.parkinglotstripingplano.com,,,unknown,False,
+confirmation-400,qr-061,qr,phiusiil,163182,0,True,https://seguridadlocal.ebisaaccount.repl.co/,https://seguridadlocal.ebisaaccount.repl.co/,,,high,True,lure; dataset-url-match
+confirmation-400,qr-062,qr,phiusiil,219620,1,False,https://www.gameops.net,https://www.gameops.net,,,unknown,False,
+confirmation-400,qr-063,qr,phiusiil,157623,0,True,https://mail.deliverylifesupport.com/public/iavwl0pdgblhkfc46yj8ekvgtfafbvar,https://mail.deliverylifesupport.com/public/iavwl0pdgblhkfc46yj8ekvgtfafbvar,,,high,True,dataset-url-match
+confirmation-400,qr-064,qr,phiusiil,147757,1,False,https://www.newsonf1.com,https://www.newsonf1.com,,,unknown,False,
+confirmation-400,qr-065,qr,phiusiil,38719,0,True,https://toolbox.feenfloete.de/gikm_7j?3t5_ad=aobwkglibwvfn691k3fpbgjze3qrty1famkjy31yjmtiagrk/rudolf2%40thurweb.ch&s3=&s4,https://toolbox.feenfloete.de/gikm_7j?3t5_ad=aobwkglibwvfn691k3fpbgjze3qrty1famkjy31yjmtiagrk/rudolf2%40thurweb.ch&s3=&s4,,,high,True,dataset-url-match
+confirmation-400,qr-066,qr,phiusiil,128653,1,False,https://www.designmynight.com,https://www.designmynight.com,,,unknown,False,
+confirmation-400,qr-067,qr,phiusiil,78647,0,True,https://bafkreifjr3vmsdkemaskenifttszpkl4bdo5g2hf2ghctawqhcnzb2w4qm.ipfs.dweb.link/,https://bafkreifjr3vmsdkemaskenifttszpkl4bdo5g2hf2ghctawqhcnzb2w4qm.ipfs.dweb.link/,,,high,True,dataset-url-match
+confirmation-400,qr-068,qr,phiusiil,44735,1,False,https://www.irvinemuseum.org,https://www.irvinemuseum.org,,,unknown,False,
+confirmation-400,qr-069,qr,phiusiil,170973,0,True,http://www.server90.org,http://www.server90.org,,,high,True,http; dataset-url-match
+confirmation-400,qr-070,qr,phiusiil,185935,1,False,https://www.designerpreviews.com,https://www.designerpreviews.com,,,unknown,False,
+confirmation-400,qr-071,qr,phiusiil,210478,0,True,https://silkyplumuserinterface.bandolero99.repl.co/des/index.php,https://silkyplumuserinterface.bandolero99.repl.co/des/index.php,,,high,True,dataset-url-match
+confirmation-400,qr-072,qr,phiusiil,172384,1,False,https://www.bikaji.com,https://www.bikaji.com,,,unknown,False,
+confirmation-400,qr-073,qr,phiusiil,193791,0,True,http://www.vip3659a.com,http://www.vip3659a.com,,,high,True,http; dataset-url-match
+confirmation-400,qr-074,qr,phiusiil,145615,1,False,https://www.himss.org,https://www.himss.org,,,unknown,False,
+confirmation-400,qr-075,qr,phiusiil,220788,0,True,https://s77-ujp.web.app/,https://s77-ujp.web.app/,,,high,True,dataset-url-match
+confirmation-400,qr-076,qr,phiusiil,206195,1,False,https://www.icegame.com,https://www.icegame.com,,,unknown,False,
+confirmation-400,qr-077,qr,phiusiil,180302,0,True,http://www.colibriads.com,http://www.colibriads.com,,,high,True,http; dataset-url-match
+confirmation-400,qr-078,qr,phiusiil,69266,1,False,https://www.kidsjump4joy.com,https://www.kidsjump4joy.com,,,unknown,False,
+confirmation-400,qr-079,qr,phiusiil,44698,0,True,https://cloudflare-ipfs.com/ipfs/bafybeie3l3xwy6t755uhhqsdivqq7m4bjr65zzyeqqkseg7hfly2lxhu4y/,https://cloudflare-ipfs.com/ipfs/bafybeie3l3xwy6t755uhhqsdivqq7m4bjr65zzyeqqkseg7hfly2lxhu4y/,,,high,True,dataset-url-match
+confirmation-400,qr-080,qr,phiusiil,151367,1,False,https://www.tdx.cat,https://www.tdx.cat,,,unknown,False,
+confirmation-400,qr-081,qr,phiusiil,201289,0,True,https://amente-gouv.com/app/pages/index.php,https://amente-gouv.com/app/pages/index.php,,,high,True,dataset-url-match
+confirmation-400,qr-082,qr,phiusiil,216071,1,False,https://www.maths.cam.ac.uk,https://www.maths.cam.ac.uk,,,unknown,False,
+confirmation-400,qr-083,qr,phiusiil,205720,0,True,https://jheysonroberto.com.br/wp-admin/includes/mk.php,https://jheysonroberto.com.br/wp-admin/includes/mk.php,,,high,True,dataset-url-match
+confirmation-400,qr-084,qr,phiusiil,233337,1,False,https://www.kportalnews.co.kr,https://www.kportalnews.co.kr,,,unknown,False,
+confirmation-400,qr-085,qr,phiusiil,47285,0,True,https://sassociates.com.pk/new-vision/mail.cytanet.com.cy/index.html,https://sassociates.com.pk/new-vision/mail.cytanet.com.cy/index.html,,,high,True,dataset-url-match
+confirmation-400,qr-086,qr,phiusiil,82436,1,False,https://www.hersfelder-zeitung.de,https://www.hersfelder-zeitung.de,,,unknown,False,
+confirmation-400,qr-087,qr,phiusiil,209830,0,True,http://www.forum.icsa-life.ru,http://www.forum.icsa-life.ru,,,high,True,http; dataset-url-match
+confirmation-400,qr-088,qr,phiusiil,231510,1,False,https://www.whitesnake-blog.com,https://www.whitesnake-blog.com,,,unknown,False,
+confirmation-400,qr-089,qr,phiusiil,158949,0,True,https://pancap.org/-/slot-gacor-server-luar/.,https://pancap.org/-/slot-gacor-server-luar/.,,,high,True,dataset-url-match; unlisted-gambling-link
+confirmation-400,qr-090,qr,phiusiil,185462,1,False,https://www.explore-inverness.com,https://www.explore-inverness.com,,,unknown,False,
+confirmation-400,qr-091,qr,phiusiil,211428,0,True,http://www.autobicycle.20x.cc,http://www.autobicycle.20x.cc,,,high,True,http; dataset-url-match
+confirmation-400,qr-092,qr,phiusiil,166208,1,False,https://www.mod20.com,https://www.mod20.com,,,unknown,False,
+confirmation-400,qr-093,qr,phiusiil,181006,0,True,http://dilkhushjha.github.io/netflix-landing-page,http://dilkhushjha.github.io/netflix-landing-page,,,high,True,http; dataset-url-match
+confirmation-400,qr-094,qr,phiusiil,143855,1,False,https://www.b98.tv,https://www.b98.tv,,,unknown,False,
+confirmation-400,qr-095,qr,phiusiil,134639,0,True,https://987486.mitosog.repl.co,https://987486.mitosog.repl.co,,,high,True,dataset-url-match
+confirmation-400,qr-096,qr,phiusiil,58923,1,False,https://www.kasiamosaicsclasses.com,https://www.kasiamosaicsclasses.com,,,unknown,False,
+confirmation-400,qr-097,qr,phiusiil,47049,0,True,https://desired-optweions.wikaba.com,https://desired-optweions.wikaba.com,,,high,True,dataset-url-match
+confirmation-400,qr-098,qr,phiusiil,79657,1,False,https://www.difp.ie,https://www.difp.ie,,,unknown,False,
+confirmation-400,qr-099,qr,phiusiil,112416,0,True,http://www.53mns.com,http://www.53mns.com,,,high,True,http; dataset-url-match
+confirmation-400,qr-100,qr,phiusiil,181839,1,False,https://www.riknews.com.cy,https://www.riknews.com.cy,,,unknown,False,
+confirmation-400,text-001,text,imc25,17679,public smishing report / banking,True,There has been an unauthorised login from <LOCATION> <DATE_TIME> at 11:05 Not you? <URL> As soon as possible.,There has been an unauthorised login from <LOCATION> <DATE_TIME> at 11:05 Not you? <URL> As soon as possible.,,,suspicious,True,offline-text-model
+confirmation-400,text-002,text,uci-sms,2989,ham,False,I tagged MY friends that you seemed to count as YOUR friends.,I tagged MY friends that you seemed to count as YOUR friends.,,,low,False,
+confirmation-400,text-003,text,asea,184,Gambling Scam,True,"Exclusive coupon Code: DIWATA88 Log in without deposit and receive up to bonus immediately Limited quantity, daily limit 100 people >>>diwata.tw","Exclusive coupon Code: DIWATA88 Log in without deposit and receive up to bonus immediately Limited quantity, daily limit 100 people >>>diwata.tw",,,suspicious,True,sms-pattern
+confirmation-400,text-004,text,hinglish,3744,0,False,Yeh. Indians was nice. Tho it did kane me off a bit he he. We shud go out 4 a drink sometime soon. Mite hav 2 go 2 da works 4 a laugh soon. Love Pete x x,Yeh. Indians was nice. Tho it did kane me off a bit he he. We shud go out 4 a drink sometime soon. Mite hav 2 go 2 da works 4 a laugh soon. Love Pete x x,,,low,False,
+confirmation-400,text-005,text,imc25,29552,public smishing report / others,True,"WARNING: DO NOT BELIEVE IN TEXTS CONTAINING YOUR NAME OFFERING JOBS, REWARDS OR MONEY. THIS IS A SCAM.","WARNING: DO NOT BELIEVE IN TEXTS CONTAINING YOUR NAME OFFERING JOBS, REWARDS OR MONEY. THIS IS A SCAM.",,,low,False,
+confirmation-400,text-006,text,uci-sms,4789,ham,False,Aiyar u so poor thing... I give u my support k... Jia you! I'll think of u...,Aiyar u so poor thing... I give u my support k... Jia you! I'll think of u...,,,low,False,
+confirmation-400,text-007,text,imc25,31578,public smishing report / telecom,True,"Recharge done on <DATE_TIME>,MRP:Rs93.00,GST 18% payable by Company/ Distributor/ Retailer,TransID1743722720. Enjoy Unlimited All Local,STD & Roam Calls & 1GB 3G/4G data, <DATE_TIME> All L+S <DATE_TIME>. For Non Commercial Usage.T&C ApplyEXTRA 1GB for <DATE_TIME> on First time download of Airtel TV App, Click <URL> .Dial *121*<DATE_TIME>.","Recharge done on <DATE_TIME>,MRP:Rs93.00,GST 18% payable by Company/ Distributor/ Retailer,TransID1743722720. Enjoy Unlimited All Local,STD & Roam Calls & 1GB 3G/4G data, <DATE_TIME> All L+S <DATE_TIME>. For Non Commercial Usage.T&C ApplyEXTRA 1GB for <DATE_TIME> on First time download of Airtel TV App, Click <URL> .Dial *121*<DATE_TIME>.",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-008,text,hinglish,514,0,False,I AM AT A PARTY WITH ALEX NICHOLS,I AM AT A PARTY WITH ALEX NICHOLS,,,low,False,
+confirmation-400,text-009,text,imc25,30197,public smishing report / others,True,"Here's 100USD for free, come and get it!","Here's 100USD for free, come and get it!",,,low,False,
+confirmation-400,text-010,text,filipino-merged,538,ham,False,Cubao love Q.I. nakalagay sa harap,Cubao love Q.I. nakalagay sa harap,,,low,False,
+confirmation-400,text-011,text,imc25,11497,public smishing report / banking,True,Dear customer your YONO SBI account will be block. Please update...,Dear customer your YONO SBI account will be block. Please update...,,,suspicious,True,offline-text-model
+confirmation-400,text-012,text,filipino-merged,432,ham,False,"DoH: Makiisa sa Chikiting Ligtas Campaign! Pabakunahan ang inyong anak laban Polio, Rubella at Tigdas, sa pinakamalapit na health center sa inyong lugar.","DoH: Makiisa sa Chikiting Ligtas Campaign! Pabakunahan ang inyong anak laban Polio, Rubella at Tigdas, sa pinakamalapit na health center sa inyong lugar.",,,low,False,
+confirmation-400,text-013,text,asea,262,Gambling Scam,True,<REAL NAME> Special imbitasyon! Depo 500 at kumuha ng 300 na bonus. Para lang sa mga napiling tao. sm77.ca/2n2b,<REAL NAME> Special imbitasyon! Depo 500 at kumuha ng 300 na bonus. Para lang sa mga napiling tao. sm77.ca/2n2b,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-014,text,filipino-merged,749,ham,False,I received your bookingGooday po mam/sir,I received your bookingGooday po mam/sir,,,low,False,
+confirmation-400,text-015,text,asea,1750,Prize Scam,True,Ano? Daily cashback at P777 na bonus? Halika at subukan lamang sa W19 Games! w19b2.xyz,Ano? Daily cashback at P777 na bonus? Halika at subukan lamang sa W19 Games! w19b2.xyz,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-016,text,uci-sms,107,ham,False,Thanks a lot for your wishes on my birthday. Thanks you for making my birthday truly memorable.,Thanks a lot for your wishes on my birthday. Thanks you for making my birthday truly memorable.,,,low,False,
+confirmation-400,text-017,text,asea,3957,Gambling Scam,True,[ Betso88 x Epicwin ]: Join us & FREE 50p today Auto FREE 50p when signup! Get extra 100p with any deposit Trusted Link: Epicwin16.icu,[ Betso88 x Epicwin ]: Join us & FREE 50p today Auto FREE 50p when signup! Get extra 100p with any deposit Trusted Link: Epicwin16.icu,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-018,text,hinglish,2808,0,False,Kallis wont bat in 2nd innings.,Kallis wont bat in 2nd innings.,,,low,False,
+confirmation-400,text-019,text,asea,2596,Raffle Scam,True,Win Mercedes Benz and hit the jackpot up to 8 million pesos. Register now and get free 577. URL: https://bit.ly/3yJtZTl Web: https://bit.ly/3yAnz8M,Win Mercedes Benz and hit the jackpot up to 8 million pesos. Register now and get free 577. URL: https://bit.ly/3yJtZTl Web: https://bit.ly/3yAnz8M,,,high,True,gambling-signup-offer; shortener; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,text-020,text,uci-sms,1740,ham,False,"If we hit it off, you can move in with me :)","If we hit it off, you can move in with me :)",,,low,False,
+confirmation-400,text-021,text,imc25,22379,public smishing report / delivery,True,Your <DATE_TIME>) was selected in our draw <DATE_TIME>: Rank.3: <NAMED_ENTITY> -Grab your item: <URL>,Your <DATE_TIME>) was selected in our draw <DATE_TIME>: Rank.3: <NAMED_ENTITY> -Grab your item: <URL>,,,low,False,
+confirmation-400,text-022,text,filipino-merged,849,ham,False,Gud am pwd bng pki punta ka d2 kung pwd at d lang alam ni tina ang gagawin.,Gud am pwd bng pki punta ka d2 kung pwd at d lang alam ni tina ang gagawin.,,,low,False,
+confirmation-400,text-023,text,asea,590,Gambling Scam,True,Epicwin wish you a Merry Christmas register and get FREES 50 PESO Small Bet Big Win Limit to first 500 pax only ! Trusted website : https://EpicWin.icu,Epicwin wish you a Merry Christmas register and get FREES 50 PESO Small Bet Big Win Limit to first 500 pax only ! Trusted website : https://EpicWin.icu,,,suspicious,True,offline-text-model
+confirmation-400,text-024,text,filipino-merged,837,ham,False,<REAL NAME> piso isa sa val yung print short,<REAL NAME> piso isa sa val yung print short,,,low,False,
+confirmation-400,text-025,text,imc25,17442,public smishing report / banking,True,"Caixabank: We regret to inform you that your account has been deactivated. For your security, we ask you to complete the following verification:","Caixabank: We regret to inform you that your account has been deactivated. For your security, we ask you to complete the following verification:",,,suspicious,True,offline-text-model
+confirmation-400,text-026,text,uci-sms,2210,ham,False,"&lt;#&gt; , that's all? Guess that's easy enough","&lt;#&gt; , that's all? Guess that's easy enough",,,low,False,
+confirmation-400,text-027,text,imc25,13083,public smishing report / banking,True,We have noticed some unusual transactions. Please proceed to the provided link: <URL>,We have noticed some unusual transactions. Please proceed to the provided link: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,text-028,text,hinglish,2581,0,False,Tell me something. Thats okay.,Tell me something. Thats okay.,,,low,False,
+confirmation-400,text-029,text,imc25,9089,public smishing report / others,True,To validate your mobile number in CVL KRA as per SEBI guidelines click on,To validate your mobile number in CVL KRA as per SEBI guidelines click on,,,suspicious,True,offline-text-model
+confirmation-400,text-030,text,filipino-merged,586,ham,False,Atehh saing ka daw sabi ni mama,Atehh saing ka daw sabi ni mama,,,low,False,
+confirmation-400,text-031,text,asea,656,Gambling Scam,True,"<REAL NAME>, Open an account and recharge to receive 177P, and receive cash red envelopes every day:tp778.com","<REAL NAME>, Open an account and recharge to receive 177P, and receive cash red envelopes every day:tp778.com",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-032,text,hinglish,2094,0,False,Just finished eating. Got u a plate. NOT leftovers this time.,Just finished eating. Got u a plate. NOT leftovers this time.,,,low,False,
+confirmation-400,text-033,text,asea,136,Gambling Scam,True,"Hi,May libreng 77 ka kapag nag-download ka ng APP! I-click na dito para simulan: mar-t.eu/gzxw !","Hi,May libreng 77 ka kapag nag-download ka ng APP! I-click na dito para simulan: mar-t.eu/gzxw !",,,suspicious,True,offline-text-model
+confirmation-400,text-034,text,asea,4489,HAM,False,Verification code: <NUMBER> Please use this code to proceed access to the Consent Management Page. Note: This verification code is valid for only 48 hours.,Verification code: <NUMBER> Please use this code to proceed access to the Consent Management Page. Note: This verification code is valid for only 48 hours.,,,suspicious,True,sms-pattern
+confirmation-400,text-035,text,imc25,18192,public smishing report / banking,True,"Please approve your card payment of 1239,64 kr. to Boozt Fashion AB.","Please approve your card payment of 1239,64 kr. to Boozt Fashion AB.",,,suspicious,True,offline-text-model
+confirmation-400,text-036,text,uci-sms,845,ham,False,Did u find out what time the bus is at coz i need to sort some stuff out.,Did u find out what time the bus is at coz i need to sort some stuff out.,,,low,False,
+confirmation-400,text-037,text,imc25,30254,public smishing report / others,True,We regret to inform you that your account has been deactivated for your safety we ask you to complete the following verification: <URL>,We regret to inform you that your account has been deactivated for your safety we ask you to complete the following verification: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,text-038,text,filipino-merged,738,ham,False,"Thank you for your payment of PhP1700.00 for PLDT Account No.<NUMBER>, made on July 01, 2023 through GNC - CIS - GCASH SINGLE API 3. If your account is restricted, your service will now be reconnected. Please restart your modem to refresh your settings. If service remains unavailable, you may request for reconnection at https://m.me/PLDTHome.","Thank you for your payment of PhP1700.00 for PLDT Account No.<NUMBER>, made on July 01, 2023 through GNC - CIS - GCASH SINGLE API 3. If your account is restricted, your service will now be reconnected. Please restart your modem to refresh your settings. If service remains unavailable, you may request for reconnection at https://m.me/PLDTHome.",,,high,True,account-alert-link; offline-text-model
+confirmation-400,text-039,text,asea,1665,Prize Scam,True,Bermonths bring high winning rates Plus weekend Luck at WinningPlus! New users get 588 Free Bonus Plus 60k cashback & extra 388 on Maya. https://winplus.vegas,Bermonths bring high winning rates Plus weekend Luck at WinningPlus! New users get 588 Free Bonus Plus 60k cashback & extra 388 on Maya. https://winplus.vegas,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-040,text,hinglish,1119,0,False,"Jolly good! By the way, will give u tickets for sat eve 7.30. Speak before then x","Jolly good! By the way, will give u tickets for sat eve 7.30. Speak before then x",,,low,False,
+confirmation-400,text-041,text,asea,2716,Raffle Scam,True,Maglaro slot ngayong today at makakuha ng IP.PRO14 at 9999Bonus! 3% rebate sa bawat deposit! http://adplay5.com,Maglaro slot ngayong today at makakuha ng IP.PRO14 at 9999Bonus! 3% rebate sa bawat deposit! http://adplay5.com,,,suspicious,True,http; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,text-042,text,filipino-merged,860,ham,False,Use <NUMBER> for two-factor authentication on Facebook.,Use <NUMBER> for two-factor authentication on Facebook.,,,low,False,
+confirmation-400,text-043,text,asea,32,Bank Scam,True,GCash: Account verification needed due to suspicious transaction. Kindly Visit: asace.wang/p to continue using our services,GCash: Account verification needed due to suspicious transaction. Kindly Visit: asace.wang/p to continue using our services,,,suspicious,True,offline-text-model
+confirmation-400,text-044,text,uci-sms,5060,ham,False,Wishing you a beautiful day. Each moment revealing even more things to keep you smiling. Do enjoy it.,Wishing you a beautiful day. Each moment revealing even more things to keep you smiling. Do enjoy it.,,,low,False,
+confirmation-400,text-045,text,imc25,15127,public smishing report / banking,True,"Dear Absa Customer, Access to your <NAMED_ENTITY> account has been disabled. Tap: <URL> To Reactivate your <NAMED_ENTITY> account immediately. Thank You Absa Bank.","Dear Absa Customer, Access to your <NAMED_ENTITY> account has been disabled. Tap: <URL> To Reactivate your <NAMED_ENTITY> account immediately. Thank You Absa Bank.",,,suspicious,True,pressure; offline-text-model
+confirmation-400,text-046,text,uci-sms,3431,ham,False,He's really into skateboarding now despite the fact that he gets thrown off of it and winds up with bandages and shit all over his arms every five minutes,He's really into skateboarding now despite the fact that he gets thrown off of it and winds up with bandages and shit all over his arms every five minutes,,,low,False,
+confirmation-400,text-047,text,asea,1617,Job Scam,True,"Make money while watching YouTube, earn 518P per day, contact the tutor to receive 138P. qyhg.bid","Make money while watching YouTube, earn 518P per day, contact the tutor to receive 138P. qyhg.bid",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-048,text,uci-sms,3007,ham,False,In meeting da. I will call you,In meeting da. I will call you,,,low,False,
+confirmation-400,text-049,text,imc25,32106,public smishing report / telecom,True,Your SIM CARD has received <NAMED_ENTITY> poliday 7.7 PIN (J7K2B59) Info click link:,Your SIM CARD has received <NAMED_ENTITY> poliday 7.7 PIN (J7K2B59) Info click link:,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-050,text,asea,986,HAM,False,"Try this new restaurant, it's really good.","Try this new restaurant, it's really good.",,,low,False,
+confirmation-400,text-051,text,imc25,14399,public smishing report / banking,True,"Your debit card is outdated and will expire in <DATE_TIME>, request the renewed debit card for free via: <URL>","Your debit card is outdated and will expire in <DATE_TIME>, request the renewed debit card for free via: <URL>",,,suspicious,True,offline-text-model
+confirmation-400,text-052,text,hinglish,403,0,False,What u mean u almost done? Done wif sleeping? But i tot u going to take a nap.. Yup i send her liao so i'm picking her up at ard 4 smth lor..,What u mean u almost done? Done wif sleeping? But i tot u going to take a nap.. Yup i send her liao so i'm picking her up at ard 4 smth lor..,,,low,False,
+confirmation-400,text-053,text,imc25,168,public smishing report / spam,True,You kept AUTO-SCAN turned off! 13 Apps jeopardise your phones security. Remove these apps immediately,You kept AUTO-SCAN turned off! 13 Apps jeopardise your phones security. Remove these apps immediately,,,low,False,
+confirmation-400,text-054,text,filipino-original,185,ham,False,"DoH: Tara na sa Chikiting Ligtas Campaign! Pabakunahan ang mga anak laban Polio, Rubella, at Tigdas mula May 1 hanggang 31.","DoH: Tara na sa Chikiting Ligtas Campaign! Pabakunahan ang mga anak laban Polio, Rubella, at Tigdas mula May 1 hanggang 31.",,,low,False,
+confirmation-400,text-055,text,asea,1316,Investment Scam,True,"Long time no see, may good news ako sayo. mag-recharge ng P100 at makakuha ng P777 nang libre>>> vgsf7y7qw.nl","Long time no see, may good news ako sayo. mag-recharge ng P100 at makakuha ng P777 nang libre>>> vgsf7y7qw.nl",,,suspicious,True,offline-text-model
+confirmation-400,text-056,text,uci-sms,2104,ham,False,Yup i shd haf ard 10 pages if i add figures... Ü all got how many pages?,Yup i shd haf ard 10 pages if i add figures... Ü all got how many pages?,,,low,False,
+confirmation-400,text-057,text,imc25,23135,public smishing report / delivery,True,"Return Update: Sorry, the seller is unable to fulfill the replacement return request for your SAMSUNG Galaxy Watch4 ... as the product is out of stock. Refund will be issued for the item and you will receive an update shortly.","Return Update: Sorry, the seller is unable to fulfill the replacement return request for your SAMSUNG Galaxy Watch4 ... as the product is out of stock. Refund will be issued for the item and you will receive an update shortly.",,,suspicious,True,offline-text-model
+confirmation-400,text-058,text,hinglish,1137,0,False,Your account has been refilled successfully by INR &lt;DECIMAL&gt; . Your KeralaCircle prepaid account balance is Rs &lt;DECIMAL&gt; . Your Transaction ID is KR &lt;#&gt; .,Your account has been refilled successfully by INR &lt;DECIMAL&gt; . Your KeralaCircle prepaid account balance is Rs &lt;DECIMAL&gt; . Your Transaction ID is KR &lt;#&gt; .,,,suspicious,True,offline-text-model
+confirmation-400,text-059,text,imc25,12437,public smishing report / banking,True,Special Bonus Point Campaign from Denizbank! Log in to Internet Banking and Earn 150TL Bonus Points Instantly! PARTICIPATION,Special Bonus Point Campaign from Denizbank! Log in to Internet Banking and Earn 150TL Bonus Points Instantly! PARTICIPATION,,,suspicious,True,offline-text-model
+confirmation-400,text-060,text,hinglish,1173,0,False,Ok try to do week end course in coimbatore.,Ok try to do week end course in coimbatore.,,,low,False,
+confirmation-400,text-061,text,imc25,32460,public smishing report / telecom,True,Dear BSNL user your SIM' Card has been Suspended' Call customer' Care' 'Support <PHONE_NUMBER> immediately' Your BSNL SIM' Will be Blocked' 24Hrs. Team BSNL operator,Dear BSNL user your SIM' Card has been Suspended' Call customer' Care' 'Support <PHONE_NUMBER> immediately' Your BSNL SIM' Will be Blocked' 24Hrs. Team BSNL operator,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-062,text,asea,3611,HAM,False,SEC: Fast and easy loan pero kailangan ng advance fee? Scam 'yan! Maging mapanuri at huwag maging biktima. Check with SEC!,SEC: Fast and easy loan pero kailangan ng advance fee? Scam 'yan! Maging mapanuri at huwag maging biktima. Check with SEC!,,,low,False,
+confirmation-400,text-063,text,imc25,31832,public smishing report / telecom,True,SMS charged at N <URL>inBal:N <URL>t 20TIMES your airtime with the 20X bundle to call ALL NETWORKS/SMS/Browse.Dial*241# NOW!,SMS charged at N <URL>inBal:N <URL>t 20TIMES your airtime with the 20X bundle to call ALL NETWORKS/SMS/Browse.Dial*241# NOW!,,,suspicious,True,offline-text-model
+confirmation-400,text-064,text,filipino-original,513,ham,False,If ever po isasabay po namin kayo sa sm fairview namin po kayo daanan?,If ever po isasabay po namin kayo sa sm fairview namin po kayo daanan?,,,low,False,
+confirmation-400,text-065,text,imc25,12932,public smishing report / banking,True,[RABOBANK] Your current debit card will expire soon. Replace your card via https://,[RABOBANK] Your current debit card will expire soon. Replace your card via https://,,,suspicious,True,offline-text-model
+confirmation-400,text-066,text,uci-sms,816,ham,False,"Thank you so much. When we skyped wit kz and sura, we didnt get the pleasure of your company. Hope you are good. We've given you ultimatum oh! We are countin down to aburo. Enjoy! This is the message i sent days ago","Thank you so much. When we skyped wit kz and sura, we didnt get the pleasure of your company. Hope you are good. We've given you ultimatum oh! We are countin down to aburo. Enjoy! This is the message i sent days ago",,,low,False,
+confirmation-400,text-067,text,imc25,27270,public smishing report / others,True,You Won 1st Prize Maruti Alto <US_DRIVER_LICENSE> In <DATE_TIME> In <LOCATION>. This Is Valid For Today For Registration Contact On: <NUMBER><URL>,You Won 1st Prize Maruti Alto <US_DRIVER_LICENSE> In <DATE_TIME> In <LOCATION>. This Is Valid For Today For Registration Contact On: <NUMBER><URL>,,,suspicious,True,offline-text-model
+confirmation-400,text-068,text,uci-sms,958,ham,False,Another month. I need chocolate weed and alcohol.,Another month. I need chocolate weed and alcohol.,,,low,False,
+confirmation-400,text-069,text,imc25,1015,public smishing report / others,True,NETFLIX <DATE_TIME> payment Unsuccessful and Your account is temporary Locked. See The Complete Details In The Attachment Below.,NETFLIX <DATE_TIME> payment Unsuccessful and Your account is temporary Locked. See The Complete Details In The Attachment Below.,,,suspicious,True,offline-text-model
+confirmation-400,text-070,text,filipino-merged,515,ham,False,Your Unli Allnet Texts has expired.,Your Unli Allnet Texts has expired.,,,low,False,
+confirmation-400,text-071,text,asea,794,Gambling Scam,True,"[GCASH. BET] P1 win P126,821? Come to claim your luck http://gaming0063.quest/nOf P100 Get P100, P200 Get P200, P300 Get P300 ... 100k Get 100k!!!","[GCASH. BET] P1 win P126,821? Come to claim your luck http://gaming0063.quest/nOf P100 Get P100, P200 Get P200, P300 Get P300 ... 100k Get 100k!!!",,,suspicious,True,http; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,text-072,text,uci-sms,389,ham,False,Yes i think so. I am in office but my lap is in room i think thats on for the last few days. I didnt shut that down,Yes i think so. I am in office but my lap is in room i think thats on for the last few days. I didnt shut that down,,,low,False,
+confirmation-400,text-073,text,imc25,25500,public smishing report / government,True,Register for free for the official <NRP> test subscription and receive 5 self-tests per month delivered to your home. <URL>,Register for free for the official <NRP> test subscription and receive 5 self-tests per month delivered to your home. <URL>,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-074,text,filipino-merged,507,ham,False,Xoom: Changlee sent you 550.00 PHP. The transfer is complete. Txn# XHZFS3MM. Reply STOP to unsubscribe.,Xoom: Changlee sent you 550.00 PHP. The transfer is complete. Txn# XHZFS3MM. Reply STOP to unsubscribe.,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-075,text,imc25,28649,public smishing report / others,True,Benestar S.L: Informs you that the clinic will remain closed on <DATE_TIME>. Thanks and Happy Holidays!.,Benestar S.L: Informs you that the clinic will remain closed on <DATE_TIME>. Thanks and Happy Holidays!.,,,suspicious,True,offline-text-model
+confirmation-400,text-076,text,filipino-merged,453,ham,False,"J&T DELIVERY!TN: <REFERENCE NUMBER> Rider:John Go,<PHONE>. For COD pls prepare exact amount. Photo proof of delivery is required. Thanks and be safe!","J&T DELIVERY!TN: <REFERENCE NUMBER> Rider:John Go,<PHONE>. For COD pls prepare exact amount. Photo proof of delivery is required. Thanks and be safe!",,,low,False,
+confirmation-400,text-077,text,imc25,28283,public smishing report / others,True,Suspicious login attempt. Unlock your account with online verification.,Suspicious login attempt. Unlock your account with online verification.,,,suspicious,True,offline-text-model
+confirmation-400,text-078,text,hinglish,2636,0,False,I tot u outside cos darren say u come shopping. Of course we nice wat. We jus went sim lim look at mp3 player.,I tot u outside cos darren say u come shopping. Of course we nice wat. We jus went sim lim look at mp3 player.,,,low,False,
+confirmation-400,text-079,text,imc25,16990,public smishing report / banking,True,Dear customer Your SBI Bank Account has been put on HOLD Plz Update your Document visit SBI website <URL> to Update by Net Banking,Dear customer Your SBI Bank Account has been put on HOLD Plz Update your Document visit SBI website <URL> to Update by Net Banking,,,suspicious,True,offline-text-model
+confirmation-400,text-080,text,filipino-original,621,ham,False,Don't worry if you have no load and data to go online. You can borrow 40MB by texting FOMOSOS to 3733. You can also dial *143# and choose LOANS. FOMOSOS is valid for 1 day and P6 will be collected on your next load purchase.,Don't worry if you have no load and data to go online. You can borrow 40MB by texting FOMOSOS to 3733. You can also dial *143# and choose LOANS. FOMOSOS is valid for 1 day and P6 will be collected on your next load purchase.,,,suspicious,True,offline-text-model
+confirmation-400,text-081,text,imc25,14239,public smishing report / banking,True,"We noticed that you paid the invoice twice at the same time. Amount: 162.99 €. To confirm your refund, click on the link","We noticed that you paid the invoice twice at the same time. Amount: 162.99 €. To confirm your refund, click on the link",,,suspicious,True,offline-text-model
+confirmation-400,text-082,text,asea,1136,HAM,False,"Sabi ni Boss, move raw ang meeting to 2pm.","Sabi ni Boss, move raw ang meeting to 2pm.",,,low,False,
+confirmation-400,text-083,text,imc25,11077,public smishing report / banking,True,Dear HDFC User Your HDFC Netbanking will be Block <DATE_TIME> Please click on the link and update your PAN no. immediately-<URL>,Dear HDFC User Your HDFC Netbanking will be Block <DATE_TIME> Please click on the link and update your PAN no. immediately-<URL>,,,suspicious,True,offline-text-model
+confirmation-400,text-084,text,asea,966,HAM,False,"Nandito na si Grab, labas na ko.","Nandito na si Grab, labas na ko.",,,low,False,
+confirmation-400,text-085,text,asea,3742,Investment Scam,True,"download app get 97p Topup 100P get 50P free, 10% bonus in 1st daily deposit join now >>> 8.212.168.81","download app get 97p Topup 100P get 50P free, 10% bonus in 1st daily deposit join now >>> 8.212.168.81",,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-086,text,filipino-original,495,ham,False,"J&T DELIVERY!TN: 771<PHONE>Rider:<REAL NAME>,<PHONE>. For COD pls prepare exact amount. Photo proof of delivery is required. Thanks and be safe!","J&T DELIVERY!TN: 771<PHONE>Rider:<REAL NAME>,<PHONE>. For COD pls prepare exact amount. Photo proof of delivery is required. Thanks and be safe!",,,low,False,
+confirmation-400,text-087,text,imc25,27871,public smishing report / others,True,Your utilities will be blocked for lack of web security. Update them at the link: <URL>,Your utilities will be blocked for lack of web security. Update them at the link: <URL>,,,suspicious,True,offline-text-model
+confirmation-400,text-088,text,filipino-original,584,ham,False,<REAL NAME> si pam? Pasabi natawag ako may sasabihin lang ako sakanya salamat,<REAL NAME> si pam? Pasabi natawag ako may sasabihin lang ako sakanya salamat,,,low,False,
+confirmation-400,text-089,text,imc25,19557,public smishing report / banking,True,Dear CDBSE dear SBI user your <NAMED_ENTITY> A/C Will be blocked <DATE_TIME> update your PAN CARD Click here <URL> SBI TEAM BillteamJainam,Dear CDBSE dear SBI user your <NAMED_ENTITY> A/C Will be blocked <DATE_TIME> update your PAN CARD Click here <URL> SBI TEAM BillteamJainam,,,suspicious,True,offline-text-model
+confirmation-400,text-090,text,hinglish,1643,0,False,"Daddy, shu shu is looking 4 u... U wan me 2 tell him u're not in singapore or wat?","Daddy, shu shu is looking 4 u... U wan me 2 tell him u're not in singapore or wat?",,,low,False,
+confirmation-400,text-091,text,asea,4361,Gambling Scam,True,U! Claim the BARAHA B0NUS 2023P! Big events only for celebrate the 2023 new year! web: pinasz.life,U! Claim the BARAHA B0NUS 2023P! Big events only for celebrate the 2023 new year! web: pinasz.life,,,suspicious,True,sms-pattern; offline-text-model
+confirmation-400,text-092,text,filipino-merged,754,ham,False,Malapit na po ako. Namali po ng ikot kanina ang driver.,Malapit na po ako. Namali po ng ikot kanina ang driver.,,,low,False,
+confirmation-400,text-093,text,asea,556,Prize Scam,True,"Congratulations GCash User! You have received P25,000 from GCash Loyalty Team. Claim your cash by clicking the link below. Claim your cash at https://gcash-getreward.website/claim Thank you for choosing GCash App.","Congratulations GCash User! You have received P25,000 from GCash Loyalty Team. Claim your cash by clicking the link below. Claim your cash at https://gcash-getreward.website/claim Thank you for choosing GCash App.",,,high,True,brand-gcash; account-alert-link; sms-pattern; offline-text-model
+confirmation-400,text-094,text,uci-sms,2405,ham,False,Yunny i'm walking in citylink now ü faster come down... Me very hungry...,Yunny i'm walking in citylink now ü faster come down... Me very hungry...,,,low,False,
+confirmation-400,text-095,text,asea,410,Gambling Scam,True,"Join March 5 PayDay Blast For Free 6,888p bonus on GoJackpot! Claim 1,000p+177p bonus on new register. Win Jackpot & Get 239% extra bonus on GoJackpotph21.icu","Join March 5 PayDay Blast For Free 6,888p bonus on GoJackpot! Claim 1,000p+177p bonus on new register. Win Jackpot & Get 239% extra bonus on GoJackpotph21.icu",,,high,True,gambling-signup-offer; unlisted-gambling-link; sms-pattern; offline-text-model
+confirmation-400,text-096,text,filipino-original,487,ham,False,Your payment of P154.00 to MoveIt has been successfully processed on 10-15-23 12:21:37 PM. Ref. No. <NUMBER>,Your payment of P154.00 to MoveIt has been successfully processed on 10-15-23 12:21:37 PM. Ref. No. <NUMBER>,,,suspicious,True,offline-text-model
+confirmation-400,text-097,text,imc25,30352,public smishing report / others,True,We inform your new release: <URL> (G) 2022 National,We inform your new release: <URL> (G) 2022 National,,,low,False,
+confirmation-400,text-098,text,hinglish,2949,0,False,Cos i want it to be your thing,Cos i want it to be your thing,,,low,False,
+confirmation-400,text-099,text,imc25,23933,public smishing report / delivery,True,I have your package... Your $101 loyalty rewards will be delivered...,I have your package... Your $101 loyalty rewards will be delivered...,,,suspicious,True,offline-text-model
+confirmation-400,text-100,text,uci-sms,4268,ham,False,But you were together so you should be thinkin about him,But you were together so you should be thinkin about him,,,low,False,

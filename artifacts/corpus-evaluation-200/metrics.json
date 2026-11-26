@@ -1,0 +1,508 @@
+{
+  "caseSha256": "8f33d7a6c3fda98c9faeb763ba7c2671907ee2c2a9ec87c68e8ad96b67e353eb",
+  "scope": "200 distinct dataset-derived source groups; 50 per modality, each 25 positive and 25 negative; same cases compared locally and with AI double-check. Dataset/reference overlap prevents independent full-app accuracy claims.",
+  "labelPolicy": "Source labels retained. Generic spam is not reclassified as verified scam. Unknown/no warning counts as a miss on a positive, and is not certified safe.",
+  "overall": {
+    "local_browser": {
+      "n": 200,
+      "positive": 100,
+      "negative": 100,
+      "tp": 27,
+      "fp": 2,
+      "tn": 98,
+      "fn": 73,
+      "failed": 0,
+      "unknown": 74,
+      "accuracy": 62.5,
+      "fpr": 2.0,
+      "fnr": 73.0
+    },
+    "ai_completed_subset": {
+      "n": 126,
+      "positive": 54,
+      "negative": 72,
+      "tp": 48,
+      "fp": 1,
+      "tn": 71,
+      "fn": 6,
+      "failed": 0,
+      "unknown": 25,
+      "accuracy": 94.44444444444444,
+      "fpr": 1.3888888888888888,
+      "fnr": 11.11111111111111
+    },
+    "online_mode_including_fallback": {
+      "n": 200,
+      "positive": 100,
+      "negative": 100,
+      "tp": 77,
+      "fp": 2,
+      "tn": 98,
+      "fn": 23,
+      "failed": 0,
+      "unknown": 39,
+      "accuracy": 87.5,
+      "fpr": 2.0,
+      "fnr": 23.0
+    },
+    "local_browser_on_completed_subset": {
+      "n": 126,
+      "positive": 54,
+      "negative": 72,
+      "tp": 19,
+      "fp": 1,
+      "tn": 71,
+      "fn": 35,
+      "failed": 0,
+      "unknown": 41,
+      "accuracy": 71.42857142857143,
+      "fpr": 1.3888888888888888,
+      "fnr": 64.81481481481481
+    },
+    "backend_without_ai_on_completed_subset": {
+      "n": 126,
+      "positive": 54,
+      "negative": 72,
+      "tp": 40,
+      "fp": 0,
+      "tn": 72,
+      "fn": 14,
+      "failed": 0,
+      "unknown": 25,
+      "accuracy": 88.88888888888889,
+      "fpr": 0.0,
+      "fnr": 25.925925925925927
+    },
+    "backend_without_ai_all": {
+      "n": 200,
+      "positive": 100,
+      "negative": 100,
+      "tp": 69,
+      "fp": 1,
+      "tn": 99,
+      "fn": 31,
+      "failed": 0,
+      "unknown": 39,
+      "accuracy": 84.0,
+      "fpr": 1.0,
+      "fnr": 31.0
+    }
+  },
+  "perKind": {
+    "text": {
+      "local": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 13,
+        "fp": 2,
+        "tn": 23,
+        "fn": 12,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 72.0,
+        "fpr": 8.0,
+        "fnr": 48.0
+      },
+      "ai_completed": {
+        "n": 34,
+        "positive": 16,
+        "negative": 18,
+        "tp": 11,
+        "fp": 0,
+        "tn": 18,
+        "fn": 5,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 85.29411764705883,
+        "fpr": 0.0,
+        "fnr": 31.25
+      },
+      "online_mode": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 16,
+        "fp": 1,
+        "tn": 24,
+        "fn": 9,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 80.0,
+        "fpr": 4.0,
+        "fnr": 36.0
+      }
+    },
+    "links": {
+      "local": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 2,
+        "fp": 0,
+        "tn": 25,
+        "fn": 23,
+        "failed": 0,
+        "unknown": 48,
+        "accuracy": 54.0,
+        "fpr": 0.0,
+        "fnr": 92.0
+      },
+      "ai_completed": {
+        "n": 29,
+        "positive": 12,
+        "negative": 17,
+        "tp": 12,
+        "fp": 0,
+        "tn": 17,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 17,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      },
+      "online_mode": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 25,
+        "fp": 0,
+        "tn": 25,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 25,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      }
+    },
+    "qr": {
+      "local": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 5,
+        "fp": 0,
+        "tn": 25,
+        "fn": 20,
+        "failed": 0,
+        "unknown": 25,
+        "accuracy": 60.0,
+        "fpr": 0.0,
+        "fnr": 80.0
+      },
+      "ai_completed": {
+        "n": 36,
+        "positive": 17,
+        "negative": 19,
+        "tp": 17,
+        "fp": 1,
+        "tn": 18,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 8,
+        "accuracy": 97.22222222222223,
+        "fpr": 5.2631578947368425,
+        "fnr": 0.0
+      },
+      "online_mode": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 24,
+        "fp": 1,
+        "tn": 24,
+        "fn": 1,
+        "failed": 0,
+        "unknown": 13,
+        "accuracy": 96.0,
+        "fpr": 4.0,
+        "fnr": 4.0
+      }
+    },
+    "image": {
+      "local": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 7,
+        "fp": 0,
+        "tn": 25,
+        "fn": 18,
+        "failed": 0,
+        "unknown": 1,
+        "accuracy": 64.0,
+        "fpr": 0.0,
+        "fnr": 72.0
+      },
+      "ai_completed": {
+        "n": 27,
+        "positive": 9,
+        "negative": 18,
+        "tp": 8,
+        "fp": 0,
+        "tn": 18,
+        "fn": 1,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 96.29629629629629,
+        "fpr": 0.0,
+        "fnr": 11.11111111111111
+      },
+      "online_mode": {
+        "n": 50,
+        "positive": 25,
+        "negative": 25,
+        "tp": 12,
+        "fp": 0,
+        "tn": 25,
+        "fn": 13,
+        "failed": 0,
+        "unknown": 1,
+        "accuracy": 74.0,
+        "fpr": 0.0,
+        "fnr": 52.0
+      }
+    }
+  },
+  "perSource": {
+    "asea": {
+      "local": {
+        "n": 31,
+        "positive": 25,
+        "negative": 6,
+        "tp": 17,
+        "fp": 2,
+        "tn": 4,
+        "fn": 8,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 67.74193548387096,
+        "fpr": 33.333333333333336,
+        "fnr": 32.0
+      },
+      "ai_completed": {
+        "n": 21,
+        "positive": 17,
+        "negative": 4,
+        "tp": 16,
+        "fp": 0,
+        "tn": 4,
+        "fn": 1,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 95.23809523809524,
+        "fpr": 0.0,
+        "fnr": 5.882352941176471
+      }
+    },
+    "filipino-original": {
+      "local": {
+        "n": 14,
+        "positive": 0,
+        "negative": 14,
+        "tp": 0,
+        "fp": 0,
+        "tn": 14,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      },
+      "ai_completed": {
+        "n": 11,
+        "positive": 0,
+        "negative": 11,
+        "tp": 0,
+        "fp": 0,
+        "tn": 11,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      }
+    },
+    "filipino-merged": {
+      "local": {
+        "n": 14,
+        "positive": 0,
+        "negative": 14,
+        "tp": 0,
+        "fp": 0,
+        "tn": 14,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      },
+      "ai_completed": {
+        "n": 13,
+        "positive": 0,
+        "negative": 13,
+        "tp": 0,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      }
+    },
+    "uci-sms": {
+      "local": {
+        "n": 14,
+        "positive": 0,
+        "negative": 14,
+        "tp": 0,
+        "fp": 0,
+        "tn": 14,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      },
+      "ai_completed": {
+        "n": 10,
+        "positive": 0,
+        "negative": 10,
+        "tp": 0,
+        "fp": 0,
+        "tn": 10,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      }
+    },
+    "hinglish": {
+      "local": {
+        "n": 14,
+        "positive": 0,
+        "negative": 14,
+        "tp": 0,
+        "fp": 0,
+        "tn": 14,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": null
+      },
+      "ai_completed": {
+        "n": 9,
+        "positive": 0,
+        "negative": 9,
+        "tp": 0,
+        "fp": 1,
+        "tn": 8,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 88.88888888888889,
+        "fpr": 11.11111111111111,
+        "fnr": null
+      }
+    },
+    "imc25": {
+      "local": {
+        "n": 38,
+        "positive": 38,
+        "negative": 0,
+        "tp": 8,
+        "fp": 0,
+        "tn": 0,
+        "fn": 30,
+        "failed": 0,
+        "unknown": 1,
+        "accuracy": 21.05263157894737,
+        "fpr": null,
+        "fnr": 78.94736842105263
+      },
+      "ai_completed": {
+        "n": 19,
+        "positive": 19,
+        "negative": 0,
+        "tp": 14,
+        "fp": 0,
+        "tn": 0,
+        "fn": 5,
+        "failed": 0,
+        "unknown": 0,
+        "accuracy": 73.6842105263158,
+        "fpr": null,
+        "fnr": 26.31578947368421
+      }
+    },
+    "phiusiil": {
+      "local": {
+        "n": 75,
+        "positive": 37,
+        "negative": 38,
+        "tp": 2,
+        "fp": 0,
+        "tn": 38,
+        "fn": 35,
+        "failed": 0,
+        "unknown": 73,
+        "accuracy": 53.333333333333336,
+        "fpr": 0.0,
+        "fnr": 94.5945945945946
+      },
+      "ai_completed": {
+        "n": 43,
+        "positive": 18,
+        "negative": 25,
+        "tp": 18,
+        "fp": 0,
+        "tn": 25,
+        "fn": 0,
+        "failed": 0,
+        "unknown": 25,
+        "accuracy": 100.0,
+        "fpr": 0.0,
+        "fnr": 0.0
+      }
+    }
+  },
+  "onlineStatuses": {
+    "completed": 126,
+    "unavailable": 74
+  },
+  "aiChangesVsBackend": {
+    "improved_vs_same_backend_without_ai": 9,
+    "worsened_vs_same_backend_without_ai": 2,
+    "unchanged_warning_vs_same_backend_without_ai": 115
+  },
+  "onlineProviders": [
+    {
+      "providerId": "openrouter",
+      "model": "baidu/ernie-5.5-flash-preview:free"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-4-hydrogen"
+    }
+  ],
+  "startedAt": "2026-11-26T09:51:04.224Z",
+  "finishedAt": "2026-11-26T10:01:45.665Z",
+  "localExternalRequestsBlocked": 0,
+  "sourceAndRuntimeHashesVerified": true
+}

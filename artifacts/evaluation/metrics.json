@@ -1,0 +1,207 @@
+{
+  "date": "2026-11-26",
+  "timezone": "Asia/Singapore",
+  "local": {
+    "text": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 6,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "qr": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 6,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "image": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 3,
+      "fp": 0,
+      "tn": 6,
+      "fn": 3,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 75.0,
+      "fpr": 0.0,
+      "fnr": 50.0
+    }
+  },
+  "onlineCompletedOnly": {
+    "text": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 6,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "qr": {
+      "n": 4,
+      "positive": 0,
+      "negative": 4,
+      "tp": 0,
+      "fp": 0,
+      "tn": 4,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 4,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": null
+    },
+    "image": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    }
+  },
+  "onlineAppIncludingFallback": {
+    "text": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 6,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "qr": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 6,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "image": {
+      "n": 12,
+      "positive": 6,
+      "negative": 6,
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    }
+  },
+  "existingMessageRegression": {
+    "n": 100,
+    "positive": 50,
+    "negative": 50,
+    "tp": 43,
+    "fn": 7,
+    "fp": 0,
+    "tn": 50,
+    "accuracy": 93.0,
+    "fpr": 0.0,
+    "fnr": 14.0
+  },
+  "ocrCharacterErrorRate": 0.003787878787878788,
+  "qrExactDecoding": {
+    "correct": 12,
+    "total": 12
+  },
+  "modelHashes": {
+    "taglish-intent-model.json": {
+      "saved": "46a78ae58c86a00e32822296c9e9ec16a524855df3b276ec2757b909bf38ecb3",
+      "reproduced": "d9fb476f21d1f94cad7bab90d73792424aa3144eb4bff089cd7c63b945753a3e"
+    },
+    "url-risk-model.json": {
+      "saved": "29b09991024ee08d9d2c0f204cf0cb254eca01784f037f262888f33f65b81f6a",
+      "reproduced": "29b09991024ee08d9d2c0f204cf0cb254eca01784f037f262888f33f65b81f6a"
+    }
+  },
+  "onlineCompleted": 40,
+  "onlineAttempted": 48
+}

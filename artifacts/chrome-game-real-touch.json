@@ -1,0 +1,16 @@
+[
+  {
+    "mobile": true,
+    "left": true,
+    "right": true,
+    "correctAnswerFeedback": true,
+    "virtualClock": false
+  },
+  {
+    "mobile": false,
+    "left": true,
+    "right": true,
+    "correctAnswerFeedback": true,
+    "virtualClock": false
+  }
+]

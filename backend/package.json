@@ -20,7 +20,7 @@
     "evaluate:detectors": "node scripts/evaluate-detectors.mjs",
     "audit:reference-data": "node scripts/audit-reference-data.mjs",
     "build:url-index": "node scripts/build-url-reference-indexes.mjs",
-    "build:browser-url-indexes": "node scripts/build-browser-url-indexes.mjs",
+    "build:browser-url-indexes": "node scripts/build-browser-url-indexes.mjs && node scripts/build-browser-phishing-urls.mjs",
     "prepare:ocr": "node scripts/copy-ocr.mjs",
     "check:secrets": "node scripts/check-secrets.mjs",
     "check": "npm run check:secrets && npm test"

@@ -1,0 +1,2136 @@
+{
+  "scope": "Diagnostic baseline: same backend as AI double-check, AI disabled and external networking forbidden. Separates backend/reference differences from AI contribution.",
+  "checkedAt": "2026-11-26T09:53:39.001Z",
+  "rows": [
+    {
+      "id": "image-001",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-002",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-003",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-004",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-005",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-006",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-007",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-008",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-009",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-010",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-011",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-012",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-013",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "unlisted-gambling-link",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-014",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-015",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-016",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-017",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-018",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-019",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-020",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-021",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-022",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-023",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-024",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-025",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-026",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-027",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-028",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-029",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-030",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-031",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-032",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-033",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-034",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-035",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "shortener",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-036",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-037",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-038",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-039",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-040",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-041",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-042",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-043",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-044",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-045",
+      "kind": "image",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "pressure",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-046",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-047",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-048",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-049",
+      "kind": "image",
+      "label": true,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "image-050",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-001",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-002",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-003",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-004",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-005",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-006",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-007",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-008",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-009",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-010",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-011",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-012",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-013",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-014",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-015",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-016",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-017",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-018",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-019",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-020",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-021",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-022",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-023",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-024",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-025",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-026",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-027",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-028",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-029",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-030",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-031",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-032",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-033",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-034",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-035",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "subdomains",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-036",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-037",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-038",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-039",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-040",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-041",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "subdomains",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-042",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-043",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-044",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-045",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-046",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-047",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-048",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-049",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "links-050",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-001",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-002",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-003",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-004",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-005",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-006",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-007",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-text-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-008",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-009",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "pressure",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-010",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-011",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-012",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-013",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "pressure",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-014",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-015",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "pressure",
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-016",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-017",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-text-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-018",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-019",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-020",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-021",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-022",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-023",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "pressure",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-024",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-025",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-026",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-027",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-028",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-029",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-030",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-031",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-032",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-033",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-034",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-035",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-036",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-037",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-038",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-039",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-040",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-041",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-042",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-043",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-044",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-045",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-046",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-047",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-048",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-049",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "qr-050",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-001",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-002",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-003",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "shortener",
+        "dataset-text-match"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-004",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-005",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-006",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-007",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-008",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-009",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-010",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-011",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-012",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-013",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-014",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-015",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-016",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-017",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-018",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-019",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-020",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-021",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "parcel-update-link",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-022",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-023",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-024",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-025",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-026",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-027",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "shortener",
+        "dataset-text-match",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-028",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-029",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "gambling-signup-offer",
+        "dataset-text-match",
+        "unlisted-gambling-link",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-030",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-031",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-032",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-033",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-034",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-035",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "load-transfer",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-036",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-037",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "http",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-038",
+      "kind": "text",
+      "label": false,
+      "level": "Suspicious",
+      "flagged": true,
+      "signals": [
+        "loan-fee"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-039",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-040",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-041",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-042",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-043",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-044",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-045",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-046",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-047",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-048",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-049",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "onlineStatus": "not_checked"
+    },
+    {
+      "id": "text-050",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "signals": [],
+      "onlineStatus": "not_checked"
+    }
+  ]
+}

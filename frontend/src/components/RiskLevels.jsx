@@ -1,14 +1,14 @@
 import { useId } from 'react';
-import { ArrowUpRight, Lock } from 'lucide-react';
-import { ASSETS } from '../assets.js';
+import { Lock, Waves } from 'lucide-react';
 import { usePrivacyNotice } from '../privacy/PrivacyContext.jsx';
 import './PrivacyCard.css';
+import './RiskLevels.css';
 
 const LEVELS = [
-  { key: 'low', mascot: ASSETS.surfyWink },
-  { key: 'medium', mascot: ASSETS.surfyPoint },
-  { key: 'high', mascot: ASSETS.surfyAlarm },
-  { key: 'unknown', mascot: ASSETS.surfyMagnify },
+  { key: 'low', animation: 'calm' },
+  { key: 'medium', animation: 'caution' },
+  { key: 'high', animation: 'alert' },
+  { key: 'unknown', animation: 'curious' },
 ];
 
 export default function RiskLevels({ t }) {
@@ -16,24 +16,32 @@ export default function RiskLevels({ t }) {
   const privacyPanelId = useId();
 
   return (
-    <section className="risks-section" id="risk-levels" aria-labelledby="risk-title">
+    <section className="risks-section risks-section--premium" id="risk-levels" aria-labelledby="risk-title">
       <div className="page-container">
-        <p className="section-eyebrow">{t('risk.eyebrow')}</p>
-        <h2 id="risk-title">{t('risk.title')}</h2>
+        <div className="risk-section-heading">
+          <div>
+            <p className="section-eyebrow"><Waves size={19} aria-hidden="true" />{t('risk.eyebrow')}</p>
+            <h2 id="risk-title">{t('risk.title')}</h2>
+          </div>
+          <p className="risk-section-intro">{t('risk.intro')}</p>
+        </div>
 
         <div className="risk-grid">
           {LEVELS.map((level) => (
             <article className={`risk-card risk-${level.key}`} key={level.key}>
               <div className="risk-art">
                 <div className="risk-card-color" aria-hidden="true" />
-                <img
-                  src={level.mascot}
-                  alt={t(`risk.alt.${level.key}`)}
-                  width="1000"
-                  height="1000"
-                  loading="lazy"
-                  decoding="async"
-                />
+                <picture>
+                  <source media="(prefers-reduced-motion: reduce)" srcSet={`/assets/risk/surfy-${level.animation}-still.png`} />
+                  <img
+                    src={`/assets/risk/surfy-${level.animation}.gif`}
+                    alt={t(`risk.alt.${level.key}`)}
+                    width="256"
+                    height="256"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
               <div className="risk-card-copy">
                 <span className="risk-pill">{t(`risk.${level.key}.badge`)}</span>
@@ -61,7 +69,6 @@ export default function RiskLevels({ t }) {
             onClick={reviewNotice}
           >
             <span>{t('notice.readPolicy')}</span>
-            <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.8} />
           </button>
         </article>
       </div>

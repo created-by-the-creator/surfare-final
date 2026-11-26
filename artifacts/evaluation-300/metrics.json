@@ -1,0 +1,205 @@
+{
+  "scope": "300 local + same 300 online input instances, 75 per modality, each 38 positive / 37 negative. 150 unique source texts/URLs reused across modalities; not 600 independent examples.",
+  "caseSha256": "5a9d0aa826002f4589f1134adc5d773107bbe8fe4f8662d8c4bbd2856c75ce63",
+  "caseHashNormalization": "UTF-8 text with LF line endings",
+  "caseFileByteSha256": "662c525a0fc475205488a7434cca0d7c9ad840b3b9b6f22c641445f96ce43909",
+  "caseFileModifiedAt": "2026-11-26T06:53:19.282505+00:00",
+  "localStartedAt": "2026-11-26T06:53:29.575Z",
+  "onlineStartedAt": "2026-11-26T06:55:55.767Z",
+  "local": {
+    "text": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 38,
+      "fp": 0,
+      "tn": 37,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 38,
+      "fp": 0,
+      "tn": 37,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 37,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "qr": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 38,
+      "fp": 0,
+      "tn": 37,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 17,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "image": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 32,
+      "fp": 1,
+      "tn": 36,
+      "fn": 6,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 90.66666666666667,
+      "fpr": 2.7027027027027026,
+      "fnr": 15.789473684210526
+    }
+  },
+  "onlineModeIncludingFallback": {
+    "text": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 38,
+      "fp": 0,
+      "tn": 37,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 34,
+      "fp": 1,
+      "tn": 36,
+      "fn": 4,
+      "failed": 0,
+      "unknown": 39,
+      "accuracy": 93.33333333333333,
+      "fpr": 2.7027027027027026,
+      "fnr": 10.526315789473685
+    },
+    "qr": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 36,
+      "fp": 1,
+      "tn": 36,
+      "fn": 2,
+      "failed": 0,
+      "unknown": 18,
+      "accuracy": 96.0,
+      "fpr": 2.7027027027027026,
+      "fnr": 5.2631578947368425
+    },
+    "image": {
+      "n": 75,
+      "positive": 38,
+      "negative": 37,
+      "tp": 33,
+      "fp": 1,
+      "tn": 36,
+      "fn": 5,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 92.0,
+      "fpr": 2.7027027027027026,
+      "fnr": 13.157894736842104
+    }
+  },
+  "onlineAICompletedOnly": {
+    "text": {
+      "n": 50,
+      "positive": 27,
+      "negative": 23,
+      "tp": 27,
+      "fp": 0,
+      "tn": 23,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 100.0,
+      "fpr": 0.0,
+      "fnr": 0.0
+    },
+    "links": {
+      "n": 46,
+      "positive": 23,
+      "negative": 23,
+      "tp": 22,
+      "fp": 1,
+      "tn": 22,
+      "fn": 1,
+      "failed": 0,
+      "unknown": 22,
+      "accuracy": 95.65217391304348,
+      "fpr": 4.3478260869565215,
+      "fnr": 4.3478260869565215
+    },
+    "qr": {
+      "n": 31,
+      "positive": 15,
+      "negative": 16,
+      "tp": 13,
+      "fp": 1,
+      "tn": 15,
+      "fn": 2,
+      "failed": 0,
+      "unknown": 5,
+      "accuracy": 90.3225806451613,
+      "fpr": 6.25,
+      "fnr": 13.333333333333334
+    },
+    "image": {
+      "n": 39,
+      "positive": 10,
+      "negative": 29,
+      "tp": 10,
+      "fp": 1,
+      "tn": 28,
+      "fn": 0,
+      "failed": 0,
+      "unknown": 0,
+      "accuracy": 97.43589743589743,
+      "fpr": 3.4482758620689653,
+      "fnr": 0.0
+    }
+  },
+  "completedSubsetScope": "Combined backend outcomes for cases with completed AI reviews, not isolated provider predictions.",
+  "onlineStatuses": {
+    "completed": 166,
+    "unavailable": 102,
+    "not_checked": 32
+  },
+  "localExternalRequestsBlocked": 0,
+  "providers": [
+    {
+      "providerId": "openrouter",
+      "model": "baidu/ernie-5.5-flash-preview:free"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-4-hydrogen"
+    }
+  ],
+  "completedAt": "2026-11-26T07:05:57.639Z"
+}

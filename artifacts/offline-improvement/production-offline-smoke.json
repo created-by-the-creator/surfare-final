@@ -1,0 +1,7 @@
+{
+  "offlineReload": true,
+  "messageHigh": true,
+  "knownUrlHigh": true,
+  "apiRequests": 0,
+  "detectorServedFromServiceWorker": true
+}

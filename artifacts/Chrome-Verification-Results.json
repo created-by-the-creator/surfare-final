@@ -1,0 +1,122 @@
+{
+  "checkedAt": "2026-11-26T11:33:15.877Z",
+  "liveChromeUrl": "http://127.0.0.1:5175",
+  "browser": "Installed Google Chrome",
+  "frontendTests": {
+    "passed": 328,
+    "failed": 0
+  },
+  "backendTests": {
+    "passed": 347,
+    "failed": 0
+  },
+  "productionBuild": "passed",
+  "detectorUi": {
+    "viewports": [
+      1440,
+      390
+    ],
+    "completedChecks": 14,
+    "modalities": [
+      "messages",
+      "links",
+      "image text OCR",
+      "QR"
+    ],
+    "uploadsReplacementRemoval": "passed",
+    "tabKeyboardNavigation": "passed",
+    "uncaughtPageErrors": 0
+  },
+  "offline": {
+    "offlineReload": true,
+    "messageHigh": true,
+    "knownUrlHigh": true,
+    "apiRequests": 0,
+    "detectorServedFromServiceWorker": true
+  },
+  "online": {
+    "file": "mobile-online-high-risk.png",
+    "online": true,
+    "review": {
+      "level": "High risk",
+      "status": "completed",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    "verdict": "High risk",
+    "mocked": false
+  },
+  "privacy": {
+    "layouts": 6,
+    "scrollGate": true,
+    "separateAiConsent": true,
+    "errors": []
+  },
+  "lifeguardGuide": {
+    "layouts": 5,
+    "acknowledgmentChoices": "passed"
+  },
+  "mascots": {
+    "report": [
+      {
+        "src": "http://127.0.0.1:5175/assets/risk/surfy-calm.gif",
+        "distinctVisibleFrames": 5,
+        "animated": true
+      },
+      {
+        "src": "http://127.0.0.1:5175/assets/risk/surfy-caution.gif",
+        "distinctVisibleFrames": 4,
+        "animated": true
+      },
+      {
+        "src": "http://127.0.0.1:5175/assets/risk/surfy-alert.gif",
+        "distinctVisibleFrames": 4,
+        "animated": true
+      },
+      {
+        "src": "http://127.0.0.1:5175/assets/risk/surfy-curious.gif",
+        "distinctVisibleFrames": 4,
+        "animated": true
+      }
+    ],
+    "reducedMotionStatic": true,
+    "privacyDialogOpens": true
+  },
+  "surfSchool": {
+    "routeAndRewardsFlow": "passed using mouse clicks at desktop/mobile widths",
+    "realTimeTouchAndDesktop": [
+      {
+        "mobile": true,
+        "left": true,
+        "right": true,
+        "correctAnswerFeedback": true,
+        "virtualClock": false
+      },
+      {
+        "mobile": false,
+        "left": true,
+        "right": true,
+        "correctAnswerFeedback": true,
+        "virtualClock": false
+      }
+    ],
+    "testHarnessNote": "Accelerated mobile tap script timed out after a CDP gesture. The full route flow passed using clicks, and separate real-time mobile touch steering/answer feedback passed. No app-source change was made."
+  },
+  "accuracySpotCheck": {
+    "n": 40,
+    "correct": 38,
+    "accuracy": 95,
+    "falsePositive": 0,
+    "falseNegative": 2,
+    "falsePositiveRate": 0,
+    "falseNegativeRate": 10,
+    "changedVerdictsComparedWithSavedBenchmark": 0,
+    "scope": "40 existing development cases: 10 per modality, 5 positive and 5 negative. Functional/accuracy regression spot-check; not a new independent benchmark.",
+    "samplesFile": "artifacts/chrome-accuracy-recheck.json"
+  },
+  "limitations": [
+    "The accuracy spot-check uses existing development cases and is not independent real-world validation.",
+    "This session verified one live message AI review; it does not establish reliability of every provider or online image service.",
+    "Two source-labeled risky samples (qr-007 and image-007) still received Low risk."
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "frozenAt": "2026-11-26T10:38:53.267Z",
+  "caseSha256": "2c4c032a4d0d668ff3e86c888755e5cd4a46f861d8185e0cdac5fa25fed5fe0f",
+  "seed": "surfare-offline-confirmation-v1-2026-11-26",
+  "sources": {
+    "asea": {
+      "name": "A.S.E.A Taglish",
+      "file": "backend/datasets/A.S.E.A Taglish scam Dataset.csv",
+      "url": "https://github.com/ChrisThePCGamer/asea-sms-scam-detection",
+      "sha256": "50e008dfb6af6eb9b55ed0f5eae28ded56fe68c779aa333503dc2a3721b8fa37",
+      "sourceRows": 4839,
+      "trainingOrReferenceOverlap": true
+    },
+    "filipino-original": {
+      "name": "Filipino Spam SMS original",
+      "file": "backend/datasets/external/filipino-spam-sms-dataset.csv",
+      "url": "https://github.com/Yissuh/Filipino-Spam-SMS-Detection-Model/blob/main/data-set.csv",
+      "sha256": "f4da18a6925d009c1e5efb9f6516d06309215c955907f4fa4a1fba85e0a92d0d",
+      "sourceRows": 625,
+      "trainingOrReferenceOverlap": true
+    },
+    "filipino-merged": {
+      "name": "Filipino Spam SMS merged",
+      "file": "backend/datasets/external/filipino-spam-sms-merged.csv",
+      "url": "https://github.com/Yissuh/Filipino-Spam-SMS-Detection-Model/blob/main/merged-set.csv",
+      "sha256": "031f569410f80f2d3761a97dab017589af148b6be8f633f99fd3254c3aacb3af",
+      "sourceRows": 873,
+      "trainingOrReferenceOverlap": true
+    },
+    "uci-sms": {
+      "name": "UCI SMS Spam Collection (deduplicated copy)",
+      "file": "backend/datasets/external/sms-spam-collection-dedup.csv",
+      "url": "https://archive.ics.uci.edu/dataset/228/sms+spam+collection",
+      "sha256": "6c13427e84a31a73c40b8e396b94a9a0254c1b2ac0378005170d09cfd62ccc0b",
+      "sourceRows": 5159,
+      "trainingOrReferenceOverlap": true
+    },
+    "hinglish": {
+      "name": "Hinglish/English corpus: UCI-matched ham only",
+      "file": "backend/datasets/external/hinglish-scam-text.json",
+      "url": "https://huggingface.co/datasets/bolewara/hinglish-scam-text-dataset",
+      "sha256": "8916282051c74e536b1751b76377451f7797fc18a282dcd376641b8fe1641b34",
+      "sourceRows": 3787,
+      "trainingOrReferenceOverlap": true
+    },
+    "imc25": {
+      "name": "IMC25 public smishing reports",
+      "file": "backend/datasets/external/imc25-smishing.csv",
+      "url": "https://github.com/reportsmishing/Smishing-Dataset-IMC25",
+      "sha256": "f28bde6e6caa97ecd02a18280e92aec1fc0ac0ed653239b2cb6c79604c2159c4",
+      "sourceRows": 33869,
+      "trainingOrReferenceOverlap": true
+    },
+    "phiusiil": {
+      "name": "PhiUSIIL phishing URLs",
+      "file": "backend/datasets/PhiUSIIL_Phishing_URL_Dataset.csv",
+      "url": "https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset",
+      "sha256": "580f572c6b4609fd053b7e0bf84245707c42ee72665e9a7a0753137660ab6d37",
+      "sourceRows": 235795,
+      "trainingOrReferenceOverlap": true
+    }
+  },
+  "counts": {
+    "asea": {
+      "positive": 50,
+      "negative": 12
+    },
+    "filipino-original": {
+      "positive": 0,
+      "negative": 28
+    },
+    "filipino-merged": {
+      "positive": 0,
+      "negative": 28
+    },
+    "uci-sms": {
+      "positive": 0,
+      "negative": 28
+    },
+    "hinglish": {
+      "positive": 0,
+      "negative": 28
+    },
+    "imc25": {
+      "positive": 76,
+      "negative": 0
+    },
+    "phiusiil": {
+      "positive": 74,
+      "negative": 76
+    }
+  },
+  "audit": {
+    "seed": "surfare-offline-confirmation-v1-2026-11-26",
+    "excludedPriorTemplates": 597,
+    "filterCounts": {
+      "spam-or-unreviewed-not-fraud-ground-truth": 3374,
+      "previous-development-template": 941,
+      "length-or-script-boundary": 3623,
+      "empty-or-unsuitable-presentation-content": 190,
+      "hinglish-not-verifiable-UCI-ham": 33,
+      "unsupported-or-sensitive-url": 846
+    }
+  },
+  "scope": "400 new dataset-derived source groups; 100 per modality, each 50 positive and 50 negative; same cases compared locally and with AI double-check. Dataset/reference overlap prevents independent full-app accuracy claims.",
+  "selection": "Fixed hash order, quotas, one normalized message template or registrable URL domain per selected input. Excludes earlier evaluation and curated development templates. No detector predictions used for selection.",
+  "excludedSources": [
+    {
+      "source": "Project-authored synthetic training/challenge cases",
+      "reason": "Excluded because requested dataset-derived records, not new authored examples."
+    },
+    {
+      "source": "dataset_phishing.csv",
+      "reason": "Engineered features without raw URLs; not compatible with app input."
+    },
+    {
+      "source": "Vrbanic CSV",
+      "reason": "Excluded from runtime and no verified license."
+    },
+    {
+      "source": "PhishDestroy/PAGCOR/SEC/local watchlists",
+      "reason": "Reference lists are not balanced message/URL ground truth; PhishDestroy only stores non-reversible domain fingerprints here."
+    }
+  ],
+  "limitations": [
+    "Dataset provenance is traceable; individual messages/senders and labels are not independently verified.",
+    "All selected corpus sources overlap training/reference material; novel selection is not proof of unseen data.",
+    "Hinglish rows are English ham matching the UCI source; no authored Hinglish scenarios are used.",
+    "Screenshot/QR files are controlled renderings of actual source records, not collected camera images.",
+    "Redaction and translation can affect detection. Original source hashes, parsed record indexes, column and original labels are preserved."
+  ]
+}

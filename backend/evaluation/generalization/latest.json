@@ -162,50 +162,55 @@
       "id": "message-challenge-019",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "otp_request"
+        "otp_request",
+        "offline-text-model"
       ]
     },
     {
       "id": "message-challenge-020",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "advance-fee"
+        "advance-fee",
+        "offline-text-model"
       ]
     },
     {
       "id": "message-challenge-021",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "investment"
+        "investment",
+        "offline-text-model"
       ]
     },
     {
       "id": "message-challenge-022",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "otp_request"
+        "otp_request",
+        "offline-text-model"
       ]
     },
     {
       "id": "message-challenge-023",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "advance-fee"
+        "advance-fee",
+        "offline-text-model"
       ]
     },
     {
@@ -222,20 +227,22 @@
       "id": "message-challenge-025",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "otp_request"
+        "otp_request",
+        "offline-text-model"
       ]
     },
     {
       "id": "message-challenge-026",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "advance-fee"
+        "advance-fee",
+        "offline-text-model"
       ]
     },
     {
@@ -276,10 +283,11 @@
       "id": "general-message-1",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
@@ -290,7 +298,8 @@
       "flagged": true,
       "signals": [
         "unsolicited-work-offer",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -327,10 +336,11 @@
       "id": "general-message-6",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "job-fee"
+        "job-fee",
+        "offline-text-model"
       ]
     },
     {
@@ -342,17 +352,19 @@
       "signals": [
         "brand-gcash",
         "lure",
-        "account-alert-link"
+        "account-alert-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "general-message-8",
       "kind": "text",
       "label": "scam",
-      "level": "suspicious",
+      "level": "high",
       "flagged": true,
       "signals": [
-        "gift-card-prize-fee"
+        "gift-card-prize-fee",
+        "offline-text-model"
       ]
     },
     {
@@ -363,7 +375,8 @@
       "flagged": true,
       "signals": [
         "credential_request",
-        "pressure"
+        "pressure",
+        "offline-text-model"
       ]
     },
     {

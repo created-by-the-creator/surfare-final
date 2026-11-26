@@ -1,4 +1,5 @@
 import { assessUrlReferences } from './reference-data.js';
+import { matchesKnownPhishingUrl } from './phishing-urls.js';
 
 function referenceUrlEvidence(urls, matches) {
   const items = [];
@@ -29,7 +30,8 @@ function dedupeEvidence(items) {
 export function addBrowserReferenceIndicators(text, urls, add) {
   const references = assessUrlReferences(text, urls);
 
-  const phishingEvidence = referenceUrlEvidence(urls, references.phishing);
+  const exactUrls=urls.filter(item=>matchesKnownPhishingUrl(item.url));
+  const phishingEvidence = referenceUrlEvidence(urls, [...references.phishing,...exactUrls]);
   if (phishingEvidence.length) {
     add(
       'dataset-url-match',

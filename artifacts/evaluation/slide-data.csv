@@ -1,0 +1,14 @@
+scope,task,n,positive,negative,tp,fp,tn,fn,accuracy,fpr,fnr,unknown,failed
+Local paired synthetic,Messages,12,6,6,6,0,6,0,100.0,0.0,0.0,0,0
+Local paired synthetic,Links,12,6,6,6,0,6,0,100.0,0.0,0.0,6,0
+Local paired synthetic,QR codes,12,6,6,6,0,6,0,100.0,0.0,0.0,6,0
+Local paired synthetic,Screenshot text,12,6,6,3,0,6,3,75.0,0.0,50.0,0,0
+Online completed only,Messages,12,6,6,6,0,6,0,100.0,0.0,0.0,0,0
+Online completed only,Links,12,6,6,6,0,6,0,100.0,0.0,0.0,6,0
+Online completed only,QR codes,4,0,4,0,0,4,0,100.0,0.0,,4,0
+Online completed only,Screenshot text,12,6,6,6,0,6,0,100.0,0.0,0.0,0,0
+Online app including fallback,Messages,12,6,6,6,0,6,0,100.0,0.0,0.0,0,0
+Online app including fallback,Links,12,6,6,6,0,6,0,100.0,0.0,0.0,6,0
+Online app including fallback,QR codes,12,6,6,6,0,6,0,100.0,0.0,0.0,6,0
+Online app including fallback,Screenshot text,12,6,6,6,0,6,0,100.0,0.0,0.0,0,0
+Existing overlapping corpus regression,Messages,100,50,50,43,0,50,7,93.0,0.0,14.0,,

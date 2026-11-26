@@ -1,0 +1,71 @@
+[
+  {
+    "file": "mobile-low-risk.png",
+    "level": "low",
+    "label": "LOW RISK",
+    "message": "Your appointment is confirmed for tomorrow at 10 AM. No payment is required.",
+    "path": "C:\\Users\\kaixe\\Desktop\\surfare-final\\mobile-low-risk.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imagePixels": {
+      "width": 780,
+      "height": 1688
+    },
+    "bar": {
+      "x": 91.59375,
+      "y": 286.234375,
+      "width": 206.8125,
+      "height": 8
+    },
+    "title": "Low risk",
+    "capture": "Actual local detector result; no mocked verdict or edited UI."
+  },
+  {
+    "file": "mobile-medium-risk.png",
+    "level": "suspicious",
+    "label": "MEDIUM RISK",
+    "message": "Congratulations! You won a gift. Click here to claim your prize.",
+    "path": "C:\\Users\\kaixe\\Desktop\\surfare-final\\mobile-medium-risk.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imagePixels": {
+      "width": 780,
+      "height": 1688
+    },
+    "bar": {
+      "x": 76.640625,
+      "y": 286.234375,
+      "width": 236.71875,
+      "height": 8
+    },
+    "title": "Suspicious",
+    "capture": "Actual local detector result; no mocked verdict or edited UI."
+  },
+  {
+    "file": "mobile-high-risk.png",
+    "level": "high",
+    "label": "HIGH RISK",
+    "message": "Your bank account will be blocked today. Send me your OTP now.",
+    "path": "C:\\Users\\kaixe\\Desktop\\surfare-final\\mobile-high-risk.png",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "imagePixels": {
+      "width": 780,
+      "height": 1688
+    },
+    "bar": {
+      "x": 91.59375,
+      "y": 286.234375,
+      "width": 206.8125,
+      "height": 8
+    },
+    "title": "High risk",
+    "capture": "Actual local detector result; no mocked verdict or edited UI."
+  }
+]

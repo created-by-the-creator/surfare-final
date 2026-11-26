@@ -1,0 +1,3057 @@
+{
+  "startedAt": "2026-11-26T09:52:43.149Z",
+  "updatedAt": "2026-11-26T10:01:45.665Z",
+  "providers": [
+    {
+      "providerId": "openrouter",
+      "model": "baidu/ernie-5.5-flash-preview:free"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-3.5-flash-lite"
+    },
+    {
+      "providerId": "gemini",
+      "model": "gemini-4-hydrogen"
+    }
+  ],
+  "scope": "200 dataset-derived inputs through the actual backend detect service using live configured providers, with actual offline browser extraction. Same inputs and original source labels as local check. No test URL pages visited; not a deployed UI or live reputation test. Two concurrent checks maximum, two-second gap per worker. No benchmark-level retries.",
+  "rows": [
+    {
+      "id": "image-001",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3077
+    },
+    {
+      "id": "image-002",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1037
+    },
+    {
+      "id": "image-003",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 6835
+    },
+    {
+      "id": "image-004",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1816
+    },
+    {
+      "id": "image-005",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 6405
+    },
+    {
+      "id": "image-006",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1201
+    },
+    {
+      "id": "image-007",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-match"
+      ],
+      "elapsedMs": 5353
+    },
+    {
+      "id": "image-008",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 448
+    },
+    {
+      "id": "image-009",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 7360
+    },
+    {
+      "id": "image-010",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 6155
+    },
+    {
+      "id": "image-011",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 11231
+    },
+    {
+      "id": "image-012",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 6116
+    },
+    {
+      "id": "image-013",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-match",
+        "unlisted-gambling-link",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 312
+    },
+    {
+      "id": "image-014",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 4870
+    },
+    {
+      "id": "image-015",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3335
+    },
+    {
+      "id": "image-016",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1343
+    },
+    {
+      "id": "image-017",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3022
+    },
+    {
+      "id": "image-018",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5723
+    },
+    {
+      "id": "image-019",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 1535
+    },
+    {
+      "id": "image-020",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1483
+    },
+    {
+      "id": "image-021",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 345
+    },
+    {
+      "id": "image-022",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 4996
+    },
+    {
+      "id": "image-023",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 2934
+    },
+    {
+      "id": "image-024",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1153
+    },
+    {
+      "id": "image-025",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1313
+    },
+    {
+      "id": "image-026",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1467
+    },
+    {
+      "id": "image-027",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 4909
+    },
+    {
+      "id": "image-028",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3267
+    },
+    {
+      "id": "image-029",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "dataset-text-match"
+      ],
+      "elapsedMs": 1999
+    },
+    {
+      "id": "image-030",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 573
+    },
+    {
+      "id": "image-031",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 689
+    },
+    {
+      "id": "image-032",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 5224
+    },
+    {
+      "id": "image-033",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 7014
+    },
+    {
+      "id": "image-034",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 250
+    },
+    {
+      "id": "image-035",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "shortener",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 235
+    },
+    {
+      "id": "image-036",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 258
+    },
+    {
+      "id": "image-037",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 266
+    },
+    {
+      "id": "image-038",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 273
+    },
+    {
+      "id": "image-039",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 2054
+    },
+    {
+      "id": "image-040",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1464
+    },
+    {
+      "id": "image-041",
+      "kind": "image",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 11074
+    },
+    {
+      "id": "image-042",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1103
+    },
+    {
+      "id": "image-043",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 394
+    },
+    {
+      "id": "image-044",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 473
+    },
+    {
+      "id": "image-045",
+      "kind": "image",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "pressure",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 320
+    },
+    {
+      "id": "image-046",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1284
+    },
+    {
+      "id": "image-047",
+      "kind": "image",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3251
+    },
+    {
+      "id": "image-048",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1567
+    },
+    {
+      "id": "image-049",
+      "kind": "image",
+      "label": true,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1834
+    },
+    {
+      "id": "image-050",
+      "kind": "image",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1088
+    },
+    {
+      "id": "links-001",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "other",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 6152
+    },
+    {
+      "id": "links-002",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1730
+    },
+    {
+      "id": "links-003",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 14449
+    },
+    {
+      "id": "links-004",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1224
+    },
+    {
+      "id": "links-005",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1373
+    },
+    {
+      "id": "links-006",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1850
+    },
+    {
+      "id": "links-007",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 1780
+    },
+    {
+      "id": "links-008",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 318
+    },
+    {
+      "id": "links-009",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 1557
+    },
+    {
+      "id": "links-010",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1408
+    },
+    {
+      "id": "links-011",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 2767
+    },
+    {
+      "id": "links-012",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 7337
+    },
+    {
+      "id": "links-013",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 90018
+    },
+    {
+      "id": "links-014",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1317
+    },
+    {
+      "id": "links-015",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1693
+    },
+    {
+      "id": "links-016",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1335
+    },
+    {
+      "id": "links-017",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 360
+    },
+    {
+      "id": "links-018",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1655
+    },
+    {
+      "id": "links-019",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 1267
+    },
+    {
+      "id": "links-020",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 90019
+    },
+    {
+      "id": "links-021",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1473
+    },
+    {
+      "id": "links-022",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1633
+    },
+    {
+      "id": "links-023",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "other",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1146
+    },
+    {
+      "id": "links-024",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1356
+    },
+    {
+      "id": "links-025",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 228
+    },
+    {
+      "id": "links-026",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 3345
+    },
+    {
+      "id": "links-027",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match"
+      ],
+      "elapsedMs": 1370
+    },
+    {
+      "id": "links-028",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 450
+    },
+    {
+      "id": "links-029",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 425
+    },
+    {
+      "id": "links-030",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5115
+    },
+    {
+      "id": "links-031",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 268
+    },
+    {
+      "id": "links-032",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1224
+    },
+    {
+      "id": "links-033",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 6718
+    },
+    {
+      "id": "links-034",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 2841
+    },
+    {
+      "id": "links-035",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "subdomains",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 225
+    },
+    {
+      "id": "links-036",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 260
+    },
+    {
+      "id": "links-037",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 233
+    },
+    {
+      "id": "links-038",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 242
+    },
+    {
+      "id": "links-039",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 286
+    },
+    {
+      "id": "links-040",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 6723
+    },
+    {
+      "id": "links-041",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "other",
+        "http",
+        "subdomains",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1533
+    },
+    {
+      "id": "links-042",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1732
+    },
+    {
+      "id": "links-043",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 4718
+    },
+    {
+      "id": "links-044",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 470
+    },
+    {
+      "id": "links-045",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 277
+    },
+    {
+      "id": "links-046",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1293
+    },
+    {
+      "id": "links-047",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 4228
+    },
+    {
+      "id": "links-048",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1423
+    },
+    {
+      "id": "links-049",
+      "kind": "links",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 242
+    },
+    {
+      "id": "links-050",
+      "kind": "links",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 480
+    },
+    {
+      "id": "qr-001",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1556
+    },
+    {
+      "id": "qr-002",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1045
+    },
+    {
+      "id": "qr-003",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "other",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 3902
+    },
+    {
+      "id": "qr-004",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 3103
+    },
+    {
+      "id": "qr-005",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1605
+    },
+    {
+      "id": "qr-006",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 4228
+    },
+    {
+      "id": "qr-007",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-text-match"
+      ],
+      "elapsedMs": 313
+    },
+    {
+      "id": "qr-008",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 368
+    },
+    {
+      "id": "qr-009",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "scam",
+        "pressure",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3267
+    },
+    {
+      "id": "qr-010",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1302
+    },
+    {
+      "id": "qr-011",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1588
+    },
+    {
+      "id": "qr-012",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1211
+    },
+    {
+      "id": "qr-013",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "scam",
+        "pressure",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1654
+    },
+    {
+      "id": "qr-014",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1444
+    },
+    {
+      "id": "qr-015",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "scam",
+        "pressure",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 2599
+    },
+    {
+      "id": "qr-016",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1307
+    },
+    {
+      "id": "qr-017",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "http",
+        "dataset-text-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1632
+    },
+    {
+      "id": "qr-018",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5188
+    },
+    {
+      "id": "qr-019",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1610
+    },
+    {
+      "id": "qr-020",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1065
+    },
+    {
+      "id": "qr-021",
+      "kind": "qr",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 328
+    },
+    {
+      "id": "qr-022",
+      "kind": "qr",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1221
+    },
+    {
+      "id": "qr-023",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "scam",
+        "pressure",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 5086
+    },
+    {
+      "id": "qr-024",
+      "kind": "qr",
+      "label": false,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "intimidation"
+      ],
+      "elapsedMs": 5580
+    },
+    {
+      "id": "qr-025",
+      "kind": "qr",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1720
+    },
+    {
+      "id": "qr-026",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 6970
+    },
+    {
+      "id": "qr-027",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 2536
+    },
+    {
+      "id": "qr-028",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5196
+    },
+    {
+      "id": "qr-029",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 12772
+    },
+    {
+      "id": "qr-030",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 433
+    },
+    {
+      "id": "qr-031",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "other",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 2815
+    },
+    {
+      "id": "qr-032",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1418
+    },
+    {
+      "id": "qr-033",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "other",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 2075
+    },
+    {
+      "id": "qr-034",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1336
+    },
+    {
+      "id": "qr-035",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 244
+    },
+    {
+      "id": "qr-036",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 237
+    },
+    {
+      "id": "qr-037",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 231
+    },
+    {
+      "id": "qr-038",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 232
+    },
+    {
+      "id": "qr-039",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match"
+      ],
+      "elapsedMs": 598
+    },
+    {
+      "id": "qr-040",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5151
+    },
+    {
+      "id": "qr-041",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 7004
+    },
+    {
+      "id": "qr-042",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5998
+    },
+    {
+      "id": "qr-043",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 4780
+    },
+    {
+      "id": "qr-044",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 300
+    },
+    {
+      "id": "qr-045",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 214
+    },
+    {
+      "id": "qr-046",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 4112
+    },
+    {
+      "id": "qr-047",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 2746
+    },
+    {
+      "id": "qr-048",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1270
+    },
+    {
+      "id": "qr-049",
+      "kind": "qr",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "impersonation",
+        "dataset-url-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 1239
+    },
+    {
+      "id": "qr-050",
+      "kind": "qr",
+      "label": false,
+      "level": "Insufficient evidence",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 919
+    },
+    {
+      "id": "text-001",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 1854
+    },
+    {
+      "id": "text-002",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1703
+    },
+    {
+      "id": "text-003",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "scam",
+        "shortener",
+        "dataset-text-match"
+      ],
+      "elapsedMs": 3380
+    },
+    {
+      "id": "text-004",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 2478
+    },
+    {
+      "id": "text-005",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 2381
+    },
+    {
+      "id": "text-006",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 6900
+    },
+    {
+      "id": "text-007",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 8324
+    },
+    {
+      "id": "text-008",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1277
+    },
+    {
+      "id": "text-009",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 1600
+    },
+    {
+      "id": "text-010",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1910
+    },
+    {
+      "id": "text-011",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1627
+    },
+    {
+      "id": "text-012",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-4-hydrogen",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 3548
+    },
+    {
+      "id": "text-013",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 315
+    },
+    {
+      "id": "text-014",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 9882
+    },
+    {
+      "id": "text-015",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1929
+    },
+    {
+      "id": "text-016",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1422
+    },
+    {
+      "id": "text-017",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 3647
+    },
+    {
+      "id": "text-018",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5490
+    },
+    {
+      "id": "text-019",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "gambling",
+        "scam",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 5100
+    },
+    {
+      "id": "text-020",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1189
+    },
+    {
+      "id": "text-021",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "parcel-update-link",
+        "dataset-text-match",
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 266
+    },
+    {
+      "id": "text-022",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1781
+    },
+    {
+      "id": "text-023",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "personal",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 1696
+    },
+    {
+      "id": "text-024",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1329
+    },
+    {
+      "id": "text-025",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 273
+    },
+    {
+      "id": "text-026",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1355
+    },
+    {
+      "id": "text-027",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "shortener",
+        "dataset-text-match",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 5572
+    },
+    {
+      "id": "text-028",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1458
+    },
+    {
+      "id": "text-029",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "gambling-signup-offer",
+        "dataset-text-match",
+        "unlisted-gambling-link",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 2048
+    },
+    {
+      "id": "text-030",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 4290
+    },
+    {
+      "id": "text-031",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model",
+        "dataset-url-model"
+      ],
+      "elapsedMs": 10179
+    },
+    {
+      "id": "text-032",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 1814
+    },
+    {
+      "id": "text-033",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1340
+    },
+    {
+      "id": "text-034",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 239
+    },
+    {
+      "id": "text-035",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "load-transfer",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 240
+    },
+    {
+      "id": "text-036",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1523
+    },
+    {
+      "id": "text-037",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "http",
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 232
+    },
+    {
+      "id": "text-038",
+      "kind": "text",
+      "label": false,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "loan-fee"
+      ],
+      "elapsedMs": 239
+    },
+    {
+      "id": "text-039",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 525
+    },
+    {
+      "id": "text-040",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 1918
+    },
+    {
+      "id": "text-041",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 3236
+    },
+    {
+      "id": "text-042",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5235
+    },
+    {
+      "id": "text-043",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 410
+    },
+    {
+      "id": "text-044",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 345
+    },
+    {
+      "id": "text-045",
+      "kind": "text",
+      "label": true,
+      "level": "Suspicious",
+      "flagged": true,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "scam",
+        "dataset-text-model"
+      ],
+      "elapsedMs": 4229
+    },
+    {
+      "id": "text-046",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5229
+    },
+    {
+      "id": "text-047",
+      "kind": "text",
+      "label": true,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-model"
+      ],
+      "elapsedMs": 4038
+    },
+    {
+      "id": "text-048",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "completed",
+      "httpStatus": 200,
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 5736
+    },
+    {
+      "id": "text-049",
+      "kind": "text",
+      "label": true,
+      "level": "High risk",
+      "flagged": true,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [
+        "dataset-text-match",
+        "dataset-text-model",
+        "sms-pattern"
+      ],
+      "elapsedMs": 299
+    },
+    {
+      "id": "text-050",
+      "kind": "text",
+      "label": false,
+      "level": "Low risk",
+      "flagged": false,
+      "onlineStatus": "unavailable",
+      "httpStatus": 200,
+      "policyBlocked": false,
+      "signals": [],
+      "elapsedMs": 386
+    }
+  ]
+}

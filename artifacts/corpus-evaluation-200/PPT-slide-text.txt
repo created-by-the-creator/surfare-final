@@ -1,0 +1,17 @@
+SURFARE: 200 DATASET-DERIVED INPUTS
+26 November 2026, 18:01 SGT
+100 source-positive / 100 source-negative; 50 per check type. No newly authored message content.
+Training/reference overlap: this is not independent real-world validation.
+
+Local browser: N=200 (+100/-100); accuracy=62.50%; FPR=2.00%; FNR=73.00%; TP/FP/TN/FN=27/2/98/73.
+AI completed subset: N=126 (+54/-72); accuracy=94.44%; FPR=1.39%; FNR=11.11%; TP/FP/TN/FN=48/1/71/6.
+Online mode including fallback: N=200 (+100/-100); accuracy=87.50%; FPR=2.00%; FNR=23.00%; TP/FP/TN/FN=77/2/98/23.
+
+AI statuses: {"completed": 126, "unavailable": 74}
+Same-backend diagnostic: {"improved_vs_same_backend_without_ai": 9, "worsened_vs_same_backend_without_ai": 2, "unchanged_warning_vs_same_backend_without_ai": 115}
+
+PER CHECK TYPE
+Messages: local accuracy/FPR/FNR 72.00%/8.00%/48.00%; AI completed 34/50, accuracy/FPR/FNR 85.29%/0.00%/31.25%.
+Links: local accuracy/FPR/FNR 54.00%/0.00%/92.00%; AI completed 29/50, accuracy/FPR/FNR 100.00%/0.00%/0.00%.
+QR codes: local accuracy/FPR/FNR 60.00%/0.00%/80.00%; AI completed 36/50, accuracy/FPR/FNR 97.22%/5.26%/0.00%.
+Screenshot text: local accuracy/FPR/FNR 64.00%/0.00%/72.00%; AI completed 27/50, accuracy/FPR/FNR 96.30%/0.00%/11.11%.

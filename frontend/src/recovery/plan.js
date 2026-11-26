@@ -34,7 +34,7 @@ export function buildRecoveryPlan({ situations = [], provider = 'unknown', count
   if (country === 'PH') {
     if (selected.has('danger')) contacts.push('emergency');
     const financial = selected.has('paid') || selected.has('shared') && ['gcash', 'maya', 'bank'].includes(provider);
-    if (financial) contacts.push(['gcash', 'maya'].includes(provider) ? provider : 'bank');
+    if (financial && provider !== 'account') contacts.push(['gcash', 'maya'].includes(provider) ? provider : 'bank');
     if (selected.has('paid') || selected.has('shared') || selected.has('downloaded') || selected.has('threatened') || selected.has('danger') || selected.has('unsure')) contacts.push('cicc');
   }
   return { steps, contacts };

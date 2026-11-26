@@ -1,0 +1,26 @@
+{
+  "report": [
+    {
+      "src": "http://127.0.0.1:5175/assets/risk/surfy-calm.gif",
+      "distinctVisibleFrames": 5,
+      "animated": true
+    },
+    {
+      "src": "http://127.0.0.1:5175/assets/risk/surfy-caution.gif",
+      "distinctVisibleFrames": 4,
+      "animated": true
+    },
+    {
+      "src": "http://127.0.0.1:5175/assets/risk/surfy-alert.gif",
+      "distinctVisibleFrames": 4,
+      "animated": true
+    },
+    {
+      "src": "http://127.0.0.1:5175/assets/risk/surfy-curious.gif",
+      "distinctVisibleFrames": 4,
+      "animated": true
+    }
+  ],
+  "reducedMotionStatic": true,
+  "privacyDialogOpens": true
+}

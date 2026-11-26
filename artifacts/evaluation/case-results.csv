@@ -1,0 +1,104 @@
+﻿mode,id,kind,label,flagged,level,onlineStatus,ocrConfidence,elapsedMs,text,expectedText
+local,message-01,text,True,True,high,,,964,I will make sure your family never sees you again.,I will make sure your family never sees you again.
+local,ocr-01,image,True,False,low,,94,1998,| will make sure your family never sees you again.,I will make sure your family never sees you again.
+local,message-02,text,True,True,high,,,11,Send me money by tonight or I will publish your private photos to everyone you know.,Send me money by tonight or I will publish your private photos to everyone you know.
+local,ocr-02,image,True,False,low,,95,2799,"Send me money by tonight or | will publish your private
+photos to everyone you know.",Send me money by tonight or I will publish your private photos to everyone you know.
+local,message-03,text,False,False,low,,,15,Do not send anyone your password or OTP. Use your bank's official app instead.,Do not send anyone your password or OTP. Use your bank's official app instead.
+local,ocr-03,image,False,False,low,,95,2239,"Do not send anyone your password or OTP. Use your
+bank's official app instead.",Do not send anyone your password or OTP. Use your bank's official app instead.
+local,message-04,text,False,False,low,,,22,This workout is killing me. Let's get some water and rest.,This workout is killing me. Let's get some water and rest.
+local,ocr-04,image,False,False,low,,95,1939,"This workout is killing me. Let's get some water and
+rest.",This workout is killing me. Let's get some water and rest.
+local,message-05,text,True,True,high,,,13,"tanginamo pare yang kapatid mo na yan di pako binabayaran, pag ako nainis tanggal ang ulo nya","tanginamo pare yang kapatid mo na yan di pako binabayaran, pag ako nainis tanggal ang ulo nya"
+local,ocr-05,image,True,True,high,,93,1933,"tanginamo pare yang kapatid mo na yan di pako
+binabayaran, pag ako nainis tanggal ang ulo nya","tanginamo pare yang kapatid mo na yan di pako binabayaran, pag ako nainis tanggal ang ulo nya"
+local,message-06,text,True,True,high,,,15,Magpadala ka ng pera ngayong gabi o ikakalat ko ang pribado mong mga larawan.,Magpadala ka ng pera ngayong gabi o ikakalat ko ang pribado mong mga larawan.
+local,ocr-06,image,True,False,low,,93,2341,"Magpadala ka ng pera ngayong gabi o ikakalat ko ang
+pribado mong mga larawan.",Magpadala ka ng pera ngayong gabi o ikakalat ko ang pribado mong mga larawan.
+local,message-07,text,False,False,low,,,20,"Pare, pakibayaran naman yung hiniram mong pera kapag may sahod ka na. Salamat.","Pare, pakibayaran naman yung hiniram mong pera kapag may sahod ka na. Salamat."
+local,ocr-07,image,False,False,low,,92,2873,"Pare, pakibayaran naman yung hiniram mong pera kapag
+may sahod ka na. Salamat.","Pare, pakibayaran naman yung hiniram mong pera kapag may sahod ka na. Salamat."
+local,message-08,text,False,False,low,,,17,"Tangina, ang traffic ngayon. Late na ako sa klase.","Tangina, ang traffic ngayon. Late na ako sa klase."
+local,ocr-08,image,False,False,low,,94,2922,"Tangina, ang traffic ngayon. Late na ako sa klase.","Tangina, ang traffic ngayon. Late na ako sa klase."
+local,message-09,text,True,True,high,,,9,Send mo yung pera by tonight or your family won't see you alive again.,Send mo yung pera by tonight or your family won't see you alive again.
+local,ocr-09,image,True,True,high,,95,2348,"Send mo yung pera by tonight or your family won't see
+you alive again.",Send mo yung pera by tonight or your family won't see you alive again.
+local,message-10,text,True,True,high,,,26,"Pag hindi ka sumunod, I will hurt your sister.","Pag hindi ka sumunod, I will hurt your sister."
+local,ocr-10,image,True,True,high,,94,3115,"Pag hindi ka sumunod, | will hurt your sister.","Pag hindi ka sumunod, I will hurt your sister."
+local,message-11,text,False,False,low,,,10,Grabe this exam is killing me. Tara kape after class.,Grabe this exam is killing me. Tara kape after class.
+local,ocr-11,image,False,False,low,,95,3738,Grabe this exam is killing me. Tara kape after class.,Grabe this exam is killing me. Tara kape after class.
+local,message-12,text,False,False,low,,,14,"Send mo yung share mo sa dinner kapag kaya na, no rush.","Send mo yung share mo sa dinner kapag kaya na, no rush."
+local,ocr-12,image,False,False,low,,95,2465,"Send mo yung share mo sa dinner kapag kaya na, no rush.","Send mo yung share mo sa dinner kapag kaya na, no rush."
+local,link-01,links,True,True,high,,,59,https://раураl.example/login,https://раураl.example/login
+local,qr-01,qr,True,True,high,,,380,https://раураl.example/login,https://раураl.example/login
+local,link-02,links,True,True,high,,,14,https://gсash.example/login,https://gсash.example/login
+local,qr-02,qr,True,True,high,,,395,https://gсash.example/login,https://gсash.example/login
+local,link-03,links,True,True,high,,,24,https://fасеbооk.example/login,https://fасеbооk.example/login
+local,qr-03,qr,True,True,high,,,320,https://fасеbооk.example/login,https://fасеbооk.example/login
+local,link-04,links,True,True,high,,,11,https://mаyа.example/login,https://mаyа.example/login
+local,qr-04,qr,True,True,high,,,302,https://mаyа.example/login,https://mаyа.example/login
+local,link-05,links,True,True,high,,,15,https://gооgle.example/login,https://gооgle.example/login
+local,qr-05,qr,True,True,high,,,285,https://gооgle.example/login,https://gооgle.example/login
+local,link-06,links,True,True,high,,,8,https://gcash.com@receiver.example/login,https://gcash.com@receiver.example/login
+local,qr-06,qr,True,True,high,,,318,https://gcash.com@receiver.example/login,https://gcash.com@receiver.example/login
+local,link-07,links,False,False,unknown,,,10,https://gcash.com/login,https://gcash.com/login
+local,qr-07,qr,False,False,unknown,,,271,https://gcash.com/login,https://gcash.com/login
+local,link-08,links,False,False,unknown,,,13,https://bpi.com.ph/login,https://bpi.com.ph/login
+local,qr-08,qr,False,False,unknown,,,305,https://bpi.com.ph/login,https://bpi.com.ph/login
+local,link-09,links,False,False,unknown,,,6,https://bdo.com.ph/login,https://bdo.com.ph/login
+local,qr-09,qr,False,False,unknown,,,300,https://bdo.com.ph/login,https://bdo.com.ph/login
+local,link-10,links,False,False,unknown,,,12,https://paypal.com/login,https://paypal.com/login
+local,qr-10,qr,False,False,unknown,,,304,https://paypal.com/login,https://paypal.com/login
+local,link-11,links,False,False,unknown,,,12,https://maya.ph/login,https://maya.ph/login
+local,qr-11,qr,False,False,unknown,,,261,https://maya.ph/login,https://maya.ph/login
+local,link-12,links,False,False,unknown,,,8,https://shopee.ph/login,https://shopee.ph/login
+local,qr-12,qr,False,False,unknown,,,371,https://shopee.ph/login,https://shopee.ph/login
+online,message-02,text,True,True,High risk,completed,,4120,,
+online,message-01,text,True,True,High risk,completed,,4220,,
+online,message-03,text,False,False,Low risk,completed,,1768,,
+online,ocr-02,image,True,True,High risk,completed,,2909,,
+online,ocr-01,image,True,True,High risk,completed,,7052,,
+online,message-04,text,False,False,Low risk,completed,,1501,,
+online,ocr-03,image,False,False,Low risk,completed,,3677,,
+online,ocr-04,image,False,False,Low risk,completed,,3811,,
+online,ocr-05,image,True,True,High risk,completed,,3769,,
+online,message-05,text,True,True,High risk,completed,,5516,,
+online,message-06,text,True,True,High risk,completed,,3358,,
+online,ocr-06,image,True,True,High risk,completed,,2325,,
+online,ocr-07,image,False,False,Low risk,completed,,1868,,
+online,message-07,text,False,False,Low risk,completed,,2470,,
+online,message-08,text,False,False,Low risk,completed,,1527,,
+online,ocr-08,image,False,False,Low risk,completed,,1975,,
+online,message-09,text,True,True,High risk,completed,,2032,,
+online,ocr-09,image,True,True,High risk,completed,,3269,,
+online,message-10,text,True,True,High risk,completed,,2521,,
+online,ocr-10,image,True,True,High risk,completed,,2342,,
+online,ocr-11,image,False,False,Low risk,completed,,1212,,
+online,message-12,text,False,False,Low risk,completed,,2073,,
+online,message-11,text,False,False,Low risk,completed,,2610,,
+online,qr-01,qr,True,True,High risk,not_checked,,1490,,
+online,link-01,links,True,True,High risk,completed,,4059,,
+online,qr-02,qr,True,True,High risk,not_checked,,2,,
+online,ocr-12,image,False,False,Low risk,completed,,5683,,
+online,qr-03,qr,True,True,High risk,not_checked,,4,,
+online,link-02,links,True,True,High risk,completed,,5621,,
+online,qr-04,qr,True,True,High risk,not_checked,,2,,
+online,link-04,links,True,True,High risk,completed,,4282,,
+online,qr-05,qr,True,True,High risk,not_checked,,1,,
+online,link-03,links,True,True,High risk,completed,,6168,,
+online,qr-06,qr,True,True,High risk,not_checked,,1,,
+online,link-07,links,False,False,Insufficient evidence,completed,,5280,,
+online,link-06,links,True,True,High risk,completed,,6770,,
+online,link-05,links,True,True,High risk,completed,,10763,,
+online,link-08,links,False,False,Insufficient evidence,completed,,3294,,
+online,qr-08,qr,False,False,Insufficient evidence,completed,,2708,,
+online,qr-07,qr,False,False,Insufficient evidence,completed,,9966,,
+online,qr-09,qr,False,False,Insufficient evidence,completed,,5398,,
+online,link-09,links,False,False,Insufficient evidence,completed,,10994,,
+online,link-10,links,False,False,Insufficient evidence,completed,,6076,,
+online,qr-11,qr,False,False,Insufficient evidence,unavailable,,298,,
+online,link-12,links,False,False,Insufficient evidence,completed,,2060,,
+online,link-11,links,False,False,Insufficient evidence,completed,,4301,,
+online,qr-12,qr,False,False,Insufficient evidence,unavailable,,390,,
+online,qr-10,qr,False,False,Insufficient evidence,completed,,14455,,

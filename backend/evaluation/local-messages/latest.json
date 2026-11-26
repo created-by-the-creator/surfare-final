@@ -4,9 +4,9 @@
   "total": 100,
   "scams": {
     "total": 50,
-    "caught": 43,
-    "missed": 7,
-    "calledLowRisk": 7
+    "caught": 44,
+    "missed": 6,
+    "calledLowRisk": 6
   },
   "legitimate": {
     "total": 50,
@@ -19,60 +19,66 @@
       "id": "S001",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S002",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S003",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S004",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S005",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S006",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
@@ -82,56 +88,63 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "shortener"
+        "shortener",
+        "offline-text-model"
       ]
     },
     {
       "id": "S008",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
         "delivery",
-        "http"
+        "http",
+        "offline-text-model"
       ]
     },
     {
       "id": "S009",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S010",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
       "id": "S011",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "low",
-      "warned": false,
-      "signals": []
+      "level": "suspicious",
+      "warned": true,
+      "signals": [
+        "offline-text-model"
+      ]
     },
     {
       "id": "S012",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
@@ -150,11 +163,12 @@
       "id": "S014",
       "label": "scam",
       "category": "parcel-delivery",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
         "http",
-        "parcel-update-link"
+        "parcel-update-link",
+        "offline-text-model"
       ]
     },
     {
@@ -166,7 +180,8 @@
       "signals": [
         "shortener",
         "parcel-update-link",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -178,17 +193,19 @@
       "signals": [
         "pressure",
         "brand-gcash",
-        "lure"
+        "lure",
+        "offline-text-model"
       ]
     },
     {
       "id": "S017",
       "label": "scam",
       "category": "account-lock-phishing",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "account-alert-link"
+        "account-alert-link",
+        "offline-text-model"
       ]
     },
     {
@@ -200,7 +217,8 @@
       "signals": [
         "pressure",
         "brand-bdo",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -212,7 +230,8 @@
       "signals": [
         "otp_request",
         "brand-bdo",
-        "lure"
+        "lure",
+        "offline-text-model"
       ]
     },
     {
@@ -225,7 +244,8 @@
         "shortener",
         "brand-bdo",
         "account-alert-link",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -235,7 +255,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
@@ -245,7 +266,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-bdo"
+        "brand-bdo",
+        "offline-text-model"
       ]
     },
     {
@@ -255,7 +277,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-bdo"
+        "brand-bdo",
+        "offline-text-model"
       ]
     },
     {
@@ -265,7 +288,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-bdo"
+        "brand-bdo",
+        "offline-text-model"
       ]
     },
     {
@@ -275,17 +299,19 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
       "id": "S026",
       "label": "scam",
       "category": "account-lock-phishing",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "account-alert-link"
+        "account-alert-link",
+        "offline-text-model"
       ]
     },
     {
@@ -295,7 +321,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
@@ -305,7 +332,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
@@ -316,7 +344,8 @@
       "warned": true,
       "signals": [
         "pressure",
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
@@ -326,7 +355,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "brand-gcash"
+        "brand-gcash",
+        "offline-text-model"
       ]
     },
     {
@@ -337,7 +367,8 @@
       "warned": true,
       "signals": [
         "task-recruitment",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -347,7 +378,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -357,7 +389,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -368,7 +401,8 @@
       "warned": true,
       "signals": [
         "http",
-        "unsolicited-work-offer"
+        "unsolicited-work-offer",
+        "offline-text-model"
       ]
     },
     {
@@ -428,7 +462,8 @@
       "signals": [
         "pressure",
         "advance-fee",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -438,28 +473,31 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
       "id": "S043",
       "label": "scam",
       "category": "prize",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
         "gambling-signup-offer",
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
       "id": "S044",
       "label": "scam",
       "category": "prize",
-      "level": "suspicious",
+      "level": "high",
       "warned": true,
       "signals": [
-        "account-alert-link"
+        "account-alert-link",
+        "offline-text-model"
       ]
     },
     {
@@ -469,7 +507,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -479,7 +518,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -489,7 +529,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -499,7 +540,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -509,7 +551,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -519,7 +562,8 @@
       "level": "suspicious",
       "warned": true,
       "signals": [
-        "sms-pattern"
+        "sms-pattern",
+        "offline-text-model"
       ]
     },
     {
@@ -940,10 +984,11 @@
         "id": "X002",
         "label": "scam",
         "category": "family-new-number",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "new-number"
+          "new-number",
+          "offline-text-model"
         ]
       },
       {
@@ -970,41 +1015,45 @@
         "id": "X005",
         "label": "scam",
         "category": "loan-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "loan-fee"
+          "loan-fee",
+          "offline-text-model"
         ]
       },
       {
         "id": "X006",
         "label": "scam",
         "category": "loan-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "loan-fee"
+          "loan-fee",
+          "offline-text-model"
         ]
       },
       {
         "id": "X007",
         "label": "scam",
         "category": "loan-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
           "loan-fee",
-          "sms-pattern"
+          "sms-pattern",
+          "offline-text-model"
         ]
       },
       {
         "id": "X008",
         "label": "scam",
         "category": "loan-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "loan-fee"
+          "loan-fee",
+          "offline-text-model"
         ]
       },
       {
@@ -1016,17 +1065,19 @@
         "signals": [
           "delivery",
           "parcel-update-link",
-          "parcel-fee-link"
+          "parcel-fee-link",
+          "offline-text-model"
         ]
       },
       {
         "id": "X010",
         "label": "scam",
         "category": "parcel-cod-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "delivery"
+          "delivery",
+          "offline-text-model"
         ]
       },
       {
@@ -1039,17 +1090,19 @@
           "pressure",
           "delivery",
           "parcel-update-link",
-          "sms-pattern"
+          "sms-pattern",
+          "offline-text-model"
         ]
       },
       {
         "id": "X012",
         "label": "scam",
         "category": "parcel-cod-fee",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
-          "delivery"
+          "delivery",
+          "offline-text-model"
         ]
       },
       {

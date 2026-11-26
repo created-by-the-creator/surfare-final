@@ -12,6 +12,10 @@ it('saves the chosen service and country with the checklist, not chat',()=>{
  const result=recoverySummary({situations:['paid'],provider:'bank',providerName:'UnionBank',country:'other',countryName:'Singapore',completed:[],plan:buildRecoveryPlan({situations:['paid'],country:'other'}),t});
  expect(result).toContain('UnionBank');expect(result).toContain('Singapore');expect(result).not.toContain('2882');
 });
+it('does not direct an unspecified online service to a Philippine bank directory',()=>{
+ expect(buildRecoveryPlan({situations:['paid'],provider:'account'}).contacts).toEqual(['cicc']);
+ expect(buildRecoveryPlan({situations:['paid'],provider:'bank'}).contacts).toEqual(['bank','cicc']);
+});
 it('local guidance responds to the topic without claiming to search',()=>{
  const answer=localGuideAnswer({question:'I sent money',situations:[],t});expect(answer).toContain(t('recovery.step.payment.title'));expect(answer).not.toMatch(/I searched|found online/);
 });

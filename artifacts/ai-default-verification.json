@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "width": 1440,
+      "defaultOnline": true,
+      "noAutomaticSubmission": true,
+      "offlineUncheckedAndDisabled": true,
+      "reconnectRestoresPreference": true,
+      "explicitOffRetained": true,
+      "aiSubmittedOnlyAfterCheck": true
+    },
+    {
+      "width": 390,
+      "defaultOnline": true,
+      "noAutomaticSubmission": true,
+      "offlineUncheckedAndDisabled": true,
+      "reconnectRestoresPreference": true,
+      "explicitOffRetained": true,
+      "aiSubmittedOnlyAfterCheck": true
+    }
+  ],
+  "declinedNoticePreventsSubmission": true,
+  "providerResponseMockedForRequestVerification": true
+}

@@ -1,0 +1,16 @@
+{
+  "scope": "300 local + same 300 online input instances, 75 per modality, each 38 positive / 37 negative. 150 unique source texts/URLs reused across modalities; not 600 independent examples.",
+  "labelPolicy": "Source development labels frozen before observing this run. URL positives indicate reviewable structure, not verified malicious websites. All cases synthetic; 149 reused source contents, one newly authored.",
+  "caseSha256": "5a9d0aa826002f4589f1134adc5d773107bbe8fe4f8662d8c4bbd2856c75ce63",
+  "sourceHashes": {
+    "backend/evaluation/generalization/cases.json": "06585ab57a2369a3f21895bf972943fdfc352cde9ab744f67ee02a7a39ab72ef",
+    "backend/tests/fixtures/semantic-smoke.json": "1d81ee4b92a78a240c3916c8d97c908deb7ec3787a49d26ffd6848b6c8f805d6",
+    "backend/evaluation/local-messages/supplemental.json": "5fe88b7ae51259cbc22f752ab5522e4ef9a0b68844074d9fbacb56a6877f6dbe"
+  },
+  "counts": {
+    "text": 75,
+    "links": 75,
+    "image": 75,
+    "qr": 75
+  }
+}

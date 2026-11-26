@@ -1,0 +1,248 @@
+{
+  "checkedAt": "2026-11-26T10:42:23.892Z",
+  "results": {
+    "before_200": {
+      "overall": {
+        "n": 200,
+        "positive": 100,
+        "negative": 100,
+        "tp": 27,
+        "fp": 2,
+        "tn": 98,
+        "fn": 73,
+        "failed": 0,
+        "unknown": 74,
+        "accuracy": 62.5,
+        "fpr": 2.0,
+        "fnr": 73.0
+      },
+      "byKind": {
+        "text": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 13,
+          "fp": 2,
+          "tn": 23,
+          "fn": 12,
+          "failed": 0,
+          "unknown": 0,
+          "accuracy": 72.0,
+          "fpr": 8.0,
+          "fnr": 48.0
+        },
+        "links": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 2,
+          "fp": 0,
+          "tn": 25,
+          "fn": 23,
+          "failed": 0,
+          "unknown": 48,
+          "accuracy": 54.0,
+          "fpr": 0.0,
+          "fnr": 92.0
+        },
+        "qr": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 5,
+          "fp": 0,
+          "tn": 25,
+          "fn": 20,
+          "failed": 0,
+          "unknown": 25,
+          "accuracy": 60.0,
+          "fpr": 0.0,
+          "fnr": 80.0
+        },
+        "image": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 7,
+          "fp": 0,
+          "tn": 25,
+          "fn": 18,
+          "failed": 0,
+          "unknown": 1,
+          "accuracy": 64.0,
+          "fpr": 0.0,
+          "fnr": 72.0
+        }
+      }
+    },
+    "after_200": {
+      "overall": {
+        "n": 200,
+        "positive": 100,
+        "negative": 100,
+        "tp": 93,
+        "fp": 2,
+        "tn": 98,
+        "fn": 7,
+        "failed": 0,
+        "unknown": 38,
+        "accuracy": 95.5,
+        "fpr": 2.0,
+        "fnr": 7.0
+      },
+      "byKind": {
+        "text": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 22,
+          "fp": 0,
+          "tn": 25,
+          "fn": 3,
+          "failed": 0,
+          "unknown": 0,
+          "accuracy": 94.0,
+          "fpr": 0.0,
+          "fnr": 12.0
+        },
+        "links": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 25,
+          "fp": 0,
+          "tn": 25,
+          "fn": 0,
+          "failed": 0,
+          "unknown": 25,
+          "accuracy": 100.0,
+          "fpr": 0.0,
+          "fnr": 0.0
+        },
+        "qr": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 23,
+          "fp": 0,
+          "tn": 25,
+          "fn": 2,
+          "failed": 0,
+          "unknown": 13,
+          "accuracy": 96.0,
+          "fpr": 0.0,
+          "fnr": 8.0
+        },
+        "image": {
+          "n": 50,
+          "positive": 25,
+          "negative": 25,
+          "tp": 23,
+          "fp": 2,
+          "tn": 23,
+          "fn": 2,
+          "failed": 0,
+          "unknown": 0,
+          "accuracy": 92.0,
+          "fpr": 8.0,
+          "fnr": 8.0
+        }
+      }
+    },
+    "confirmation_400": {
+      "overall": {
+        "n": 400,
+        "positive": 200,
+        "negative": 200,
+        "tp": 184,
+        "fp": 15,
+        "tn": 185,
+        "fn": 16,
+        "failed": 0,
+        "unknown": 76,
+        "accuracy": 92.25,
+        "fpr": 7.5,
+        "fnr": 8.0
+      },
+      "byKind": {
+        "text": {
+          "n": 100,
+          "positive": 50,
+          "negative": 50,
+          "tp": 45,
+          "fp": 6,
+          "tn": 44,
+          "fn": 5,
+          "failed": 0,
+          "unknown": 0,
+          "accuracy": 89.0,
+          "fpr": 12.0,
+          "fnr": 10.0
+        },
+        "links": {
+          "n": 100,
+          "positive": 50,
+          "negative": 50,
+          "tp": 50,
+          "fp": 0,
+          "tn": 50,
+          "fn": 0,
+          "failed": 0,
+          "unknown": 50,
+          "accuracy": 100.0,
+          "fpr": 0.0,
+          "fnr": 0.0
+        },
+        "qr": {
+          "n": 100,
+          "positive": 50,
+          "negative": 50,
+          "tp": 45,
+          "fp": 3,
+          "tn": 47,
+          "fn": 5,
+          "failed": 0,
+          "unknown": 26,
+          "accuracy": 92.0,
+          "fpr": 6.0,
+          "fnr": 10.0
+        },
+        "image": {
+          "n": 100,
+          "positive": 50,
+          "negative": 50,
+          "tp": 44,
+          "fp": 6,
+          "tn": 44,
+          "fn": 6,
+          "failed": 0,
+          "unknown": 0,
+          "accuracy": 88.0,
+          "fpr": 12.0,
+          "fnr": 12.0
+        }
+      }
+    }
+  },
+  "method": "Same frozen 200 development cases, then 400 different normalized-template/domain groups selected without using their predictions. The earlier 400-case audit was used for development and is not presented as an untouched test.",
+  "limitations": [
+    "All source datasets overlap model training or reference data; this is not independent population accuracy.",
+    "Known-URL gains measure expanded source-reference coverage, not proof of identifying unseen phishing sites.",
+    "Source labels and privacy redactions can be noisy. Unknown results count as no warning, not verified safety.",
+    "Screenshot and QR inputs are controlled renderings of source text, not independently collected camera images."
+  ],
+  "initialDevelopmentAuditAccuracy": 85,
+  "networkRequestsBlocked": {
+    "benchmark": 0,
+    "confirmation": 0
+  },
+  "backendRuntimeChanged": false,
+  "modelWeightsOrThresholdsChanged": false,
+  "validation": {
+    "frontendTests": 328,
+    "backendTests": 347,
+    "extensionTests": 5,
+    "frontendBuild": "passed",
+    "extensionBuild": "passed"
+  }
+}

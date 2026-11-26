@@ -1,0 +1,15 @@
+{
+  "scope": "Single program-rendered non-generative screenshot control; no positive AI-image examples. Accuracy/FPR/FNR not estimable.",
+  "httpStatus": 200,
+  "result": {
+    "status": "completed",
+    "provider": "Sightengine",
+    "providerId": "sightengine",
+    "model": "genai",
+    "checkedAt": "2026-11-26T06:44:36.039Z",
+    "detection": {
+      "aiGeneratedScore": 0.001,
+      "band": "low"
+    }
+  }
+}

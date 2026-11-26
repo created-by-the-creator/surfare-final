@@ -1,0 +1,37 @@
+{
+  "measuredAt": "2026-11-26T11:52:12.717Z",
+  "units": "Decimal MB = 1,000,000 bytes; sizes exclude browser/OS installation overhead.",
+  "sameWebBuildOnMobileAndDesktop": true,
+  "precacheEntries": 60,
+  "precacheBytes": 13197528,
+  "ocrDownloadBytes": 19307616,
+  "ocrDecodedStorageBytes": 32844474,
+  "optionalWasm": [
+    {
+      "file": "frontend/dist/assets/c2pa_bg-DMHO2q4J.wasm",
+      "bytes": 9162406
+    }
+  ],
+  "allBuildBytes": 41760268,
+  "corePlusOcrBytes": 32597862,
+  "allFilesGzipEstimateBytes": 29384547,
+  "corePlusOcrGzipEstimateBytes": 25886832,
+  "remaining": [
+    {
+      "file": "frontend/dist/assets/surfy-lifeguard.webp",
+      "bytes": 72454
+    },
+    {
+      "file": "frontend/dist/connection.txt",
+      "bytes": 19
+    },
+    {
+      "file": "frontend/dist/sw.js",
+      "bytes": 4508
+    },
+    {
+      "file": "frontend/dist/workbox-34d0d577.js",
+      "bytes": 15737
+    }
+  ]
+}

@@ -174,9 +174,11 @@ export default function App({ shareLaunch = null }) {
   const [surfyOpenRequest, setSurfyOpenRequest] = useState(0);
   const [isAskClosing, setIsAskClosing] = useState(false);
   const [isAskThinking, setIsAskThinking] = useState(false);
-  const [aiEnabled, setAiEnabled] = useState(() => {
-    try { return sessionStorage.getItem('surfare-ai-opt-in') === 'true'; } catch { return false; }
+  const [aiPreference, setAiPreference] = useState(() => {
+    // Default on, but preserve an explicit off choice for this tab's session.
+    try { return sessionStorage.getItem('surfare-ai-opt-in') !== 'false'; } catch { return true; }
   });
+  const aiEnabled = isOnline && aiPreference;
   const [askMessages, setAskMessages] = useState([]);
   const [feedbackType, setFeedbackType] = useState('text');
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
@@ -537,7 +539,7 @@ export default function App({ shareLaunch = null }) {
           onReviewPrivacy={reviewNotice}
           onAiChange={async (enabled) => {
             if (enabled && !await requestAcknowledgment()) return;
-            setAiEnabled(enabled);
+            setAiPreference(enabled);
             try { sessionStorage.setItem('surfare-ai-opt-in', String(enabled)); } catch { /* This page still remembers the choice. */ }
             if (!enabled) {
               askRequestRef.current?.abort();
