@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Camera, Image, Info, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, Share2, ShieldCheck, Sparkles, Upload, X } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import AskSurfy from './AskSurfy.jsx';
@@ -46,6 +46,7 @@ export default function CheckCard({
   canReviewAgain,
   onReviewAgain,
   status,
+  isSplit = false,
   isAskOpen,
   isAskClosing,
   isAskThinking,
@@ -98,6 +99,36 @@ export default function CheckCard({
     return () => window.clearInterval(timer);
   }, []);
 
+  const resultWrapRef = useRef(null);
+  const previousResultRect = useRef(null);
+  const previousSplit = useRef(isSplit);
+
+  useEffect(() => {
+    if (previousSplit.current && !isSplit) {
+      const input = document.querySelector('.left-cluster .tab-panel textarea, .left-cluster .tab-panel input[type="text"], .left-cluster .tab-panel input[type="url"]');
+      input?.focus({ preventScroll: true });
+    }
+    previousSplit.current = isSplit;
+  }, [isSplit]);
+
+  // Older browsers cannot animate grid tracks: fall back to a WAAPI FLIP on the result card.
+  useLayoutEffect(() => {
+    const node = resultWrapRef.current;
+    if (!node || globalThis.CSS?.supports?.('grid-template-columns', '0fr')) return;
+    const rect = node.getBoundingClientRect();
+    const previous = previousResultRect.current;
+    previousResultRect.current = rect;
+    if (previous && Math.abs(previous.left - rect.left) > 1) {
+      node.animate([
+        { transform: `translateX(${previous.left - rect.left}px)`, opacity: 0.75 },
+        { transform: 'none', opacity: 1 },
+      ], {
+        duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 120 : 700,
+        easing: 'cubic-bezier(.4, 0, .2, 1)',
+      });
+    }
+  }, [isSplit]);
+
   const selectTab = (nextIndex) => {
     if (isAnalyzing || isReceivingShare) return;
     const nextTab = TABS[nextIndex].id;
@@ -149,8 +180,15 @@ export default function CheckCard({
           </div>
         </div>
 
-        <div className={`check-columns${isAskOpen ? ' has-ask-panel' : ''}${['result', 'reviewing'].includes(status) ? ' has-check-result' : ''}`}>
-          <div className={`check-input-column${isAskOpen ? ' has-ask' : ''}`}>
+        <div
+          className={`check-columns${isAskOpen ? ' has-ask-panel' : ''}${['result', 'reviewing'].includes(status) ? ' has-check-result' : ''}`}
+          data-layout={isSplit ? 'split' : 'idle'}
+        >
+          <div
+            className={`check-input-column left-cluster${isAskOpen ? ' has-ask' : ''}`}
+            aria-hidden={isSplit ? 'true' : undefined}
+            inert={isSplit ? '' : undefined}
+          >
             <div className="input-card">
               <div className="check-workspace">
                 <div className={`guide-row guide-${guideState}`}>
@@ -362,25 +400,28 @@ export default function CheckCard({
             </div>
           </div>
 
-          <div className="check-result-column">
+          <div className="check-result-column result-wrap" ref={resultWrapRef}>
             {children}
           </div>
 
-          {isAskOpen && !isAnalyzing && (
-            <div className="ask-panel-position">
-              <AskSurfy
-                isOpen={isAskOpen}
-                isClosing={isAskClosing}
-                isThinking={isAskThinking}
-                messages={askMessages}
-                onSend={onAskSend}
-                openRequest={surfyOpenRequest}
-                questionKeys={questionKeys}
-                aiEnabled={aiEnabled && isOnline}
-                t={t}
-              />
-            </div>
-          )}
+          <div
+            className="ask-panel-position ask-wrap"
+            data-split={isSplit ? 'true' : undefined}
+            aria-hidden={isSplit ? undefined : 'true'}
+            inert={isSplit ? undefined : ''}
+          >
+            <AskSurfy
+              isOpen={isSplit || (isAskOpen && !isAnalyzing)}
+              isClosing={isAskClosing}
+              isThinking={isAskThinking}
+              messages={askMessages}
+              onSend={onAskSend}
+              openRequest={surfyOpenRequest}
+              questionKeys={questionKeys}
+              aiEnabled={aiEnabled && isOnline}
+              t={t}
+            />
+          </div>
         </div>
 
         {offlineResources}

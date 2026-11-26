@@ -8460,31 +8460,6 @@ html {
     height: 28px;
   }
 
-  .ask-dialog.is-collapsed {
-    height: 76px;
-    min-height: 76px;
-    grid-template-rows: 10px 1fr;
-    gap: 5px;
-    padding: 6px 14px calc(6px + env(safe-area-inset-bottom));
-  }
-
-  .ask-dialog.is-collapsed .ask-brand {
-    gap: 10px;
-  }
-
-  .ask-dialog.is-collapsed .ask-brand img {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
-  }
-
-  .ask-dialog.is-collapsed .ask-brand h2 {
-    font-size: 22px;
-  }
-
-  .ask-dialog.is-collapsed .ask-content {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -9532,24 +9507,19 @@ html {
   border: 1px solid #aac8ed44; border-radius: 16px; overflow-wrap: anywhere;
 }
 .checked-reading { background: #f7f8f4; color: #17365b; }
-.checked-reading summary, .result-next h3 {
+.checked-reading-heading, .result-next h3 {
   display: flex; align-items: center; gap: 10px; margin: 0;
 }
-.checked-reading summary {
-  min-height: 52px; padding: 12px 16px; list-style: none; cursor: pointer;
+.checked-reading-heading {
+  min-height: 52px; padding: 12px 16px;
   font-size: 16px; font-weight: 600; line-height: 1.35;
 }
-.checked-reading summary::-webkit-details-marker { display: none; }
-.checked-reading summary svg, .result-next h3 svg { flex: none; width: 20px; height: 20px; }
-.checked-reading summary svg:last-child { margin-left: auto; width: 16px; }
-.checked-reading[open] summary svg:last-child { transform: rotate(180deg); }
-.checked-reading summary:focus-visible { outline: 3px solid #8dbefa; outline-offset: 2px; border-radius: inherit; }
+.checked-reading-heading svg, .result-next h3 svg { flex: none; width: 20px; height: 20px; }
 .checked-reading-body { padding: 14px 16px 16px; border-top: 1px solid #16376024; }
 .checked-reading .checked-hint { margin: 0 0 12px; font-size: 14px; line-height: 1.5; color: #4b637a; }
 .checked-reading-text { white-space: pre-wrap; font-size: 16px; line-height: 1.7; }
-.checked-reading .checked-highlight { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; text-align: start; color: #8d202c; background: #ffd8da; font: inherit; line-height: 1.5; border: 0; border-bottom: 1px solid #c35058; border-radius: 4px; padding: 0 2px; }
-.checked-reading .checked-highlight:is(:hover, :focus-visible) { background: #ffbec3; }
-.checked-reading .highlight-explanation { margin: 14px 0 0; padding: 12px; background: #e9eff4; color: #17365b; border: 0; border-radius: 10px; text-align: left; }
+.checked-reading .checked-highlight { display: inline; max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; text-align: start; color: #8d202c; background: #ffd8da; font: inherit; line-height: 1.5; border: 0; border-bottom: 1px solid #c35058; border-radius: 4px; padding: 0 2px; }
+.checked-reading .highlight-explanation { max-height: 120px; margin: 14px 0 0; padding: 12px; background: #e9eff4; color: #17365b; border: 0; border-radius: 10px; text-align: left; overflow-y: auto; scrollbar-width: thin; }
 .checked-reading .highlight-explanation :is(p,strong) { color: inherit; font-size: 14px; line-height: 1.55; }
 .result-next { padding: 16px; color: #f5f8fc; background: #ffffff08; }
 .result-next h3 { color: inherit; font-size: 20px; }

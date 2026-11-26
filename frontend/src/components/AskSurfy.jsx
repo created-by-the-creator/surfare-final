@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import { SURFY_QUESTION_KEYS } from '../surfy/templates.js';
 import { formatSurfyReply } from '../surfy/reply-format.js';
@@ -25,27 +25,25 @@ export default function AskSurfy({
   idPrefix = 'ask',
   welcome,
   controls,
-  hideToggle = false,
   t,
 }) {
   const [draft, setDraft] = useState('');
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [showAllQuestions, setShowAllQuestions] = useState(false);
   const messagesRef = useRef(null);
   const inputRef = useRef(null);
   const followLatestRef = useRef(true);
 
-  useEffect(() => { setIsCollapsed(false); setShowAllQuestions(false); }, [openRequest]);
+  useEffect(() => { setShowAllQuestions(false); }, [openRequest]);
 
   useEffect(() => {
     const messagesElement = messagesRef.current;
-    if (messagesElement && followLatestRef.current && !isCollapsed) {
+    if (messagesElement && followLatestRef.current) {
       messagesElement.scrollTo({
         top: messagesElement.scrollHeight,
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
       });
     }
-  }, [messages, isThinking, isCollapsed]);
+  }, [messages, isThinking]);
 
   if (!isOpen) return null;
 
@@ -76,7 +74,7 @@ export default function AskSurfy({
   return (
     <section
       id={`${idPrefix}-surfy`}
-      className={`ask-dialog${isClosing ? ' is-closing' : ''}${isCollapsed ? ' is-collapsed' : ''}`}
+      className={`ask-dialog${isClosing ? ' is-closing' : ''}`}
       role="complementary"
       aria-label={t('ask.title')}
     >
@@ -88,22 +86,16 @@ export default function AskSurfy({
       </div>
 
       <header className="ask-brand">
+        <span className="ask-avatar" aria-hidden="true"><img src={mascot} alt="" width="1000" height="1000" decoding="async" /></span>
         <div className="ask-heading">
           <p className="ask-eyebrow">{t('ask.eyebrow')}</p>
           <h2 tabIndex={-1}>{t('ask.title')}</h2>
         </div>
-        {!hideToggle && <button className="ask-toggle" type="button"
-          aria-label={t(isCollapsed ? 'ask.expand' : 'ask.collapse')}
-          aria-expanded={!isCollapsed} aria-controls={`${idPrefix}-conversation`}
-          onClick={() => setIsCollapsed((collapsed) => !collapsed)}>
-          {isCollapsed ? <ChevronDown size={20} aria-hidden="true" /> : <ChevronUp size={20} aria-hidden="true" />}
-        </button>}
       </header>
 
       {controls}
       <div className="ask-layout" id={`${idPrefix}-conversation`}>
-        <div className="ask-mascot-stage" aria-hidden="true"><span /><img src={mascot} alt="" width="1000" height="1000" decoding="async" /></div>
-      <div className="ask-content">
+        <div className="ask-content">
         <div className="ask-messages" ref={messagesRef} aria-live="polite" aria-relevant="additions text"
           onScroll={(event) => {
             const element = event.currentTarget;

@@ -517,6 +517,7 @@ export default function App({ shareLaunch = null }) {
   );
 
   const destinationDisplayRunId = checkRunId.current;
+  const isSplit = status === 'result';
   return (
     <WelcomeExperience t={t} skipIntro={Boolean(shareLaunch)}>
     <div className="app-bg">
@@ -561,6 +562,7 @@ export default function App({ shareLaunch = null }) {
           isAnalyzing={['analyzing', 'reviewing'].includes(status)}
           isCheckUsed={isCheckUsed}
           status={status}
+          isSplit={isSplit}
           isAskOpen={isAskOpen}
           isAskClosing={isAskClosing}
           isAskThinking={isAskThinking}
@@ -586,6 +588,8 @@ export default function App({ shareLaunch = null }) {
               setResult(current => current && current.checkedText === result?.checkedText ? mergeLinkResolution(current, resolution) : current);
             }}
             onRecovery={() => setIsRecoveryOpen(true)}
+            onReset={handleNewCheck}
+            isSplit={isSplit}
             isAskOpen={isAskOpen}
             onAskAboutResult={() => {
               setIsAskOpen(true);

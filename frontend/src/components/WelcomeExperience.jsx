@@ -36,7 +36,7 @@ const STEPS = [
   { target: '.check-tabs', point: '.check-tab.is-active', key: 'detectors', view: '.check-card' },
   { target: '.tab-panel textarea, .upload-area', key: 'input', view: '.check-form-column' },
   { target: '.result-cap h2', key: 'result', text: true, view: '.result-panel' },
-  { target: '.offline-download-button', key: 'offline', view: '.offline-resources' },
+  { target: '.connection-status', key: 'offline', view: '#top' },
   { target: '.practice-intro .practice-primary', key: 'practice', view: '.practice-intro' },
   { target: '.privacy-toggle', key: 'privacy', view: '#privacy' },
 ];

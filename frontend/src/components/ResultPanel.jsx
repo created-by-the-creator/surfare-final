@@ -3,7 +3,6 @@ import {
   Download,
   HelpCircle,
   LifeBuoy,
-  Check,
   ChevronDown,
   FileText,
   ListChecks,
@@ -13,11 +12,13 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { ASSETS } from '../assets.js';
+import { translate } from '../i18n/useI18n.js';
 import { imageMetadataDetails } from '../engine/image-metadata-display.js';
 import { hasImageAiClues, imageOriginSummary } from '../engine/image-ai.js';
 import { localOutcome } from '../engine/result-presentation.js';
 import { linkDescription } from '../engine/link-description.js';
 import LinkDestinationReport from './LinkDestinationReport.jsx';
+import LoadingScreen from './LoadingScreen.jsx';
 import { linkReportLines } from '../engine/link-destination.js';
 import {
   getDisplaySignals,
@@ -32,6 +33,18 @@ const LEVEL_KEYS = {
   high: 'high',
   unknown: 'unknown',
 };
+
+const COMPACT_SIGNAL_LIMIT = 4;
+
+function shortSignalLabel(signal, t) {
+  const id = signal?.id || '';
+  const key = id.startsWith('brand-') ? 'signal.brand-imitation-link.short'
+    : id.startsWith('lookalike-') ? 'signal.lookalike-link.short'
+      : `signal.${id}.short`;
+  const short = t(key);
+  const missing = [t('fallback.missing'), translate('en', 'fallback.missing')];
+  return short && !missing.includes(short) ? short : getSignalLabel(signal, t);
+}
 
 function warningSummary(result, t) {
   if (result?.destinationWarning) return t('qr.warningSummary');
@@ -164,10 +177,9 @@ export function buildHighlightSegments(text, result) {
   return segments;
 }
 
-export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText, onAskAboutResult, onRecovery, onDestinationResolved, isAskOpen = false }) {
+export default function ResultPanel({ status, result, errorKey, isOnline = true, t, onReset, onReviewText, onAskAboutResult, onRecovery, onDestinationResolved, isAskOpen = false, isSplit = false }) {
   const [includeContent, setIncludeContent] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
-  const [selectedSignals, setSelectedSignals] = useState([]);
   const titleId = useId();
   const reportPopoverId = useId();
   const reportPopoverRef = useRef(null);
@@ -222,7 +234,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
     if (firstLocalResult || firstFinalResult) {
       const title = document.getElementById(titleId);
       title?.focus({ preventScroll: true });
-      if (window.matchMedia('(max-width: 1100px)').matches) title?.closest('.result-panel')?.scrollIntoView({ block: 'start' });
+      if (window.matchMedia('(max-width: 1023px)').matches) title?.closest('.result-panel')?.scrollIntoView({ block: 'start' });
     }
     previousStatus.current = status;
   }, [status, titleId, backgroundReview, result?.aiImageOnly]);
@@ -230,7 +242,6 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   useEffect(() => {
     setIncludeContent(false);
     setIsReportOpen(false);
-    setSelectedSignals([]);
   }, [result]);
 
   useEffect(() => {
@@ -298,39 +309,13 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
       : t(`result.meter.${level}`)
     : t('result.ready');
 
-  if (status === 'analyzing' || status === 'reviewing' && !backgroundReview) {
-    const reviewing = status === 'reviewing';
-    return (
-      <div className="result-column">
-        <section className="result-panel check-progress" aria-labelledby={titleId}>
-          <div className="result-cap"><h2>{t('check.inProgress')}</h2></div>
-          <div className="check-progress-body" role="status">
-            <span className="progress-icon"><LoaderCircle aria-hidden="true" /></span>
-            <h3 id={titleId}>{t(result?.destinationPending ? 'destination.checking' : reviewing ? result?.aiImageOnly ? 'result.sightengine.pending' : 'check.progress.ai' : 'result.loading')}</h3>
-            <p>{t(result?.destinationPending ? 'destination.checkingBody' : reviewing ? 'check.progress.wait' : 'check.progress.local')}</p>
-            {reviewing && <div className="progress-finished"><Check aria-hidden="true" />{t('check.progress.finished')}</div>}
-            {reviewing && result?.aiImageOnly && result.imageMetadata && (
-              <section className="image-local-progress" aria-label={t('result.imageMetadata.title')}>
-                <strong>{t('result.sightengine.localComplete')}</strong>
-                <p>{t(result.imageMetadata.summaryKey || result.imageMetadata.labelKey)}</p>
-                {imageMetadataDetails(result.imageMetadata, t).length > 0 && <ul>{imageMetadataDetails(result.imageMetadata, t).map(note => <li key={note}>{note}</li>)}</ul>}
-              </section>
-            )}
-            {reviewing && result?.level === 'high' && <p className="progress-caution">{t('check.progress.caution')}</p>}
-          </div>
-        </section>
-      </div>
-    );
-  }
-
-  return (
-    <div className="result-column">
-      <section
-        className={`result-panel result-${showResult ? level : status === 'edited' ? 'idle' : status}`}
-        aria-labelledby={titleId}
-        aria-live="polite"
-        aria-busy={false}
-      >
+  const resultSection = (
+    <section
+      className={`${backgroundReview ? 'loading-result-panel' : 'result-panel'} result-${showResult ? level : status === 'edited' ? 'idle' : status}`}
+      aria-labelledby={titleId}
+      aria-live={backgroundReview ? undefined : 'polite'}
+      aria-busy={false}
+    >
         <div className="result-content">
           <div className="result-cap"><h2>{t(backgroundReview ? 'result.preliminaryTitle' : 'result.title')}</h2></div>
           <div className="result-body">
@@ -413,40 +398,38 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               <p className="image-file-clue">{t('result.imageSimple.fileAi')}</p>
             )}
                 {showResult && !isImageReview && (
-                  <details className="checked-reading">
-                    <summary>
-                      <FileText aria-hidden="true" /><span>{t('result.viewChecked')}</span><ChevronDown aria-hidden="true" />
-                    </summary>
+                  <section className="checked-reading" aria-label={t('result.viewChecked')}>
+                    <div className="checked-reading-heading">
+                      <FileText aria-hidden="true" />
+                      <span>{t('result.viewChecked')}</span>
+                    </div>
                     <div className="checked-reading-body">
                       {warningCount > 0 && <p className="checked-hint">{t('check.highlightHint')}</p>}
                       <div className="checked-reading-text">
                         {buildHighlightSegments(result.checkedText || t('result.insufficient'), result).map((segment, index) =>
                           segment.signals.length ? (
-                            <button
-                              type="button"
+                            <mark
                               className="checked-highlight"
                               key={`${segment.text}-${index}`}
-                              onClick={() => setSelectedSignals(segment.signals)}
-                              aria-label={`${t('result.whyFlagged')}: ${segment.text}`}
+                              title={[...new Set(segment.signals.map(signal => getSignalLabel(signal, t)))].join(' ')}
                             >
                               {segment.text}
-                            </button>
+                            </mark>
                           ) : (
                             <span key={`${segment.text}-${index}`}>{segment.text}</span>
                           ),
                         )}
                       </div>
-                        {selectedSignals.length > 0 && (
-                          <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
-                            <strong>{t('result.whyFlagged')}</strong>
-
-                            <p>{[...new Set(selectedSignals.map(signal => getSignalLabel(signal, t)))].join(' ')}</p>
-                            {[...new Set(selectedSignals.map(signal => getSignalExplanation(signal, t)).filter(Boolean))]
-                              .map(help => <p key={help}>{help}</p>)}
-                          </div>
-                        )}
-                      </div>
-                  </details>
+                      {warningCount > 0 && (
+                        <div className="highlight-explanation" role="region" aria-label={t('result.whyFlagged')}>
+                          <strong>{t('result.whyFlagged')}</strong>
+                          <p>{[...new Set(displaySignals.map(signal => getSignalLabel(signal, t)))].join(' ')}</p>
+                          {[...new Set(displaySignals.map(signal => getSignalExplanation(signal, t)).filter(Boolean))]
+                            .map(help => <p key={help}>{help}</p>)}
+                        </div>
+                      )}
+                    </div>
+                  </section>
                 )}
 
             {isImageReview && <details className="image-check-details" key={`${result.imageVisualStatus}-${result.summaryKey}`}>
@@ -513,7 +496,21 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
 
             {showResult && (
               <div className={`result-details ${isUnknown ? 'result-details-unknown' : ''}`}>
-                {!isImageReview && warningCount > 0 && (
+                {!isImageReview && warningCount > 0 && isSplit && (
+                  <section className="result-reasons result-reasons-compact" aria-label={t('report.warningSigns')}>
+                    <h4>{t('report.warningSigns')}</h4>
+                    <ul>{displaySignals.slice(0, COMPACT_SIGNAL_LIMIT).map((signal, index) => (
+                      <li key={`${signal.id}-${index}`}>
+                        <span className="signal-dot" aria-hidden="true" />
+                        <strong>{shortSignalLabel(signal, t)}</strong>
+                      </li>
+                    ))}</ul>
+                    {displaySignals.length > COMPACT_SIGNAL_LIMIT && (
+                      <p className="result-reasons-more">{t('result.moreSignals', { count: displaySignals.length - COMPACT_SIGNAL_LIMIT })}</p>
+                    )}
+                  </section>
+                )}
+                {!isImageReview && warningCount > 0 && !isSplit && (
                   <section className="result-reasons" aria-label={t('report.warningSigns')}>
                     <h4>{t('report.warningSigns')}</h4>
                     <ul>{displaySignals.slice(0, 3).map((signal, index) => (
@@ -526,7 +523,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
                 )}
                 {isImageReview ? <p className="image-simple-next">{t('result.imageSimple.next')}</p> : <section className="result-next">
                   <h3><ListChecks aria-hidden="true" />{t(nextTitleKey)}</h3>
-                  <ul>{nextPointKeys.map(key => (
+                  <ul>{(isSplit ? nextPointKeys.slice(0, 3) : nextPointKeys).map(key => (
                     <li key={key}>{t(key)}</li>
                   ))}</ul>
                 </section>}
@@ -534,7 +531,14 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
             )}
           </div>
 
-          {showResult && onRecovery && <div className="recovery-result-entry"><button type="button" className="recovery-result-button" onClick={onRecovery}><LifeBuoy size={18} aria-hidden="true" />{t('recovery.resultAction')}</button></div>}
+          {showResult && onRecovery && isSplit && (
+            <div className="lifeguard-row">
+              <span className="lifeguard-mark" aria-hidden="true">!</span>
+              <p>{t('result.checkAgain.lifeguard')}</p>
+              <button type="button" className="lifeguard-action" onClick={onRecovery}>{t('result.checkAgain.guidance')}</button>
+            </div>
+          )}
+          {showResult && onRecovery && !isSplit && <div className="recovery-result-entry"><button type="button" className="recovery-result-button" onClick={onRecovery}><LifeBuoy size={18} aria-hidden="true" />{t('recovery.resultAction')}</button></div>}
           <footer className="result-footer">
             <span className="result-team"><ShieldCheck aria-hidden="true" />{t('result.team')}</span>
             {status === 'result' && showResult && <div className="report-control" ref={reportPopoverRef}>
@@ -570,7 +574,12 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </button>
             </div>}
           </footer>
-            {status === 'result' && showResult && onAskAboutResult && (
+          {(isSplit || status === 'error') && (
+            <button className="result-check-again" type="button" onClick={onReset}>
+              <RotateCcw aria-hidden="true" />{t('result.checkAgain')}
+            </button>
+          )}
+            {status === 'result' && showResult && onAskAboutResult && !isSplit && (
               <div className="result-surfy-help">
                 <p>{t('result.askHelp')}</p>
                 <button className="result-ask-button" type="button" onClick={onAskAboutResult} aria-expanded={isAskOpen} aria-controls={isAskOpen ? 'ask-surfy' : undefined}>
@@ -580,7 +589,32 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
             )}
 
         </div>
-      </section>
-    </div>
+      {backgroundReview && onReset && (
+        <button className="result-check-again" type="button" onClick={onReset}>
+          <RotateCcw aria-hidden="true" />{t('result.checkAgain')}
+        </button>
+      )}
+    </section>
   );
+
+  if (status === 'analyzing' || status === 'reviewing') {
+    return (
+      <LoadingScreen
+        status={status}
+        result={result}
+        t={t}
+        titleId={titleId}
+        detailOverride={backgroundReview && warningCount > 0 ? t('result.backgroundReview') : undefined}
+        hideLocalResult={backgroundReview && warningCount === 0}
+      >
+        {backgroundReview ? resultSection : null}
+      </LoadingScreen>
+    );
+  }
+
+  // No placeholder card before a check: the result column only mounts for
+  // loading, a completed result, or an error state.
+  if (!showResult && status !== 'error') return null;
+
+  return <div className="result-column">{resultSection}</div>;
 }

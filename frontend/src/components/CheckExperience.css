@@ -1,6 +1,6 @@
 /* The checker has one reading order: input, result, then optional explanation. */
 .check-section .check-card { transition: none; }
-.check-section .check-columns { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.check-section .check-columns { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) 0fr; gap: 0; align-items: stretch; transition: grid-template-columns 700ms cubic-bezier(.4, 0, .2, 1), grid-template-rows 700ms cubic-bezier(.4, 0, .2, 1); }
 .check-section .check-workspace { grid-template-columns: 156px minmax(0, 1fr); gap: 20px; padding-top: 0; }
 .check-section .input-card { padding: 0; }
 .check-section .check-form-column { min-width: 0; }
@@ -98,7 +98,7 @@
 }
 @keyframes guide-arrive { from { opacity: .5; transform: translateY(5px); } to { opacity: 1; transform: none; } }
 @keyframes guide-checking { 50% { transform: translateY(-6px) rotate(-2deg); } }
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
   .check-section .check-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .check-section .check-result-column, .check-section .check-columns.has-ask-panel > .check-result-column { grid-column: 1; grid-row: 2; }
   .check-section .check-columns > .ask-panel-position { grid-column: 1; grid-row: 3; }
@@ -137,7 +137,7 @@
 /* Let the larger Surfy and conversation use the whole row after the result. */
 .check-section .check-columns.has-ask-panel.has-check-result > .ask-panel-position { grid-column: 1 / -1; grid-row: 2; }
 .check-section .check-columns.has-ask-panel.has-check-result > .check-result-column { grid-column: 2; grid-row: 1; }
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
   .check-section .check-columns.has-ask-panel.has-check-result > .ask-panel-position { grid-column: 1; grid-row: 3; }
   .check-section .check-columns.has-ask-panel.has-check-result > .check-result-column { grid-column: 1; grid-row: 2; }
 }
@@ -146,3 +146,173 @@
 .check-section .result-link-info > p { margin: 0; font-size: .9375rem; line-height: 1.5; }
 .check-section .result-link-info > .link-info-forward { margin-top: 10px; color: #ffe2b2; font-size: .875rem; }
 .check-section .result-link-info > small { display: block; margin-top: 9px; color: #b9cde5; font-size: .75rem; line-height: 1.5; }
+/* ---------------------------------------------------------------
+   Split view: left cluster out, Ask Surfy left, result card right.
+   data-layout="idle" keeps today's two-column reading order; only
+   data-layout="split" reveals the third column. Spacing lives in
+   wrappers so a zero-width grid track never leaves a dangling gap.
+   --------------------------------------------------------------- */
+.check-section .check-columns > .check-input-column {
+  min-width: 0;
+  min-height: 0;
+  padding-right: 32px;
+  overflow: hidden;
+  transition: padding-right 700ms cubic-bezier(.4, 0, .2, 1), opacity 240ms ease, transform 700ms cubic-bezier(.4, 0, .2, 1);
+}
+.check-section .check-columns > .check-result-column {
+  display: flex;
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+  transition: padding-right 700ms cubic-bezier(.4, 0, .2, 1);
+}
+.check-section .check-columns > .check-result-column > .result-column {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+}
+.check-section .check-columns > .ask-wrap,
+.check-section .check-columns.has-ask-panel.has-check-result > .ask-wrap {
+  display: block;
+  grid-column: 3;
+  grid-row: 1;
+  width: 100%;
+  height: 0;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-32px);
+  pointer-events: none;
+  transition: opacity 420ms ease 180ms, transform 520ms cubic-bezier(.2, .8, .2, 1) 180ms;
+}
+.check-section .check-columns.has-ask-panel.has-check-result { grid-template-rows: auto; }
+.check-section .check-columns.has-ask-panel.has-check-result > .check-result-column { grid-column: 2; grid-row: 1; }
+.check-section .check-columns[data-layout="split"] {
+  grid-template-columns: 0fr 62fr 36fr;
+  align-items: stretch;
+}
+.check-section .check-columns[data-layout="split"] > .left-cluster {
+  opacity: 0;
+  transform: translateX(-24px);
+  pointer-events: none;
+}
+.check-section .check-columns[data-layout="split"] > .check-result-column,
+.check-section .check-columns.has-ask-panel.has-check-result[data-layout="split"] > .check-result-column {
+  grid-column: 3;
+  padding-left: 16px;
+  padding-right: 0;
+}
+.check-section .check-columns[data-layout="split"] > .ask-wrap,
+.check-section .check-columns.has-ask-panel.has-check-result[data-layout="split"] > .ask-wrap {
+  grid-column: 2;
+  align-self: stretch;
+  height: 100%;
+  padding-right: 16px;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.check-section .check-columns[data-layout="split"] .result-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  flex: 0 0 auto;
+  padding: 16px;
+}
+.check-section .check-columns[data-layout="split"] .result-cap { min-height: 0; flex-basis: auto; padding: 0; border-radius: 12px 12px 0 0; }
+.check-section .check-columns[data-layout="split"] .result-cap h2 { font-size: 28px; }
+.check-section .check-columns[data-layout="split"] .result-body { overflow: visible; padding: 12px 0 14px; }
+.check-section .check-columns[data-layout="split"] .result-heading { margin-bottom: 12px; }
+.check-section .check-columns[data-layout="split"] .checked-reading { margin: 12px 0; }
+.check-section .check-columns[data-layout="split"] .result-details { gap: 10px; margin-top: 12px; }
+.check-section .check-columns[data-layout="split"] .result-next { padding: 12px 14px; }
+.check-section .check-columns[data-layout="split"] .checked-reading .checked-reading-text { max-height: 160px; overflow: auto; }
+.check-section .check-columns[data-layout="split"] .result-footer { padding: 12px 0 0; }
+.check-section .result-reasons-compact { padding: 0 0 4px; }
+.check-section .result-reasons-compact h4 { margin: 0 0 8px; }
+.check-section .result-reasons-compact ul { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.check-section .result-reasons-compact li { display: flex; align-items: center; gap: 8px; font-size: .875rem; line-height: 1.3; }
+.check-section .result-reasons-compact li strong { font-weight: 500; }
+.check-section .signal-dot { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: #ffb0b0; box-shadow: 0 0 0 3px #ffb0b026; }
+.check-section .result-reasons-more { margin: 6px 0 0; color: #b9d2f0; font-size: .75rem; }
+.check-section .lifeguard-row { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 16px; padding: 16px; border: 1px solid #ff9e9f55; border-radius: 16px; background: #ffffff0d; }
+.check-section .lifeguard-mark { display: grid; width: 30px; height: 30px; flex: 0 0 30px; place-items: center; border-radius: 50%; background: #d23f3c; color: #fff; font-weight: 700; }
+.check-section .lifeguard-row p { flex: 1 1 180px; min-width: 0; margin: 0; color: #f3e3e3; font-size: .875rem; line-height: 1.4; }
+.check-section .lifeguard-action { min-height: 40px; margin-left: auto; padding: 0 16px; border: 1px solid #ffd0cf; border-radius: 12px; background: #fff; color: #a52d31; font: inherit; font-size: .8125rem; font-weight: 600; cursor: pointer; }
+.check-section .result-check-again { display: flex; width: 100%; min-height: 52px; align-items: center; justify-content: center; gap: 9px; margin-top: 16px; padding: 0 18px; border: 0; border-radius: 14px; background: var(--brand-red-button); color: #fff; font: inherit; font-size: .9375rem; font-weight: 600; cursor: pointer; }
+.check-section .result-check-again svg { width: 18px; height: 18px; flex: none; }
+.check-section .check-columns[data-layout="split"] .result-panel .result-check-again { margin-top: 12px; }
+.check-section .lifeguard-action:hover,
+.check-section .result-check-again:hover { filter: brightness(1.05); }
+.check-section .lifeguard-action:focus-visible,
+.check-section .result-check-again:focus-visible { outline: 2px solid #fff0d3; outline-offset: 3px; }
+.check-section .check-columns[data-layout="split"] .result-panel .result-save-button { min-height: 40px; padding: 0 14px; border-radius: 10px; }
+.check-section .check-columns[data-layout="split"] .result-panel .result-save-button:focus-visible { outline: 2px solid #fff0d3; outline-offset: 3px; }
+@media (max-width: 1023px) {
+  .check-section .check-columns { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto 0fr; column-gap: 0; row-gap: 0; }
+  .check-section .check-columns > .check-input-column { padding-right: 0; padding-bottom: 24px; }
+  .check-section .check-columns > .check-result-column,
+  .check-section .check-columns.has-ask-panel.has-check-result > .check-result-column { grid-column: 1; grid-row: 2; padding-right: 0; }
+  .check-section .check-columns > .ask-wrap,
+  .check-section .check-columns.has-ask-panel.has-check-result > .ask-wrap { grid-column: 1; grid-row: 3; padding-top: 24px; transform: translateY(24px); }
+  .check-section .check-columns[data-layout="split"] { grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr auto auto; }
+  .check-section .check-columns[data-layout="split"] > .left-cluster { transform: translateY(-12px); padding-bottom: 0; }
+  .check-section .check-columns[data-layout="split"] > .check-result-column,
+  .check-section .check-columns.has-ask-panel.has-check-result[data-layout="split"] > .check-result-column {
+    grid-column: 1;
+    grid-row: 2;
+    padding-left: 0;
+    padding-bottom: 24px;
+  }
+  .check-section .check-columns[data-layout="split"] > .ask-wrap,
+  .check-section .check-columns.has-ask-panel.has-check-result[data-layout="split"] > .ask-wrap {
+    grid-column: 1;
+    grid-row: 3;
+    height: auto;
+    padding-top: 24px;
+    padding-right: 0;
+    padding-bottom: 0;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .check-section .check-columns,
+  .check-section .check-columns > .check-input-column,
+  .check-section .check-columns > .ask-wrap,
+  .check-section .check-columns.has-ask-panel.has-check-result > .ask-wrap { transition: opacity 120ms ease; }
+  .check-section .check-columns[data-layout="split"] { transition: none; }
+  .check-section .check-columns[data-layout="split"] > .left-cluster,
+  .check-section .check-columns[data-layout="split"] > .ask-wrap,
+  .check-section .check-columns.has-ask-panel.has-check-result[data-layout="split"] > .ask-wrap { transform: none; }
+}
+
+/* Before a check there is no result card, so give the input the full row. */
+.check-section .check-columns:not(:has(.result-panel)) { grid-template-columns: minmax(0, 1fr) 0fr 0fr; }
+.check-section .check-columns:not(:has(.result-panel)) > .check-result-column { display: none; }
+@media (max-width: 1023px) {
+  .check-section .check-columns:not(:has(.result-panel)) { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Dedicated loading page: the input and Ask Surfy stay out of the way. */
+.check-section .check-columns:has(.check-progress) { grid-template-columns: minmax(0, 1fr) 0fr 0fr; }
+.check-section .check-columns:has(.check-progress) > .left-cluster,
+.check-section .check-columns:has(.check-progress) > .ask-wrap { display: none; }
+.check-section .check-columns:has(.check-progress) > .check-result-column {
+  display: flex;
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0;
+}
+.check-section .check-columns:has(.check-progress) > .check-result-column > .loading-page {
+  width: 100%;
+  max-width: 100%;
+}
+@media (max-width: 1023px) {
+  .check-section .check-columns:has(.check-progress) { grid-template-columns: minmax(0, 1fr); }
+  .check-section .check-columns:has(.check-progress) > .check-result-column { grid-column: 1; grid-row: 1; }
+}

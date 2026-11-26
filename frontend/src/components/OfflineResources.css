@@ -1,34 +1,53 @@
-.offline-resources { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; margin: 24px 0 0; padding: 20px 4px 0; border-top: 1px solid #0b2a6f1a; color: #0b2a6f; scroll-margin-top: 105px; }
-.offline-resource-icon { display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%; background: #ffffff8c; color: #43618c; }
-.offline-resource-icon svg { width: 19px; height: 19px; stroke-width: 1.7; }
-.offline-resource-icon.is-ready { color: #2b7b5d; }
-.offline-resource-copy { flex: 1; min-width: 0; }
-.offline-resource-copy h3 { margin: 0 0 4px; color: #173365; font-size: .9375rem; font-weight: 700; }
-.offline-resource-copy p { margin: 0; color: #63728a; font-size: .875rem; line-height: 1.55; }
-.offline-resource-action { display: flex; flex-direction: column; align-items: center; gap: 8px; flex-shrink: 0; }
-.offline-download-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 11px 16px; border: 1px solid #bdcfe9; border-radius: 999px; background: #ffffffb3; color: #244f8d; font: inherit; font-size: .875rem; font-weight: 700; cursor: pointer; }
-.offline-download-button:hover:not(:disabled) { border-color: #658bc0; background: #edf4ff; }
-.offline-download-button:disabled { cursor: default; opacity: .75; }
-.offline-resource-action small { color: #7a8ca5; font-size: .75rem; }
-.offline-cancel { min-height: 32px; padding: 2px 12px; border: 0; border-radius: 6px; background: transparent; color: #607897; font: inherit; font-size: .8125rem; cursor: pointer; }
-.offline-cancel:hover { background: #eaf1fc; }
-.offline-install-button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 34px; padding: 5px 12px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: #275894; font: inherit; font-size: .8125rem; font-weight: 650; cursor: pointer; }
-.offline-install-button:hover { border-color: #bdcfe9; background: #edf4ff; }
-.offline-download-progress { display: flex; align-items: center; gap: 12px; max-width: 420px; margin-top: 12px; color: #3c659c; font-size: .75rem; }
-.offline-download-progress progress { flex: 1; height: 5px; border: 0; border-radius: 99px; overflow: hidden; appearance: none; }
-.offline-download-progress progress::-webkit-progress-bar { background: #dfe8f6; }
-.offline-download-progress progress::-webkit-progress-value { background: #3465a9; }
-.offline-download-progress progress::-moz-progress-bar { background: #3465a9; }
-.offline-resource-copy .offline-resource-error { margin-top: 9px; color: #9b4c39; }
-.offline-spinner { animation: offline-spin 1.4s linear infinite; }
-.offline-resources-link { display: inline-flex; margin-top: 16px; padding: 10px 0 0; color: #275894; font-size: .875rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
-@keyframes offline-spin { to { transform: rotate(360deg); } }
-@media (max-width: 700px) {
-  .offline-resources { flex-wrap: wrap; align-items: flex-start; gap: 12px; padding: 18px 0 0; }
-  .offline-resource-icon { width: 34px; height: 34px; border-radius: 50%; }
-  .offline-resource-copy { flex-basis: calc(100% - 48px); }
-  .offline-resource-action { align-items: flex-start; width: 100%; padding-left: 46px; }
+.pwa-install-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 14px 4px 0;
+  border-top: 1px solid #0b2a6f1a;
 }
-@media (max-width: 380px) { .offline-resource-action { padding-left: 0; } }
-@media (prefers-reduced-motion: reduce) { .offline-spinner { animation: none; } }
-.offline-resource-copy .offline-share-tip { margin: 8px 0 0; color: #526b8e; font-size: .8125rem; line-height: 1.5; }
+
+.offline-ready-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #2b7b5d;
+  font-size: .8125rem;
+  font-weight: 650;
+}
+
+.offline-ready-badge svg { stroke-width: 2; }
+
+.offline-install-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 16px;
+  border: 1px solid #bdcfe9;
+  border-radius: 999px;
+  background: #ffffffb3;
+  color: #244f8d;
+  font: inherit;
+  font-size: .8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.offline-install-button:hover {
+  border-color: #658bc0;
+  background: #edf4ff;
+}
+
+.offline-install-button:focus-visible {
+  outline: 3px solid #9bbff0;
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .pwa-install-row { flex-wrap: wrap; justify-content: flex-start; }
+}

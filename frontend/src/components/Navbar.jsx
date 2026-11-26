@@ -111,7 +111,6 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuid
                   {isOnline ? <Wifi size={19} aria-hidden="true" /> : <WifiOff size={19} aria-hidden="true" />}
                   <p>{t(!isOnline ? 'nav.offlineLimit' : 'nav.onlineCapability')}</p>
                 </div>
-                <a className="offline-resources-link" href="#offline-resources" onClick={() => setOpen(null)}>{t('offline.connectionLink')}</a>
               </div>
             )}
           </div>
