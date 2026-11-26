@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import {
   createContext, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState,
 } from 'react';
@@ -35,7 +36,9 @@ const STEPS = [
   { target: '.language-control', key: 'settings', view: '#top' },
   { target: '.check-tabs', point: '.check-tab.is-active', key: 'detectors', view: '.check-card' },
   { target: '.tab-panel textarea, .upload-area', key: 'input', view: '.check-form-column' },
-  { target: '.result-cap h2', key: 'result', text: true, view: '.result-panel' },
+  { target: '.result-cap h2', fallback: '.check-button', key: 'result', text: true, view: '.result-panel' },
+  { target: '.surfy-launcher, .surfy-unhide', key: 'surfy' },
+  { target: '.nav-guide-link', fallback: '.nav-mobile-menu', key: 'lifeguard', view: '#top' },
   { target: '.connection-status', key: 'offline', view: '#top' },
   { target: '.practice-intro .practice-primary', key: 'practice', view: '.practice-intro' },
   { target: '.privacy-toggle', key: 'privacy', view: '#privacy' },
@@ -45,7 +48,7 @@ function GuideCursor({ cursorRef, className = '' }) {
   return (
     <div className={`surfy-cursor ${className}`} ref={cursorRef} aria-hidden="true">
       <svg viewBox="0 0 28 32"><path d="M3 2 24 18 14 20 10 30Z" /></svg>
-      <span className="cursor-avatar"><img src={ASSETS.surfyPoint} alt="" /></span>
+      <span className="cursor-avatar"><AnimatedMascot src={ASSETS.surfyPoint} alt="" /></span>
       <span className="cursor-name">Surfy</span>
     </div>
   );
@@ -86,11 +89,6 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
   const isPaused = paused || interacting || pageHidden || tourClosing || Boolean(notice);
 
   useEffect(() => {
-    // Remember the visit immediately, including when someone leaves before finishing the welcome.
-    if (firstVisit) rememberWelcome();
-  }, [firstVisit]);
-
-  useEffect(() => {
     const leavePage = () => {
       // A browser Back action can restore this document from memory without remounting React.
       runTourAfterIntro.current = false;
@@ -129,6 +127,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
   }, [reduced, requestAcknowledgment]);
 
   const finishIntro = useCallback((withTour = true) => {
+    rememberWelcome();
     runTourAfterIntro.current = withTour;
     setPhase((current) => current === 'intro' ? 'opening' : current);
   }, []);
@@ -154,7 +153,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
 
   const nextStep = useCallback(() => {
     if (step === STEPS.length - 1) finishTour();
-    else setStep((current) => current + 1);
+    else setStep((current) => Math.min(STEPS.length - 1, current + 1));
   }, [step, finishTour]);
 
   useEffect(() => {
@@ -183,7 +182,10 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
 
   useEffect(() => {
     if (phase !== 'intro') return undefined;
-    if (reduced) { finishIntro(); return undefined; }
+    if (reduced) {
+      const timer = window.setTimeout(() => finishIntro(), 1600);
+      return () => window.clearTimeout(timer);
+    }
     const title = wordmarkRef.current.getBoundingClientRect();
     const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
     // The portfolio's sampled curve keeps the cursor moving without stops.
@@ -287,8 +289,10 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
       scrollTravelRef.current = null;
       return undefined;
     }
-    const target = pageRef.current.querySelector(currentStep.target);
-    if (!target) { finishTour(); return undefined; }
+    const candidate = pageRef.current.querySelector(currentStep.target);
+    const target = candidate?.getClientRects().length ? candidate
+      : currentStep.fallback && pageRef.current.querySelector(currentStep.fallback);
+    if (!target) { nextStep(); return undefined; }
     target.dataset.tourFocus = 'true';
     const reflow = () => {
       const text = t('tour.' + currentStep.key + '.body');
@@ -296,7 +300,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
       setCardWidth(width);
       const vh = window.visualViewport?.height ?? innerHeight;
       const header = document.querySelector('.site-header').getBoundingClientRect();
-      const pointed = currentStep.point ? pageRef.current.querySelector(currentStep.point) : target;
+      const pointed = (currentStep.point && pageRef.current.querySelector(currentStep.point)) || target;
       const initial = pointed.getBoundingClientRect();
       const obstacles = [...pageRef.current.querySelectorAll('button, a[href], textarea, select')]
         .filter((element) => element !== pointed && getComputedStyle(element).visibility !== 'hidden')
@@ -356,7 +360,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
       const scrolling = scrollTravelRef.current && Math.abs(window.scrollY - scrollTravelRef.current.target) > 2;
       card.dataset.travelling = distance > 4 || speed > 24 || scrolling ? 'true' : 'false';
       travelRef.current = { x, y, vx: x === nextX.position ? nextX.velocity : 0, vy: y === nextY.position ? nextY.velocity : 0 };
-      const pointedElement = currentStep.point ? pageRef.current.querySelector(currentStep.point) : target;
+      const pointedElement = (currentStep.point && pageRef.current.querySelector(currentStep.point)) || target;
       let targetRect = pointedElement.getBoundingClientRect();
       if (currentStep.text) {
         const range = document.createRange();
@@ -390,7 +394,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
       window.removeEventListener('resize', reflow);
       window.visualViewport?.removeEventListener('resize', reflow);
     };
-  }, [tourActive, tourClosing, notice, currentStep, step, dockHeight, cardWidth, reduced, finishTour, t]);
+  }, [tourActive, tourClosing, notice, currentStep, step, dockHeight, cardWidth, reduced, nextStep, t]);
 
   useEffect(() => {
     if (!tourActive || isPaused) return undefined;
@@ -444,7 +448,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
               <p className="intro-tagline">{t('intro.tagline')}</p>
               <div className="intro-surfy-stage" aria-hidden="true">
                 <span className="intro-surfy-shadow" ref={shadowRef} />
-                <img className="intro-surfy" ref={jumpingSurfyRef} src={ASSETS.surfyCheer} alt="" width="120" height="120" />
+                <AnimatedMascot className="intro-surfy" ref={jumpingSurfyRef} src={ASSETS.surfyCheer} alt="" width="120" height="120" />
               </div>
             </div>
             <GuideCursor cursorRef={introCursorRef} className="intro-cursor" />
@@ -455,7 +459,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
           <dialog className={'tour-invite' + (invitePhase === 'closing' ? ' is-closing' : '')} ref={inviteRef}
             tabIndex={-1} aria-labelledby="tour-invite-title" aria-describedby="tour-invite-description"
             onCancel={(event) => { event.preventDefault(); chooseTour(false); }}>
-            <span className="invite-face" aria-hidden="true"><img src={ASSETS.surfyPoint} alt="" /></span>
+            <span className="invite-face" aria-hidden="true"><AnimatedMascot src={ASSETS.surfyPoint} alt="" /></span>
             <p className="invite-eyebrow">{t('tour.invite.eyebrow')}</p>
             <h2 id="tour-invite-title">{t('tour.invite.title')}</h2>
             <p id="tour-invite-description">{t('tour.invite.body')}</p>
@@ -474,7 +478,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
               onFocusCapture={() => setInteracting(true)}
               onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false); }}>
               <div className="tour-dock-inner">
-                <span className="tour-face" aria-hidden="true"><img src={ASSETS.surfyPoint} alt="" /></span>
+                <span className="tour-face" aria-hidden="true"><AnimatedMascot src={ASSETS.surfyPoint} alt="" /></span>
                 <div className="tour-message" key={step}>
                   <p className="tour-step-count">Surfy · {step + 1} / {STEPS.length}</p>
                   <h2>{t(`tour.${currentStep.key}.title`)}</h2>
@@ -482,7 +486,7 @@ export default function WelcomeExperience({ children, t, skipIntro = false }) {
                 </div>
                 <div className="tour-controls">
                   <button className="tour-skip" onClick={finishTour}><X size={15} aria-hidden="true" />{t('tour.skip')}</button>
-                  <button className="tour-back" onClick={() => setStep((current) => current - 1)} disabled={step === 0} aria-label={t('tour.back')}><ChevronLeft size={18} /></button>
+                  <button className="tour-back" onClick={() => setStep((current) => Math.max(0, current - 1))} disabled={step === 0} aria-label={t('tour.back')}><ChevronLeft size={18} /></button>
                   <button className="tour-pause" onClick={() => setPaused((value) => !value)} aria-label={t(paused ? 'tour.play' : 'tour.pause')}>
                     {paused ? <Play size={15} aria-hidden="true" /> : <Pause size={15} aria-hidden="true" />}<span>{t(paused ? 'tour.play' : 'tour.pause')}</span>
                   </button>

@@ -12,6 +12,7 @@ import RiskLevels from './components/RiskLevels.jsx';
 import { RecoveryDialog } from './components/RecoveryHelp.jsx';
 import ScamPractice from './components/ScamPractice.jsx';
 import OfflineResources from './components/OfflineResources.jsx';
+import SurfyLauncher from './components/SurfyLauncher.jsx';
 import { analyzeInput } from './engine/analyze.js';
 import { mergeLinkResolution } from './engine/link-destination.js';
 import { getSuggestedQuestionKeys, getSuggestedSignalQuestions, getSurfyAnswer, getSurfyResultMessage } from './surfy/templates.js';
@@ -171,6 +172,9 @@ export default function App({ shareLaunch = null }) {
   const [errorKey, setErrorKey] = useState('');
   const [isAskOpen, setIsAskOpen] = useState(false);
   const [isRecoveryOpen, setIsRecoveryOpen] = useState(false);
+  const [boardsUnlocked, setBoardsUnlocked] = useState(() => {
+    try { return localStorage.getItem('surfare-dev-boards-unlocked-v1') === 'true'; } catch { return false; }
+  });
   const [surfyOpenRequest, setSurfyOpenRequest] = useState(0);
   const [isAskClosing, setIsAskClosing] = useState(false);
   const [isAskThinking, setIsAskThinking] = useState(false);
@@ -477,13 +481,26 @@ export default function App({ shareLaunch = null }) {
       else setIsAskThinking(false);
     }
   }, []);
-  const handleAskSend = useCallback((question, { local = false } = {}) => {
+  const handleAskSend = useCallback(async (question, { local = false } = {}) => {
+    if (aiEnabled && isOnline && !local && !result?.privateQr && !await requestAcknowledgment()) return;
     setAskMessages((previous) => [...previous, { role: 'user', text: question }]);
     askAnswerQueue.current.push({ question, result: ['result', 'reviewing'].includes(status) ? result : null, language: lang,
       history: askMessages, t, ai: aiEnabled && isOnline && !local && !result?.privateQr,
       fallback: getSurfyAnswer(question, ['result', 'reviewing'].includes(status) ? result : null, t) });
     scheduleAskAnswer();
-  }, [result, status, lang, askMessages, aiEnabled, isOnline, scheduleAskAnswer, t]);
+  }, [result, status, lang, askMessages, aiEnabled, isOnline, scheduleAskAnswer, t, requestAcknowledgment]);
+
+  const handleAiChange = async enabled => {
+    if (enabled && !await requestAcknowledgment()) return;
+    setAiPreference(enabled);
+    try { sessionStorage.setItem('surfare-ai-opt-in', String(enabled)); } catch { /* Keep this page's choice. */ }
+    if (!enabled) {
+      askRequestRef.current?.abort();
+      askRequestRef.current = null;
+      askAnswerQueue.current = [];
+      setIsAskThinking(false);
+    }
+  };
 
   const openFeedback = useCallback(async (type = activeTab) => {
     if (!await requestAcknowledgment()) return;
@@ -515,7 +532,7 @@ export default function App({ shareLaunch = null }) {
         onClose={() => setCameraTarget('')}
       />
     ) : null),
-    [cameraTarget, t],
+    [cameraTarget, t, updateInput],
   );
 
   const destinationDisplayRunId = checkRunId.current;
@@ -537,17 +554,7 @@ export default function App({ shareLaunch = null }) {
           shareNotice={shareNotice}
           aiEnabled={aiEnabled}
           onReviewPrivacy={reviewNotice}
-          onAiChange={async (enabled) => {
-            if (enabled && !await requestAcknowledgment()) return;
-            setAiPreference(enabled);
-            try { sessionStorage.setItem('surfare-ai-opt-in', String(enabled)); } catch { /* This page still remembers the choice. */ }
-            if (!enabled) {
-              askRequestRef.current?.abort();
-              askRequestRef.current = null;
-              askAnswerQueue.current = [];
-              setIsAskThinking(false);
-            }
-          }}
+          onAiChange={handleAiChange}
           isOnline={isOnline}
           activeTab={activeTab}
           inputs={inputs}
@@ -617,10 +624,19 @@ export default function App({ shareLaunch = null }) {
         </CheckCard>
         {isRecoveryOpen && <RecoveryDialog t={t} lang={lang} isOnline={isOnline} onClose={() => setIsRecoveryOpen(false)} />}
         <HowItWorks t={t} />
-        <ScamPractice lang={lang} />
+        <ScamPractice lang={lang} boardsUnlocked={boardsUnlocked} />
         <RiskLevels t={t} />
       </main>
-      <Footer t={t} />
+      <Footer t={t} boardsUnlocked={boardsUnlocked} onUnlockBoards={() => {
+        setBoardsUnlocked(true);
+        try { localStorage.setItem('surfare-dev-boards-unlocked-v1', 'true'); } catch { /* Session only. */ }
+      }} onLockBoards={() => {
+        setBoardsUnlocked(false);
+        try { localStorage.removeItem('surfare-dev-boards-unlocked-v1'); } catch { /* Session only. */ }
+      }} />
+      <SurfyLauncher t={t} messages={askMessages} isThinking={isAskThinking} onSend={handleAskSend}
+        questionKeys={result ? askQuestionKeys : ['ask.verifySender', 'ask.clickedLink', 'ask.offline', 'ask.sharedSecret']}
+        aiEnabled={aiEnabled} isOnline={isOnline} onAiChange={handleAiChange} />
       {camera}
       {isImageModeModalOpen && (
         <ImageModeModal

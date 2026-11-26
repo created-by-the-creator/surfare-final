@@ -10,6 +10,7 @@ import {
 import { useSiteTour } from './WelcomeExperience.jsx';
 import { usePrivacyNotice } from '../privacy/PrivacyContext.jsx';
 import './Footer.css';
+import DevUnlock from './DevUnlock.jsx';
 
 const FOOTER_LINKS = [
   { href: '#top', label: 'Home' },
@@ -27,7 +28,7 @@ const FOOTER_LINKS = [
   { href: '/contact-us.html', label: 'Contact Us' },
 ];
 
-export default function Footer({ t }) {
+export default function Footer({ t, boardsUnlocked, onUnlockBoards, onLockBoards }) {
   const startTour = useSiteTour();
   const { reviewNotice } = usePrivacyNotice();
 
@@ -145,6 +146,7 @@ export default function Footer({ t }) {
             <button className="footer-privacy-link" type="button" onClick={reviewNotice}>
               {t('notice.reopen')}
             </button>
+            <DevUnlock unlocked={boardsUnlocked} onUnlock={onUnlockBoards} onLock={onLockBoards} />
           </div>
 
           <a

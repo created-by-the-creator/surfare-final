@@ -100,6 +100,7 @@ export async function generateGeminiStructured({
     return {
       ok: false,
       http: response.status,
+      retryAfter: response.headers.get('retry-after'),
       upstreamStatus: typeof body?.error?.status === 'string' ? body.error.status : '',
       keyIssue: /api[\s_-]*key/i.test(message),
     };

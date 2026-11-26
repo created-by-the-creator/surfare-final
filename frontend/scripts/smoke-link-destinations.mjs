@@ -27,7 +27,7 @@ try {
     page.on('request', request => { if (request.method() === 'POST') posts.push(new URL(request.url()).pathname); });
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(({ version, lang }) => {
-      localStorage.setItem('surfare-welcome-seen', 'true'); localStorage.setItem('surfare-language', lang);
+      sessionStorage.setItem('surfare-ai-opt-in', 'false'); localStorage.setItem('surfare-welcome-seen', 'true'); localStorage.setItem('surfare-language', lang);
       localStorage.setItem('surfare-privacy-acknowledgment', JSON.stringify({ version, acceptedAt: new Date().toISOString() }));
     }, { version: NOTICE_VERSION, lang });
     await page.route('http://localhost:5173/api/**', route => route.abort());

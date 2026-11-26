@@ -72,7 +72,6 @@
   scrollbar-width: thin;
   transition: width .55s var(--intro-ease), height .55s var(--intro-ease);
 }
-.surfare-tour-dock[data-travelling="true"] .tour-controls { pointer-events: none; }
 .tour-dock-inner { position: relative; width: calc(var(--tour-width) - 2px); padding: 18px 16px 16px; }
 .tour-message { min-width: 0; padding-left: 62px; text-align: left; }
 .tour-face, .invite-face {

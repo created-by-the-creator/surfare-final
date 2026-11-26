@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import { Check, Link2, ScanText, ShieldCheck, Sparkles } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import './LoadingScreen.css';
@@ -32,7 +33,7 @@ export default function LoadingScreen({ status, result, t, titleId, detailOverri
         <section className="loading-main" role="status" aria-labelledby={titleId}>
           <div className="loading-avatar" aria-hidden="true">
             <span className="loading-ring" />
-            <img src={ASSETS.surfyMagnify} alt="" />
+            <AnimatedMascot src={ASSETS.surfyMagnify} alt="" />
           </div>
           <p className="loading-eyebrow">{t('check.inProgress')}</p>
           <h2 id={titleId} tabIndex={-1}>{title}</h2>

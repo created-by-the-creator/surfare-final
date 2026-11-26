@@ -25,8 +25,12 @@ async function scanQrCodes(canvas) {
       try {
         const pixels = readPixels(source);
         return await new Promise((resolve, reject) => {
-          worker.onmessage = ({ data }) => data.failed ? reject(Error('qr_failed')) : resolve(data.values);
-          worker.onerror = worker.onmessageerror = reject;
+          const timer = setTimeout(() => reject(Error('qr_timeout')), 8000);
+          worker.onmessage = ({ data }) => {
+            clearTimeout(timer);
+            data.failed ? reject(Error('qr_failed')) : resolve(data.values);
+          };
+          worker.onerror = worker.onmessageerror = error => { clearTimeout(timer); reject(error); };
           worker.postMessage({ pixels, scanRegions }, [pixels.data.buffer]);
         });
       } catch {

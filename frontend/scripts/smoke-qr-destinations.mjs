@@ -21,7 +21,7 @@ try {
     page.on('request', request => { if (request.method() === 'POST') posts.push(new URL(request.url()).pathname); });
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(({ version, lang }) => {
-      localStorage.setItem('surfare-welcome-seen', 'true'); localStorage.setItem('surfare-language', lang);
+      sessionStorage.setItem('surfare-ai-opt-in', 'false'); localStorage.setItem('surfare-welcome-seen', 'true'); localStorage.setItem('surfare-language', lang);
       localStorage.setItem('surfare-privacy-acknowledgment', JSON.stringify({ version, acceptedAt: new Date().toISOString() }));
     }, { version: NOTICE_VERSION, lang });
     await page.route('http://localhost:5173/api/**', route => route.abort());
@@ -56,12 +56,12 @@ try {
       await panel.locator('.qr-resolution').waitFor({ state: 'attached' });
       assert.equal(requests, 1);
       assert.equal(await details.getAttribute('open'), null, 'results do not open technical details automatically');
-      assert.equal(await panel.locator('.qr-hop-list').isVisible(), false);
+      assert.equal(await panel.locator('.qr-warning-list').isVisible(), false);
       await panel.screenshot({ path: new URL(`artifacts/qr/${scenario}-${lang}-${width}.png`, root).pathname.replace(/^\/(\w:)/, '$1') });
       await details.locator(':scope > summary').click();
-      await panel.locator('.qr-hop-list').waitFor();
+      assert.equal((await details.innerText()).includes('HTTP'), false, 'details use everyday language');
       if (scenario === 'warning') {
-        assert.equal(await panel.locator('.qr-hop-list > li').count(), 3);
+        assert((await panel.locator('.qr-warning-list > li').count()) > 0);
         assert((await panel.innerText()).includes('https://0-0sc.com/login'));
         await page.locator('.result-high').waitFor();
       } else if (scenario === 'unresolved') {

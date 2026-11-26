@@ -1,0 +1,94 @@
+.surfy-launcher-dock {
+  position: fixed;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(24px, env(safe-area-inset-bottom));
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ffffffad;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f5fbffd1, #dfedffb3);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  backdrop-filter: blur(22px) saturate(165%);
+  box-shadow: 0 12px 36px #061a3c26, inset 0 1px 0 #ffffffe6, inset 0 -1px 0 #ffffff40;
+}
+.surfy-launcher {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 10px 18px 10px 10px;
+  border: 0;
+  border-radius: 22px;
+  background: transparent;
+  color: #173454;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.surfy-launcher:hover { background: #ffffff26; }
+.surfy-launcher:active { transform: translateY(0); }
+.surfy-launcher:focus-visible { outline: 3px solid #315987; outline-offset: 4px; }
+.surfy-launcher-avatar { position: relative; flex: none; width: 48px; height: 48px; overflow: hidden; border: 2px solid #ffffffa3; border-radius: 15px; background: #fce0d4; }
+.surfy-launcher-avatar img { position: absolute; top: -5px; left: -16px; width: 80px; height: 80px; max-width: none; object-fit: contain; }
+.surfy-launcher-copy { display: grid; gap: 3px; }
+.surfy-launcher-copy > span { font-size: 10px; font-weight: 500; line-height: 1.4; letter-spacing: .09em; text-transform: uppercase; color: #466585; }
+.surfy-launcher-copy > strong { font-family: 'Fraunces Variable', Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.2; }
+.surfy-launcher > svg { margin-left: 2px; color: #315987; }
+.surfy-fold, .surfy-unhide { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 0; border-radius: 14px; background: transparent; color: #315987; cursor: pointer; }
+.surfy-fold { margin-right: 8px; border-left: 1px solid #31598726; border-radius: 0 14px 14px 0; }
+.surfy-fold:hover, .surfy-unhide:hover { background: #ffffff33; color: #173454; }
+.surfy-fold:focus-visible, .surfy-unhide:focus-visible { outline: 3px solid #315987; outline-offset: 3px; }
+.surfy-launcher-dock.is-folded { border-radius: 16px; }
+.surfy-unhide { width: 48px; height: 48px; }
+.surfy-quick-dialog {
+  position: fixed;
+  inset: auto 24px 110px auto;
+  width: min(440px, calc(100% - 32px));
+  height: min(700px, calc(100dvh - 142px));
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #bdccdf59;
+  border-radius: 26px;
+  background: #102c57;
+  color: #fff;
+  box-shadow: 0 24px 80px #020e2c66, inset 0 1px 0 #ffffff17;
+}
+.surfy-quick-dialog[open] { display: flex; flex-direction: column; }
+.surfy-quick-dialog::backdrop { background: #071a4438; backdrop-filter: blur(4px); }
+.surfy-quick-close { position: absolute; top: 20px; right: 20px; z-index: 3; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #ffffff30; border-radius: 50%; background: #ffffff09; color: #fff; cursor: pointer; }
+.surfy-quick-close:hover { background: #ffffff1a; }
+.surfy-quick-dialog :focus-visible { outline: 3px solid #9ad7f5; outline-offset: 3px; }
+.surfy-quick-dialog > .ask-dialog { position: relative; isolation: isolate; inset: auto; display: flex; flex-direction: column; width: 100%; min-height: 0; max-height: none; height: 100%; margin: 0; padding: 24px; border: 0; border-radius: 0; background: #102c57; box-shadow: none; transform: none; animation: none; color: #fff; }
+.surfy-quick-dialog .ask-wave { display: none; }
+.surfy-quick-dialog .ask-brand { flex: none; padding-right: 40px; }
+.surfy-quick-dialog .ask-layout, .surfy-quick-dialog .ask-content { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; gap: 12px; }
+.surfy-quick-dialog .ask-messages { flex: 1 1 0; min-height: 0; max-height: none; }
+.surfy-quick-dialog .ask-chips { flex: none; max-height: 100px; overflow-y: auto; }
+.surfy-quick-dialog .ask-form { flex: none; margin-top: 0; }
+.surfy-quick-dialog .ask-form textarea { font-size: 16px; }
+.surfy-quick-dialog .ask-more-questions { flex: none; }
+.surfy-quick-ai { display: flex; flex: none; align-items: flex-start; gap: 10px; padding: 12px; margin-bottom: 16px; border: 1px solid #ffffff18; border-radius: 12px; background: #ffffff06; font-size: 14px; line-height: 1.4; }
+.surfy-quick-ai input { flex: none; width: 18px; height: 18px; margin: 0; accent-color: #96d4f2; }
+.surfy-quick-ai small { display: block; margin-top: 4px; color: #b6cce6; font-size: 11px; line-height: 1.5; }
+@media (max-width: 640px) {
+  .surfy-launcher-dock { right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); border-radius: 20px; }
+  .surfy-launcher { min-height: 64px; gap: 10px; padding: 8px 10px 8px 8px; border-radius: 20px; }
+  .surfy-launcher-avatar { width: 44px; height: 44px; border-radius: 13px; }
+  .surfy-launcher-copy > strong { font-size: 16px; }
+  .surfy-launcher-copy > span { font-size: 9px; }
+  .surfy-quick-dialog { inset: auto 12px max(92px, calc(env(safe-area-inset-bottom) + 76px)) 12px; width: auto; height: min(700px, calc(100dvh - 112px)); border-radius: 22px; }
+  .surfy-quick-dialog > .ask-dialog { padding: 18px; }
+  .surfy-quick-close { top: 18px; right: 18px; }
+  .surfy-quick-dialog .ask-brand { gap: 10px; }
+  .surfy-quick-dialog .ask-brand h2 { font-size: 26px; }
+  .surfy-quick-dialog .ask-avatar { width: 48px; height: 48px; flex-basis: 48px; border-radius: 16px; }
+  .surfy-quick-dialog .ask-eyebrow { font-size: 10px; }
+  .surfy-quick-ai { margin-bottom: 10px; padding: 10px; }
+  .surfy-quick-dialog .ask-chips { max-height: 80px; }
+}
+@media (prefers-reduced-motion: reduce) { .surfy-launcher { transition: none; } }

@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import { ASSETS } from '../assets.js';
 
 const STEPS = [1, 2, 3, 4, 5];
@@ -10,7 +11,7 @@ export default function HowItWorks({ t }) {
         <h2 id="how-title">{t('how.title')}</h2>
         <div className="how-layout">
           <div className="how-mascot-wrap">
-            <img
+            <AnimatedMascot
               className="how-mascot"
               src={ASSETS.surfyTablet}
               alt={t('how.imageAlt')}

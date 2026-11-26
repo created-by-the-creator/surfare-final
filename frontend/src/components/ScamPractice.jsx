@@ -149,7 +149,7 @@ function PracticeDialog({ mission, lang, board, progress, onClose, onComplete, o
   );
 }
 
-export default function ScamPractice({ lang }) {
+export default function ScamPractice({ lang, boardsUnlocked = false }) {
   const copy = PRACTICE_COPY[lang] || PRACTICE_COPY.en;
   const surf = SURF_COPY[lang] || SURF_COPY.en;
   const text = (value) => localize(value, lang);
@@ -164,7 +164,7 @@ export default function ScamPractice({ lang }) {
   const mission = MISSIONS.find((item) => item.id === missionId);
   const completed = Object.keys(progress).length;
   const profile = surfProfile(progress, MISSIONS);
-  const board = availableBoard(selectedBoard, completed);
+  const board = availableBoard(selectedBoard, completed, boardsUnlocked);
   const equipBoard = (index) => {
     setSelectedBoard(index);
     try { window.localStorage.setItem(BOARD_KEY, JSON.stringify(index)); } catch { /* Session only. */ }
@@ -213,7 +213,7 @@ export default function ScamPractice({ lang }) {
             );
           })}
         </div>
-        <div className="surf-boards"><h3>{surf.badges}</h3><p>{surf.boardsHint}</p><div className="surf-board-grid">{BOARD_UNLOCKS.map((count, index) => <button key={index} type="button" className={`surf-board-choice surf-board-${index}`} disabled={completed < count} aria-pressed={board === index} onClick={() => equipBoard(index)}><BoardArt board={index} /><strong>{surf.boards[index]}</strong><span>{completed < count ? `${count} ${surf.routes} · ${surf.locked}` : board === index ? `✓ ${surf.equipped}` : surf.equip}</span></button>)}</div></div>
+        <div className="surf-boards"><h3>{surf.badges}</h3><p>{surf.boardsHint}</p><div className="surf-board-grid">{BOARD_UNLOCKS.map((count, index) => <button key={index} type="button" className={`surf-board-choice surf-board-${index}`} disabled={!boardsUnlocked && completed < count} aria-pressed={board === index} onClick={() => equipBoard(index)}><BoardArt board={index} /><strong>{surf.boards[index]}</strong><span>{!boardsUnlocked && completed < count ? `${count} ${surf.routes} · ${surf.locked}` : board === index ? `✓ ${surf.equipped}` : surf.equip}</span></button>)}</div></div>
         <div className="practice-footer"><p>{surf.saved}</p>{completed > 0 && <button className="practice-text-button" type="button" onClick={() => { setProgress({}); equipBoard(0); setResetNotice(true); try { writeProgress(window.localStorage, {}); } catch { /* Session only. */ } }}>{copy.clear}</button>}<span className="visually-hidden" role="status">{resetNotice ? copy.reset : ''}</span></div>
       </div>
       {mission && <PracticeDialog key={mission.id} mission={mission} lang={lang} board={board} progress={progress} onClose={() => setMissionId('')} onComplete={onComplete} onNext={() => setMissionId(MISSIONS[(MISSIONS.indexOf(mission) + 1) % MISSIONS.length].id)} />}

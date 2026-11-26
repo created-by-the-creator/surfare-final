@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import { useEffect, useRef, useState } from 'react';
 import { Send } from 'lucide-react';
 import { ASSETS } from '../assets.js';
@@ -92,7 +93,7 @@ export default function AskSurfy({
       </div>
 
       <header className="ask-brand">
-        <span className="ask-avatar" aria-hidden="true"><img src={mascot} alt="" width="1000" height="1000" decoding="async" /></span>
+        <span className="ask-avatar" aria-hidden="true"><AnimatedMascot src={mascot} alt="" width="1000" height="1000" decoding="async" /></span>
         <div className="ask-heading">
           <p className="ask-eyebrow">{t('ask.eyebrow')}</p>
           <h2 tabIndex={-1}>{t('ask.title')}</h2>

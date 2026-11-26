@@ -22,6 +22,8 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
   const [quality, setQuality] = useState('starting');
   const [captured, setCaptured] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [cameraAttempt, setCameraAttempt] = useState(0);
+  const fileRef = useRef(null);
 
   useEffect(() => {
     const previousFocus = document.activeElement;
@@ -63,6 +65,8 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
 
   useEffect(() => {
     let active = true;
+    setErrorKey('');
+    setIsReady(false);
     activeRef.current = true;
     let animationFrame = 0;
     let lastScan = 0;
@@ -121,7 +125,7 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
 
     const startCamera = async () => {
       if (!navigator.mediaDevices?.getUserMedia) {
-        setErrorKey('camera.denied');
+        setErrorKey('camera.insecure');
         return;
       }
       try {
@@ -143,7 +147,8 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
         }
       } catch (error) {
         console.warn('Camera access unavailable:', error);
-        if (active) setErrorKey('camera.denied');
+        if (active) setErrorKey(error.name === 'NotFoundError' ? 'camera.notFound'
+          : error.name === 'NotReadableError' ? 'camera.busy' : 'camera.denied');
       }
     };
     startCamera();
@@ -154,7 +159,7 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
       streamRef.current?.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     };
-  }, [target]);
+  }, [target, cameraAttempt]);
 
   const capture = async () => {
     const video = videoRef.current;
@@ -169,9 +174,10 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
       const context = canvas.getContext('2d');
       if (!context) throw new Error('canvas_unavailable');
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+      const mime = target === 'qr' ? 'image/png' : 'image/jpeg';
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, mime, 0.95));
       if (!blob) throw new Error('capture_failed');
-      const file = new File([blob], `surfare-camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
+      const file = new File([blob], `surfare-camera-${Date.now()}.${target === 'qr' ? 'png' : 'jpg'}`, { type: mime });
       if (!activeRef.current) return;
       // The preview runs on an earlier frame. Decode this exact file in the
       // checker so a code left in view a moment ago cannot replace this one.
@@ -220,6 +226,12 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
           {!captured && !errorKey && <span className="camera-frame" aria-hidden="true" />}
         </div>
         {errorKey && <p className="camera-error" role="alert">{t(errorKey)}</p>}
+        {errorKey && <div className="camera-review-actions">
+          <button type="button" onClick={() => setCameraAttempt(value => value + 1)}>{t('camera.retry')}</button>
+          <button type="button" onClick={() => fileRef.current?.click()}>{t('check.image.choose')}</button>
+          <input ref={fileRef} hidden type="file" accept="image/png,image/jpeg,image/webp" capture="environment"
+            onChange={event => { const file = event.target.files?.[0]; if (file) onCapture(file, ''); }} />
+        </div>}
         {!errorKey && (
           <div className={`camera-guidance${hasWarning ? ' needs-attention' : ''}`} role="status" aria-live="polite">
             {displayedQuality === 'ready' || (isQrMode && decodedValue) ? <Check aria-hidden="true" size={20} /> : <Focus aria-hidden="true" size={20} />}
@@ -248,7 +260,7 @@ export default function CameraModal({ t, target, onCapture, onClose }) {
         ) : <button
           className="camera-capture"
           type="button"
-          disabled={errorKey === 'camera.denied' || !isReady || isCapturing}
+          disabled={Boolean(errorKey) || !isReady || isCapturing}
           onClick={capture}
         >
           <Camera size={19} aria-hidden="true" />

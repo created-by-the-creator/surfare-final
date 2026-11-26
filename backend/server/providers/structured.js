@@ -58,7 +58,7 @@ export async function generateStructured({
       response = await fetcher(endpoint, options);
     }
   }
-  if (!response.ok) return { ok: false, http: response.status };
+  if (!response.ok) return { ok: false, http: response.status, retryAfter: response.headers.get('retry-after') };
   const data = await response.json();
   const candidate = data.choices?.[0];
   if (data.error || candidate?.finish_reason !== 'stop' || candidate?.message?.refusal)

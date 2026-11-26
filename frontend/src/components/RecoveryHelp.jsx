@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Check, CheckCircle2, ChevronDown, Download, ExternalLink, LifeBuoy, MessageCircle, Phone, ShieldCheck, Wallet, X } from 'lucide-react';
@@ -68,7 +69,7 @@ export function RecoveryDialog({ onClose, t, lang = 'en', isOnline = navigator.o
     <div className="recovery-shell">
       <div className="recovery-body" hidden={chatOpen}>
         <div className="recovery-intro">
-          <img src={ASSETS.surfyLifeguard} alt="" width="640" height="960" decoding="async" />
+          <AnimatedMascot src={ASSETS.surfyLifeguard} alt="" width="640" height="960" decoding="async" />
           <div><p className="recovery-eyebrow">{t('recovery.simple.eyebrow')}</p><h2 ref={screen === 'plan' ? null : headingRef} tabIndex={-1}>{t(screen === 'choose' ? 'recovery.simple.title' : screen === 'done' ? 'recovery.simple.doneTitle' : 'recovery.simple.guideTitle')}</h2><p>{t(screen === 'choose' ? 'recovery.simple.intro' : screen === 'done' ? 'recovery.simple.doneIntro' : 'recovery.simple.guideIntro')}</p></div>
         </div>
         {screen === 'choose' ? <>

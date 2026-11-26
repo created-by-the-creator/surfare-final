@@ -1,4 +1,5 @@
 import { ASSETS } from '../assets.js';
+import SurfyRider from './SurfyRider.jsx';
 import { Compass } from 'lucide-react';
 import { useSiteTour } from './WelcomeExperience.jsx';
 import './HeroScene.css';
@@ -44,7 +45,7 @@ export default function Hero({ t }) {
       <div className="hero-surf-scene" aria-hidden="true">
         <div className="surf-rider">
           <span className="surf-water-shadow" />
-          <img className="hero-mascot" src={ASSETS.surfySurfingLeft} alt="" width="1254" height="1254" decoding="async" />
+          <SurfyRider className="hero-mascot" />
           <svg className="surf-contact" viewBox="0 0 300 90" preserveAspectRatio="none">
             <path className="surf-wake-blue" d="M40 50C110 87 226 88 289 61" />
             <path className="surf-wake-foam" d="M29 39C95 78 208 91 291 57" />

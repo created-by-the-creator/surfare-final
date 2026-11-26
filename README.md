@@ -131,7 +131,13 @@ double-check provider and `GEMINI_API_KEY` for its backups. `OPENROUTER_MODEL`
 and `GEMINI_IMAGE_MODEL` are allowlisted; the old `openrouter/free` setting
 migrates to the pinned model.
 
-Ask Surfy uses the same OpenRouter-first, Gemini-backup route as detector and
+After an HTTP 429 rate limit, requests switch to another available provider.
+The server remembers the last successful model, skips rate-limited models
+until their Retry-After cooldown expires (60 seconds when unspecified), and
+keeps local findings when all providers are unavailable. This routing state
+is per server process and resets on restart.
+
+Ask Surfy uses the same initial OpenRouter-first, Gemini-backup route as detector and
 Lifeguard double-checks. Set `OPENROUTER_API_KEY` and optionally `GEMINI_API_KEY`
 on the server.
 

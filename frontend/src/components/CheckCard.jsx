@@ -1,3 +1,4 @@
+import AnimatedMascot from './AnimatedMascot.jsx';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Camera, Image, Info, Link2, MessageSquareText, QrCode, RotateCcw, ScanText, Share2, ShieldCheck, Sparkles, Upload, X } from 'lucide-react';
 import { ASSETS } from '../assets.js';
@@ -193,7 +194,7 @@ export default function CheckCard({
               <div className="check-workspace">
                 <div className={`guide-row guide-${guideState}`}>
                   <div className="guide-bubble" role="status">{t(`check.guide.${guideState}`)}</div>
-                  <img
+                  <AnimatedMascot
                     className="guide-mascot"
                     src={guideImage}
                     alt=""

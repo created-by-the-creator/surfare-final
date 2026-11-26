@@ -1,0 +1,8 @@
+Method: built-in image_gen, using the existing tablet, lifeguard and surfer artwork as identity references.
+Three transparent 1536x1024 sprite sheets, six 512px keyframes per character, encoded as looping GIFs using a shared palette and first-frame PNG fallbacks.
+Character movement: blinks, different hand and arm poses, head expressions, surfer knee and arm changes. No whole-image sway hook remains.
+Runtime assets: frontend/public/assets/animated/surfy-{tablet,lifeguard,surfer}.gif and -still.png.
+Existing risk animations reused for pointing, calm/cheering, alert and magnifying-glass states. Brand logos remain brand artwork.
+Exact generation prompts: tablet-prompt.txt, lifeguard-prompt.txt, surfer-prompt.txt in this folder. Generated source sheets: {tablet,lifeguard,surfer}-sheet.png.
+Rebuild from repository root: python frontend/scripts/encode-mascot-frames.py
+Browser checks: node frontend/scripts/smoke-mascot-motion.mjs

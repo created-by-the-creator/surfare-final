@@ -50,5 +50,26 @@ export function decodeQrValues(image, scanRegions = true) {
       }
     }
   }
+  // Small codes and tightly cropped screenshots may lack the clear border
+  // needed by the locator. Add one and enlarge pixels without blurring edges.
+  if (!values.size) {
+    const scale = Math.min(image.width, image.height) < 400 ? 3 : 1;
+    const padding = 32;
+    const width = image.width * scale + padding * 2;
+    const height = image.height * scale + padding * 2;
+    const data = new Uint8ClampedArray(width * height * 4).fill(255);
+    for (let y = 0; y < image.height; y++) {
+      for (let x = 0; x < image.width; x++) {
+        const source = (y * image.width + x) * 4;
+        for (let dy = 0; dy < scale; dy++) {
+          for (let dx = 0; dx < scale; dx++) {
+            const target = ((padding + y * scale + dy) * width + padding + x * scale + dx) * 4;
+            data.set(image.data.subarray(source, source + 4), target);
+          }
+        }
+      }
+    }
+    scan({ width, height, data }, values);
+  }
   return [...values];
 }

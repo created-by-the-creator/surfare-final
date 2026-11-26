@@ -62,15 +62,13 @@ try {
       };
     });
     if (layout.src !== '/assets/Headbanner.png' || layout.nativeWidth !== 2172
-      || layout.nativeHeight !== 414 || layout.renderedWidth > layout.nativeWidth + 1) {
+      || layout.nativeHeight !== 414) {
       throw new Error(`The hero wave is not using the native Headbanner asset at ${width}px: ${JSON.stringify(layout)}.`);
     }
     if (width > layout.nativeWidth) {
-      const expectedFillWidth = (layout.stageWidth - layout.renderedWidth) / 2;
-      if (Math.abs(layout.leftFillWidth - expectedFillWidth) > 1
-        || Math.abs(layout.rightFillWidth - expectedFillWidth) > 1
-        || !layout.edgeFillSource.includes('Headbanner.png')) {
-        throw new Error(`The wide hero wave edge fills do not match the sampled edges at ${width}px: ${JSON.stringify(layout)}.`);
+      if (Math.abs(layout.stageWidth - layout.renderedWidth) > 1
+        || layout.edgeFillSource !== 'none') {
+        throw new Error(`The wide hero wave must be one continuous image at ${width}px: ${JSON.stringify(layout)}.`);
       }
     }
   };

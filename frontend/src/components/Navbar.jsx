@@ -1,7 +1,8 @@
 ﻿import { useEffect, useId, useRef, useState } from 'react';
-import { Check, ChevronDown, Gamepad2, Globe, LifeBuoy, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
+import { Check, ChevronDown, Gamepad2, Globe, LifeBuoy, Menu, X, ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 import { ASSETS } from '../assets.js';
 import './Navbar.css';
+import SurfySecret from './SurfySecret.jsx';
 
 const LANGUAGES = [
   { value: 'en', name: 'English', detail: 'English', short: 'EN' },
@@ -15,18 +16,21 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuid
   const controls = useRef(null);
   const languageButton = useRef(null);
   const connectionButton = useRef(null);
+  const navigationButton = useRef(null);
   const menu = useRef(null);
   const selected = LANGUAGES.find((language) => language.value === lang) ?? LANGUAGES[0];
 
   useEffect(() => {
     if (!open) return undefined;
     const outside = (event) => {
+      if (event.target.closest('dialog[open]')) return;
       if (!controls.current?.contains(event.target)) setOpen(null);
     };
     const escape = (event) => {
       if (event.key !== 'Escape') return;
+      if (document.querySelector('dialog[open]')) return;
       setOpen(null);
-      (open === 'language' ? languageButton : connectionButton).current?.focus();
+      (open === 'language' ? languageButton : open === 'navigation' ? navigationButton : connectionButton).current?.focus();
     };
     document.addEventListener('pointerdown', outside);
     document.addEventListener('keydown', escape);
@@ -53,14 +57,14 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuid
 
   return (
     <header className="site-header">
-      <div className="nav-inner">
+      <div className="nav-inner" ref={controls}>
         <a className="brand" href="#top" aria-label={t('nav.home')}>
           <img src={ASSETS.appIcon} alt="" width="38" height="38" decoding="async" />
           <span>Surfare</span>
         </a>
-        <nav className="nav-quick-links" aria-label={t('nav.explore')}><a className="nav-practice-link" href="#practice"><Gamepad2 size={18} aria-hidden="true" />{t('nav.practice')}</a><button className="nav-guide-link" type="button" onClick={onOpenGuide} aria-haspopup="dialog" aria-expanded={isGuideOpen}><LifeBuoy size={18} aria-hidden="true" />{t('nav.guide')}</button></nav>
-        <div className="nav-controls" ref={controls} onBlur={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget)) setOpen(null);
+        <nav id={`${id}-navigation`} className={`nav-quick-links${open === 'navigation' ? ' is-open' : ''}`} aria-label={t('nav.explore')}><a className="nav-practice-link" href="#practice" onClick={() => setOpen(null)}><Gamepad2 size={18} aria-hidden="true" />{t('nav.practice')}</a><button className="nav-guide-link" type="button" onClick={onOpenGuide} aria-haspopup="dialog" aria-expanded={isGuideOpen}><LifeBuoy size={18} aria-hidden="true" />{t('nav.guide')}</button><SurfySecret /></nav>
+        <div className="nav-controls" onBlur={(event) => {
+          if (!controls.current?.contains(event.relatedTarget)) setOpen(null);
         }}>
           <div className="header-control-wrap">
             <button className="language-control header-control" type="button" ref={languageButton}
@@ -95,7 +99,7 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuid
           </div>
           <div className="header-control-wrap connection-wrap">
             <button className={`connection-status header-control ${isOnline ? 'is-online' : 'is-offline'}`}
-              type="button" ref={connectionButton} aria-expanded={open === 'connection'}
+              type="button" ref={connectionButton} aria-label={t(isOnline ? 'nav.online' : 'nav.offline')} aria-expanded={open === 'connection'}
               aria-controls={`${id}-connection`} onClick={() => setOpen(open === 'connection' ? null : 'connection')}>
               {isOnline ? <Wifi size={18} aria-hidden="true" /> : <WifiOff size={18} aria-hidden="true" />}
               <span aria-live="polite">{t(isOnline ? 'nav.online' : 'nav.offline')}</span>
@@ -114,6 +118,12 @@ export default function Navbar({ lang, onLanguageChange, isOnline, t, onOpenGuid
               </div>
             )}
           </div>
+          <button ref={navigationButton} className="nav-mobile-menu header-control" type="button"
+            aria-label={open === 'navigation' ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={open === 'navigation'} aria-controls={`${id}-navigation`}
+            onClick={() => setOpen(open === 'navigation' ? null : 'navigation')}>
+            {open === 'navigation' ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+          </button>
         </div>
       </div>
     </header>

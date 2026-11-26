@@ -48,31 +48,26 @@ export default function LinkDestinationReport({ result, isOnline, onResolved, t 
         <details className="qr-check-details">
           <summary>{t('qr.simple.details')}</summary>
           <div className="qr-details-body">
-            <p className="qr-url-type">{t(item.urlType === 'shortened' ? 'qr.shortened' : 'qr.web')}
-              {report?.status === 'resolved' && ` - ${t(report.redirectCount ? 'qr.redirected' : 'qr.direct')}`}</p>
             <p><strong>{t(qr ? 'qr.original' : 'destination.original')}</strong><code>{item.originalValue}</code></p>
-            <p>{t('qr.domain')}: <code>{item.domain}</code></p>
-            <p>{t(qr ? 'qr.privacy' : 'destination.privacy')}</p>
-            {item.blocked && <p>{t('qr.reason.blocked_target')}</p>}
+            {report?.finalDestination && report.finalDestination !== item.originalValue &&
+              <p><strong>{t('qr.final')}</strong><code>{report.finalDestination}</code></p>}
             {report && <div className="qr-resolution">
-              <strong>{t(report.status === 'resolved' ? 'qr.resolved' : 'qr.unresolved')}</strong>
               {report.reason && <p>{t(`qr.reason.${report.reason}`)}</p>}
-              <p>{t('qr.redirectCount')}: {report.redirectCount}</p>
-              <ol className="qr-hop-list">{report.chain.map((row, hop) => <li key={`${hop}-${row.url}`}>
-                <code>{row.url}</code><span>{t('qr.domain')}: {row.domain}</span>
-                <span>{row.visited ? `HTTP ${row.httpStatus}` : t('qr.notVisited')}</span>
-                {row.indicators.length > 0 && <ul>{row.indicators.map((indicator, i) => <li key={`${indicator.id}-${i}`}>
-                  {getSignalLabel(indicator, t)}
-                  {indicator.evidence?.map((e, j) => <code key={j}>{e.text}</code>)}
-                </li>)}</ul>}
-              </li>)}</ol>
-              {report.priorWarningChain?.length > 0 && <details className="qr-prior-warning"><summary>{t('qr.priorWarning')}</summary>
-                {report.priorWarningChain.map(row => <div key={row.url}><code>{row.url}</code>
-                  <ul>{row.indicators.map((indicator, i) => <li key={i}>{getSignalLabel(indicator, t)}</li>)}</ul></div>)}
-              </details>}
-              {report.finalDestination && <p><strong>{t('qr.final')}</strong><code>{report.finalDestination}</code></p>}
+              {(() => {
+                const warnings = [...new Map([
+                  ...report.chain.flatMap(row => row.indicators),
+                  ...(report.priorWarningChain || []).flatMap(row => row.indicators),
+                ].map(indicator => [indicator.id, indicator])).values()];
+                return warnings.length > 0 && <ul className="qr-warning-list">{warnings.slice(0, 3).map(indicator => {
+                  const key = `signal.${indicator.id}.short`;
+                  const short = t(key);
+                  return <li key={indicator.id}>{short && short !== key && short !== t('fallback.missing')
+                    ? short : getSignalLabel(indicator, t)}</li>;
+                })}</ul>;
+              })()}
               <p>{t('qr.limitation')}</p>
             </div>}
+
           </div>
         </details>
       </div>;

@@ -1,0 +1,31 @@
+{
+  "viewport": {
+    "width": 430,
+    "height": 932
+  },
+  "deviceScaleFactor": 2,
+  "scenario": "Fictional walkthrough: I sent money; local Surfy help",
+  "shots": [
+    {
+      "file": "01-choose-your-situation.png",
+      "label": "Choose what happened"
+    },
+    {
+      "file": "02-first-action.png",
+      "label": "First action: contact your payment provider"
+    },
+    {
+      "file": "03-save-evidence.png",
+      "label": "Keep messages and receipts privately"
+    },
+    {
+      "file": "04-surfy-conversation.png",
+      "label": "Ask Surfy Lifeguard a question (local help)"
+    },
+    {
+      "file": "05-completed-checklist.png",
+      "label": "Completed guide with checklist and download"
+    }
+  ],
+  "browserErrors": []
+}

@@ -4364,29 +4364,13 @@ body {
   transform: none;
 }
 
+/* A single continuous image avoids seams from stretched edge strips. */
 @media (min-width: 2173px) {
-  .wave-stage {
-    container-type: inline-size;
-  }
-
-  .wave-stage::before {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    box-sizing: border-box;
-    border-style: solid;
-    border-width: 0 calc((100cqw - var(--wave-native-width)) / 2);
-    border-color:
-      transparent
-      var(--wave-edge-right-bottom)
-      transparent
-      var(--wave-edge-left-bottom);
-    border-image-source: url('/assets/Headbanner.png');
-    border-image-slice: 0 1 0 1;
-    border-image-width: 1;
-    border-image-repeat: stretch;
-    content: '';
-    pointer-events: none;
+  .wave-stage img {
+    width: 100%;
+    max-width: none;
+    height: var(--wave-native-height);
+    object-fit: fill;
   }
 }
 

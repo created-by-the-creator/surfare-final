@@ -1,0 +1,14 @@
+.footer-dev-link { opacity: .65; }
+.footer-dev-link:hover, .footer-dev-link:focus-visible { opacity: 1; }
+.dev-unlock-dialog { width: min(420px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 28px; border: 1px solid #b4d1f24d; border-radius: 22px; background: #102c57; color: #fff; box-shadow: 0 24px 64px #071a4459; }
+.dev-unlock-dialog::backdrop { background: #071a4470; backdrop-filter: blur(5px); }
+.dev-unlock-dialog h2 { margin: 14px 36px 12px 0; font: 600 26px 'Fraunces Variable', Georgia, serif; color: #fff; }
+.dev-unlock-dialog p { color: #c5dcf7; font-size: 15px; line-height: 1.5; }
+.dev-unlock-dialog label { display: block; margin: 18px 0 8px; font-size: 14px; }
+.dev-unlock-dialog input { box-sizing: border-box; width: 100%; min-height: 48px; padding: 12px; border: 1px solid #b4cbe4; border-radius: 12px; background: #f9fbff; color: #16375d; font: inherit; font-size: 16px; }
+.dev-unlock-close { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid #ffffff30; border-radius: 50%; background: transparent; color: #fff; cursor: pointer; }
+.dev-unlock-submit { display: block; width: 100%; min-height: 48px; margin-top: 20px; padding: 12px 18px; border: 0; border-radius: 12px; background: #b73739; color: #fff; font: inherit; cursor: pointer; }
+.dev-unlock-dialog .dev-unlock-error { color: #ffbdba; }
+.dev-unlock-revert { display: block; width: 100%; min-height: 48px; margin-top: 10px; padding: 12px 18px; border: 1px solid #b4d1f24d; border-radius: 12px; background: transparent; color: #fff; font: inherit; cursor: pointer; }
+.dev-unlock-revert:hover { background: #ffffff0d; }
+.dev-unlock-dialog :focus-visible { outline: 3px solid #9ad7f5; outline-offset: 3px; }

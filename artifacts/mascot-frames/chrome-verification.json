@@ -1,0 +1,82 @@
+[
+  {
+    "width": 1440,
+    "result": [
+      {
+        "name": "hero",
+        "distinctFrames": 5
+      },
+      {
+        "name": "detector",
+        "distinctFrames": 6
+      },
+      {
+        "name": "tablet",
+        "distinctFrames": 6
+      },
+      {
+        "name": "how-to",
+        "distinctFrames": 4
+      },
+      {
+        "name": "chat",
+        "distinctFrames": 6
+      },
+      {
+        "name": "lifeguard",
+        "distinctFrames": 4
+      },
+      {
+        "name": "lifeguard-chat",
+        "distinctFrames": 5
+      },
+      {
+        "name": "game-intro",
+        "distinctFrames": 5
+      }
+    ],
+    "gamePauseStatic": true,
+    "reducedMotionStatic": true,
+    "browserErrors": []
+  },
+  {
+    "width": 390,
+    "result": [
+      {
+        "name": "hero",
+        "distinctFrames": 4
+      },
+      {
+        "name": "detector",
+        "distinctFrames": 5
+      },
+      {
+        "name": "tablet",
+        "distinctFrames": 4
+      },
+      {
+        "name": "how-to",
+        "distinctFrames": 4
+      },
+      {
+        "name": "chat",
+        "distinctFrames": 6
+      },
+      {
+        "name": "lifeguard",
+        "distinctFrames": 4
+      },
+      {
+        "name": "lifeguard-chat",
+        "distinctFrames": 4
+      },
+      {
+        "name": "game-intro",
+        "distinctFrames": 5
+      }
+    ],
+    "gamePauseStatic": true,
+    "reducedMotionStatic": true,
+    "browserErrors": []
+  }
+]

@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import { ASSETS } from '../assets.js';
+import { useMascotSource } from './AnimatedMascot.jsx';
 
 const BOARDS = [
   { deck: '#fff2d8', rail: '#cd514c', stripe: '#e16c61', shade: '#b73c39' },
@@ -34,9 +35,10 @@ export function BoardArt({ board = 0 }) {
   return <svg className="surf-board-art" viewBox="0 900 1254 354" aria-hidden="true"><BoardSurface board={board} /></svg>;
 }
 
-export default function SurfyRider({ board = 0, className = '' }) {
+export default function SurfyRider({ board = 0, className = '', paused = false }) {
+  const source = useMascotSource(ASSETS.surfySurfingBody, paused);
   return <svg className={`surfy-rider-art ${className}`} viewBox="0 0 1254 1254" aria-hidden="true" data-equipped-board={board}>
     <BoardSurface board={board} />
-    <image className="surfy-body-layer" href={ASSETS.surfySurfingBody} width="1254" height="1254" />
+    <image className="surfy-body-layer" href={source} width="1254" height="1254" />
   </svg>;
 }

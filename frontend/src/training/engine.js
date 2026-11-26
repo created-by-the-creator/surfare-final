@@ -33,8 +33,8 @@ export function surfProfile(progress, missions) {
 
 export const BOARD_KEY = 'surfare-surf-board-v1';
 export const BOARD_UNLOCKS = [0, 2, 4, 6];
-export function availableBoard(board, completed) {
-  return Number.isInteger(board) && board >= 0 && board < BOARD_UNLOCKS.length && completed >= BOARD_UNLOCKS[board] ? board : 0;
+export function availableBoard(board, completed, unlocked = false) {
+  return Number.isInteger(board) && board >= 0 && board < BOARD_UNLOCKS.length && (unlocked || completed >= BOARD_UNLOCKS[board]) ? board : 0;
 }
 
 export function continueMission(mission, state) {
