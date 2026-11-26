@@ -173,7 +173,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const reportPopoverRef = useRef(null);
   const previousStatus = useRef(status);
   const level = result ? (LEVEL_KEYS[result.level] ?? 'unknown') : 'low';
-  const showResult = status === 'result' && result;
+  const backgroundReview = status === 'reviewing' && result && !result.aiImageOnly && Boolean(result.checkedText?.trim());
+  const showResult = (status === 'result' || backgroundReview) && result;
   const displaySignals = getDisplaySignals(result);
   const warningCount = displaySignals.length;
   const onlineOnly = Boolean(
@@ -215,13 +216,16 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
       })[level];
 
   useEffect(() => {
-    if (status === 'result' && ['analyzing', 'reviewing'].includes(previousStatus.current)) {
+    const firstLocalResult = backgroundReview && previousStatus.current === 'analyzing';
+    const firstFinalResult = status === 'result' && (previousStatus.current === 'analyzing' ||
+      previousStatus.current === 'reviewing' && result?.aiImageOnly);
+    if (firstLocalResult || firstFinalResult) {
       const title = document.getElementById(titleId);
       title?.focus({ preventScroll: true });
       if (window.matchMedia('(max-width: 1100px)').matches) title?.closest('.result-panel')?.scrollIntoView({ block: 'start' });
     }
     previousStatus.current = status;
-  }, [status, titleId]);
+  }, [status, titleId, backgroundReview, result?.aiImageOnly]);
 
   useEffect(() => {
     setIncludeContent(false);
@@ -250,7 +254,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
   const destinationsChecked = hasDestinationLinks && result.linkPayloads.filter(item => item.type === 'url')
     .every(item => result.linkDestinations?.[item.url]?.status === 'resolved');
   const stateTitle = showResult
-    ? result.loginQr && isUnknown && !warningCount ? t('result.loginQr.title') : isImageReview
+    ? backgroundReview && level === 'low' ? t('result.noLocalWarnings.title')
+      : result.loginQr && isUnknown && !warningCount ? t('result.loginQr.title') : isImageReview
       ? t(result.summaryKey || 'result.imageOrigin.unclear')
       : hasDestinationLinks && level === 'unknown' ? t(destinationUnresolved ? 'qr.unresolved' : destinationsChecked
         ? warningCount ? 'destination.reviewDetails' : 'destination.noWarnings' : 'qr.unchecked')
@@ -261,7 +266,8 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
         ? t('result.error')
         : t('result.ready');
   const summary = showResult
-    ? result.loginQr && isUnknown && !warningCount ? t('result.loginQr.summary') : result.destinationWarning ? t('qr.warningSummary') : hasDestinationLinks && isUnknown ? t(destinationUnresolved ? 'qr.simple.tryLater' : destinationsChecked ? 'qr.simple.checkedSummary' : 'qr.summary')
+    ? backgroundReview && level === 'low' ? t('result.noLocalWarnings.summary')
+      : result.loginQr && isUnknown && !warningCount ? t('result.loginQr.summary') : result.destinationWarning ? t('qr.warningSummary') : hasDestinationLinks && isUnknown ? t(destinationUnresolved ? 'qr.simple.tryLater' : destinationsChecked ? 'qr.simple.checkedSummary' : 'qr.summary')
       : linkNeedsVerification ? t('linkInfo.unverifiedSummary') : isSightengineReview
       ? t(result.imageOrigin.summaryKey)
       : isImageReview && result.imageVisualNoteKey && !isOriginReview
@@ -292,7 +298,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
       : t(`result.meter.${level}`)
     : t('result.ready');
 
-  if (status === 'analyzing' || status === 'reviewing') {
+  if (status === 'analyzing' || status === 'reviewing' && !backgroundReview) {
     const reviewing = status === 'reviewing';
     return (
       <div className="result-column">
@@ -323,11 +329,18 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
         className={`result-panel result-${showResult ? level : status === 'edited' ? 'idle' : status}`}
         aria-labelledby={titleId}
         aria-live="polite"
-        aria-busy={['analyzing', 'reviewing'].includes(status)}
+        aria-busy={false}
       >
         <div className="result-content">
-          <div className="result-cap"><h2>{t('result.title')}</h2></div>
+          <div className="result-cap"><h2>{t(backgroundReview ? 'result.preliminaryTitle' : 'result.title')}</h2></div>
           <div className="result-body">
+            {backgroundReview && <div className="result-background-review" role="status">
+              <LoaderCircle aria-hidden="true" />
+              <div>
+                <strong>{t(result.destinationPending ? 'destination.checking' : 'check.progress.ai')}</strong>
+                <p>{t(result.destinationPending ? 'destination.checkingBody' : 'result.backgroundReview')}</p>
+              </div>
+            </div>}
             <div className={`result-heading ${showResult ? `result-heading-${level}` : 'result-heading-idle'}`}>
               {showResult ? (
                 <div className={`result-state-tile tile-${level}`}>
@@ -352,7 +365,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               <small>{t('linkInfo.addressOnly')}</small>
             </section>}
 
-            {showResult && !isUnknown && (
+            {showResult && !isUnknown && !backgroundReview && (
               <div className={`risk-meter-wrap meter-position-${level}`}>
                 <div
                   className="risk-meter has-risk-result"
@@ -383,9 +396,9 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               <p className="image-origin-status" role="status">{t('result.offlineNotice')}</p>
             )}
             {showResult && result.mediaInfo?.text && !isImageReview && (
-              <div className="image-origin-status">
+              <div className="image-origin-status image-text-review">
                 {result.mediaInfo.uncertainExtraction && <p>{t('result.ocrUncertain')}</p>}
-                {status === 'result' && <button type="button" className="result-secondary-button" onClick={onReviewText}>
+                {status === 'result' && <button type="button" className="image-text-review-button" onClick={onReviewText}>
                   {t('result.reviewText')}
                 </button>}
               </div>
@@ -524,7 +537,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
           {showResult && onRecovery && <div className="recovery-result-entry"><button type="button" className="recovery-result-button" onClick={onRecovery}><LifeBuoy size={18} aria-hidden="true" />{t('recovery.resultAction')}</button></div>}
           <footer className="result-footer">
             <span className="result-team"><ShieldCheck aria-hidden="true" />{t('result.team')}</span>
-            {showResult && <div className="report-control" ref={reportPopoverRef}>
+            {status === 'result' && showResult && <div className="report-control" ref={reportPopoverRef}>
               {isReportOpen && showResult && (
                 <div className="result-save-popover" id={reportPopoverId} role="dialog" aria-label={t('result.saveReport')}>
                   <label>
@@ -557,7 +570,7 @@ export default function ResultPanel({ status, result, errorKey, isOnline = true,
               </button>
             </div>}
           </footer>
-            {showResult && onAskAboutResult && (
+            {status === 'result' && showResult && onAskAboutResult && (
               <div className="result-surfy-help">
                 <p>{t('result.askHelp')}</p>
                 <button className="result-ask-button" type="button" onClick={onAskAboutResult} aria-expanded={isAskOpen} aria-controls={isAskOpen ? 'ask-surfy' : undefined}>

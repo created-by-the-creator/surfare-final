@@ -13,27 +13,87 @@ function generatorFor(config) {
   return generateStructured;
 }
 
-export async function generateWithBackup({ env, validate, ...options }) {
+export async function generateWithBackup({ env, validate, hedgeAfterMs, ...options }) {
   const providers = aiProviders(env);
   // The budget covers the whole fallback chain, not each model separately.
   // Reserve time for backups before the browser abandons the request.
   const deadline = Date.now() + (options.timeoutMs ?? 25000);
+  if (!Number.isFinite(hedgeAfterMs) || providers.length < 2) {
+    return generateFromProviders({ providers, deadline, env, validate, ...options });
+  }
+
+  // A slow primary should not hold up a healthy backup. Start OpenRouter
+  // first, then try the lightweight Gemini model if it is still pending.
+  // All attempts retain the same evidence validation and overall deadline.
+  const controller = new AbortController();
+  const shared = { ...options, env, validate, deadline, signal: controller.signal, preservePending: true };
+  const primary = generateFromProviders({ ...shared, providers: providers.slice(0, 1) });
+  const backups = providers.slice(1).sort((a, b) =>
+    Number(b.model === 'gemini-3.5-flash-lite') - Number(a.model === 'gemini-3.5-flash-lite'));
+  let timer;
+  const backup = (async () => {
+    const early = await Promise.race([
+      primary,
+      new Promise(resolve => { timer = setTimeout(resolve, Math.max(0, hedgeAfterMs)); }),
+    ]);
+    clearTimeout(timer);
+    // A completed primary needs no second request. A failed primary can
+    // start its backup immediately without waiting for the delay.
+    if (early?.status === 'completed') return early;
+    return generateFromProviders({ ...shared, providers: backups });
+  })();
+  try {
+    return await Promise.any([primary, backup].map(async pending => {
+      const result = await pending;
+      if (result.status !== 'completed') throw Error('AI provider unavailable');
+      return result;
+    }));
+  } catch {
+    return { status: 'unavailable' };
+  } finally {
+    clearTimeout(timer);
+    controller.abort();
+  }
+}
+
+async function generateFromProviders({ providers, deadline, env, validate, signal, preservePending = false, ...options }) {
   for (const [index, config] of providers.entries()) {
     const remaining = deadline - Date.now();
-    if (remaining <= 0) break;
-    const timeoutMs = Math.max(1, Math.floor(remaining / (providers.length - index)));
-    try {
-      const generate = generatorFor(config);
-      const response = await generate({ ...options, timeoutMs, config, env,
-        retryTransient: ['openrouter', 'gemini'].includes(config.providerId) });
-      if (!response.ok) {
-        console.warn('AI provider unavailable', config.providerId, response.http || 'invalid_response', response.reason || 'provider_error');
-        continue;
+    if (remaining <= 0 || signal?.aborted) break;
+    // The primary needs more time than the lightweight backups. Keep a
+    // reserved share for every backup without cutting the primary off early.
+    const weight = index === 0 ? 2 : 1;
+    // Concurrent detector requests already have a backup in flight. Let a
+    // healthy request use the whole remaining budget instead of cutting it
+    // short just to reserve time for another provider.
+    const providerDeadline = preservePending ? deadline
+      : Date.now() + Math.floor(remaining * weight / (providers.length - index - 1 + weight));
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const timeoutMs = providerDeadline - Date.now();
+      if (timeoutMs <= 0 || signal?.aborted) break;
+      let validating = false;
+      try {
+        const generate = generatorFor(config);
+        const response = await generate({ ...options, timeoutMs, signal, config, env,
+          retryTransient: ['openrouter', 'gemini'].includes(config.providerId) });
+        if (!response.ok) {
+          console.warn('AI provider unavailable', config.providerId, response.http || 'invalid_response', response.reason || 'provider_error');
+          // A truncated/refused response can succeed on another model. Do not
+          // retry quota or access errors against the same provider.
+          break;
+        }
+        if (validate) {
+          validating = true;
+          validate(response.value);
+        }
+        return { status: 'completed', value: response.value, provider: config.providerId, model: response.model };
+      } catch (error) {
+        if (signal?.aborted) break;
+        console.warn('AI request did not complete', config.providerId, error?.cause?.code || error?.name || 'invalid_response');
+        // Retry malformed JSON or failed evidence validation once. Never
+        // accept fabricated evidence just to report a completed review.
+        if (!validating && error?.name !== 'SyntaxError') break;
       }
-      if (validate) validate(response.value);
-      return { status: 'completed', value: response.value, provider: config.providerId, model: response.model };
-    } catch (error) {
-      console.warn('AI request did not complete', config.providerId, error?.cause?.code || error?.name || 'invalid_response');
     }
   }
   return { status: 'unavailable' };

@@ -11,16 +11,17 @@ const EXPLANATION_GROUPS = {
   personalSafety: ['violence', 'extortion', 'blackmail', 'intimidation', 'harassment'],
   codes: ['otp_request'],
   account: ['credential_request', 'personal', 'remote'],
-  money: ['money_demand', 'advance-fee', 'job-fee', 'investment', 'job_scam', 'prize_lottery', 'loan-fee', 'task-recruitment', 'load-transfer', 'guaranteed-winnings', 'winnings-deposit', 'account-bait', 'reward-action', 'delivery', 'new-number', 'gift-card-prize-fee', 'unsolicited-work-offer', 'parcel-update-link'],
+  money: ['money_demand', 'advance-fee', 'job-fee', 'investment', 'job_scam', 'prize_lottery', 'loan-fee', 'task-recruitment', 'task-income-recruitment', 'parcel-fee-link', 'marketplace-payment-link', 'load-transfer', 'guaranteed-winnings', 'winnings-deposit', 'account-bait', 'reward-action', 'delivery', 'new-number', 'gift-card-prize-fee', 'unsolicited-work-offer', 'parcel-update-link'],
   identity: ['impersonation', 'brand_in_subdomain_not_domain', 'lookalike_brand', 'brand-imitation-link', 'lookalike-link', 'fake-regulator-link', 'cancel-lure', 'benefit-claim', 'account-alert-link'],
   secrecy: ['secrecy', 'secret'],
-  address: ['link_mismatch', 'ip_host', 'url_shortener', 'at_symbol', 'punycode_or_homoglyph', 'long_or_encoded_url', 'redirect_param', 'non_standard_port', 'excessive_subdomains', 'data_or_javascript_scheme', 'invalid_url', 'userinfo', 'shortener', 'redirect', 'subdomains', 'ip', 'lure', 'idn'],
-  weakAddress: ['no_https', 'risky_tld', 'link_in_message', 'generic_greeting'],
+  address: ['link_mismatch', 'ip_host', 'url_shortener', 'at_symbol', 'punycode_or_homoglyph', 'long_or_encoded_url', 'redirect_param', 'non_standard_port', 'excessive_subdomains', 'data_or_javascript_scheme', 'invalid_url', 'userinfo', 'shortener', 'redirect', 'subdomains', 'ip', 'lure', 'idn', 'phishing-test-link'],
+  weakAddress: ['no_https', 'http', 'risky_tld', 'link_in_message', 'generic_greeting'],
   pattern: ['dataset-text-match', 'dataset-url-match', 'dataset-text-model', 'dataset-url-model', 'sms-pattern'],
   report: ['gambling', 'reported-gambling-link', 'unlisted-gambling-link', 'watchlisted-gambling-link', 'stopped-lender'],
 };
 
 export function getSignalExplanation(signal, t) {
+  if (signal?.id === 'phishing-test-link') return t('signalHelp.phishingTest');
   let group = Object.keys(EXPLANATION_GROUPS).find((key) => EXPLANATION_GROUPS[key].includes(signal?.id));
   if (!group && /^(brand-|lookalike-)/.test(signal?.id || '')) group = 'identity';
   return group ? t(`signalHelp.${group}`) : '';

@@ -1,3 +1,5 @@
+import { fetchWithRetry } from './fetch-retry.js';
+
 export async function generateStructured({
   config,
   env,
@@ -8,6 +10,7 @@ export async function generateStructured({
   image,
   maxTokens = 3072,
   timeoutMs = 25000,
+  signal,
   retryTransient = false,
   fetcher = fetch,
 }) {
@@ -40,16 +43,16 @@ export async function generateStructured({
       Authorization: 'Bearer ' + env.OPENROUTER_API_KEY.trim(),
     },
     body: JSON.stringify(payload),
-    signal: AbortSignal.timeout(timeoutMs),
+    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)]) : AbortSignal.timeout(timeoutMs),
   };
   const endpoint = 'https://openrouter.ai/api/v1/chat/completions';
-  let response = await fetcher(endpoint, options);
+  let response = await fetchWithRetry(endpoint, options, { fetcher, retryTransient });
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     // An intermittent upstream relay rejection can arrive as HTTP 400.
     // Retry that exact error once, not other invalid requests or quota errors.
     const relayFailure = response.status === 400 && error.error?.message === 'Request path cannot be relayed';
-    if (retryTransient && (relayFailure || [408, 502, 503, 504].includes(response.status))) {
+    if (retryTransient && relayFailure) {
       await new Promise(resolve => setTimeout(resolve, 250));
       options.signal.throwIfAborted();
       response = await fetcher(endpoint, options);

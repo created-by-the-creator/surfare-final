@@ -950,7 +950,7 @@
         "id": "X003",
         "label": "scam",
         "category": "family-new-number",
-        "level": "suspicious",
+        "level": "high",
         "warned": true,
         "signals": [
           "new-number"
@@ -1015,7 +1015,8 @@
         "warned": true,
         "signals": [
           "delivery",
-          "parcel-update-link"
+          "parcel-update-link",
+          "parcel-fee-link"
         ]
       },
       {

@@ -73,6 +73,15 @@ export function scamSignals(text) {
     hits(/\b(?:contact|tutor|telegram|whatsapp|recruiter|makipag-ugnayan|message me|register)\b/i),
   );
   add(
+    'task-income-recruitment',
+    'Daily earnings for simple social-media tasks',
+    'A hiring offer promises daily earnings for likes, follows or similar tasks and directs you to a messaging-app recruiter. Verify the employer independently and avoid sending money or codes.',
+    5,
+    hits(/\b(?:hiring|job(?: opening)?|trabaho|recruiting)\b[!:,\s-]{0,12}(?:earn|kumita|kikita|paid)\b[^!?;\n]{0,55}\b(?:daily|per day|bawat araw|araw[ -]araw)\b/i),
+    hits(/\b(?:like\s+and\s+follow|liking\s+and\s+following|liking\s+(?:posts|videos)|following\s+(?:accounts|pages)|rating\s+(?:products|videos)|(?:post|video|product)\s+reviews|watching videos|manood)\b/i),
+    hits(/\b(?:telegram|whatsapp)\b/i),
+  );
+  add(
     'cancel-lure',
     'Unexpected renewal or cancellation request',
     'A claimed automatic charge asks you to cancel or dispute it through a link. Check the official app independently.',

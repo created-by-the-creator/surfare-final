@@ -1,3 +1,5 @@
+import { fetchWithRetry } from './fetch-retry.js';
+
 const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/';
 const FREE_GEMINI_IMAGE_MODELS = ['gemini-4-hydrogen', 'gemini-3.5-flash-lite'];
 const DEFAULT_GEMINI_IMAGE_MODEL = FREE_GEMINI_IMAGE_MODELS[0];
@@ -56,6 +58,7 @@ export async function generateGeminiStructured({
   image,
   maxTokens = 3072,
   timeoutMs = 25000,
+  signal,
   retryTransient = false,
   fetcher = fetch,
 }) {
@@ -88,16 +91,9 @@ export async function generateGeminiStructured({
         maxOutputTokens: maxTokens,
       },
     }),
-    signal: AbortSignal.timeout(timeoutMs),
+    signal: signal ? AbortSignal.any([signal, AbortSignal.timeout(timeoutMs)]) : AbortSignal.timeout(timeoutMs),
   };
-  let response = await fetcher(url, options);
-  // Retry temporary server errors once, sharing the original total time budget.
-  if (retryTransient && [408, 502, 503, 504].includes(response.status)) {
-    await response.body?.cancel();
-    await new Promise((resolve) => setTimeout(resolve, 250));
-    options.signal.throwIfAborted();
-    response = await fetcher(url, options);
-  }
+  const response = await fetchWithRetry(url, options, { fetcher, retryTransient });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
     const message = typeof body?.error?.message === 'string' ? body.error.message : '';

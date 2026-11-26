@@ -79,6 +79,12 @@ export function analyzeUrl(raw, context = '') {
   const domainInSubdomain = Object.values(brands).flat().find((official) =>
     ('.' + (p.subdomain || '') + '.').includes('.' + official + '.'));
   const decodedPath = decodeUrlComponent(u.pathname);
+  // Google's published phishing demonstration endpoint. This exact host
+  // and path are a local test fixture, not a live Safe Browsing lookup.
+  // Source: https://github.com/google/webrisk#sample-urls
+  if (host === 'testsafebrowsing.appspot.com' && decodedPath === '/s/phishing.html')
+    add('phishing-test-link', 'Known phishing test page',
+      'This is Google\'s published phishing demonstration URL. The high-risk label exercises phishing warnings; no live reputation lookup was performed.', 5);
   const signInPath = /\/(?:log-?in|sign-?in|verify|verification|kyc|password|authenticate|account-recovery)(?:[/.\-]|$)/i.test(decodedPath);
   if (u.username || u.password)
     add(
@@ -357,13 +363,17 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
   const changedNumber = find(
     /\b(?:new (?:phone )?number|replacement number|bagong (?:number|numero)|bago kong (?:number|numero)|nasira (?:ang )?(?:phone|cp)|(?:i )?lost my (?:phone|mobile)|ito (?:ang )?bago kong number)\b/i,
   );
-  if (changedNumber.length && payment.length)
+  const moneyRequest = find(/\b(?:pa[ -]?send|paki[ -]?send|send (?:me|us)|transfer|magpadala|padalhan|pahiram|lend me)\b/i);
+  const familyAddress = find(/\b(?:mama|papa|mom|mum|mother|dad|father|nanay|tatay|anak|ate|kuya|tita|tito)\b|^\s*(?:ma|pa)\s*[,!:]/i);
+  const walletPayment = find(/\b(?:g\s*cash|maya|bank|bangko|wallet)\b/i);
+  const familyMoney = changedNumber.length && familyAddress.length && moneyRequest.length && walletPayment.length;
+  if (changedNumber.length && (payment.length || moneyRequest.length))
     add(
       'new-number',
       'New-number payment request',
       'Someone using a new number asks for money. Confirm their identity through an existing trusted contact.',
-      3,
-      [...changedNumber, ...payment],
+      familyMoney ? 5 : 3,
+      [...changedNumber, ...payment, ...moneyRequest, ...(familyMoney ? [...familyAddress, ...walletPayment] : [])],
     );
   const cryptoBalance = find(
     /\b(?:balance|available|left\s+you|inheritance|beneficiary|bequeath|withdraw|withdrawal)\b[^\n]{0,110}\b(?:usdt|btc|bitcoin|crypto|ethereum)\b|\b\d[\d,.]*\s*(?:usdt|btc|eth)\b/i,
@@ -405,6 +415,19 @@ export function analyzePatterns(text, explicitUrls = [], addReferenceIndicators)
     add('parcel-update-link', 'Delivery update through an unfamiliar site',
       'A parcel message asks for verification or changed delivery details through a site outside the listed courier and shopping domains. Check your order in the usual app before acting.',
       3, [...parcel, ...parcelUpdate, ...parcelUrls.flatMap(u => u.evidence)], 'scam');
+  const parcelFee = find(/\b(?:cod\s+(?:fee|charge)|(?:delivery|shipping|customs|redelivery|cod)\s+(?:fee|charge|payment)|bayad\s+(?:sa|para sa)\s+(?:delivery|parcel|pakete))\b/i);
+  const payParcel = find(/\b(?:bayaran|magbayad|pay|settle)\b/i);
+  if (parcel.length && parcelFee.length && payParcel.length && parcelUrls.length)
+    add('parcel-fee-link', 'Delivery fee through an unfamiliar site',
+      'A parcel message asks you to pay a fee through a site outside the listed courier and shopping domains. Check the order in the usual app before paying.',
+      5, [...parcel, ...parcelFee, ...payParcel, ...parcelUrls.flatMap(u => u.evidence)], 'scam');
+  const buyerInquiry = find(/\b(?:available\s+(?:(?:pa|po)\s+){0,3}(?:ba\s+)?(?:(?:po|pa)\s+){0,2}(?:(?:yung|ang|the|this|your)\s+)?item|is\s+(?:the|this|your)\s+item\s+(?:still\s+)?available)\b/i);
+  const buyerPaymentLink = find(/\b(?:send\s+ko\s+(?:(?:na|lang|po|ang|yung)\s+){0,5}bayad\s+dito|(?:i\s+(?:will|can)|i'll)\s+(?:send|make)\s+(?:the\s+)?payment\s+(?:here|through\s+(?:this|the)\s+link))\b/i);
+  const shortenedPaymentUrls = urls.filter(u => u.indicators.some(i => i.id === 'shortener'));
+  if (buyerInquiry.length && buyerPaymentLink.length && shortenedPaymentUrls.length)
+    add('marketplace-payment-link', 'Buyer directs payment through a hidden destination',
+      'Someone asking to buy an item directs payment through a shortened link. Keep payment inside the marketplace and confirm receipt in your own account.',
+      5, [...buyerInquiry, ...buyerPaymentLink, ...shortenedPaymentUrls.flatMap(u => u.evidence)], 'scam');
   const wallet = find(/\b(?:g\s*cash|maya|bdo|banco de oro|bpi)\b/i);
   const accountAlert = find(/\b(?:suspended|locked|restricted|unrecognized login|account security|redeem|claim your cash)\b/i);
   const walletUrls = outside(Object.values(brands).flat());

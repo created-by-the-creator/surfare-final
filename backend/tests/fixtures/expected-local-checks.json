@@ -1,0 +1,56 @@
+[
+  {
+    "id": "gcash-account-otp",
+    "kind": "message",
+    "expected": "High risk",
+    "text": "URGENT: Your GCash account will be locked in 30 minutes. Verify now at gcash-secure-login.top and reply with your OTP."
+  },
+  {
+    "id": "marketplace-payment-link",
+    "kind": "message",
+    "expected": "High risk",
+    "text": "Hi po, available pa po ba yung item? Send ko na lang po bayad dito: bit.ly/3xYz9"
+  },
+  {
+    "id": "parcel-cod-payment",
+    "kind": "message",
+    "expected": "High risk",
+    "text": "J&T Express: May pending COD fee na P48 ang parcel mo. Bayaran dito para ma-deliver: jnt-ph-delivery.com/pay"
+  },
+  {
+    "id": "family-new-number-payment",
+    "kind": "message",
+    "expected": "High risk",
+    "text": "Ma, si Paolo to, bago kong number. Naiwan ko wallet ko, pa-send naman 2k sa GCash na to 09171234567, balik ko mamaya."
+  },
+  {
+    "id": "telegram-task-recruitment",
+    "kind": "message",
+    "expected": "High risk",
+    "text": "Hiring! Earn 500-3000 daily, work from home, like and follow lang. Message us on Telegram @earnph_tasks"
+  },
+  {
+    "id": "ordinary-shopee-delivery",
+    "kind": "message",
+    "expected": "Low risk",
+    "text": "Your order has been shipped and will arrive on Nov 26. Track it in the Shopee app."
+  },
+  {
+    "id": "protective-bdo-otp",
+    "kind": "message",
+    "expected": "Low risk",
+    "text": "Your BDO OTP is 482913. It expires in 5 minutes. Never share this code with anyone, including BDO staff."
+  },
+  {
+    "id": "ordinary-class-announcement",
+    "kind": "message",
+    "expected": "Low risk",
+    "text": "Good morning class, our SQA quiz is moved to Friday 10AM. Please review Modules 4 and 5."
+  },
+  {
+    "id": "google-phishing-test-link",
+    "kind": "link",
+    "expected": "High risk",
+    "text": "http://testsafebrowsing.appspot.com/s/phishing.html"
+  }
+]

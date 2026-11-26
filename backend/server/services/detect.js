@@ -5,6 +5,7 @@ import { semanticInstruction, semanticSchema } from './semantic.js';
 import { generateWithBackup } from './ai-generation.js';
 import { isPrivateQrPayload } from '../../lib/qr-payload.js';
 import { describeQrPayload } from '../../lib/qr-links.js';
+import { DETECTOR_AI_TIMEOUT_MS, DETECTOR_AI_HEDGE_AFTER_MS } from '../../lib/ai-timing.js';
 
 export async function detect(request, env = {}, fetcher = fetch) {
   const json = (body, status = 200) => Response.json(body, {
@@ -48,7 +49,8 @@ export async function detect(request, env = {}, fetcher = fetch) {
     const aiPromise = input.ai === true && !privateQr ? generateWithBackup({
       env, instruction: semanticInstruction, schema: semanticSchema, fetcher,
       input: JSON.stringify({ inputType: input.kind || 'message', submittedText: input.text }),
-      timeoutMs: 40000,
+      timeoutMs: DETECTOR_AI_TIMEOUT_MS,
+      hedgeAfterMs: DETECTOR_AI_HEDGE_AFTER_MS,
       validate: (value) => validateSemanticResult(value, input.text),
     }) : Promise.resolve({ status: 'not_checked' });
     const ai = await aiPromise;

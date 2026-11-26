@@ -71,17 +71,41 @@ it('shows ambiguous visual details and source-note failure reasons independently
   expect(html.indexOf(t('result.imageOrigin.title'))).toBeLessThan(html.indexOf(t('result.imageMetadata.title')));
 });
 
-it('shows progress and a caution before revealing the verdict or enabling a report', () => {
+it('shows the initial local warning while AI continues and enables reports only when complete', () => {
   const t = (key, values) => translate('en', key, values);
   const props = { result: { level: 'high', checkedText: 'Send your OTP', signals: [] }, t };
   const pending = renderToStaticMarkup(createElement(ResultPanel, { ...props, status: 'reviewing' }));
-  expect(pending).toContain(t('check.progress.wait'));
-  expect(pending).toContain(t('check.progress.caution'));
+  expect(pending).toContain(t('result.preliminaryTitle'));
+  expect(pending).toContain(t('result.high'));
+  expect(pending).toContain(t('result.backgroundReview'));
+  expect(pending).toContain('checked-reading');
+  expect(pending).toContain('result-next');
   expect(pending).not.toContain('risk-meter');
   expect(pending).not.toContain('result-save-button');
   const final = renderToStaticMarkup(createElement(ResultPanel, { ...props, status: 'result' }));
   expect(final).toContain('result-save-button');
-  expect(final).not.toContain(t('check.progress.wait'));
+  expect(final).not.toContain(t('result.backgroundReview'));
+  expect(final).not.toContain(t('result.preliminaryTitle'));
+});
+
+it('labels a preliminary no-warning result as local instead of showing a final low-risk verdict', () => {
+  const t = (key, values) => translate('en', key, values);
+  const html = renderToStaticMarkup(createElement(ResultPanel, {
+    status: 'reviewing', t, result: { level: 'low', checkedText: 'Our meeting is tomorrow at four.', signals: [] },
+  }));
+  expect(html).toContain(t('result.noLocalWarnings.title'));
+  expect(html).toContain(t('result.backgroundReview'));
+  expect(html).not.toContain('meter-position-low');
+  expect(html).not.toContain('result-save-button');
+});
+
+it('keeps the progress screen for a visual image review that has no local text verdict', () => {
+  const t = (key, values) => translate('en', key, values);
+  const html = renderToStaticMarkup(createElement(ResultPanel, {
+    status: 'reviewing', t, result: { level: 'unknown', aiImageOnly: true, signals: [] },
+  }));
+  expect(html).toContain('check-progress');
+  expect(html).not.toContain(t('result.preliminaryTitle'));
 });
 
 describe('unknown result wording', () => {

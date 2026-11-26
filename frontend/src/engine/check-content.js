@@ -7,6 +7,7 @@ import { describeLink } from './link-description.js';
 import { qrPayloads as describeQrPayloads, describeQrPayload } from '../../../backend/lib/qr-links.js';
 import { extractUrls } from '../../../backend/lib/url-input.js';
 import { automaticallyResolveLinks, mergeLinkResolution } from './link-destination.js';
+import { DETECTOR_AI_CLIENT_TIMEOUT_MS } from '../../../backend/lib/ai-timing.js';
 
 const LEVELS = { 'High risk': 'high', Suspicious: 'suspicious', 'Low risk': 'low', 'Insufficient evidence': 'unknown' };
 const ADVISORY = new Set(['dataset-text-model', 'dataset-url-model']);
@@ -34,16 +35,25 @@ function displayIndicators(indicators, text) {
 }
 
 async function fetchDetector(input) {
-  try {
-    const response = await apiFetch('/api/detect', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(input), signal: AbortSignal.timeout(input.ai ? 45000 : 15000),
-    });
-    if (response.ok) {
-      const data = await response.json();
-      if (Object.hasOwn(LEVELS, data?.level) && Array.isArray(data.indicators)) return data;
+  const signal = AbortSignal.timeout(input.ai ? DETECTOR_AI_CLIENT_TIMEOUT_MS : 15000);
+  const options = {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(input), signal,
+  };
+  for (let attempt = 0; attempt < 2 && !signal.aborted; attempt++) {
+    try {
+      const response = await apiFetch('/api/detect', options);
+      if (response.ok) {
+        const data = await response.json();
+        if (Object.hasOwn(LEVELS, data?.level) && Array.isArray(data.indicators)) return data;
+        break;
+      }
+      if (![408, 500, 502, 503, 504].includes(response.status)) break;
+      await response.body?.cancel();
+    } catch (error) {
+      if (signal.aborted || !(error instanceof TypeError || error instanceof SyntaxError)) break;
     }
-  } catch { /* Keep the completed on-device assessment. */ }
+  }
   return null;
 }
 
